@@ -1,1 +1,0 @@
-../../libs/handlebars.js/

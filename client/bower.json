@@ -1,0 +1,15 @@
+{
+  "name": "client",
+  "version": "0.0.0",
+  "authors": [
+    "Alex Yatskov <alex@foosoft.net>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
