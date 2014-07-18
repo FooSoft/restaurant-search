@@ -1,1 +1,0 @@
-../../libs/fabric.js/
