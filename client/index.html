@@ -53,28 +53,13 @@
                     <div class="panel panel-default">
                         <div class="panel-heading"><big>Semantic tweaks to <span id="keyword" class="text-primary"></span></big></div>
                         <div class="row" style="padding: 10px;">
-                            <div class="col-md-7">
-                                <canvas id="grapher" width="500" height="550"></canvas><br>
-                                <label class="checkbox-inline">
-                                    <input type="checkbox" id="useLocalScale" name="useLocalScale"> Use local scale
-                                </label>
-                                <label class="checkbox-inline">
-                                    <input type="checkbox" id="useRelativeScale" name="useRelativeScale"> Use relative scale
-                                </label>
-                            </div>
-                            <div class="col-md-5">
-                                <div class="text-center">
-                                    <canvas id="plotter" width="350" height="350" style="border: 1px #d3d7cf solid;"></canvas>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label" for="plotAxisX">Plotter X axis</label>
-                                    <select class="form-control plotAxes" name="plotAxisX" id="plotAxisX"></select>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label" for="plotAxisY">Plotter Y axis</label>
-                                    <select class="form-control plotAxes" name="plotAxisY" id="plotAxisY"></select>
-                                </div>
-                            </div>
+                            <canvas id="grapher" width="500" height="550"></canvas><br>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" id="useLocalScale" name="useLocalScale"> Use local scale
+                            </label>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" id="useRelativeScale" name="useRelativeScale"> Use relative scale
+                            </label>
                         </div>
                     </div>
                 </form>
@@ -116,7 +101,6 @@
         <script src="bower_components/fabric/dist/fabric.min.js"></script>
 
         <script src="grapher.js"></script>
-        <script src="plotter.js"></script>
         <script src="projection.js"></script>
         <script src="keywords.json"></script>
         <script src="data.json"></script>

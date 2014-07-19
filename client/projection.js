@@ -133,7 +133,6 @@ function outputResults(results, maxResults) {
 function onAdjust(name, value) {
     var wa = window.adjuster;
     var wg = window.grapher;
-    var wp = window.plotter;
 
     wa.queryParams[name] = value;
     console.log(wa.queryParams);
@@ -143,15 +142,6 @@ function onAdjust(name, value) {
         hintData[name] = searchBuildHints(wa.queryParams, wa.minScore, name, wa.searchRange, wa.hintSteps);
     });
     wg.setColumnHints(hintData);
-
-    var plotterAxisX    = $('#plotAxisX').val();
-    var plotterAxisY    = $('#plotAxisY').val();
-    var plotterData     = searchBuildHints2d(wa.queryParams, wa.minScore, plotterAxisX, plotterAxisY, wa.searchRange, wa.hintSteps)
-    var plotterPosition = new goog.math.Coordinate(wa.queryParams[plotterAxisX], wa.queryParams[plotterAxisY]);
-
-    wp.setPosition(plotterPosition);
-    wp.setData(plotterData);
-    wp.updateShapes();
 
     var results = searchData(wa.queryParams, wa.minScore);
     outputResults(results, wa.maxResults);
@@ -200,17 +190,6 @@ function onQuery() {
     window.grapher.setColumns(graphColumns);
     window.grapher.setValueChangedListener(onAdjust);
 
-    var plotterAxisX    = $('#plotAxisX').val();
-    var plotterAxisY    = $('#plotAxisY').val();
-    var plotterData     = searchBuildHints2d(queryParams, minScore, plotterAxisX, plotterAxisY, searchRange, hintSteps)
-    var plotterPosition = new goog.math.Coordinate(queryParams[plotterAxisX], queryParams[plotterAxisY]);
-
-    window.plotter = new Plotter('plotter', useRelativeScale);
-    window.plotter.setUseRelativeScale(useRelativeScale);
-    window.plotter.setPosition(plotterPosition);
-    window.plotter.setData(plotterData);
-    window.plotter.updateShapes();
-
     var results = searchData(queryParams, minScore);
     outputResults(results, maxResults);
 
@@ -224,21 +203,6 @@ function onQuery() {
     $('#useRelativeScale').click(function() {
         var useRelativeScale = $('#useRelativeScale').is(':checked');
         window.grapher.setUseRelativeScale(useRelativeScale);
-        window.plotter.setUseRelativeScale(useRelativeScale);
-        window.plotter.updateShapes();
-    });
-    $('.plotAxes').change(function() {
-        var wa = window.adjuster;
-        var wp = window.plotter;
-
-        var plotterAxisX    = $('#plotAxisX').val();
-        var plotterAxisY    = $('#plotAxisY').val();
-        var plotterData     = searchBuildHints2d(wa.queryParams, wa.minScore, plotterAxisX, plotterAxisY, wa.searchRange, wa.hintSteps)
-        var plotterPosition = new goog.math.Coordinate(wa.queryParams[plotterAxisX], wa.queryParams[plotterAxisY]);
-
-        wp.setPosition(plotterPosition);
-        wp.setData(plotterData);
-        wp.updateShapes();
     });
     $('#input').fadeOut(function() {
         $('#output').fadeIn();
@@ -252,22 +216,6 @@ $(document).ready(function() {
             'text':  keyword
         }));
     }
-
-    var features = ['food', 'service', 'value', 'atmosphere'];
-    _.each(features, function(feature) {
-        $('#plotAxisX').append($('<option></option>', {
-            'value': feature,
-            'text':  feature
-        }));
-
-        $('#plotAxisY').append($('<option></option>', {
-            'value': feature,
-            'text':  feature
-        }));
-    });
-
-    $('#plotAxisX').val(features[0]);
-    $('#plotAxisY').val(features[1]);
 
     $('#search').click(onQuery);
 });
