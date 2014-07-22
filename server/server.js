@@ -1,10 +1,22 @@
-#!/usr/bin/env nodejs
+#!/usr/bin/env node
 
-var express = require('express');
-var app = express();
+var express  = require('express');
+var keywords = require('./db/keywords.json');
+var data     = require('./db/data.json');
 
-app.get('/', function(req, res){
-  res.send('hello world');
-});
+function main() {
+    var app     = express();
+    var router  = express.Router();
 
-app.listen(3000);
+    router.use('/keywords', function(req, res, next) {
+        res.json(keywords);
+    });
+
+    app.use('/hscd', router);
+    app.listen(3000);
+}
+
+if (require.main === module) {
+    main();
+}
+
