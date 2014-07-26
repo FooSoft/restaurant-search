@@ -9,6 +9,7 @@ function main() {
     var router  = express.Router();
 
     router.use('/keywords', function(req, res, next) {
+        console.log('Requesting keywords');
         res.json(keywords);
     });
 
