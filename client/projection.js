@@ -210,37 +210,12 @@ function onQuery() {
 }
 
 $(document).ready(function() {
-    // $.ajax({
-    //     url:         'http://localhost:3000/hscd/keywords',
-    //     type:        'POST',
-    //     contentType: "application/json; charset=utf-8",
-    //     dataType:    'script',
-    //     data:        {'foo': 'bar'},
-    //     error:       function() { alert('Failed'); },
-    //     success:     function(data) { alert(typeof(data)); }
-    // });
-
-    // $.post("http://localhost:3000/hscd/keywords", {}, function(result){ alert(result);}, "json");
-
-    // $.ajax({
-    //     url:      'http://twitter.com/status/user_timeline/padraicb.json?count=10',
-    //     dataType: 'script',
-    //     success:  function(data) { alert(data); }
-    // });
-
-    $.getJSON('http://localhost:3000/hscd/keywords?callback=?', {'foo': 1}, function(data) {
-        alert('Data returned ' + Object.keys(data));
+    $.getJSON('http://localhost/node/hscd/keywords', { }, function(data) {
+        for (var keyword in data) {
+            $('#query').append($('<option></option>', {
+                'value': keyword,
+                'text':  keyword
+            }));
+        }
     });
-
-    //     for (var keyword in data) {
-    //         $('#query').append($('<option></option>', {
-    //             'value': keyword,
-    //             'text':  keyword
-    //         }));
-    //     }
-
-    //     $('#search').click(onQuery);
-    // }).fail(function(d, textStatus, error) {
-    //     console.error("getJSON failed, status: " + textStatus + ", error: "+error)
-    // });
 });
