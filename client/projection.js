@@ -210,7 +210,7 @@ function onQuery() {
 }
 
 $(document).ready(function() {
-    $.getJSON('http://localhost/node/hscd/keywords', { }, function(data) {
+    $.getJSON('/node/hscd/keywords', function(data) {
         for (var keyword in data) {
             $('#query').append($('<option></option>', {
                 'value': keyword,
