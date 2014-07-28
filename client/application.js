@@ -80,6 +80,15 @@ $(document).ready(function() {
             $('#keyword').append($('<option></option>', properties));
         }
 
+        $(document).on({
+            ajaxStart: function() {
+                $('#spinner').show();
+            },
+            ajaxStop: function() {
+                $('#spinner').hide();
+            }
+        });
+
         $('#search').prop('disabled', false);
         $('#search').click(onSearch);
     });
