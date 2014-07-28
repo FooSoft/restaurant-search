@@ -15,17 +15,32 @@ function innerProduct(values1, values2) {
     return result;
 }
 
-function searchData(searchParams, minScore) {
+function countData(searchParams, minScore) {
+    var dataCount = 0;
+
+    for (var i = 0, count = db_data.length; i < count; ++i) {
+        var record = db_data[i];
+        var score  = innerProduct(searchParams, record.rating);
+
+        if (score >= minScore) {
+            ++dataCount;
+        }
+    }
+
+    return dataCount;
+}
+
+function findData(searchParams, minScore, maxResults) {
     var results = [];
 
     for (var i = 0, count = db_data.length; i < count; ++i) {
         var record = db_data[i];
-        var score  = innerProduct(searchParams, record['rating']);
+        var score  = innerProduct(searchParams, record.rating);
 
         if (score >= minScore) {
             results.push({
-               name:  record['name'],
-               url:   'http://www.tripadvisor.com' + record['relativeUrl'],
+               name:  record.name,
+               url:   'http://www.tripadvisor.com' + record.relativeUrl,
                score: score
             });
         }
@@ -35,7 +50,7 @@ function searchData(searchParams, minScore) {
         return b.score - a.score;
     });
 
-    return results;
+    return results.slice(0, maxResults);
 }
 
 function searchStepper(range, steps, callback) {
@@ -58,26 +73,7 @@ function searchProjection(searchParams, minScore, feature, range, steps) {
         testParams[feature] = position;
         results.push({
             sample: position,
-            values: searchData(testParams, minScore)
-        });
-    });
-
-    return results;
-}
-
-function searchProjection2d(searchParams, minScore, feature1, feature2, range, steps) {
-    var testParams = _.clone(searchParams);
-    var results    = [];
-
-    searchStepper(range, steps, function(sampleX) {
-        testParams[feature1] = sampleX;
-        searchStepper(range, steps, function(sampleY) {
-            testParams[feature2] = sampleY;
-            results.push({
-                sampleX: sampleX,
-                sampleY: sampleY,
-                values:  searchData(testParams, minScore)
-            });
+            count:  countData(testParams, minScore)
         });
     });
 
@@ -97,29 +93,7 @@ function searchBuildHints(searchParams, minScore, feature, range, steps) {
     _.each(projection, function(result) {
         hints.push({
             sample: result.sample,
-            count:  result.values.length
-        });
-    });
-
-    return hints;
-}
-
-function searchBuildHints2d(searchParams, minScore, feature1, feature2, range, steps) {
-    var projection = searchProjection2d(
-        searchParams,
-        minScore,
-        feature1,
-        feature2,
-        range,
-        steps
-    );
-
-    var hints = [];
-    _.each(projection, function(result) {
-        hints.push({
-            sampleX: result.sampleX,
-            sampleY: result.sampleY,
-            count:   result.values.length
+            count:  result.count
         });
     });
 
@@ -132,8 +106,8 @@ module.exports.getKeywords = function() {
 
 module.exports.execQuery = function(query) {
     var searchParams  = query.searchParams || db_keywords[query.keyword];
-    var searchResults = searchData(searchParams, query.minScore);
-    var graphColumns  = { };
+    var searchResults = findData(searchParams, query.minScore, query.maxResults);
+    var graphColumns  = {};
 
     for (var feature in searchParams) {
         var searchHints = searchBuildHints(
