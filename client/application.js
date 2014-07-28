@@ -74,20 +74,20 @@
     }
 
     $(document).ready(function() {
+        $(document).on({
+            ajaxStart: function() {
+                $('#spinner').show();
+            },
+            ajaxStop: function() {
+                $('#spinner').hide();
+            }
+        });
+
         $.getJSON('/node/keywords', function(keywords) {
             for (var i = 0; i < keywords.length; ++i) {
                 var properties = { value: keywords[i], text: keywords[i] };
                 $('#keyword').append($('<option></option>', properties));
             }
-
-            $(document).on({
-                ajaxStart: function() {
-                    $('#spinner').show();
-                },
-                ajaxStop: function() {
-                    $('#spinner').hide();
-                }
-            });
 
             $('#search').prop('disabled', false);
             $('#search').click(onSearch);
