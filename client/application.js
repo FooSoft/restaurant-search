@@ -210,12 +210,14 @@ function onQuery() {
 }
 
 $(document).ready(function() {
-    $.getJSON('/node/hscd/keywords', function(data) {
-        for (var keyword in data) {
+    $.getJSON('/node/hscd/keywords', function(keywords) {
+        for (var i = 0; i < keywords.length; ++i) {
             $('#query').append($('<option></option>', {
-                'value': keyword,
-                'text':  keyword
+                'value': keywords[i],
+                'text':  keywords[i]
             }));
         }
+
+        $('#search').prop('disabled', false);
     });
 });

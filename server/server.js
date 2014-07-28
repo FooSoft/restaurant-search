@@ -3,6 +3,7 @@
 var express  = require('express');
 var keywords = require('./db/keywords.json');
 var data     = require('./db/data.json');
+var _        = require('underscore');
 
 function main() {
     var app     = express();
@@ -10,7 +11,7 @@ function main() {
 
     router.use('/keywords', function(req, res, next) {
         console.log('Requesting keywords');
-        res.json(keywords);
+        res.json(_.keys(keywords));
     });
 
     app.use('/hscd', router);
