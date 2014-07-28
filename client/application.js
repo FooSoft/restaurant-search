@@ -29,19 +29,19 @@ function onAdjust(name, value) {
 
 function onSearch() {
     var params = {
-        'keyword':          $('#keyword').val(),
-        'minScore':         parseInt($('#minScore').val()),
-        'hintSteps':        parseInt($('#hintSteps').val()),
-        'maxResults':       parseInt($('#maxResults').val()),
-        'useLocalScale':    true,
-        'useRelativeScale': true
+        keyword:          $('#keyword').val(),
+        searchRange:      { min: -1.0, max: 1.0 },
+        minScore:         parseInt($('#minScore').val()),
+        hintSteps:        parseInt($('#hintSteps').val()),
+        maxResults:       parseInt($('#maxResults').val()),
+        useLocalScale:    true,
+        useRelativeScale: true
     };
 
     $.getJSON('/node/search', params, function(results) {
-        console.log(results);
-
         window.adjuster = {
             searchParams: results.params,
+            searchRange:  params.searchRange,
             minScore:     params.minScore,
             hintSteps:    params.hintSteps,
             maxResults:   params.maxResults
@@ -51,8 +51,7 @@ function onSearch() {
         window.grapher.setColumns(results.columns);
         window.grapher.setValueChangedListener(onAdjust);
 
-        // var results = searchData(searchParams, minScore);
-        // outputResults(results, maxResults);
+        outputResults(results.items, params.maxResults);
 
         $('#query').text(params.keyword);
         $('#useLocalScale').prop('checked', useLocalScale);

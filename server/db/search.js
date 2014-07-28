@@ -56,8 +56,8 @@ function searchProjection(searchParams, minScore, feature, range, steps) {
     searchStepper(range, steps, function(position) {
         testParams[feature] = position;
         results.push({
-            'sample': position,
-            'values': searchData(testParams, minScore)
+            sample: position,
+            values: searchData(testParams, minScore)
         });
     });
 
@@ -73,9 +73,9 @@ function searchProjection2d(searchParams, minScore, feature1, feature2, range, s
         searchStepper(range, steps, function(sampleY) {
             testParams[feature2] = sampleY;
             results.push({
-                'sampleX': sampleX,
-                'sampleY': sampleY,
-                'values':  searchData(testParams, minScore)
+                sampleX: sampleX,
+                sampleY: sampleY,
+                values:  searchData(testParams, minScore)
             });
         });
     });
@@ -95,8 +95,8 @@ function searchBuildHints(searchParams, minScore, feature, range, steps) {
     var hints = [];
     _.each(projection, function(result) {
         hints.push({
-            'sample': result.sample,
-            'count':  result.values.length
+            sample: result.sample,
+            count:  result.values.length
         });
     });
 
@@ -116,9 +116,9 @@ function searchBuildHints2d(searchParams, minScore, feature1, feature2, range, s
     var hints = [];
     _.each(projection, function(result) {
         hints.push({
-            'sampleX': result.sampleX,
-            'sampleY': result.sampleY,
-            'count':   result.values.length
+            sampleX: result.sampleX,
+            sampleY: result.sampleY,
+            count:   result.values.length
         });
     });
 
@@ -130,29 +130,30 @@ module.exports.getKeywords = function() {
 }
 
 module.exports.execQuery = function(query) {
-    var searchParams = db_keywords[query.keyword];
-    var searchRange  = { 'min': -1.0, 'max': 1.0 };
-    var graphColumns = { };
+    var searchParams  = db_keywords[query.keyword];
+    var searchResults = searchData(searchParams, query.minScore);
+    var graphColumns  = { };
 
     for (var feature in searchParams) {
-        var hints = searchBuildHints(
+        var searchHints = searchBuildHints(
             searchParams,
             query.minScore,
             feature,
-            searchRange,
+            query.searchRange,
             query.hintSteps
         );
 
         graphColumns[feature] = {
-            'color': '#607080',
-            'value': searchParams[feature],
-            'hints': hints,
-            'steps': query.hintSteps
+            color: '#607080',
+            value: searchParams[feature],
+            hints: searchHints,
+            steps: query.hintSteps
         }
     }
 
     return {
-        'columns': graphColumns,
-        'params':  searchParams
+        columns: graphColumns,
+        params:  searchParams,
+        items:   searchResults
     };
 }
