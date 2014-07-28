@@ -4,6 +4,7 @@ var _           = require('underscore');
 var db_keywords = require('./keywords.json');
 var db_data     = require('./data.json');
 
+
 function innerProduct(values1, values2) {
     var result = 0;
 

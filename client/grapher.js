@@ -543,7 +543,7 @@ function Grapher(canvas, range, useLocalScale, useRelativeScale) {
     this.useLocalScale    = useLocalScale;
     this.useRelativeScale = useRelativeScale;
     this.canvas           = new fabric.StaticCanvas(canvas);
-    this.range            = range;
+    this.range            = new goog.math.Range(range.min, range.max);
     this.padding          = 10;
     this.indexMap         = {};
     this.columns          = [];

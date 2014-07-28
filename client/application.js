@@ -2,6 +2,7 @@
 
 var app = { };
 
+
 function outputResults(results, maxResults) {
     $('#results').empty();
     $('#count').text(results.length);
@@ -51,14 +52,13 @@ function onSearch() {
         app.hintSteps    = params.hintSteps;
         app.maxResults   = params.maxResults;
 
-        app.grapher = new Grapher('grapher', new goog.math.Range(-1.0, 1.0), true, true);
+        app.grapher = new Grapher('grapher', app.searchRange, true, true);
         app.grapher.setColumns(results.columns);
         app.grapher.setValueChangedListener(onAdjust);
 
         outputResults(results.items, params.maxResults);
 
         $('#query').text(params.keyword);
-
         $('#useLocalScale').click(function() {
             var useLocalScale = $('#useLocalScale').is(':checked');
             app.grapher.setUseLocalScale(useLocalScale);
@@ -67,7 +67,6 @@ function onSearch() {
             var useRelativeScale = $('#useRelativeScale').is(':checked');
             app.grapher.setUseRelativeScale(useRelativeScale);
         });
-
         $('#input').fadeOut(function() {
             $('#output').fadeIn();
         });
