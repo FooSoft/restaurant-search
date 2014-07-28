@@ -11,20 +11,29 @@ function outputResults(results, maxResults) {
 }
 
 function onAdjust(name, value) {
-    // var wa = window.adjuster;
-    // var wg = window.grapher;
+    var wa = window.adjuster;
+    var wg = window.grapher;
 
-    // wa.searchParams[name] = value;
-    // console.log(wa.searchParams);
+    wa.searchParams[name] = value;
+    console.log(wa.searchParams);
 
-    // var hintData = {};
-    // _.each(wg.getColumnNames(), function(name) {
-    //     hintData[name] = searchBuildHints(wa.searchParams, wa.minScore, name, wa.searchRange, wa.hintSteps);
-    // });
-    // wg.setColumnHints(hintData);
+    var params = {
+        searchParams: wa.searchParams,
+        searchRange:  wa.searchRange,
+        minScore:     wa.minScore,
+        hintSteps:    wa.hintSteps,
+        maxResults:   wa.maxResults
+    };
 
-    // var results = searchData(wa.searchParams, wa.minScore);
-    // outputResults(results, wa.maxResults);
+    $.getJSON('/node/search', params, function(results) {
+        var hintData = { };
+        for (var feature in results.columns) {
+            hintData[feature] = results.columns[feature].hints;
+        }
+
+        wg.setColumnHints(hintData);
+        outputResults(results.items, params.maxResults);
+    });
 }
 
 function onSearch() {

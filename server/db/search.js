@@ -130,7 +130,7 @@ module.exports.getKeywords = function() {
 }
 
 module.exports.execQuery = function(query) {
-    var searchParams  = db_keywords[query.keyword];
+    var searchParams  = query.searchParams || db_keywords[query.keyword];
     var searchResults = searchData(searchParams, query.minScore);
     var graphColumns  = { };
 
