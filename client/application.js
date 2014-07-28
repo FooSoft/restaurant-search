@@ -147,77 +147,82 @@ function onAdjust(name, value) {
     outputResults(results, wa.maxResults);
 }
 
-function onQuery() {
-    var query            = $('#query').val();
-    var minScore         = parseInt($('#minScore').val()) || 1.0;
-    var hintSteps        = parseInt($('#hintSteps').val()) || 20;
-    var maxResults       = parseInt($('#maxResults').val()) || 100;
-    var useLocalScale    = true;
-    var useRelativeScale = true;
-
-    console.assert(query in DATA_KEYWORDS);
-
-    var queryParams  = DATA_KEYWORDS[query];
-    var searchRange  = new goog.math.Range(-1.0, 1.0);
-    var graphColumns = {};
-
-    for (var feature in queryParams) {
-        var hints = searchBuildHints(
-            queryParams,
-            minScore,
-            feature,
-            searchRange,
-            hintSteps
-        );
-
-        graphColumns[feature] = {
-            'color': '#607080',
-            'value': queryParams[feature],
-            'hints': hints,
-            'steps': hintSteps
-        }
-    }
-
-    window.adjuster = {
-        queryParams: queryParams,
-        searchRange: searchRange,
-        hintSteps:   hintSteps,
-        minScore:    minScore,
-        maxResults:  maxResults
+function onSearch() {
+    var params = {
+        'keyword':          $('#keyword').val(),
+        'minScore':         parseInt($('#minScore').val()),
+        'hintSteps':        parseInt($('#hintSteps').val()),
+        'maxResults':       parseInt($('#maxResults').val()),
+        'useLocalScale':    true,
+        'useRelativeScale': true
     };
 
-    window.grapher = new Grapher('grapher', searchRange, useLocalScale, useRelativeScale);
-    window.grapher.setColumns(graphColumns);
-    window.grapher.setValueChangedListener(onAdjust);
+    $.getJSON('/node/search', params, function(results) {
+        alert('searched');
+    });
 
-    var results = searchData(queryParams, minScore);
-    outputResults(results, maxResults);
+//     var queryParams  = DATA_KEYWORDS[query];
+//     var searchRange  = new goog.math.Range(-1.0, 1.0);
+//     var graphColumns = {};
 
-    $('#keyword').text(query);
-    $('#useLocalScale').prop('checked', useLocalScale);
-    $('#useRelativeScale').prop('checked', useRelativeScale);
-    $('#useLocalScale').click(function() {
-        var useLocalScale = $('#useLocalScale').is(':checked');
-        window.grapher.setUseLocalScale(useLocalScale);
-    });
-    $('#useRelativeScale').click(function() {
-        var useRelativeScale = $('#useRelativeScale').is(':checked');
-        window.grapher.setUseRelativeScale(useRelativeScale);
-    });
-    $('#input').fadeOut(function() {
-        $('#output').fadeIn();
-    });
+//     for (var feature in queryParams) {
+//         var hints = searchBuildHints(
+//             queryParams,
+//             minScore,
+//             feature,
+//             searchRange,
+//             hintSteps
+//         );
+
+//         graphColumns[feature] = {
+//             'color': '#607080',
+//             'value': queryParams[feature],
+//             'hints': hints,
+//             'steps': hintSteps
+//         }
+//     }
+
+//     window.adjuster = {
+//         queryParams: queryParams,
+//         searchRange: searchRange,
+//         hintSteps:   hintSteps,
+//         minScore:    minScore,
+//         maxResults:  maxResults
+//     };
+
+//     window.grapher = new Grapher('grapher', searchRange, useLocalScale, useRelativeScale);
+//     window.grapher.setColumns(graphColumns);
+//     window.grapher.setValueChangedListener(onAdjust);
+
+//     var results = searchData(queryParams, minScore);
+//     outputResults(results, maxResults);
+
+//     $('#query').text(query);
+//     $('#useLocalScale').prop('checked', useLocalScale);
+//     $('#useRelativeScale').prop('checked', useRelativeScale);
+//     $('#useLocalScale').click(function() {
+//         var useLocalScale = $('#useLocalScale').is(':checked');
+//         window.grapher.setUseLocalScale(useLocalScale);
+//     });
+//     $('#useRelativeScale').click(function() {
+//         var useRelativeScale = $('#useRelativeScale').is(':checked');
+//         window.grapher.setUseRelativeScale(useRelativeScale);
+//     });
+//     $('#input').fadeOut(function() {
+//         $('#output').fadeIn();
+//     });
 }
 
 $(document).ready(function() {
-    $.getJSON('/node/hscd/keywords', function(keywords) {
+    $.getJSON('/node/keywords', function(keywords) {
         for (var i = 0; i < keywords.length; ++i) {
-            $('#query').append($('<option></option>', {
+            $('#keyword').append($('<option></option>', {
                 'value': keywords[i],
                 'text':  keywords[i]
             }));
         }
 
         $('#search').prop('disabled', false);
+        $('#search').click(onSearch);
     });
 });
