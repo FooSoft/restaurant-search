@@ -1,20 +1,21 @@
 #!/usr/bin/env node
 
-var express    = require('express');
-var keywords   = require('./db/keywords.json');
-var data       = require('./db/data.json');
-var _          = require('underscore');
+'use strict';
+
+var express = require('express');
+var search  = require('./db/search.js');
 
 function main() {
     var app = express();
 
     app.use('/keywords', function(req, res) {
         console.log('Requesting keywords');
-        res.json(_.keys(keywords));
+        res.json(search.getKeywords());
     });
 
     app.use('/search', function(req, res) {
-        console.log(req.query);
+        console.log('Requesting search');
+        res.json(search.execQuery());
     });
 
     app.listen(3000);
@@ -23,4 +24,3 @@ function main() {
 if (require.main === module) {
     main();
 }
-
