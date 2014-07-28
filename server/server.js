@@ -15,7 +15,7 @@ function main() {
 
     app.use('/search', function(req, res) {
         console.log('Requesting search');
-        res.json(search.execQuery());
+        res.json(search.execQuery(req.query));
     });
 
     app.listen(3000);

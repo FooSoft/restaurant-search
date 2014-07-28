@@ -1,11 +1,12 @@
 'use strict';
 
-var _          = require('underscore');
-var keywords   = require('./keywords.json');
-var data       = require('./data.json');
+var _           = require('underscore');
+var db_keywords = require('./keywords.json');
+var db_data     = require('./data.json');
 
 function innerProduct(values1, values2) {
     var result = 0;
+
     for (var feature in values1) {
         result += values1[feature] * (values2[feature] || 0.0);
     }
@@ -13,12 +14,12 @@ function innerProduct(values1, values2) {
     return result;
 }
 
-function searchData(queryParams, minScore) {
+function searchData(searchParams, minScore) {
     var results = [];
 
-    for (var i = 0, count = DATA_RECORDS.length; i < count; ++i) {
-        var record = DATA_RECORDS[i];
-        var score  = innerProduct(queryParams, record['rating']);
+    for (var i = 0, count = db_data.length; i < count; ++i) {
+        var record = db_data[i];
+        var score  = innerProduct(searchParams, record['rating']);
 
         if (score >= minScore) {
             results.push({
@@ -37,10 +38,10 @@ function searchData(queryParams, minScore) {
 }
 
 function searchStepper(range, steps, callback) {
-    var stepSize = range.getLength() / steps;
+    var stepSize = (range.max - range.min) / steps;
 
     for (var i = 0; i < steps; ++i) {
-        var stepMax = range.end - stepSize * i;
+        var stepMax = range.max - stepSize * i;
         var stepMin = stepMax - stepSize;
         var stepMid = (stepMin + stepMax) / 2;
 
@@ -48,8 +49,8 @@ function searchStepper(range, steps, callback) {
     }
 }
 
-function searchProjection(queryParams, minScore, feature, range, steps) {
-    var testParams = _.clone(queryParams);
+function searchProjection(searchParams, minScore, feature, range, steps) {
+    var testParams = _.clone(searchParams);
     var results    = [];
 
     searchStepper(range, steps, function(position) {
@@ -63,8 +64,8 @@ function searchProjection(queryParams, minScore, feature, range, steps) {
     return results;
 }
 
-function searchProjection2d(queryParams, minScore, feature1, feature2, range, steps) {
-    var testParams = _.clone(queryParams);
+function searchProjection2d(searchParams, minScore, feature1, feature2, range, steps) {
+    var testParams = _.clone(searchParams);
     var results    = [];
 
     searchStepper(range, steps, function(sampleX) {
@@ -82,9 +83,9 @@ function searchProjection2d(queryParams, minScore, feature1, feature2, range, st
     return results;
 }
 
-function searchBuildHints(queryParams, minScore, feature, range, steps) {
+function searchBuildHints(searchParams, minScore, feature, range, steps) {
     var projection = searchProjection(
-        queryParams,
+        searchParams,
         minScore,
         feature,
         range,
@@ -102,9 +103,9 @@ function searchBuildHints(queryParams, minScore, feature, range, steps) {
     return hints;
 }
 
-function searchBuildHints2d(queryParams, minScore, feature1, feature2, range, steps) {
+function searchBuildHints2d(searchParams, minScore, feature1, feature2, range, steps) {
     var projection = searchProjection2d(
-        queryParams,
+        searchParams,
         minScore,
         feature1,
         feature2,
@@ -125,9 +126,33 @@ function searchBuildHints2d(queryParams, minScore, feature1, feature2, range, st
 }
 
 module.exports.getKeywords = function() {
-    return _.keys(keywords);
+    return _.keys(db_keywords);
 }
 
-module.exports.execQuery = function() {
-    return {};
+module.exports.execQuery = function(query) {
+    var searchParams = db_keywords[query.keyword];
+    var searchRange  = { 'min': -1.0, 'max': 1.0 };
+    var graphColumns = { };
+
+    for (var feature in searchParams) {
+        var hints = searchBuildHints(
+            searchParams,
+            query.minScore,
+            feature,
+            searchRange,
+            query.hintSteps
+        );
+
+        graphColumns[feature] = {
+            'color': '#607080',
+            'value': searchParams[feature],
+            'hints': hints,
+            'steps': query.hintSteps
+        }
+    }
+
+    return {
+        'columns': graphColumns,
+        'params':  searchParams
+    };
 }

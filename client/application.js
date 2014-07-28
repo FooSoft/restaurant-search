@@ -11,20 +11,20 @@ function outputResults(results, maxResults) {
 }
 
 function onAdjust(name, value) {
-    var wa = window.adjuster;
-    var wg = window.grapher;
+    // var wa = window.adjuster;
+    // var wg = window.grapher;
 
-    wa.queryParams[name] = value;
-    console.log(wa.queryParams);
+    // wa.searchParams[name] = value;
+    // console.log(wa.searchParams);
 
-    var hintData = {};
-    _.each(wg.getColumnNames(), function(name) {
-        hintData[name] = searchBuildHints(wa.queryParams, wa.minScore, name, wa.searchRange, wa.hintSteps);
-    });
-    wg.setColumnHints(hintData);
+    // var hintData = {};
+    // _.each(wg.getColumnNames(), function(name) {
+    //     hintData[name] = searchBuildHints(wa.searchParams, wa.minScore, name, wa.searchRange, wa.hintSteps);
+    // });
+    // wg.setColumnHints(hintData);
 
-    var results = searchData(wa.queryParams, wa.minScore);
-    outputResults(results, wa.maxResults);
+    // var results = searchData(wa.searchParams, wa.minScore);
+    // outputResults(results, wa.maxResults);
 }
 
 function onSearch() {
@@ -38,59 +38,37 @@ function onSearch() {
     };
 
     $.getJSON('/node/search', params, function(results) {
-        alert('searched');
+        console.log(results);
+
+        window.adjuster = {
+            searchParams: results.params,
+            minScore:     params.minScore,
+            hintSteps:    params.hintSteps,
+            maxResults:   params.maxResults
+        };
+
+        window.grapher = new Grapher('grapher', new goog.math.Range(-1.0, 1.0), params.useLocalScale, params.useRelativeScale);
+        window.grapher.setColumns(results.columns);
+        window.grapher.setValueChangedListener(onAdjust);
+
+        // var results = searchData(searchParams, minScore);
+        // outputResults(results, maxResults);
+
+        $('#query').text(params.keyword);
+        $('#useLocalScale').prop('checked', useLocalScale);
+        $('#useRelativeScale').prop('checked', useRelativeScale);
+        $('#useLocalScale').click(function() {
+            var useLocalScale = $('#useLocalScale').is(':checked');
+            window.grapher.setUseLocalScale(useLocalScale);
+        });
+        $('#useRelativeScale').click(function() {
+            var useRelativeScale = $('#useRelativeScale').is(':checked');
+            window.grapher.setUseRelativeScale(useRelativeScale);
+        });
+        $('#input').fadeOut(function() {
+            $('#output').fadeIn();
+        });
     });
-
-//     var queryParams  = DATA_KEYWORDS[query];
-//     var searchRange  = new goog.math.Range(-1.0, 1.0);
-//     var graphColumns = {};
-
-//     for (var feature in queryParams) {
-//         var hints = searchBuildHints(
-//             queryParams,
-//             minScore,
-//             feature,
-//             searchRange,
-//             hintSteps
-//         );
-
-//         graphColumns[feature] = {
-//             'color': '#607080',
-//             'value': queryParams[feature],
-//             'hints': hints,
-//             'steps': hintSteps
-//         }
-//     }
-
-//     window.adjuster = {
-//         queryParams: queryParams,
-//         searchRange: searchRange,
-//         hintSteps:   hintSteps,
-//         minScore:    minScore,
-//         maxResults:  maxResults
-//     };
-
-//     window.grapher = new Grapher('grapher', searchRange, useLocalScale, useRelativeScale);
-//     window.grapher.setColumns(graphColumns);
-//     window.grapher.setValueChangedListener(onAdjust);
-
-//     var results = searchData(queryParams, minScore);
-//     outputResults(results, maxResults);
-
-//     $('#query').text(query);
-//     $('#useLocalScale').prop('checked', useLocalScale);
-//     $('#useRelativeScale').prop('checked', useRelativeScale);
-//     $('#useLocalScale').click(function() {
-//         var useLocalScale = $('#useLocalScale').is(':checked');
-//         window.grapher.setUseLocalScale(useLocalScale);
-//     });
-//     $('#useRelativeScale').click(function() {
-//         var useRelativeScale = $('#useRelativeScale').is(':checked');
-//         window.grapher.setUseRelativeScale(useRelativeScale);
-//     });
-//     $('#input').fadeOut(function() {
-//         $('#output').fadeIn();
-//     });
 }
 
 $(document).ready(function() {
