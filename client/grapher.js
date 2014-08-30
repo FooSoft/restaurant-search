@@ -68,6 +68,13 @@ function Column(canvas, name, params, scale, range, bounds) {
                 originX:  'center',
                 originY:  'center',
             });
+
+            if (goog.math.Range.containsPoint(this.range, 0.0)) {
+                var position = this.getPosFromValue(0.0);
+                this.updateLine('baseline', [this.columnBounds.left, position, this.hintBounds.left, position], {
+                    stroke: this.strokeColor
+                });
+            }
         }
 
         this.updateRect('fillRect', {
@@ -110,6 +117,18 @@ function Column(canvas, name, params, scale, range, bounds) {
             this.canvas.add(text);
             this.shapes.push(text);
             this[name] = text;
+        }
+    }
+
+    this.updateLine = function(name, points, args) {
+        if (name in this) {
+            this[name].set(args);
+        }
+        else {
+            var line = new fabric.Line(points, args);
+            this.canvas.add(line);
+            this.shapes.push(line);
+            this[name] = line;
         }
     }
 
@@ -268,6 +287,11 @@ function Column(canvas, name, params, scale, range, bounds) {
     this.getValueFromPos = function(position) {
         var percent = 1.0 - (position.y - this.columnBounds.top) / this.columnBounds.height;
         return this.range.start + this.range.getLength() * percent;
+    }
+
+    this.getPosFromValue = function(value) {
+        var percent = 1.0 - (value - this.range.start) / this.range.getLength();
+        return this.columnBounds.top + this.columnBounds.height * percent;
     }
 
     this.isHovering = function(position) {
