@@ -68,13 +68,6 @@ function Column(canvas, name, params, scale, range, bounds) {
                 originX:  'center',
                 originY:  'center',
             });
-
-            if (goog.math.Range.containsPoint(this.range, 0.0)) {
-                var position = this.getPosFromValue(0.0);
-                this.updateLine('baseline', [this.columnBounds.left, position, this.hintBounds.left, position], {
-                    stroke: this.strokeColor
-                });
-            }
         }
 
         this.updateRect('fillRect', {
@@ -92,6 +85,16 @@ function Column(canvas, name, params, scale, range, bounds) {
             height: this.handleBounds.height,
             fill:   this.handleColor
         });
+
+        if (final && goog.math.Range.containsPoint(this.range, 0.0)) {
+            var w = 2;
+            var y = this.getPosFromValue(0.0) - w / 2;
+            var p = [this.columnBounds.left, y, this.hintBounds.left, y];
+            this.updateLine('baseline', p, {
+                stroke:      this.strokeColor,
+                strokeWidth: w
+            });
+        }
 
         this.canvas.renderAll();
     }
