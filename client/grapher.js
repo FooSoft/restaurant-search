@@ -223,20 +223,20 @@ function Column(canvas, name, params, scale, range, bounds) {
     }
 
     this.getFillBounds = function(bounds) {
-        var fill = (this.value - this.range.start) / this.range.getLength();
-        var height = bounds.height * (1.0 - goog.math.clamp(fill, 0.0, 1.0));
+        var y1 = this.getPosFromValue(0.0);
+        var y2 = this.getPosFromValue(this.value);
         return new goog.math.Rect(
             bounds.left,
-            bounds.top + height,
+            Math.min(y1, y2),
             bounds.width - this.hintSize,
-            bounds.height - height
+            Math.abs(y1 - y2)
         );
     }
 
     this.getHandleBounds = function(bounds, fillBounds) {
         var handleBounds = new goog.math.Rect(
             fillBounds.left,
-            fillBounds.top,
+            this.getPosFromValue(this.value) - this.handleSize / 2,
             fillBounds.width,
             this.handleSize
         );
@@ -280,18 +280,22 @@ function Column(canvas, name, params, scale, range, bounds) {
 
     this.mouseDoubleClick = function(position) {
         if (this.isContained(position)) {
-            this.setClampedValue(this.getValueFromPos(position), true);
+            this.setClampedValue(this.getValueFromPos(position.y), true);
         }
     }
 
     this.getValueFromPos = function(position) {
-        var percent = 1.0 - (position.y - this.columnBounds.top) / this.columnBounds.height;
+        var percent = 1.0 - (position - this.columnBounds.top) / this.columnBounds.height;
         return this.range.start + this.range.getLength() * percent;
     }
 
     this.getPosFromValue = function(value) {
         var percent = 1.0 - (value - this.range.start) / this.range.getLength();
-        return this.columnBounds.top + this.columnBounds.height * percent;
+        return goog.math.clamp(
+            this.columnBounds.top + this.columnBounds.height * percent,
+            this.columnBounds.top,
+            this.columnBounds.top + this.columnBounds.height
+        );
     }
 
     this.isHovering = function(position) {
@@ -309,7 +313,7 @@ function Column(canvas, name, params, scale, range, bounds) {
     this.stateUpdate = function(position) {
         switch (this.state) {
             case this.State.DRAG:
-                this.setClampedValue(this.getValueFromPos(position) + this.dragDelta, false);
+                this.setClampedValue(this.getValueFromPos(position.y) + this.dragDelta, false);
                 break;
         }
     }
@@ -321,7 +325,7 @@ function Column(canvas, name, params, scale, range, bounds) {
 
         switch (this.state) {
             case this.State.DRAG:
-                this.setClampedValue(this.getValueFromPos(position) + this.dragDelta, true);
+                this.setClampedValue(this.getValueFromPos(position.y) + this.dragDelta, true);
             case this.State.HOVER:
                 if (state == this.State.NORMAL) {
                     this.canvas.contextContainer.canvas.style.cursor = 'default';
@@ -331,7 +335,7 @@ function Column(canvas, name, params, scale, range, bounds) {
 
         switch (state) {
             case this.State.DRAG:
-                this.dragDelta = this.value - this.getValueFromPos(position);
+                this.dragDelta = this.value - this.getValueFromPos(position.y);
             case this.State.HOVER:
                 this.canvas.contextContainer.canvas.style.cursor = 'ns-resize';
                 break;
