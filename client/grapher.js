@@ -21,18 +21,18 @@ function Column(canvas, name, params, scale, range, bounds) {
     }
 
     this.updateShapes = function(final) {
-        this.labelBounds  = this.getLabelBounds(this.bounds);
         this.columnBounds = this.getColumnBounds(this.bounds);
+        this.labelBounds  = this.getLabelBounds(this.columnBounds);
         this.hintBounds   = this.getHintBounds(this.columnBounds);
         this.fillBounds   = this.getFillBounds(this.columnBounds);
         this.handleBounds = this.getHandleBounds(this.columnBounds, this.fillBounds);
 
         if (final) {
             this.updateRect('boundsRect', {
-                left:   this.bounds.left,
-                top:    this.bounds.top,
-                width:  this.bounds.width,
-                height: this.bounds.height,
+                left:   this.columnBounds.left,
+                top:    this.columnBounds.top,
+                width:  this.columnBounds.width,
+                height: this.columnBounds.height,
                 stroke: this.strokeColor,
                 fill:   this.emptyColor
             });
@@ -87,12 +87,10 @@ function Column(canvas, name, params, scale, range, bounds) {
         });
 
         if (final && goog.math.Range.containsPoint(this.range, 0.0)) {
-            var w = 2;
-            var y = this.getPosFromValue(0.0) - w / 2;
-            var p = [this.columnBounds.left, y, this.hintBounds.left, y];
+            var y = this.getPosFromValue(0.0);
+            var p = [this.bounds.left, y, this.bounds.left + this.tickLength, y];
             this.updateLine('baseline', p, {
-                stroke:      this.strokeColor,
-                strokeWidth: w
+                stroke: this.tickColor
             });
         }
 
@@ -209,9 +207,9 @@ function Column(canvas, name, params, scale, range, bounds) {
 
     this.getColumnBounds = function(bounds) {
         return new goog.math.Rect(
-            bounds.left,
+            bounds.left + this.tickLength,
             bounds.top,
-            bounds.width,
+            bounds.width - this.tickLength,
             bounds.height - this.labelSize
         );
     }
@@ -358,8 +356,10 @@ function Column(canvas, name, params, scale, range, bounds) {
     this.hintSize      = 10;
     this.labelFontSize = 15;
     this.labelSize     = 20;
+    this.tickLength    = 5;
     this.emptyColor    = '#eeeeec';
     this.strokeColor   = '#d3d7cf';
+    this.tickColor     = '#888a85';
 
     this.canvas = canvas;
     this.shapes = [];
