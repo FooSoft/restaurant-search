@@ -114,30 +114,26 @@ module.exports.getKeywords = function() {
 }
 
 module.exports.execQuery = function(query) {
-    var searchParams  = query.searchParams;
-    var searchResults = null;
-
-    if (!searchParams) {
-        searchParams = {};
-
+    if (!query.searchParams) {
+        query.searchParams = {};
         for (var i = 0, count = query.keywords.length; i < count; ++i) {
             var keyword = query.keywords[i];
             if (_.has(db_keywords, keyword)) {
-                searchParams[keyword] = 1.0;
+                query.searchParams[keyword] = 1.0;
             }
         }
-
-        searchResults = findData(
-            searchParams,
-            query.minScore,
-            query.maxResults
-        );
     }
 
+    var searchResults = findData(
+        query.searchParams,
+        query.minScore,
+        query.maxResults
+    );
+
     var graphColumns = {};
-    for (var keyword in searchParams) {
+    for (var keyword in query.searchParams) {
         var searchHints = searchBuildHints(
-            searchParams,
+            query.searchParams,
             query.minScore,
             keyword,
             query.searchRange,
@@ -146,7 +142,7 @@ module.exports.execQuery = function(query) {
 
         graphColumns[keyword] = {
             color: '#607080',
-            value: searchParams[keyword],
+            value: query.searchParams[keyword],
             hints: searchHints,
             steps: query.hintSteps
         }
@@ -154,7 +150,7 @@ module.exports.execQuery = function(query) {
 
     return {
         columns: graphColumns,
-        params:  searchParams,
+        params:  query.searchParams,
         items:   searchResults
     };
 }
