@@ -17,8 +17,8 @@
 
         $.getJSON('/node/search', params, function(results) {
             var hintData = {};
-            for (var feature in results.columns) {
-                hintData[feature] = results.columns[feature].hints;
+            for (var keyword in results.columns) {
+                hintData[keyword] = results.columns[keyword].hints;
             }
 
             ctx.grapher.setColumnHints(hintData);
@@ -28,7 +28,7 @@
 
     function onSearch() {
         var params = {
-            keyword:     $('#keyword').val(),
+            keywords:    $('#keywords').val(),
             searchRange: { min: -1.0, max: 1.0 },
             minScore:    parseInt($('#minScore').val()),
             hintSteps:   parseInt($('#hintSteps').val()),
@@ -73,24 +73,28 @@
         $('#results').append(template({'results': results}));
     }
 
-    $(document).ready(function() {
-        $(document).on({
-            ajaxStart: function() {
-                $('#spinner').show();
-            },
-            ajaxStop: function() {
-                $('#spinner').hide();
-            }
-        });
+    $(document).on({
+        ajaxStart: function() {
+            $('#spinner').show();
+        },
 
-        $.getJSON('/node/keywords', function(keywords) {
-            for (var i = 0; i < keywords.length; ++i) {
-                var properties = { value: keywords[i], text: keywords[i] };
-                $('#keyword').append($('<option></option>', properties));
-            }
+        ajaxStop: function() {
+            $('#spinner').hide();
+        },
 
-            $('#search').prop('disabled', false);
-            $('#search').click(onSearch);
-        });
+        ready: function() {
+            $.getJSON('/node/keywords', function(keywords) {
+                for (var i = 0, count = keywords.length; i < count; ++i) {
+                    $('#keywords').append($('<option></option>', {
+                        value: keywords[i],
+                        text:  keywords[i]
+                    }));
+                }
+
+                $('#search').prop('disabled', false);
+                $('#search').click(onSearch);
+            });
+        }
     });
+
 }(window.hscd = window.hscd || {}));

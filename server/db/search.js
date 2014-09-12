@@ -118,6 +118,8 @@ module.exports.execQuery = function(query) {
     var searchResults = null;
 
     if (!searchParams) {
+        searchParams = {};
+
         for (var i = 0, count = query.keywords.length; i < count; ++i) {
             var keyword = query.keywords[i];
             if (_.has(db_keywords, keyword)) {
@@ -142,7 +144,7 @@ module.exports.execQuery = function(query) {
             query.hintSteps
         );
 
-        graphColumns[param.name] = {
+        graphColumns[keyword] = {
             color: '#607080',
             value: searchParams[keyword],
             hints: searchHints,
