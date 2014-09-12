@@ -9,21 +9,27 @@ function innerProduct(values1, values2) {
     var result = 0;
 
     for (var feature in values1) {
-        result += values1[feature] * (values2[feature] || 0.0);
+        result += (values1[feature] || 0.0) * (values2[feature] || 0.0);
     }
 
     return result;
 }
 
+function scale(values, factor) {
+    return _.map(values, function(value) {
+        return value * factor;
+    });
+}
+
 function countData(searchParams, minScore) {
     var dataCount = 0;
 
-    for (var i = 0, count = db_data.length; i < count; ++i) {
-        var record = db_data[i];
-        var score  = innerProduct(searchParams, record.rating);
-
-        if (score >= minScore) {
-            ++dataCount;
+    for (var keyword in searchParams) {
+        var features = scale(db_keywords[keyword], searchParams[keyword]);
+        for (var i = 0, count = db_data.length; i < count; ++i) {
+            if (innerProduct(features, db_data[i].rating) >= minScore) {
+                ++dataCount;
+            }
         }
     }
 
@@ -33,16 +39,19 @@ function countData(searchParams, minScore) {
 function findData(searchParams, minScore, maxResults) {
     var results = [];
 
-    for (var i = 0, count = db_data.length; i < count; ++i) {
-        var record = db_data[i];
-        var score  = innerProduct(searchParams, record.rating);
+    for (var keyword in searchParams) {
+        var features = scale(db_keywords[keyword], searchParams[keyword]);
+        for (var i = 0, count = db_data.length; i < count; ++i) {
+            var record = db_data[i];
+            var score  = innerProduct(features, record.rating);
 
-        if (score >= minScore) {
-            results.push({
-               name:  record.name,
-               url:   'http://www.tripadvisor.com' + record.relativeUrl,
-               score: score
-            });
+            if (score >= minScore) {
+                results.push({
+                   name:  record.name,
+                   url:   'http://www.tripadvisor.com' + record.relativeUrl,
+                   score: score
+                });
+            }
         }
     }
 
@@ -65,12 +74,12 @@ function searchStepper(range, steps, callback) {
     }
 }
 
-function searchProjection(searchParams, minScore, feature, range, steps) {
+function searchProjection(searchParams, minScore, keyword, range, steps) {
     var testParams = _.clone(searchParams);
     var results    = [];
 
     searchStepper(range, steps, function(position) {
-        testParams[feature] = position;
+        testParams[keyword] = position;
         results.push({
             sample: position,
             count:  countData(testParams, minScore)
@@ -80,11 +89,11 @@ function searchProjection(searchParams, minScore, feature, range, steps) {
     return results;
 }
 
-function searchBuildHints(searchParams, minScore, feature, range, steps) {
+function searchBuildHints(searchParams, minScore, keyword, range, steps) {
     var projection = searchProjection(
         searchParams,
         minScore,
-        feature,
+        keyword,
         range,
         steps
     );
@@ -101,26 +110,41 @@ function searchBuildHints(searchParams, minScore, feature, range, steps) {
 }
 
 module.exports.getKeywords = function() {
-    return _.keys(db_keywords);
+    return _.keys(db_keywords).sort();
 }
 
 module.exports.execQuery = function(query) {
-    var searchParams  = query.searchParams || db_keywords[query.keyword];
-    var searchResults = findData(searchParams, query.minScore, query.maxResults);
-    var graphColumns  = {};
+    var searchParams  = query.searchParams;
+    var searchResults = null;
 
-    for (var feature in searchParams) {
+    if (!searchParams) {
+        for (var i = 0, count = query.keywords.length; i < count; ++i) {
+            var keyword = query.keywords[i];
+            if (_.has(db_keywords, keyword)) {
+                searchParams[keyword] = 1.0;
+            }
+        }
+
+        searchResults = findData(
+            searchParams,
+            query.minScore,
+            query.maxResults
+        );
+    }
+
+    var graphColumns = {};
+    for (var keyword in searchParams) {
         var searchHints = searchBuildHints(
             searchParams,
             query.minScore,
-            feature,
+            keyword,
             query.searchRange,
             query.hintSteps
         );
 
-        graphColumns[feature] = {
+        graphColumns[param.name] = {
             color: '#607080',
-            value: searchParams[feature],
+            value: searchParams[keyword],
             hints: searchHints,
             steps: query.hintSteps
         }
