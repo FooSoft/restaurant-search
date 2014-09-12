@@ -6,19 +6,23 @@ var db_data     = require('./data.json');
 
 
 function innerProduct(values1, values2) {
-    var result = 0;
+    var result = 0.0;
 
     for (var feature in values1) {
-        result += (values1[feature] || 0.0) * (values2[feature] || 0.0);
+        result += values1[feature] * (values2[feature] || 0.0);
     }
 
     return result;
 }
 
 function scale(values, factor) {
-    return _.map(values, function(value) {
-        return value * factor;
-    });
+    var result = {};
+
+    for (var feature in values) {
+        result[feature] = values[feature] * factor;
+    }
+
+    return result;
 }
 
 function countData(searchParams, minScore) {

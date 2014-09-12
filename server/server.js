@@ -16,6 +16,7 @@ function main() {
 
     app.use('/search', function(req, res) {
         console.log('Requesting search');
+        console.log(req.query);
         res.json(search.execQuery(req.query));
     });
 
