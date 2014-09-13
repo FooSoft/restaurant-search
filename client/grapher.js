@@ -47,9 +47,9 @@ function Column(canvas, name, params, scale, range, bounds) {
 
             this.hintRect.setGradient('fill', {
                 x1:         0.0,
-                y1:         -this.hintRect.height / 2,
+                y1:         0.0,
                 x2:         0.0,
-                y2:         this.hintRect.height / 2,
+                y2:         this.hintRect.height,
                 colorStops: this.decimateHints(this.steps, this.scale)
             });
 

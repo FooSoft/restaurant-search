@@ -1,4 +1,16 @@
 {
+    "food": {
+        "food": 1.0
+    },
+    "service": {
+        "service": 1.0
+    },
+    "value": {
+        "value": 1.0
+    },
+    "atmosphere": {
+        "atmosphere": 1.0
+    },
     "hole in the wall": {
         "food":       0.82,
         "service":    0.10,
