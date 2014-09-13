@@ -30,7 +30,7 @@
         var params = {
             keywords:    $('#keywords').val(),
             searchRange: { min: -1.0, max: 1.0 },
-            minScore:    parseInt($('#minScore').val()),
+            minScore:    parseFloat($('#minScore').val()),
             hintSteps:   parseInt($('#hintSteps').val()),
             maxResults:  parseInt($('#maxResults').val())
         };
