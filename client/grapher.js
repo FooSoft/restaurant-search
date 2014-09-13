@@ -199,7 +199,7 @@ function Column(canvas, name, params, scale, range, bounds) {
     this.getLabelBounds = function(bounds) {
         return new goog.math.Rect(
             bounds.left,
-            bounds.top + bounds.height - this.labelSize,
+            bounds.top + bounds.height,
             bounds.width,
             this.labelSize
         );
