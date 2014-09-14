@@ -48,7 +48,7 @@
 
             outputResults(results.items, params.maxResults);
 
-            $('#query').text(params.keyword);
+            $('#query').text(params.keywords.join(', '));
             $('#useLocalScale').click(function() {
                 var useLocalScale = $('#useLocalScale').is(':checked');
                 ctx.grapher.setUseLocalScale(useLocalScale);
