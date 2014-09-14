@@ -28,12 +28,17 @@ function scale(values, factor) {
 function countData(searchParams, minScore) {
     var dataCount = 0;
 
-    for (var keyword in searchParams) {
-        var features = scale(db_keywords[keyword], searchParams[keyword]);
-        for (var i = 0, count = db_data.length; i < count; ++i) {
-            if (innerProduct(features, db_data[i].rating) >= minScore) {
-                ++dataCount;
-            }
+    for (var i = 0, count = db_data.length; i < count; ++i) {
+        var record = db_data[i];
+        var score  = 0.0;
+
+        for (var keyword in searchParams) {
+            var features = scale(db_keywords[keyword], searchParams[keyword]);
+            score += innerProduct(features, record.rating);
+        }
+
+        if (score >= minScore) {
+            ++dataCount;
         }
     }
 
@@ -43,19 +48,22 @@ function countData(searchParams, minScore) {
 function findData(searchParams, minScore, maxResults) {
     var results = [];
 
-    for (var keyword in searchParams) {
-        var features = scale(db_keywords[keyword], searchParams[keyword]);
-        for (var i = 0, count = db_data.length; i < count; ++i) {
-            var record = db_data[i];
-            var score  = innerProduct(features, record.rating);
+    for (var i = 0, count = db_data.length; i < count; ++i) {
+        var record = db_data[i];
+        var score  = 0.0;
 
-            if (score >= minScore) {
-                results.push({
-                   name:  record.name,
-                   url:   'http://www.tripadvisor.com' + record.relativeUrl,
-                   score: score
-                });
-            }
+        for (var keyword in searchParams) {
+            var features = scale(db_keywords[keyword], searchParams[keyword]);
+            score += innerProduct(features, record.rating);
+
+        }
+
+        if (score >= minScore) {
+            results.push({
+                name:  record.name,
+                url:   'http://www.tripadvisor.com' + record.relativeUrl,
+                score: score
+            });
         }
     }
 
