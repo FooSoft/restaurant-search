@@ -86,6 +86,8 @@
         },
 
         ready: function() {
+            $('.selectpicker').selectpicker();
+
             $.getJSON('/node/keywords', function(keywords) {
                 for (var i = 0, count = keywords.length; i < count; ++i) {
                     $('#keywords').append($('<option></option>', {
@@ -94,6 +96,7 @@
                     }));
                 }
 
+                $('.selectpicker').selectpicker('refresh');
                 $('#search').prop('disabled', false);
                 $('#search').click(onSearch);
             });
