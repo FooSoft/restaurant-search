@@ -138,7 +138,7 @@ module.exports.execQuery = function(query) {
 
     var searchResults = findData(
         query.searchParams,
-        query.minScore,
+        query.minScore * _.keys(query.searchParams).length,
         query.maxResults
     );
 
@@ -146,7 +146,7 @@ module.exports.execQuery = function(query) {
     for (var keyword in query.searchParams) {
         var searchHints = searchBuildHints(
             query.searchParams,
-            query.minScore,
+            query.minScore * _.keys(query.searchParams).length,
             keyword,
             query.searchRange,
             query.hintSteps
