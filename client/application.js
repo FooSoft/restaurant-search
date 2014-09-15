@@ -86,7 +86,7 @@
         },
 
         ready: function() {
-            $('.selectpicker').selectpicker();
+            $('#keywords').selectpicker();
 
             $.getJSON('/node/keywords', function(keywords) {
                 for (var i = 0, count = keywords.length; i < count; ++i) {
@@ -96,8 +96,11 @@
                     }));
                 }
 
-                $('.selectpicker').selectpicker('refresh');
-                $('#search').prop('disabled', false);
+                $('#keywords').selectpicker('refresh');
+                $('#keywords').change(function() {
+                    $('#search').prop('disabled', $(this).val() === null);
+                });
+
                 $('#search').click(onSearch);
             });
         }
