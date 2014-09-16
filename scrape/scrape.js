@@ -133,7 +133,7 @@ function main() {
     });
 
     process.on('exit', function() {
-        var strData = 'var DATA_RECORDS = ' + JSON.stringify(results, null, 4);
+        var strData = JSON.stringify(results, null, 4);
         fs.writeFileSync(databasePath, strData);
     });
 }

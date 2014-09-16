@@ -9,7 +9,8 @@
   "author": "",
   "license": "BSD-2-Clause",
   "dependencies": {
-    "underscore": "~1.6.0",
-    "cheerio": "~0.17.0"
+    "cheerio": "~0.17.0",
+    "mysql": "^2.5.0",
+    "underscore": "~1.6.0"
   }
 }
