@@ -9,9 +9,17 @@ var search  = require('./db/search.js');
 function main() {
     var app = express();
 
+    search.loadDb({
+        'host':     'localhost',
+        'user':     'hscd',
+        'database': 'hscd'
+    });
+
     app.use('/keywords', function(req, res) {
         console.log('Requesting keywords');
-        res.json(search.getKeywords());
+        search.getKeywords(function(keywords) {
+            res.json(keywords);
+        });
     });
 
     app.use('/search', function(req, res) {

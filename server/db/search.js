@@ -3,6 +3,8 @@
 var _           = require('underscore');
 var db_keywords = require('./keywords.json');
 var db_data     = require('./data.json');
+var mysql       = require('mysql');
+var connection  = null;
 
 
 function innerProduct(values1, values2) {
@@ -121,8 +123,30 @@ function searchBuildHints(searchParams, minScore, keyword, range, steps) {
     return hints;
 }
 
-module.exports.getKeywords = function() {
-    return _.keys(db_keywords).sort();
+module.exports.loadDb = function(params) {
+    module.exports.freeDb();
+    connection = mysql.createConnection(params);
+}
+
+module.exports.freeDb = function() {
+    if (connection) {
+        connection.end();
+        connection = null;
+    }
+}
+
+module.exports.getKeywords = function(callback) {
+    connection.query('SELECT name FROM keywords ORDER BY name ASC', function(err, rows) {
+        if (err) {
+            throw err;
+        }
+
+        var keywords = _.map(rows, function(row) {
+            return row['name']
+        });
+
+        callback(keywords);
+    });
 }
 
 module.exports.execQuery = function(query) {
