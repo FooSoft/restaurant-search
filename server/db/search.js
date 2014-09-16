@@ -45,7 +45,7 @@ function countData(searchParams, minScore) {
     return dataCount;
 }
 
-function findData(searchParams, minScore, maxResults) {
+function findData(searchParams, minScore) {
     var results = [];
 
     for (var i = 0, count = db_data.length; i < count; ++i) {
@@ -71,7 +71,7 @@ function findData(searchParams, minScore, maxResults) {
         return b.score - a.score;
     });
 
-    return results.slice(0, maxResults);
+    return results;
 }
 
 function searchStepper(range, steps, callback) {
@@ -138,8 +138,7 @@ module.exports.execQuery = function(query) {
 
     var searchResults = findData(
         query.searchParams,
-        query.minScore * _.keys(query.searchParams).length,
-        query.maxResults
+        query.minScore * _.keys(query.searchParams).length
     );
 
     var graphColumns = {};
@@ -163,6 +162,7 @@ module.exports.execQuery = function(query) {
     return {
         columns: graphColumns,
         params:  query.searchParams,
-        items:   searchResults
+        items:   searchResults.slice(0, query.maxResults),
+        count:   searchResults.length
     };
 }

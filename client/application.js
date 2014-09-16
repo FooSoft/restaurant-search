@@ -22,7 +22,7 @@
             }
 
             ctx.grapher.setColumnHints(hintData);
-            outputResults(results.items, params.maxResults);
+            outputResults(results.items, results.count);
         });
     }
 
@@ -46,7 +46,7 @@
             ctx.grapher.setColumns(results.columns);
             ctx.grapher.setValueChangedListener(onAdjust);
 
-            outputResults(results.items, params.maxResults);
+            outputResults(results.items, results.count);
 
             if (params.keywords) {
                 $('#query').text(params.keywords.join(', '));
@@ -66,11 +66,14 @@
         });
     }
 
-    function outputResults(results, maxResults) {
+    function outputResults(results, count) {
         $('#results').empty();
-        $('#count').text(results.length);
 
-        results = results.splice(0, maxResults);
+        var searchResultCnt = String(results.length);
+        if (results.length < count) {
+            searchResultCnt += ' of ' + count;
+        }
+        $('#count').text(searchResultCnt);
 
         var template = Handlebars.compile($('#template').html());
         $('#results').append(template({'results': results}));
