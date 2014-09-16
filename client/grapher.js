@@ -381,12 +381,9 @@ function Column(canvas, name, params, scale, range, bounds) {
 //  Grapher
 //
 
-function Grapher(canvas, range, useLocalScale, useRelativeScale) {
+function Grapher(canvas, range, columnWidth, useLocalScale, useRelativeScale) {
     this.setColumns = function(columns) {
         this.clearColumns();
-
-        var graphBounds = this.getGraphBounds(this.getCanvasBounds());
-        var columnCount = _.keys(columns).length;
 
         var scale = 0;
         if (!useLocalScale) {
@@ -398,14 +395,16 @@ function Grapher(canvas, range, useLocalScale, useRelativeScale) {
             scale = this.getGlobalScale(hintData);
         }
 
-        var index   = 0;
-        var that    = this;
+        var graphBounds = this.getGraphBounds(this.getCanvasBounds());
+
+        var index = 0;
+        var that  = this;
         _.each(columns, function(columnValue, columnName) {
             if (useLocalScale) {
                 scale = that.getLocalScale(columnValue.hints);
             }
 
-            var columnBounds = that.getColumnBounds(graphBounds, index, columnCount);
+            var columnBounds = that.getColumnBounds(graphBounds, index);
             that.columns.push(new Column(that.canvas, columnName, columnValue, scale, that.range, columnBounds));
             that.indexMap[columnName] = index++;
         });
@@ -517,13 +516,11 @@ function Grapher(canvas, range, useLocalScale, useRelativeScale) {
     }
 
     this.getColumnBounds = function(bounds, index, count) {
-        var secWidth    = bounds.width / count;
-        var columnWidth = secWidth - this.padding * 2;
-
+        var width = this.columnWidth + this.padding * 2;
         return new goog.math.Rect(
-            bounds.left + secWidth * index + this.padding,
+            bounds.left + width * index + this.padding,
             bounds.top,
-            columnWidth,
+            this.columnWidth,
             bounds.height
         );
     }
@@ -573,6 +570,7 @@ function Grapher(canvas, range, useLocalScale, useRelativeScale) {
 
     this.useLocalScale    = useLocalScale;
     this.useRelativeScale = useRelativeScale;
+    this.columnWidth      = columnWidth;
     this.canvas           = new fabric.StaticCanvas(canvas);
     this.range            = new goog.math.Range(range.min, range.max);
     this.padding          = 10;

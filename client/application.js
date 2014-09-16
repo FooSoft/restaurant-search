@@ -42,7 +42,7 @@
             ctx.hintSteps    = params.hintSteps;
             ctx.maxResults   = params.maxResults;
 
-            ctx.grapher = new Grapher('grapher', ctx.searchRange, true, true);
+            ctx.grapher = new Grapher('grapher', ctx.searchRange, 150, true, true);
             ctx.grapher.setColumns(results.columns);
             ctx.grapher.setValueChangedListener(onAdjust);
 
