@@ -2,8 +2,9 @@
 
 'use strict';
 
+var _       = require('underscore');
 var express = require('express');
-var search  = require('./db/search.js');
+var search  = require('./search.js');
 
 
 function main() {
@@ -16,16 +17,15 @@ function main() {
     });
 
     app.use('/keywords', function(req, res) {
-        console.log('Requesting keywords');
         search.getKeywords(function(keywords) {
-            res.json(keywords);
+            res.json(_.keys(keywords).sort());
         });
     });
 
     app.use('/search', function(req, res) {
-        console.log('Requesting search');
-        console.log(req.query);
-        res.json(search.execQuery(req.query));
+        search.execQuery(req.query, function(results) {
+            res.json(results);
+        });
     });
 
     app.listen(3000);
