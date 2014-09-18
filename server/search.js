@@ -30,7 +30,7 @@ function normalize(values) {
 
     for (var feature in values) {
         var value = values[feature];
-        result[value] = Math.max(-1.0, Math.min(1.0, value), value);
+        result[feature] = Math.max(-1.0, Math.min(1.0, value), value);
     }
 
     return result;
@@ -171,7 +171,14 @@ function addKeyword(query, callback) {
 
         result = normalize(result);
 
-        var values = [query.keyword, result.food, result.service, result.value, result.atmosphere];
+        var values = [
+            query.keyword,
+            result.food,
+            result.service,
+            result.value,
+            result.atmosphere
+        ];
+
         connection.query('INSERT INTO keywords VALUES(?, ?, ?, ?, ?)', values, function(err) {
             callback({
                 keyword: query.keyword,
