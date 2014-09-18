@@ -95,7 +95,7 @@
         ready: function() {
             $('#keywords').selectpicker();
 
-            $.getJSON('/node/keywords', function(keywords) {
+            $.getJSON('/node/getKeywords', function(keywords) {
                 for (var i = 0, count = keywords.length; i < count; ++i) {
                     $('#keywords').append($('<option></option>', {
                         value: keywords[i],

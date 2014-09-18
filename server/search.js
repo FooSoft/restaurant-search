@@ -25,6 +25,27 @@ function scale(values, factor) {
     return result;
 }
 
+function normalize(values) {
+    var result = {};
+
+    for (var feature in values) {
+        var value = values[feature];
+        result[value] = Math.max(-1.0, Math.min(1.0, value), value);
+    }
+
+    return result;
+}
+
+function combine(values1, values2) {
+    var result = {};
+
+    for (var feature in values1) {
+        result[feature] = values1[feature] + (values2[feature] || 0.0);
+    }
+
+    return result;
+}
+
 function countRecords(data, searchParams, minScore) {
     var dataCount = 0;
 
@@ -125,6 +146,41 @@ function loadDb(params) {
     connection = mysql.createConnection(params);
 }
 
+function addKeyword(query, callback) {
+    getKeywords(function(keywords) {
+        var result = {
+            food:       0.0,
+            service:    0.0,
+            value:      0.0,
+            atmosphere: 0.0
+        };
+
+        for (var param in query.params) {
+            var features = scale(keywords[param], query.params[param]);
+            result = combine(result, features);
+        }
+
+        result = normalize(result);
+
+        var values = [query.keyword, result.food, result.service, result.value, result.atmosphere];
+        connection.query('INSERT INTO keywords VALUES(?, ?, ?, ?, ?)', values, function(err) {
+            callback({
+                keyword: query.keyword,
+                success: err === null
+            });
+        });
+    });
+}
+
+function removeKeyword(query, callback) {
+    connection.query('DELETE FROM keywords WHERE name=?', [query.keyword], function(err) {
+        callback({
+            keyword: query.keyword,
+            success: err === null
+        });
+    });
+}
+
 function getKeywords(callback) {
     connection.query('SELECT * FROM keywords', function(err, rows) {
         if (err) {
@@ -216,7 +272,9 @@ function execQuery(query, callback) {
 }
 
 module.exports = {
-    'loadDb':      loadDb,
-    'getKeywords': getKeywords,
-    'execQuery':   execQuery
+    'loadDb':        loadDb,
+    'addKeyword':    addKeyword,
+    'removeKeyword': removeKeyword,
+    'getKeywords':   getKeywords,
+    'execQuery':     execQuery
 };
