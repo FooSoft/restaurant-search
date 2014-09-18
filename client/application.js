@@ -70,6 +70,17 @@
         });
     }
 
+    function onLearn() {
+        var query = {
+            keyword: $('#keyword').val(),
+            params:  ctx.searchParams
+        };
+
+        $.getJSON('/node/addKeyword', query, function(results) {
+            console.log(results);
+        });
+    }
+
     function outputResults(results, count) {
         $('#results').empty();
 
@@ -104,6 +115,7 @@
                 }
 
                 $('#search').click(onSearch);
+                $('#learn').click(onLearn);
                 $('#keywords').selectpicker('refresh');
                 $('#keywords').change(function() {
                     $('#search').prop('disabled', $(this).val() === null);

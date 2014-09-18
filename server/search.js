@@ -147,6 +147,15 @@ function loadDb(params) {
 }
 
 function addKeyword(query, callback) {
+    if (!query.keyword) {
+        callback({
+            keyword: query.keyword,
+            success: false
+        });
+
+        return;
+    }
+
     getKeywords(function(keywords) {
         var result = {
             food:       0.0,
