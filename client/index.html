@@ -53,21 +53,44 @@
                 </form>
             </div>
 
-            <div id="output" style="display: none;">
-                <form>
-                    <div class="panel panel-default">
-                        <div class="panel-heading"><big>Semantic tweaks to <span id="query" class="text-primary"></span></big></div>
-                        <div style="padding: 10px;" class="unselectable">
-                            <canvas id="grapher" width="800" height="550"></canvas><br>
-                            <label class="checkbox-inline">
-                                <input type="checkbox" id="useLocalScale" name="useLocalScale" checked="checked"> Use local scale
-                            </label>
-                            <label class="checkbox-inline">
-                                <input type="checkbox" id="useRelativeScale" name="useRelativeScale" checked="checked"> Use relative scale
-                            </label>
+            <div class="modal fade options" tabindex="-1">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header"><big>Options</big></div>
+                        <div class="modal-body">
+                            <form>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="useLocalScale" name="useLocalScale" checked="checked"> Use local scale
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="useRelativeScale" name="useRelativeScale" checked="checked"> Use relative scale
+                                </label>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <form>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </form>
                         </div>
                     </div>
-                </form>
+                </div>
+            </div>
+
+            <div id="output" style="display: none;">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <big>Semantic tweaks to <span id="query" class="text-primary"></span></big>
+                        <div class="btn-group pull-right">
+                            <form>
+                                <button class="btn btn-xs btn-success">Learn...</button>
+                                <button class="btn btn-xs btn-default" data-toggle="modal" data-target=".options">Options...</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div style="padding: 10px;" class="unselectable">
+                        <canvas id="grapher" width="800" height="550"></canvas>
+                    </div>
+                </div>
 
                 <div class="panel panel-default">
                     <div class="panel-heading"><big>Query results (<span id="count" class="text-primary"></span>)</big></div>
