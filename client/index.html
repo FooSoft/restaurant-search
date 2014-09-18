@@ -51,7 +51,7 @@
                 </div>
             </div>
 
-            <div class="modal fade options" tabindex="-1">
+            <div class="modal fade configure-options" tabindex="-1">
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content">
                         <div class="modal-header"><big>Visualization Options</big></div>
@@ -74,13 +74,27 @@
                 </div>
             </div>
 
+            <div class="modal fade learn-keyword" tabindex="-1">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header"><big>Learn Keyword</big></div>
+                        <div class="modal-body">
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div id="output" style="display: none;">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <big>Semantic tweaks to <span id="query" class="text-primary"></span></big>
                         <div class="btn-group pull-right">
-                            <button class="btn btn-xs btn-success">Learn...</button>
-                            <button class="btn btn-xs btn-default" data-toggle="modal" data-target=".options">Options...</button>
+                            <button class="btn btn-xs btn-success" data-toggle="modal" data-target=".learn-keyword">Learn...</button>
+                            <button class="btn btn-xs btn-default" data-toggle="modal" data-target=".configure-options">Options...</button>
                         </div>
                     </div>
                     <div style="padding: 10px;" class="unselectable">
