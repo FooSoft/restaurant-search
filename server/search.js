@@ -182,16 +182,6 @@ function getData(callback) {
 
 function execQuery(query, callback) {
     getData(function(data) {
-        if (!query.searchParams) {
-            query.searchParams = {};
-            for (var i = 0, count = query.keywords.length; i < count; ++i) {
-                var keyword = query.keywords[i];
-                if (_.has(data.keywords, keyword)) {
-                    query.searchParams[keyword] = 1.0;
-                }
-            }
-        }
-
         var searchResults = findRecords(
             data,
             query.searchParams,
@@ -219,7 +209,6 @@ function execQuery(query, callback) {
 
         callback({
             columns: graphColumns,
-            params:  query.searchParams,
             items:   searchResults.slice(0, query.maxResults),
             count:   searchResults.length
         });

@@ -7,7 +7,7 @@
     function onAdjust(name, value) {
         ctx.searchParams[name] = value;
 
-        var params = {
+        var query = {
             searchParams: ctx.searchParams,
             searchRange:  ctx.searchRange,
             minScore:     ctx.minScore,
@@ -15,7 +15,7 @@
             maxResults:   ctx.maxResults
         };
 
-        $.getJSON('/node/search', params, function(results) {
+        $.getJSON('/node/search', query, function(results) {
             var hintData = {};
             for (var keyword in results.columns) {
                 hintData[keyword] = results.columns[keyword].hints;
@@ -27,20 +27,27 @@
     }
 
     function onSearch() {
-        var params = {
-            keywords:    $('#keywords').val(),
-            searchRange: { min: -1.0, max: 1.0 },
-            minScore:    parseFloat($('#minScore').val()),
-            hintSteps:   parseInt($('#hintSteps').val()),
-            maxResults:  parseInt($('#maxResults').val())
+        var keywords     = $('#keywords').val() || [];
+        var searchParams = {};
+
+        for (var i = 0, count = keywords.length; i < count; ++i) {
+            searchParams[keywords[i]] = 1.0;
+        }
+
+        var query = {
+            searchParams: searchParams,
+            searchRange:  { min: -1.0, max: 1.0 },
+            minScore:     parseFloat($('#minScore').val()),
+            hintSteps:    parseInt($('#hintSteps').val()),
+            maxResults:   parseInt($('#maxResults').val())
         };
 
-        $.getJSON('/node/search', params, function(results) {
-            ctx.searchParams = results.params;
-            ctx.searchRange  = params.searchRange;
-            ctx.minScore     = params.minScore;
-            ctx.hintSteps    = params.hintSteps;
-            ctx.maxResults   = params.maxResults;
+        $.getJSON('/node/search', query, function(results) {
+            ctx.searchParams = query.searchParams;
+            ctx.searchRange  = query.searchRange;
+            ctx.minScore     = query.minScore;
+            ctx.hintSteps    = query.hintSteps;
+            ctx.maxResults   = query.maxResults;
 
             ctx.grapher = new Grapher('grapher', ctx.searchRange, 150, true, true);
             ctx.grapher.setColumns(results.columns);
@@ -48,10 +55,7 @@
 
             outputResults(results.items, results.count);
 
-            if (params.keywords) {
-                $('#query').text(params.keywords.join(', '));
-            }
-
+            $('#query').text(keywords.join(', '));
             $('#useLocalScale').click(function() {
                 var useLocalScale = $('#useLocalScale').is(':checked');
                 ctx.grapher.setUseLocalScale(useLocalScale);
@@ -99,12 +103,11 @@
                     }));
                 }
 
+                $('#search').click(onSearch);
                 $('#keywords').selectpicker('refresh');
                 $('#keywords').change(function() {
                     $('#search').prop('disabled', $(this).val() === null);
                 });
-
-                $('#search').click(onSearch);
             });
         }
     });
