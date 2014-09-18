@@ -25,18 +25,7 @@ function scale(values, factor) {
     return result;
 }
 
-function normalize(values) {
-    var result = {};
-
-    for (var feature in values) {
-        var value = values[feature];
-        result[feature] = Math.max(-1.0, Math.min(1.0, value), value);
-    }
-
-    return result;
-}
-
-function combine(values1, values2) {
+function add(values1, values2) {
     var result = {};
 
     for (var feature in values1) {
@@ -157,26 +146,20 @@ function addKeyword(query, callback) {
     }
 
     getKeywords(function(keywords) {
-        var result = {
-            food:       0.0,
-            service:    0.0,
-            value:      0.0,
-            atmosphere: 0.0
-        };
-
+        var result = {};
         for (var param in query.params) {
             var features = scale(keywords[param], query.params[param]);
-            result = combine(result, features);
+            result = add(result, features);
         }
 
-        result = normalize(result);
+        result = scale(result, 1.0 / _.keys(query.params).length);
 
         var values = [
             query.keyword,
-            result.food,
-            result.service,
-            result.value,
-            result.atmosphere
+            result.food || 0.0,
+            result.service || 0.0,
+            result.value || 0.0,
+            result.atmosphere || 0.0
         ];
 
         connection.query('INSERT INTO keywords VALUES(?, ?, ?, ?, ?)', values, function(err) {

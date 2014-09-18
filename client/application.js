@@ -116,6 +116,11 @@
 
                 $('#search').click(onSearch);
 
+                $('#learnDlg').on('show.bs.modal', function() {
+                    $('#learn').prop('disabled', true);
+                    $('#keyword').val('');
+                });
+
                 $('#learn').click(onLearn);
                 $('#keyword').bind('input', function() {
                     $('#learn').prop('disabled', !$(this).val());

@@ -51,7 +51,7 @@
                 </div>
             </div>
 
-            <div class="modal fade options-dlg" tabindex="-1">
+            <div class="modal fade" id="optionsDlg" tabindex="-1">
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content">
                         <div class="modal-header"><big>Visualization Options</big></div>
@@ -74,15 +74,15 @@
                 </div>
             </div>
 
-            <div class="modal fade learn-dlg" tabindex="-1">
+            <div class="modal fade" id="learnDlg" tabindex="-1">
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content">
                         <div class="modal-header"><big>Learn Keyword</big></div>
                         <div class="modal-body">
                             <div class="form-horizontal">
                                 <div class="form-group">
-                                    <label for="keyword" class="col-md-2 control-label">Name</label>
-                                    <div class="col-md-10">
+                                    <label for="keyword" class="col-md-4 control-label">Learn as</label>
+                                    <div class="col-md-8">
                                         <input class="form-control" type="text" id="keyword" name="keyword">
                                     </div>
                                 </div>
@@ -103,8 +103,8 @@
                     <div class="panel-heading">
                         <big>Semantic tweaks to <span id="query" class="text-primary"></span></big>
                         <div class="btn-group pull-right">
-                            <button class="btn btn-xs btn-success" data-toggle="modal" data-target=".learn-dlg">Learn...</button>
-                            <button class="btn btn-xs btn-default" data-toggle="modal" data-target=".options-dlg">Options...</button>
+                            <button class="btn btn-xs btn-success" data-toggle="modal" data-target="#learnDlg">Learn...</button>
+                            <button class="btn btn-xs btn-default" data-toggle="modal" data-target="#optionsDlg">Options...</button>
                         </div>
                     </div>
                     <div style="padding: 10px;" class="unselectable">
