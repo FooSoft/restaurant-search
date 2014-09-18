@@ -90,9 +90,6 @@
 
         ready: function() {
             $('#keywords').selectpicker();
-            $('.btn').click(function(e) {
-                e.preventDefault();
-            });
 
             $.getJSON('/node/keywords', function(keywords) {
                 for (var i = 0, count = keywords.length; i < count; ++i) {
