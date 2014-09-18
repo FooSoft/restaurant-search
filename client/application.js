@@ -115,10 +115,15 @@
                 }
 
                 $('#search').click(onSearch);
+
                 $('#learn').click(onLearn);
+                $('#keyword').bind('input', function() {
+                    $('#learn').prop('disabled', !$(this).val());
+                });
+
                 $('#keywords').selectpicker('refresh');
                 $('#keywords').change(function() {
-                    $('#search').prop('disabled', $(this).val() === null);
+                    $('#search').prop('disabled', !$(this).val());
                 });
             });
         }
