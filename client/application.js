@@ -27,7 +27,7 @@
     }
 
     function onSearch() {
-        var keywords     = $('#keywords').val() || [];
+        var keywords     = $('#keywordsToSearch').val() || [];
         var searchParams = {};
 
         for (var i = 0, count = keywords.length; i < count; ++i) {
@@ -91,8 +91,6 @@
     }
 
     function outputResults(results, count) {
-        $('#results').empty();
-
         var searchResultCnt = String(results.length);
         if (results.length < count) {
             searchResultCnt += ' of ' + count;
@@ -100,6 +98,7 @@
         $('#count').text(searchResultCnt);
 
         var template = Handlebars.compile($('#template').html());
+        $('#results').empty();
         $('#results').append(template({'results': results}));
     }
 
@@ -113,17 +112,15 @@
         },
 
         ready: function() {
-            $('#keywords').selectpicker();
+            $('#keywordsToSearch').selectpicker();
 
             $.getJSON('/node/getKeywords', function(keywords) {
                 for (var i = 0, count = keywords.length; i < count; ++i) {
-                    $('#keywords').append($('<option></option>', {
+                    $('#keywordsToSearch').append($('<option></option>', {
                         value: keywords[i],
                         text:  keywords[i]
                     }));
                 }
-
-                $('#search').click(onSearch);
 
                 $('#learnDialog').on('show.bs.modal', function() {
                     $('#learnKeyword').prop('disabled', true);
@@ -136,9 +133,10 @@
                     $('#learnKeyword').prop('disabled', !$(this).val());
                 });
 
-                $('#keywords').selectpicker('refresh');
-                $('#keywords').change(function() {
-                    $('#search').prop('disabled', !$(this).val());
+                $('#searchKeywords').click(onSearch);
+                $('#keywordsToSearch').selectpicker('refresh');
+                $('#keywordsToSearch').change(function() {
+                    $('#searchKeywords').prop('disabled', !$(this).val());
                 });
             });
         }
