@@ -258,7 +258,7 @@ function execQuery(query, callback) {
             );
 
             graphColumns[keyword] = {
-                color: '#607080',
+                color: '#428bca',
                 value: query.searchParams[keyword],
                 hints: searchHints,
                 steps: query.hintSteps

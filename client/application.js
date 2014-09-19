@@ -77,7 +77,12 @@
         };
 
         $.getJSON('/node/addKeyword', query, function(results) {
-            console.log(results);
+            if (results.success) {
+                $('#learnDlg').modal('hide');
+            }
+            else {
+                $('#learnError').fadeIn();
+            }
         });
     }
 
