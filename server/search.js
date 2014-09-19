@@ -43,6 +43,12 @@ function combine(dict, params) {
         result = add(values, result);
     }
 
+    for (var key in result) {
+        var value = result[key];
+        value = Math.min(1.0, Math.max(-1.0, value));
+        result[key] = value;
+    }
+
     return result;
 }
 
@@ -57,6 +63,8 @@ function walkRecords(data, searchParams, minScore, callback) {
             callback(record, score);
         }
     }
+
+    return features;
 }
 
 function countRecords(data, searchParams, minScore) {
