@@ -53,15 +53,11 @@
                     <div class="modal-content">
                         <div class="modal-header"><big>Visualization Options</big></div>
                         <div class="modal-body">
-                            <div class="form-group">
-                                <label class="checkbox-inline">
-                                    <input type="checkbox" id="useLocalScale" name="useLocalScale" checked="checked"> Use local scale
-                                </label>
+                            <div class="checkbox">
+                                <label><input type="checkbox" id="useLocalScale" name="useLocalScale" checked="checked">Use local scale</label>
                             </div>
-                            <div class="form-group">
-                                <label class="checkbox-inline">
-                                    <input type="checkbox" id="useRelativeScale" name="useRelativeScale" checked="checked"> Use relative scale
-                                </label>
+                            <div class="checkbox">
+                                <label><input type="checkbox" id="useRelativeScale" name="useRelativeScale" checked="checked">Use relative scale</label>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -76,13 +72,9 @@
                     <div class="modal-content">
                         <div class="modal-header"><big>Learn Keyword</big></div>
                         <div class="modal-body">
-                            <div class="form-horizontal">
-                                <div class="form-group">
-                                    <label for="keyword" class="col-md-4 control-label">Learn as</label>
-                                    <div class="col-md-8">
-                                        <input class="form-control" type="text" id="keyword" name="keyword">
-                                    </div>
-                                </div>
+                            <div class="form-group">
+                                <label for="keyword" class="control-label">Learn as</label>
+                                <input class="form-control" type="text" id="keyword" name="keyword">
                             </div>
                             <div class="alert alert-danger" id="learnError" style="display: none;">Error writing keyword to database</div>
                         </div>
@@ -96,12 +88,38 @@
                 </div>
             </div>
 
+            <div class="modal fade" id="forgetDlg" tabindex="-1">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header"><big>Forget Keyword</big></div>
+                        <div class="modal-body">
+                            <!-- <div class="form-horizontal"> -->
+                            <!--     <div class="form-group"> -->
+                            <!--         <label for="keyword" class="col-md-4 control-label">Learn as</label> -->
+                            <!--         <div class="col-md-8"> -->
+                            <!--             <input class="form-control" type="text" id="keyword" name="keyword"> -->
+                            <!--         </div> -->
+                            <!--     </div> -->
+                            <!-- </div> -->
+                            <!-- <div class="alert alert-danger" id="learnError" style="display: none;">Error writing keyword to database</div> -->
+                        </div>
+                        <div class="modal-footer">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" id="forget" disabled="disabled">Learn</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div id="output" style="display: none;">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <big>Semantic tweaks to <span id="query" class="text-primary"></span></big>
                         <div class="btn-group pull-right">
                             <button class="btn btn-xs btn-success" data-toggle="modal" data-target="#learnDlg">Learn...</button>
+                            <button class="btn btn-xs btn-danger" data-toggle="modal" data-target="#forgetDlg">Forget...</button>
                             <button class="btn btn-xs btn-default" data-toggle="modal" data-target="#optionsDlg">Options...</button>
                         </div>
                     </div>
