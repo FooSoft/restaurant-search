@@ -14,6 +14,7 @@
                 <h1><img id="spinner" class="pull-right" src="images/spinner.gif" style="display: none;" width="32" height="32">Reactive Search</h1>
             </div>
 
+            <!-- Query Selector -->
             <div id="input" class="form-horizontal">
                 <div class="form-group">
                     <label for="keywords" class="col-md-2 control-label">Keywords</label>
@@ -48,6 +49,7 @@
                 </div>
             </div>
 
+            <!-- Options Dialog -->
             <div class="modal fade" id="optionsDlg" tabindex="-1">
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content">
@@ -67,13 +69,14 @@
                 </div>
             </div>
 
+            <!-- Learn Dialog -->
             <div class="modal fade" id="learnDlg" tabindex="-1">
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content">
                         <div class="modal-header"><big>Learn Keyword</big></div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <label for="keyword" class="control-label">Learn as</label>
+                                <label for="keyword" class="control-label">Learn keyword as</label>
                                 <input class="form-control" type="text" id="keyword" name="keyword">
                             </div>
                             <div class="alert alert-danger" id="learnError" style="display: none;">Error writing keyword to database</div>
@@ -81,38 +84,35 @@
                         <div class="modal-footer">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary" id="learn" disabled="disabled">Learn</button>
+                                <button type="button" class="btn btn-success" id="learn" disabled="disabled">Learn</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Forget Dialog -->
             <div class="modal fade" id="forgetDlg" tabindex="-1">
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content">
                         <div class="modal-header"><big>Forget Keyword</big></div>
                         <div class="modal-body">
-                            <!-- <div class="form-horizontal"> -->
-                            <!--     <div class="form-group"> -->
-                            <!--         <label for="keyword" class="col-md-4 control-label">Learn as</label> -->
-                            <!--         <div class="col-md-8"> -->
-                            <!--             <input class="form-control" type="text" id="keyword" name="keyword"> -->
-                            <!--         </div> -->
-                            <!--     </div> -->
-                            <!-- </div> -->
-                            <!-- <div class="alert alert-danger" id="learnError" style="display: none;">Error writing keyword to database</div> -->
+                            <div class="form-group">
+                                <label for="keywordToDelete">Keyword to delete</label>
+                                <select class="form-control" id="keywordToDelete"></select>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary" id="forget" disabled="disabled">Learn</button>
+                                <button type="button" class="btn btn-danger" id="forget" disabled="disabled">Forget</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Semantic Tweaker -->
             <div id="output" style="display: none;">
                 <div class="panel panel-default">
                     <div class="panel-heading">
