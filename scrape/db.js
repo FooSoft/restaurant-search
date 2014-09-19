@@ -15,7 +15,7 @@ var conn = mysql.createConnection({
 //
 
 conn.query('DROP TABLE IF EXISTS reviews');
-conn.query('CREATE TABLE reviews(name VARCHAR(100) NOT NULL, url VARCHAR(200) NOT NULL, food FLOAT, service FLOAT, value FLOAT, atmosphere FLOAT)');
+conn.query('CREATE TABLE reviews(name VARCHAR(100) NOT NULL, url VARCHAR(200) NOT NULL, food FLOAT NOT NULL, service FLOAT NOT NULL, value FLOAT NOT NULL, atmosphere FLOAT NOT NULL)');
 
 for (var i = 0, count = data.length; i < count; ++i) {
     var record = data[i];
@@ -35,7 +35,7 @@ for (var i = 0, count = data.length; i < count; ++i) {
 //
 
 conn.query('DROP TABLE IF EXISTS keywords');
-conn.query('CREATE TABLE keywords(name VARCHAR(50) NOT NULL, food FLOAT, service FLOAT, value FLOAT, atmosphere FLOAT)');
+conn.query('CREATE TABLE keywords(name VARCHAR(50) NOT NULL, food FLOAT NOT NULL, service FLOAT NOT NULL, value FLOAT NOT NULL, atmosphere FLOAT NOT NULL, PRIMARY KEY(name))');
 
 var keywords = {
     'food':       [1.0, 0.0, 0.0, 0.0],

@@ -24,10 +24,11 @@ DROP TABLE IF EXISTS `keywords`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `keywords` (
   `name` varchar(50) NOT NULL,
-  `food` float DEFAULT NULL,
-  `service` float DEFAULT NULL,
-  `value` float DEFAULT NULL,
-  `atmosphere` float DEFAULT NULL
+  `food` float NOT NULL,
+  `service` float NOT NULL,
+  `value` float NOT NULL,
+  `atmosphere` float NOT NULL,
+  PRIMARY KEY (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -37,7 +38,7 @@ CREATE TABLE `keywords` (
 
 LOCK TABLES `keywords` WRITE;
 /*!40000 ALTER TABLE `keywords` DISABLE KEYS */;
-INSERT INTO `keywords` VALUES ('food',1,0,0,0),('service',0,1,0,0),('value',0,0,1,0),('atmosphere',0,0,0,1);
+INSERT INTO `keywords` VALUES ('atmosphere',0,0,0,1),('food',1,0,0,0),('service',0,1,0,0),('value',0,0,1,0);
 /*!40000 ALTER TABLE `keywords` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -51,10 +52,10 @@ DROP TABLE IF EXISTS `reviews`;
 CREATE TABLE `reviews` (
   `name` varchar(100) NOT NULL,
   `url` varchar(200) NOT NULL,
-  `food` float DEFAULT NULL,
-  `service` float DEFAULT NULL,
-  `value` float DEFAULT NULL,
-  `atmosphere` float DEFAULT NULL
+  `food` float NOT NULL,
+  `service` float NOT NULL,
+  `value` float NOT NULL,
+  `atmosphere` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -77,4 +78,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-09-16 16:26:52
+-- Dump completed on 2014-09-19 10:22:03
