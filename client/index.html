@@ -50,7 +50,7 @@
             </div>
 
             <!-- Options Dialog -->
-            <div class="modal fade" id="optionsDlg" tabindex="-1">
+            <div class="modal fade" id="optionsDialog" tabindex="-1">
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content">
                         <div class="modal-header"><big>Visualization Options</big></div>
@@ -70,21 +70,21 @@
             </div>
 
             <!-- Learn Dialog -->
-            <div class="modal fade" id="learnDlg" tabindex="-1">
+            <div class="modal fade" id="learnDialog" tabindex="-1">
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content">
                         <div class="modal-header"><big>Learn Keyword</big></div>
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="keyword" class="control-label">Learn keyword as</label>
-                                <input class="form-control" type="text" id="keyword" name="keyword">
+                                <input class="form-control" type="text" id="keywordToLearn" name="keyword">
                             </div>
                             <div class="alert alert-danger" id="learnError" style="display: none;">Error writing keyword to database</div>
                         </div>
                         <div class="modal-footer">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-success" id="learn" disabled="disabled">Learn</button>
+                                <button type="button" class="btn btn-success" id="learnKeyword" disabled="disabled">Learn</button>
                             </div>
                         </div>
                     </div>
@@ -92,20 +92,20 @@
             </div>
 
             <!-- Forget Dialog -->
-            <div class="modal fade" id="forgetDlg" tabindex="-1">
+            <div class="modal fade" id="forgetDialog" tabindex="-1">
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content">
                         <div class="modal-header"><big>Forget Keyword</big></div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <label for="keywordToDelete">Keyword to delete</label>
-                                <select class="form-control" id="keywordToDelete"></select>
+                                <label for="keywordToForget">Keyword to forget</label>
+                                <select class="form-control" id="keywordToForget"></select>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-danger" id="forget" disabled="disabled">Forget</button>
+                                <button type="button" class="btn btn-danger" id="forgetKeyword" disabled="disabled">Forget</button>
                             </div>
                         </div>
                     </div>
@@ -118,35 +118,34 @@
                     <div class="panel-heading">
                         <big>Semantic tweaks to <span id="query" class="text-primary"></span></big>
                         <div class="btn-group pull-right">
-                            <button class="btn btn-xs btn-success" data-toggle="modal" data-target="#learnDlg">Learn...</button>
-                            <button class="btn btn-xs btn-danger" data-toggle="modal" data-target="#forgetDlg">Forget...</button>
-                            <button class="btn btn-xs btn-default" data-toggle="modal" data-target="#optionsDlg">Options...</button>
+                            <button class="btn btn-xs btn-success" data-toggle="modal" data-target="#learnDialog">Learn...</button>
+                            <button class="btn btn-xs btn-danger" data-toggle="modal" data-target="#forgetDialog">Forget...</button>
+                            <button class="btn btn-xs btn-default" data-toggle="modal" data-target="#optionsDialog">Options...</button>
                         </div>
                     </div>
                     <div style="padding: 10px;" class="unselectable">
                         <canvas id="grapher" width="800" height="550"></canvas>
                     </div>
                 </div>
-
                 <div class="panel panel-default">
                     <div class="panel-heading"><big>Query results (<span id="count" class="text-primary"></span>)</big></div>
                     <div style="padding: 10px;">
                         <script id="template" type="text/x-handlers-template">
                             {{#if results}}
-                                <table class="table table-striped table-condensed">
+                            <table class="table table-striped table-condensed">
                             <thead>
-                            <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Score</th>
-                            </tr>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Score</th>
+                                </tr>
                             </thead>
                             {{#each results}}
-                            <tr>
-                            <td>{{@index}}</td>
-                            <td><a href="{{url}}">{{name}}</a></td>
-                            <td>{{score}}</td>
-                            </tr>
+                                <tr>
+                                    <td>{{@index}}</td>
+                                    <td><a href="{{url}}">{{name}}</a></td>
+                                    <td>{{score}}</td>
+                                </tr>
                             {{/each}}
                             </table>
                             {{/if}}

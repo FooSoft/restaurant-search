@@ -71,21 +71,19 @@
     }
 
     function onLearn() {
-        $('#learn').prop('disabled', true);
-
+        $('#learnKeyword').prop('disabled', true);
         $('#learnError').slideUp(function() {
             var query = {
-                keyword: $('#keyword').val(),
+                keyword: $('#keywordToLearn').val(),
                 params:  ctx.searchParams
             };
-
             $.getJSON('/node/addKeyword', query, function(results) {
                 if (results.success) {
-                    $('#learnDlg').modal('hide');
+                    $('#learnDialog').modal('hide');
                 }
                 else {
                     $('#learnError').slideDown(function() {
-                        $('#learn').prop('disabled', false);
+                        $('#learnKeyword').prop('disabled', false);
                     });
                 }
             });
@@ -127,15 +125,15 @@
 
                 $('#search').click(onSearch);
 
-                $('#learnDlg').on('show.bs.modal', function() {
-                    $('#learn').prop('disabled', true);
-                    $('#keyword').val('');
+                $('#learnDialog').on('show.bs.modal', function() {
+                    $('#learnKeyword').prop('disabled', true);
+                    $('#keywordToLearn').val('');
                     $('#learnError').hide();
                 });
 
-                $('#learn').click(onLearn);
-                $('#keyword').bind('input', function() {
-                    $('#learn').prop('disabled', !$(this).val());
+                $('#learnKeyword').click(onLearn);
+                $('#keywordToLearn').bind('input', function() {
+                    $('#learnKeyword').prop('disabled', !$(this).val());
                 });
 
                 $('#keywords').selectpicker('refresh');
