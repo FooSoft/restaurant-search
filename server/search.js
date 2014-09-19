@@ -35,46 +35,48 @@ function add(values1, values2) {
     return result;
 }
 
-function countRecords(data, searchParams, minScore) {
-    var dataCount = 0;
+function combine(dict, params) {
+    var result = {};
+
+    for (var key in params) {
+        var values = scale(dict[key], params[key]);
+        result = add(values, result);
+    }
+
+    return result;
+}
+
+function walkRecords(data, searchParams, minScore, callback) {
+    var features = combine(data.keywords, searchParams);
 
     for (var i = 0, count = data.records.length; i < count; ++i) {
         var record = data.records[i];
-        var score  = 0.0;
-
-        for (var keyword in searchParams) {
-            var features = scale(data.keywords[keyword], searchParams[keyword]);
-            score += innerProduct(features, record.rating);
-        }
+        var score  = innerProduct(features, record.rating);
 
         if (score >= minScore) {
-            ++dataCount;
+            callback(record, score);
         }
     }
+}
 
-    return dataCount;
+function countRecords(data, searchParams, minScore) {
+    var count = 0;
+    walkRecords(data, searchParams, minScore, function(record, score) {
+        ++count;
+    });
+
+    return count;
 }
 
 function findRecords(data, searchParams, minScore) {
     var results = [];
-
-    for (var i = 0, count = data.records.length; i < count; ++i) {
-        var record = data.records[i];
-        var score  = 0.0;
-
-        for (var keyword in searchParams) {
-            var features = scale(data.keywords[keyword], searchParams[keyword]);
-            score += innerProduct(features, record.rating);
-        }
-
-        if (score >= minScore) {
-            results.push({
-                name:  record.name,
-                url:   'http://www.tripadvisor.com' + record.relativeUrl,
-                score: score
-            });
-        }
-    }
+    walkRecords(data, searchParams, minScore, function(record, score) {
+        results.push({
+            name:  record.name,
+            url:   'http://www.tripadvisor.com' + record.relativeUrl,
+            score: score
+        });
+    });
 
     results.sort(function(a, b) {
         return b.score - a.score;
@@ -146,20 +148,13 @@ function addKeyword(query, callback) {
     }
 
     getKeywords(function(keywords) {
-        var result = {};
-        for (var param in query.params) {
-            var features = scale(keywords[param], query.params[param]);
-            result = add(result, features);
-        }
-
-        result = scale(result, 1.0 / _.keys(query.params).length);
-
+        var features = combine(keywords, query.params);
         var values = [
             query.keyword,
-            result.food || 0.0,
-            result.service || 0.0,
-            result.value || 0.0,
-            result.atmosphere || 0.0
+            features.food || 0.0,
+            features.service || 0.0,
+            features.value || 0.0,
+            features.atmosphere || 0.0
         ];
 
         connection.query('INSERT INTO keywords VALUES(?, ?, ?, ?, ?)', values, function(err) {
