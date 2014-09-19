@@ -71,18 +71,24 @@
     }
 
     function onLearn() {
-        var query = {
-            keyword: $('#keyword').val(),
-            params:  ctx.searchParams
-        };
+        $('#learn').prop('disabled', true);
 
-        $.getJSON('/node/addKeyword', query, function(results) {
-            if (results.success) {
-                $('#learnDlg').modal('hide');
-            }
-            else {
-                $('#learnError').fadeIn();
-            }
+        $('#learnError').slideUp(function() {
+            var query = {
+                keyword: $('#keyword').val(),
+                params:  ctx.searchParams
+            };
+
+            $.getJSON('/node/addKeyword', query, function(results) {
+                if (results.success) {
+                    $('#learnDlg').modal('hide');
+                }
+                else {
+                    $('#learnError').slideDown(function() {
+                        $('#learn').prop('disabled', false);
+                    });
+                }
+            });
         });
     }
 
@@ -124,6 +130,7 @@
                 $('#learnDlg').on('show.bs.modal', function() {
                     $('#learn').prop('disabled', true);
                     $('#keyword').val('');
+                    $('#learnError').hide();
                 });
 
                 $('#learn').click(onLearn);

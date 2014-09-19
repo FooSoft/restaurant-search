@@ -146,19 +146,12 @@ function loadDb(params) {
 }
 
 function addKeyword(query, callback) {
-    if (!query.keyword) {
-        callback({
-            keyword: query.keyword,
-            success: false
-        });
-
-        return;
-    }
-
     getKeywords(function(keywords) {
+        var keyword  = query.keyword.toLowerCase();
         var features = combine(keywords, query.params);
+
         var values = [
-            query.keyword,
+            keyword,
             features.food || 0.0,
             features.service || 0.0,
             features.value || 0.0,
@@ -167,7 +160,7 @@ function addKeyword(query, callback) {
 
         connection.query('INSERT INTO keywords VALUES(?, ?, ?, ?, ?)', values, function(err) {
             callback({
-                keyword: query.keyword,
+                keyword: keyword,
                 success: err === null
             });
         });
