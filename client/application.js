@@ -154,6 +154,7 @@
                 $('#forgetDialog').on('show.bs.modal', function() {
                     $.getJSON('/node/getKeywords', function(keywords) {
                         $('#forgetKeyword').prop('disabled', keywords.length === 0);
+                        $('#keywordToForget').empty();
                         for (var i = 0, count = keywords.length; i < count; ++i) {
                             $('#keywordToForget').append($('<option></option>', {
                                 value: keywords[i],
