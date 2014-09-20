@@ -10,34 +10,35 @@
     </head>
     <body>
         <div class="container">
+            <!-- busy spinner -->
             <div class="page-header">
                 <h1><img id="spinner" class="pull-right" src="images/spinner.gif" style="display: none;" width="32" height="32">Reactive Search</h1>
             </div>
 
-            <!-- Query Selector -->
+            <!-- query input -->
             <div id="input" class="form-horizontal">
                 <div class="form-group">
                     <label for="keywordsToSearch" class="col-md-2 control-label">Keywords</label>
                     <div class="col-md-10">
-                        <select id="keywordsToSearch" class="form-control" multiple="multiple" data-max-options="4" data-live-search="data-live-search" name="keywordsToSearch"></select>
+                        <select id="keywordsToSearch" class="form-control" multiple="multiple" data-max-options="4" data-live-search="data-live-search"></select>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="minScore" class="col-md-2 control-label">Minimum score</label>
                     <div class="col-md-10">
-                        <input class="form-control" type="number" step="any" value="0.25" id="minScore" name="minScore">
+                        <input class="form-control" type="number" step="any" value="0.25" id="minScore">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="hintSteps" class="col-md-2 control-label">Hint steps</label>
                     <div class="col-md-10">
-                        <input class="form-control" type="number" value="20" id="hintSteps" name="hintSteps">
+                        <input class="form-control" type="number" value="20" id="hintSteps">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="maxResults" class="col-md-2 control-label">Max results</label>
                     <div class="col-md-10">
-                        <input class="form-control" type="number" value="100" id="maxResults" name="maxResults">
+                        <input class="form-control" type="number" value="100" id="maxResults">
                     </div>
                 </div>
                 <div class="form-group">
@@ -49,17 +50,17 @@
                 </div>
             </div>
 
-            <!-- Options Dialog -->
+            <!-- options dialog -->
             <div class="modal fade" id="optionsDialog" tabindex="-1">
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content">
                         <div class="modal-header"><big>Visualization Options</big></div>
                         <div class="modal-body">
                             <div class="checkbox">
-                                <label><input type="checkbox" id="useLocalScale" name="useLocalScale" checked="checked">Use local scale</label>
+                                <label><input type="checkbox" id="useLocalScale" checked="checked">Use local scale</label>
                             </div>
                             <div class="checkbox">
-                                <label><input type="checkbox" id="useRelativeScale" name="useRelativeScale" checked="checked">Use relative scale</label>
+                                <label><input type="checkbox" id="useRelativeScale" checked="checked">Use relative scale</label>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -69,7 +70,7 @@
                 </div>
             </div>
 
-            <!-- Learn Dialog -->
+            <!-- learn keyword dialog -->
             <div class="modal fade" id="learnDialog" tabindex="-1">
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content">
@@ -77,9 +78,9 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="keyword" class="control-label">Learn keyword as</label>
-                                <input class="form-control" type="text" id="keywordToLearn" name="keyword">
+                                <input class="form-control" type="text" id="keywordToLearn">
                             </div>
-                            <div class="alert alert-danger" id="learnError" style="display: none;">Error writing keyword to database</div>
+                            <div class="alert alert-danger" id="learnError" style="display: none;">Unable to learn keyword</div>
                         </div>
                         <div class="modal-footer">
                             <div class="btn-group">
@@ -91,7 +92,7 @@
                 </div>
             </div>
 
-            <!-- Forget Dialog -->
+            <!-- forget keyword dialog -->
             <div class="modal fade" id="forgetDialog" tabindex="-1">
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content">
@@ -99,8 +100,9 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="keywordToForget">Keyword to forget</label>
-                                <select id="keywordToForget" class="form-control" data-live-search="data-live-search" name="keywordToForget"></select>
+                                <select id="keywordToForget" class="form-control"></select>
                             </div>
+                            <div class="alert alert-danger" id="forgetError" style="display: none;">Unable to forget keyword</div>
                         </div>
                         <div class="modal-footer">
                             <div class="btn-group">
@@ -112,8 +114,9 @@
                 </div>
             </div>
 
-            <!-- Semantic Tweaker -->
+            <!-- query output -->
             <div id="output" style="display: none;">
+                <!-- semantic tweaker -->
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <big>Semantic tweaks to <span id="query" class="text-primary"></span></big>
@@ -127,6 +130,8 @@
                         <canvas id="grapher" width="800" height="550"></canvas>
                     </div>
                 </div>
+
+                <!-- result listing -->
                 <div class="panel panel-default">
                     <div class="panel-heading"><big>Query results (<span id="count" class="text-primary"></span>)</big></div>
                     <div style="padding: 10px;">

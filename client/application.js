@@ -95,12 +95,21 @@
     function onForget() {
         $('#forgetKeyword').prop('disabled', true);
 
-        var query = {
-            keyword: $('#keywordToForget').val()
-        };
+        $('#forgetError').slideUp(function() {
+            var query = {
+                keyword: $('#keywordToForget').val()
+            };
 
-        $.getJSON('/node/removeKeyword', query, function(results) {
-            $('#forgetDialog').modal('hide');
+            $.getJSON('/node/removeKeyword', query, function(results) {
+                if (results.success) {
+                    $('#forgetDialog').modal('hide');
+                }
+                else {
+                    $('#forgetError').slideDown(function() {
+                        $('#forgetKeyword').prop('disabled', false);
+                    });
+                }
+            });
         });
     }
 
@@ -127,7 +136,6 @@
 
         ready: function() {
             $('#keywordsToSearch').selectpicker();
-            $('#keywordToForget').selectpicker();
 
             $.getJSON('/node/getKeywords', function(keywords) {
                 $('#searchKeywords').click(onSearch);
@@ -145,15 +153,13 @@
                 $('#forgetKeyword').click(onForget);
                 $('#forgetDialog').on('show.bs.modal', function() {
                     $.getJSON('/node/getKeywords', function(keywords) {
-                        $('#keywordToForget').empty();
+                        $('#forgetKeyword').prop('disabled', keywords.length === 0);
                         for (var i = 0, count = keywords.length; i < count; ++i) {
                             $('#keywordToForget').append($('<option></option>', {
                                 value: keywords[i],
                                 text:  keywords[i]
                             }));
                         }
-                        $('#keywordToForget').selectpicker('refresh');
-                        $('#forgetKeyword').prop('disabled', keywords.length === 0);
                     });
                 });
 
