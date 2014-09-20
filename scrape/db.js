@@ -49,4 +49,16 @@ for (var keyword in keywords) {
     conn.query('INSERT INTO keywords VALUES(?, ?, ?, ?, ?)', [keyword].concat(record));
 }
 
+
+//
+// Presets
+//
+
+conn.query('DROP TABLE IF EXISTS presets');
+conn.query('CREATE TABLE presets(name VARCHAR(50) NOT NULL, PRIMARY KEY(name))');
+
+for (var keyword in keywords) {
+    conn.query('INSERT INTO presets VALUES(?)', [keyword]);
+}
+
 conn.end();

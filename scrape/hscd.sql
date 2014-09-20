@@ -43,6 +43,29 @@ INSERT INTO `keywords` VALUES ('atmosphere',0,0,0,1),('food',1,0,0,0),('service'
 UNLOCK TABLES;
 
 --
+-- Table structure for table `presets`
+--
+
+DROP TABLE IF EXISTS `presets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `presets` (
+  `name` varchar(50) NOT NULL,
+  PRIMARY KEY (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `presets`
+--
+
+LOCK TABLES `presets` WRITE;
+/*!40000 ALTER TABLE `presets` DISABLE KEYS */;
+INSERT INTO `presets` VALUES ('atmosphere'),('food'),('service'),('value');
+/*!40000 ALTER TABLE `presets` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `reviews`
 --
 
@@ -78,4 +101,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-09-19 10:22:03
+-- Dump completed on 2014-09-20 18:31:08

@@ -168,10 +168,10 @@ function addKeyword(query, callback) {
 }
 
 function removeKeyword(query, callback) {
-    connection.query('DELETE FROM keywords WHERE name=?', [query.keyword], function(err) {
+    connection.query('DELETE FROM keywords WHERE name=? AND name NOT IN (SELECT name FROM presets)', [query.keyword], function(err, fields) {
         callback({
             keyword: query.keyword,
-            success: err === null
+            success: err === null && fields.affectedRows > 0
         });
     });
 }
