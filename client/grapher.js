@@ -371,10 +371,10 @@ function Column(canvas, name, params, scale, range, bounds) {
     this.emptyColor     = '#eeeeec';
     this.strokeColor    = '#d3d7cf';
     this.tickColor      = '#888a85';
-    this.fillColorPos   = '#3465a4';
-    this.fillColorNeg   = '#cc0000';
-    this.handleColorPos = '#204a87';
-    this.handleColorNeg = '#a40000';
+    this.fillColorNeg   = '#3465a4';
+    this.fillColorPos   = '#cc0000';
+    this.handleColorNeg = '#204a87';
+    this.handleColorPos = '#a40000';
 
     this.canvas = canvas;
     this.shapes = [];
