@@ -363,7 +363,7 @@ function Column(canvas, name, params, scale, range, bounds) {
     };
 
     this.handleSize     = 10;
-    this.desatOffset    = -0.40;
+    this.desatOffset    = -0.3;
     this.hintSize       = 10;
     this.labelFontSize  = 15;
     this.labelSize      = 20;
