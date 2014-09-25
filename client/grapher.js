@@ -75,7 +75,7 @@ function Column(canvas, name, params, scale, range, bounds) {
             top:    this.fillBounds.top,
             width:  this.fillBounds.width,
             height: this.fillBounds.height,
-            fill:   this.fillColor
+            fill:   this.getFillColor()
         });
 
         this.updateRect('handleRect', {
@@ -83,7 +83,7 @@ function Column(canvas, name, params, scale, range, bounds) {
             top:    this.handleBounds.top,
             width:  this.handleBounds.width,
             height: this.handleBounds.height,
-            fill:   this.handleColor
+            fill:   this.getHandleColor()
         });
 
         if (final && goog.math.Range.containsPoint(this.range, 0.0)) {
@@ -131,14 +131,6 @@ function Column(canvas, name, params, scale, range, bounds) {
             this.shapes.push(line);
             this[name] = line;
         }
-    }
-
-    this.updateColor = function(color) {
-        var fillColorRgb   = goog.color.hexToRgb(goog.color.parse(color).hex);
-        var handleColorRgb = goog.color.darken(fillColorRgb, this.handleDarken);
-
-        this.fillColor   = goog.color.rgbToHex.apply(this, fillColorRgb);
-        this.handleColor = goog.color.rgbToHex.apply(this, handleColorRgb);
     }
 
     this.decimateHints = function(steps, scale) {
@@ -243,6 +235,14 @@ function Column(canvas, name, params, scale, range, bounds) {
         );
         handleBounds.intersection(bounds);
         return handleBounds;
+    }
+
+    this.getFillColor = function() {
+        return this.value >= 0.0 ? this.fillColorPos : this.fillColorNeg;
+    }
+
+    this.getHandleColor = function() {
+        return this.value >= 0.0 ? this.handleColorPos : this.handleColorNeg;
     }
 
     this.mouseDown = function(position) {
@@ -351,15 +351,19 @@ function Column(canvas, name, params, scale, range, bounds) {
         DRAG:   2
     };
 
-    this.handleSize    = 10;
-    this.handleDarken  = 0.25;
-    this.hintSize      = 10;
-    this.labelFontSize = 15;
-    this.labelSize     = 20;
-    this.tickLength    = 5;
-    this.emptyColor    = '#eeeeec';
-    this.strokeColor   = '#d3d7cf';
-    this.tickColor     = '#888a85';
+    this.handleSize     = 10;
+    this.handleDarken   = 0.25;
+    this.hintSize       = 10;
+    this.labelFontSize  = 15;
+    this.labelSize      = 20;
+    this.tickLength     = 5;
+    this.emptyColor     = '#eeeeec';
+    this.strokeColor    = '#d3d7cf';
+    this.tickColor      = '#888a85';
+    this.fillColorPos   = '#3465a4';
+    this.fillColorNeg   = '#cc0000';
+    this.handleColorPos = '#204a87';
+    this.handleColorNeg = '#a40000';
 
     this.canvas = canvas;
     this.shapes = [];
@@ -372,7 +376,6 @@ function Column(canvas, name, params, scale, range, bounds) {
     this.bounds = bounds;
     this.state  = this.State.NORMAL;
 
-    this.updateColor(params.color);
     this.updateShapes(true);
 }
 
