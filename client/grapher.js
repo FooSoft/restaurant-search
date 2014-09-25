@@ -1,6 +1,5 @@
 'use strict';
 
-goog.require('goog.color');
 goog.require('goog.math');
 goog.require('goog.math.Coordinate');
 goog.require('goog.math.Range');
@@ -144,7 +143,8 @@ function Column(canvas, name, params, scale, range, bounds) {
             }
 
             var colorByte = 0xff - Math.min(0xff, Math.round(0xff * colorPercent));
-            var colorStr  = goog.color.rgbToHex(colorByte, colorByte, colorByte);
+            var colorObj  = tinycolor({ r: colorByte, g: colorByte, b: colorByte });
+            var colorStr  = colorObj.toHexString();
 
             colorStops[index / steps] = colorStr;
         });
@@ -237,12 +237,23 @@ function Column(canvas, name, params, scale, range, bounds) {
         return handleBounds;
     }
 
+    this.valueColorAdjust = function(color, offset) {
+        var colorObj = tinycolor(color);
+        var rangeEnd = this.value >= 0.0 ? this.range.end : this.range.start;
+        var rangeMid = (this.range.start + this.range.end) / 2.0;
+        var rangeRat = (this.value - rangeMid) / (rangeEnd - rangeMid);
+        var desatVal = Math.max(0.0, 1.0 - rangeRat + offset) * 100.0;
+        return colorObj.desaturate(desatVal).toHexString();
+    }
+
     this.getFillColor = function() {
-        return this.value >= 0.0 ? this.fillColorPos : this.fillColorNeg;
+        var color = this.value >= 0.0 ? this.fillColorPos : this.fillColorNeg;
+        return this.valueColorAdjust(color, this.desatOffset);
     }
 
     this.getHandleColor = function() {
-        return this.value >= 0.0 ? this.handleColorPos : this.handleColorNeg;
+        var color = this.value >= 0.0 ? this.handleColorPos : this.handleColorNeg;
+        return this.valueColorAdjust(color, this.desatOffset);
     }
 
     this.mouseDown = function(position) {
@@ -352,7 +363,7 @@ function Column(canvas, name, params, scale, range, bounds) {
     };
 
     this.handleSize     = 10;
-    this.handleDarken   = 0.25;
+    this.desatOffset    = -0.40;
     this.hintSize       = 10;
     this.labelFontSize  = 15;
     this.labelSize      = 20;
