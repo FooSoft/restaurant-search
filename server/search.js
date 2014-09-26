@@ -43,10 +43,15 @@ function combine(dict, params) {
         result = add(values, result);
     }
 
+    var max = 0.0;
     for (var key in result) {
-        var value = result[key];
-        value = Math.min(1.0, Math.max(-1.0, value));
-        result[key] = value;
+        max = Math.max(Math.abs(result[key]), max);
+    }
+
+    if (max > 0.0) {
+        for (var key in result) {
+            result[key] = result[key] / max;
+        }
     }
 
     return result;
@@ -236,7 +241,7 @@ function execQuery(query, callback) {
         var searchResults = findRecords(
             data,
             query.searchParams,
-            query.minScore * _.keys(query.searchParams).length
+            query.minScore
         );
 
         var graphColumns = {};
@@ -244,7 +249,7 @@ function execQuery(query, callback) {
             var searchHints = buildHints(
                 data,
                 query.searchParams,
-                query.minScore * _.keys(query.searchParams).length,
+                query.minScore,
                 keyword,
                 query.searchRange,
                 query.hintSteps
