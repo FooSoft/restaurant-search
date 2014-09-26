@@ -43,10 +43,9 @@ function combine(dict, params) {
         result = add(values, result);
     }
 
-    var max = 0.0;
-    for (var key in result) {
-        max = Math.max(Math.abs(result[key]), max);
-    }
+    var max = _.max(_.values(result), function(value) {
+        return Math.abs(value);
+    });
 
     if (max > 0.0) {
         for (var key in result) {
