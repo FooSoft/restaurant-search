@@ -1,9 +1,77 @@
 'use strict';
 
-goog.require('goog.math');
-goog.require('goog.math.Coordinate');
-goog.require('goog.math.Range');
-goog.require('goog.math.Rect');
+
+//
+//  Coord
+//
+
+function Coord(x, y) {
+    this.x = x;
+    this.y = y;
+}
+
+
+//
+//  Rect
+//
+
+function Rect(left, top, width, height) {
+    this.left   = left;
+    this.top    = top;
+    this.width  = width;
+    this.height = height;
+    this.right  = left + width;
+    this.bottom = top + height;
+
+    this.contains = function(coord) {
+        var contained =
+            coord.x >= this.left &&
+            coord.x < this.right &&
+            coord.y >= this.top &&
+            coord.y < this.bottom;
+
+        return contained;
+    };
+
+    this.intersection = function(rect) {
+        var left   = Math.max(this.left, rect.left);
+        var top    = Math.max(this.top, rect.top);
+        var right  = Math.min(this.right, rect.right);
+        var bottom = Math.min(this.bottom, rect.bottom);
+
+        return new Rect(left, top, right - left, bottom - top);
+    };
+}
+
+
+//
+//  Range
+//
+
+function Range(start, end) {
+    this.start = start;
+    this.end   = end;
+
+    this.containsPoint = function(value) {
+        return value >= this.start && value <= this.end;
+    };
+
+    this.getLength = function() {
+        return this.end - this.start;
+    };
+
+    this.clamp = function(value) {
+        if (value < this.start) {
+            return this.start;
+        }
+
+        if (value > this.end) {
+            return this.end;
+        }
+
+        return value;
+    }
+}
 
 
 //
@@ -85,7 +153,7 @@ function Column(canvas, name, params, scale, range, bounds) {
             fill:   this.getHandleColor()
         });
 
-        if (final && goog.math.Range.containsPoint(this.range, 0.0)) {
+        if (final && this.range.containsPoint(0.0)) {
             var y = this.getPosFromValue(0.0);
             var p = [this.bounds.left, y, this.bounds.left + this.tickLength, y];
             this.updateLine('baseline', p, {
@@ -174,7 +242,7 @@ function Column(canvas, name, params, scale, range, bounds) {
     }
 
     this.setClampedValue = function(value, final) {
-        this.value = goog.math.clamp(value, this.range.start, this.range.end);
+        this.value = this.range.clamp(value);
         this.updateShapes(final);
 
         if (this.onValueChanged && final) {
@@ -189,7 +257,7 @@ function Column(canvas, name, params, scale, range, bounds) {
     }
 
     this.getLabelBounds = function(bounds) {
-        return new goog.math.Rect(
+        return new Rect(
             bounds.left,
             bounds.top + bounds.height,
             bounds.width,
@@ -198,7 +266,7 @@ function Column(canvas, name, params, scale, range, bounds) {
     }
 
     this.getColumnBounds = function(bounds) {
-        return new goog.math.Rect(
+        return new Rect(
             bounds.left + this.tickLength,
             bounds.top,
             bounds.width - this.tickLength,
@@ -207,7 +275,7 @@ function Column(canvas, name, params, scale, range, bounds) {
     }
 
     this.getHintBounds = function(bounds) {
-        return new goog.math.Rect(
+        return new Rect(
             bounds.left + bounds.width - this.hintSize,
             bounds.top,
             this.hintSize,
@@ -218,7 +286,7 @@ function Column(canvas, name, params, scale, range, bounds) {
     this.getFillBounds = function(bounds) {
         var y1 = this.getPosFromValue(0.0);
         var y2 = this.getPosFromValue(this.value);
-        return new goog.math.Rect(
+        return new Rect(
             bounds.left,
             Math.min(y1, y2),
             bounds.width - this.hintSize,
@@ -227,7 +295,7 @@ function Column(canvas, name, params, scale, range, bounds) {
     }
 
     this.getHandleBounds = function(bounds, fillBounds) {
-        var handleBounds = new goog.math.Rect(
+        var handleBounds = new Rect(
             fillBounds.left,
             this.getPosFromValue(this.value) - this.handleSize / 2,
             fillBounds.width,
@@ -303,11 +371,8 @@ function Column(canvas, name, params, scale, range, bounds) {
 
     this.getPosFromValue = function(value) {
         var percent = 1.0 - (value - this.range.start) / this.range.getLength();
-        return goog.math.clamp(
-            this.columnBounds.top + this.columnBounds.height * percent,
-            this.columnBounds.top,
-            this.columnBounds.top + this.columnBounds.height
-        );
+        var range   = new Range(this.columnBounds.top, this.columnBounds.top + this.columnBounds.height);
+        return range.clamp(this.columnBounds.top + this.columnBounds.height * percent);
     }
 
     this.isHovering = function(position) {
@@ -484,7 +549,7 @@ function Grapher(canvas, range, columnWidth, useLocalScale, useRelativeScale) {
     this.getLocalScale = function(hints) {
         var counts = _.pluck(hints, 'count');
         var min = this.useRelativeScale ? _.min(counts) : 0;
-        return new goog.math.Range(min, _.max(counts));
+        return new Range(min, _.max(counts));
     }
 
     this.getGlobalScale = function(hintData) {
@@ -522,7 +587,7 @@ function Grapher(canvas, range, columnWidth, useLocalScale, useRelativeScale) {
     }
 
     this.getCanvasBounds = function() {
-        return new goog.math.Rect(0, 0, this.canvas.width - 1, this.canvas.height - 1);
+        return new Rect(0, 0, this.canvas.width - 1, this.canvas.height - 1);
     }
 
     this.getGraphBounds = function(bounds) {
@@ -531,7 +596,7 @@ function Grapher(canvas, range, columnWidth, useLocalScale, useRelativeScale) {
 
     this.getColumnBounds = function(bounds, index, count) {
         var width = this.columnWidth + this.padding * 2;
-        return new goog.math.Rect(
+        return new Rect(
             bounds.left + width * index + this.padding,
             bounds.top,
             this.columnWidth,
@@ -541,10 +606,7 @@ function Grapher(canvas, range, columnWidth, useLocalScale, useRelativeScale) {
 
     this.getMousePos = function(e) {
         var rect = e.target.getBoundingClientRect();
-        return new goog.math.Coordinate(
-            e.clientX - rect.left,
-            e.clientY - rect.top
-        );
+        return new Coord(e.clientX - rect.left, e.clientY - rect.top);
     }
 
     this.mouseDown = function(e) {
@@ -586,7 +648,7 @@ function Grapher(canvas, range, columnWidth, useLocalScale, useRelativeScale) {
     this.useRelativeScale = useRelativeScale;
     this.columnWidth      = columnWidth;
     this.canvas           = new fabric.StaticCanvas(canvas);
-    this.range            = new goog.math.Range(range.min, range.max);
+    this.range            = new Range(range.min, range.max);
     this.padding          = 10;
     this.indexMap         = {};
     this.columns          = [];
