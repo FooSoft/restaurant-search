@@ -1,7 +1,6 @@
-'use strict';
-
-
 (function(grapher) {
+    'use strict';
+
     //
     //  Coord
     //
@@ -71,7 +70,7 @@
             }
 
             return value;
-        }
+        };
     }
 
 
@@ -86,7 +85,7 @@
             });
 
             this.shapes = [];
-        }
+        };
 
         this.updateShapes = function(final) {
             this.columnBounds = this.getColumnBounds(this.bounds);
@@ -163,7 +162,7 @@
             }
 
             this.canvas.renderAll();
-        }
+        };
 
         this.updateRect = function(name, args) {
             if (name in this) {
@@ -175,19 +174,19 @@
                 this.shapes.push(rect);
                 this[name] = rect;
             }
-        }
+        };
 
-        this.updateText = function(name, text, args) {
+        this.updateText = function(name, str, args) {
             if (name in this) {
                 this[name].set(args);
             }
             else {
-                var text = new fabric.Text(text, args);
+                var text = new fabric.Text(str, args);
                 this.canvas.add(text);
                 this.shapes.push(text);
                 this[name] = text;
             }
-        }
+        };
 
         this.updateLine = function(name, points, args) {
             if (name in this) {
@@ -199,7 +198,7 @@
                 this.shapes.push(line);
                 this[name] = line;
             }
-        }
+        };
 
         this.decimateHints = function(steps, scale) {
             var groups = this.groupHints(steps);
@@ -219,7 +218,7 @@
             });
 
             return colorStops;
-        }
+        };
 
         this.groupHints = function(steps) {
             var stepSize = this.range.getLength() / steps;
@@ -230,17 +229,18 @@
                 var stepMin = stepMax - stepSize;
 
                 var hintCount = 0;
-                _.each(this.hints, function(hint) {
+                for (var j = 0, count = this.hints.length; j < count; ++j) {
+                    var hint = this.hints[j];
                     if (hint.sample > stepMin && hint.sample <= stepMax) {
                         hintCount += hint.count;
                     }
-                });
+                }
 
                 hintGroups.push(hintCount);
             }
 
             return hintGroups;
-        }
+        };
 
         this.setClampedValue = function(value, final) {
             this.value = this.range.clamp(value);
@@ -249,13 +249,13 @@
             if (this.onValueChanged && final) {
                 this.onValueChanged(this.name, this.value);
             }
-        }
+        };
 
         this.setHints = function(hints, scale) {
             this.hints = hints;
             this.scale = scale;
             this.updateShapes(true);
-        }
+        };
 
         this.getLabelBounds = function(bounds) {
             return new Rect(
@@ -264,7 +264,7 @@
                 bounds.width,
                 this.labelSize
             );
-        }
+        };
 
         this.getColumnBounds = function(bounds) {
             return new Rect(
@@ -273,7 +273,7 @@
                 bounds.width - this.tickLength,
                 bounds.height - this.labelSize
             );
-        }
+        };
 
         this.getHintBounds = function(bounds) {
             return new Rect(
@@ -282,7 +282,7 @@
                 this.hintSize,
                 bounds.height
             );
-        }
+        };
 
         this.getFillBounds = function(bounds) {
             var y1 = this.getPosFromValue(0.0);
@@ -293,7 +293,7 @@
                 bounds.width - this.hintSize,
                 Math.abs(y1 - y2)
             );
-        }
+        };
 
         this.getHandleBounds = function(bounds, fillBounds) {
             var handleBounds = new Rect(
@@ -304,7 +304,7 @@
             );
             handleBounds.intersection(bounds);
             return handleBounds;
-        }
+        };
 
         this.valueColorAdjust = function(color, offset) {
             var colorObj = tinycolor(color);
@@ -313,30 +313,30 @@
             var rangeRat = (this.value - rangeMid) / (rangeEnd - rangeMid);
             var desatVal = Math.max(0.0, 1.0 - rangeRat + offset) * 100.0;
             return colorObj.desaturate(desatVal).toHexString();
-        }
+        };
 
         this.getFillColor = function() {
             var color = this.value >= 0.0 ? this.fillColorPos : this.fillColorNeg;
             return this.valueColorAdjust(color, this.desatOffset);
-        }
+        };
 
         this.getHandleColor = function() {
             var color = this.value >= 0.0 ? this.handleColorPos : this.handleColorNeg;
             return this.valueColorAdjust(color, this.desatOffset);
-        }
+        };
 
         this.mouseDown = function(position) {
             if (this.isGrabbing(position)) {
                 this.stateTransition(this.State.DRAG, position);
             }
-        }
+        };
 
         this.mouseUp = function(position) {
             this.stateTransition(
                 this.isHovering(position) ? this.State.HOVER : this.State.NORMAL,
                 position
             );
-        }
+        };
 
         this.mouseMove = function(position) {
             switch (this.state) {
@@ -353,40 +353,40 @@
             }
 
             this.stateUpdate(position);
-        }
+        };
 
         this.mouseOut = function(position) {
             this.mouseUp(position);
-        }
+        };
 
         this.mouseDoubleClick = function(position) {
             if (this.isContained(position)) {
                 this.setClampedValue(this.getValueFromPos(position.y), true);
             }
-        }
+        };
 
         this.getValueFromPos = function(position) {
             var percent = 1.0 - (position - this.columnBounds.top) / this.columnBounds.height;
             return this.range.start + this.range.getLength() * percent;
-        }
+        };
 
         this.getPosFromValue = function(value) {
             var percent = 1.0 - (value - this.range.start) / this.range.getLength();
             var range   = new Range(this.columnBounds.top, this.columnBounds.top + this.columnBounds.height);
             return range.clamp(this.columnBounds.top + this.columnBounds.height * percent);
-        }
+        };
 
         this.isHovering = function(position) {
             return this.isGrabbing(position);
-        }
+        };
 
         this.isGrabbing = function(position) {
             return this.handleBounds.contains(position);
-        }
+        };
 
         this.isContained = function(position) {
             return this.columnBounds.contains(position);
-        }
+        };
 
         this.stateUpdate = function(position) {
             switch (this.state) {
@@ -394,7 +394,7 @@
                     this.setClampedValue(this.getValueFromPos(position.y) + this.dragDelta, false);
                 break;
             }
-        }
+        };
 
         this.stateTransition = function(state, position) {
             if (state == this.state) {
@@ -404,23 +404,25 @@
             switch (this.state) {
                 case this.State.DRAG:
                     this.setClampedValue(this.getValueFromPos(position.y) + this.dragDelta, true);
+                    /* falls through */
                 case this.State.HOVER:
                     if (state == this.State.NORMAL) {
-                    this.canvas.contextContainer.canvas.style.cursor = 'default';
-                }
+                        this.canvas.contextContainer.canvas.style.cursor = 'default';
+                    }
                 break;
             }
 
             switch (state) {
                 case this.State.DRAG:
                     this.dragDelta = this.value - this.getValueFromPos(position.y);
+                    /* falls through */
                 case this.State.HOVER:
                     this.canvas.contextContainer.canvas.style.cursor = 'ns-resize';
                 break;
             }
 
             this.state = state;
-        }
+        };
 
         this.State = {
             NORMAL: 0,
@@ -488,7 +490,7 @@
                 that.columns.push(new Column(that.canvas, columnName, columnValue, scale, that.range, columnBounds));
                 that.indexMap[columnName] = index++;
             });
-        }
+        };
 
         this.clearColumns = function() {
             _.each(this.columns, function(column) {
@@ -497,7 +499,7 @@
 
             this.columns  = [];
             this.indexMap = {};
-        }
+        };
 
         this.setColumnHints = function(hintData) {
             var scale = 0;
@@ -516,21 +518,21 @@
 
                 that.columns[index].setHints(hints, scale);
             });
-        }
+        };
 
         this.setUseLocalScale = function(useLocalScale) {
             if (useLocalScale != this.useLocalScale) {
                 this.useLocalScale = useLocalScale;
                 this.invalidateHints();
             }
-        }
+        };
 
         this.setUseRelativeScale = function(useRelativeScale) {
             if (useRelativeScale != this.useRelativeScale) {
                 this.useRelativeScale = useRelativeScale;
                 this.invalidateHints();
             }
-        }
+        };
 
         this.invalidateHints = function() {
             var hintData = {};
@@ -539,19 +541,19 @@
             });
 
             this.setColumnHints(hintData);
-        }
+        };
 
         this.setValueChangedListener = function(listener) {
             _.each(this.columns, function(column) {
                 column.onValueChanged = listener;
             });
-        }
+        };
 
         this.getLocalScale = function(hints) {
             var counts = _.pluck(hints, 'count');
             var min = this.useRelativeScale ? _.min(counts) : 0;
             return new Range(min, _.max(counts));
-        }
+        };
 
         this.getGlobalScale = function(hintData) {
             var that        = this;
@@ -568,32 +570,32 @@
             });
 
             return globalScale;
-        }
+        };
 
         this.getColumnCount = function() {
             return this.columns.length;
-        }
+        };
 
         this.getColumnIndex = function(name) {
             console.assert(name in this.indexMap);
             return this.indexMap[name];
-        }
+        };
 
         this.getColumnName = function(index) {
             return this.columns[index].name;
-        }
+        };
 
         this.getColumnNames = function() {
             return _.pluck(this.columns, 'name');
-        }
+        };
 
         this.getCanvasBounds = function() {
             return new Rect(0, 0, this.canvas.width - 1, this.canvas.height - 1);
-        }
+        };
 
         this.getGraphBounds = function(bounds) {
             return this.getCanvasBounds();
-        }
+        };
 
         this.getColumnBounds = function(bounds, index, count) {
             var width = this.columnWidth + this.padding * 2;
@@ -603,47 +605,47 @@
                 this.columnWidth,
                 bounds.height
             );
-        }
+        };
 
         this.getMousePos = function(e) {
             var rect = e.target.getBoundingClientRect();
             return new Coord(e.clientX - rect.left, e.clientY - rect.top);
-        }
+        };
 
         this.mouseDown = function(e) {
             var position = this.grapher.getMousePos(e);
             _.each(this.grapher.columns, function(column) {
                 column.mouseDown(position);
             });
-        }
+        };
 
         this.mouseUp = function(e) {
             var position = this.grapher.getMousePos(e);
             _.each(this.grapher.columns, function(column) {
                 column.mouseUp(position);
             });
-        }
+        };
 
         this.mouseMove = function(e) {
             var position = this.grapher.getMousePos(e);
             _.each(this.grapher.columns, function(column) {
                 column.mouseMove(position);
             });
-        }
+        };
 
         this.mouseOut = function(e) {
             var position = this.grapher.getMousePos(e);
             _.each(this.grapher.columns, function(column) {
                 column.mouseOut(position);
             });
-        }
+        };
 
         this.mouseDoubleClick = function(e) {
             var position = this.grapher.getMousePos(e);
             _.each(this.grapher.columns, function(column) {
                 column.mouseDoubleClick(position);
             });
-        }
+        };
 
         this.useLocalScale    = useLocalScale;
         this.useRelativeScale = useRelativeScale;
@@ -661,5 +663,5 @@
         c.addEventListener('mouseout', this.mouseOut, false);
         c.addEventListener('dblclick', this.mouseDoubleClick, false);
         c.grapher = this;
-    }
+    };
 }(window.grapher = window.grapher || {}));

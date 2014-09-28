@@ -1,7 +1,6 @@
-'use strict';
-
-
 (function(hscd) {
+    'use strict';
+
     var ctx = {};
 
     function onAdjust(name, value) {
@@ -179,3 +178,12 @@
     });
 
 }(window.hscd = window.hscd || {}));
+
+/*
+global
+    $,
+    Handlebars,
+    document,
+    grapher,
+    window,
+*/
