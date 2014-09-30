@@ -51,14 +51,14 @@ gulp.task('css', function() {
 gulp.task('html_debug', function() {
     var sources = gulp.src(paths.js.concat(paths.css), { read: false });
     return gulp.src(paths.html)
-    .pipe(inject(sources))
+    .pipe(inject(sources, { addRootSlash: false }))
     .pipe(gulp.dest('./'));
 });
 
 gulp.task('html_release', function() {
     var sources = gulp.src(['./dist/*.js', './dist/*.css'], { read: false });
     return gulp.src(paths.html)
-    .pipe(inject(sources))
+    .pipe(inject(sources, { addRootSlash: false }))
     .pipe(gulp.dest('./'));
 });
 
