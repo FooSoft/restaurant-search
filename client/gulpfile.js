@@ -9,18 +9,18 @@ var uglify     = require('gulp-uglify');
 var paths = {
     js: [
         './bower_components/underscore/underscore.js',
-        './bower_components/handlebars/handlebars.min.js',
-        './bower_components/jquery/dist/jquery.min.js',
-        './bower_components/fabric/dist/fabric.min.js',
+        './bower_components/handlebars/handlebars.js',
+        './bower_components/jquery/dist/jquery.js',
+        './bower_components/fabric/dist/fabric.js',
         './bower_components/tinycolor/tinycolor.js',
-        './bower_components/bootstrap/dist/js/bootstrap.min.js',
-        './bower_components/bootstrap-select/dist/js/bootstrap-select.min.js',
+        './bower_components/bootstrap/dist/js/bootstrap.js',
+        './bower_components/bootstrap-select/dist/js/bootstrap-select.js',
         './js/*.js'
     ],
     css: [
-        './bower_components/bootstrap/dist/css/bootstrap.min.css',
-        './bower_components/bootstrap/dist/css/bootstrap-theme.min.css',
-        './bower_components/bootstrap-select/dist/css/bootstrap-select.min.css',
+        './bower_components/bootstrap/dist/css/bootstrap.css',
+        './bower_components/bootstrap/dist/css/bootstrap-theme.css',
+        './bower_components/bootstrap-select/dist/css/bootstrap-select.css',
         './css/*.css'
     ],
     html: [
