@@ -1,5 +1,6 @@
 var concat     = require('gulp-concat');
 var gulp       = require('gulp');
+var inject     = require('gulp-inject');
 var jshint     = require('gulp-jshint');
 var minifyCss  = require('gulp-minify-css');
 var sourcemaps = require('gulp-sourcemaps');
@@ -22,6 +23,9 @@ var paths = {
         'bower_components/bootstrap-select/dist/css/bootstrap-select.min.css',
         'css/*.css'
     ],
+    html: [
+        'index.html'
+    ]
 };
 
 gulp.task('lint', function() {
@@ -44,4 +48,11 @@ gulp.task('styles', function() {
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task('default', ['lint', 'scripts', 'styles']);
+gulp.task('pages', function() {
+    var sources = gulp.src(paths.js.concat(paths.css), { read: false });
+    return gulp.src(paths.html)
+    .pipe(inject(sources))
+    .pipe(gulp.dest('dist'));
+});
+
+gulp.task('default', ['lint', 'scripts', 'styles', 'pages']);
