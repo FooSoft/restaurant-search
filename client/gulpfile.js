@@ -1,10 +1,9 @@
-var concat         = require('gulp-concat');
-var gulp           = require('gulp');
-var jshint         = require('gulp-jshint');
-var rename         = require('gulp-rename');
-var sourcemaps     = require('gulp-sourcemaps');
-var uglify         = require('gulp-uglify');
-var mainBowerFiles = require('main-bower-files');
+var concat     = require('gulp-concat');
+var gulp       = require('gulp');
+var jshint     = require('gulp-jshint');
+var minifyCss  = require('gulp-minify-css');
+var sourcemaps = require('gulp-sourcemaps');
+var uglify     = require('gulp-uglify');
 
 var paths = {
     js: [
@@ -16,9 +15,14 @@ var paths = {
         'bower_components/bootstrap/dist/js/bootstrap.min.js',
         'bower_components/bootstrap-select/dist/js/bootstrap-select.min.js',
         'js/*.js'
-    ]
+    ],
+    css: [
+        'bower_components/bootstrap/dist/css/bootstrap.min.css',
+        'bower_components/bootstrap/dist/css/bootstrap-theme.min.css',
+        'bower_components/bootstrap-select/dist/css/bootstrap-select.min.css',
+        'css/*.css'
+    ],
 };
-
 
 gulp.task('lint', function() {
     return gulp.src('js/*.js')
@@ -28,11 +32,16 @@ gulp.task('lint', function() {
 
 gulp.task('scripts', function() {
     return gulp.src(paths.js)
-    .pipe(concat('all.js'))
-    .pipe(gulp.dest('dist'))
-    .pipe(rename('all.min.js'))
+    .pipe(concat('scripts.js'))
     .pipe(uglify())
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task('default', ['scripts']);
+gulp.task('styles', function() {
+    return gulp.src(paths.css)
+    .pipe(concat('styles.css'))
+    .pipe(minifyCss())
+    .pipe(gulp.dest('dist'));
+});
+
+gulp.task('default', ['lint', 'scripts', 'styles']);
