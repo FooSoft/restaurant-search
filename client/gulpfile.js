@@ -10,12 +10,11 @@ var paths = {
     js: [
         'bower_components/underscore/underscore.js',
         'bower_components/handlebars/handlebars.min.js',
-        'bower_components/closurelibrary/closure/goog/base.js',
         'bower_components/jquery/dist/jquery.min.js',
-        'bower_components/bootstrap/dist/js/bootstrap.min.js',
         'bower_components/fabric/dist/fabric.min.js',
-        'bower_components/bootstrap-select/dist/js/bootstrap-select.min.js',
         'bower_components/tinycolor/tinycolor.js',
+        'bower_components/bootstrap/dist/js/bootstrap.min.js',
+        'bower_components/bootstrap-select/dist/js/bootstrap-select.min.js',
         'js/*.js'
     ]
 };
