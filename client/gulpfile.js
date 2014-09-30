@@ -34,25 +34,36 @@ gulp.task('lint', function() {
     .pipe(jshint.reporter('default'));
 });
 
-gulp.task('scripts', function() {
+gulp.task('js', function() {
     return gulp.src(paths.js)
     .pipe(concat('scripts.js'))
     .pipe(uglify())
-    .pipe(gulp.dest('dist'));
+    .pipe(gulp.dest('./dist'));
 });
 
-gulp.task('styles', function() {
+gulp.task('css', function() {
     return gulp.src(paths.css)
     .pipe(concat('styles.css'))
     .pipe(minifyCss())
-    .pipe(gulp.dest('dist'));
+    .pipe(gulp.dest('./dist'));
 });
 
-gulp.task('pages', function() {
+gulp.task('html_debug', function() {
     var sources = gulp.src(paths.js.concat(paths.css), { read: false });
     return gulp.src(paths.html)
     .pipe(inject(sources))
     .pipe(gulp.dest('./'));
 });
 
-gulp.task('default', ['lint', 'scripts', 'styles', 'pages']);
+gulp.task('html_release', function() {
+    var sources = gulp.src(['./dist/*.js', './dist/*.css'], { read: false });
+    return gulp.src(paths.html)
+    .pipe(inject(sources))
+    .pipe(gulp.dest('./'));
+});
+
+
+gulp.task('debug', ['lint', 'html_debug']);
+gulp.task('release', ['lint', 'js', 'css', 'html_release']);
+
+gulp.task('default', ['debug']);
