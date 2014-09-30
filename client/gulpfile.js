@@ -62,8 +62,11 @@ gulp.task('html_release', function() {
     .pipe(gulp.dest('./'));
 });
 
+gulp.task('watch', function() {
+    gulp.watch(paths.html, ['html_debug']);
+});
 
 gulp.task('debug', ['lint', 'html_debug']);
 gulp.task('release', ['lint', 'js', 'css', 'html_release']);
 
-gulp.task('default', ['debug']);
+gulp.task('default', ['html_debug', 'watch']);
