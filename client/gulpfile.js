@@ -24,6 +24,9 @@ var paths = {
         './bower_components/bootstrap-select/dist/css/bootstrap-select.css',
         './css/*.css'
     ],
+    fonts: [
+        './bower_components/bootstrap/fonts/*'
+    ],
     html: [
         './html/*.html'
     ]
@@ -33,6 +36,11 @@ gulp.task('lint', function() {
     return gulp.src('./js/*.js')
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
+});
+
+gulp.task('fonts', function() {
+    return gulp.src(paths.fonts)
+    .pipe(gulp.dest('./fonts'));
 });
 
 gulp.task('js', function() {
@@ -69,6 +77,6 @@ gulp.task('watch_debug', function() {
 });
 
 gulp.task('debug', ['lint', 'html_debug']);
-gulp.task('release', ['lint', 'js', 'css', 'html_release']);
+gulp.task('release', ['lint', 'fonts', 'js', 'css', 'html_release']);
 
 gulp.task('default', ['html_debug', 'watch_debug']);
