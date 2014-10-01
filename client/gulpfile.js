@@ -3,6 +3,7 @@ var gulp       = require('gulp');
 var inject     = require('gulp-inject');
 var jshint     = require('gulp-jshint');
 var minifyCss  = require('gulp-minify-css');
+var minifyHtml = require('gulp-minify-html');
 var sourcemaps = require('gulp-sourcemaps');
 var uglify     = require('gulp-uglify');
 
@@ -59,6 +60,7 @@ gulp.task('html_release', function() {
     var sources = gulp.src(['./dist/*.js', './dist/*.css'], { read: false });
     return gulp.src(paths.html)
     .pipe(inject(sources, { addRootSlash: false }))
+    .pipe(minifyHtml())
     .pipe(gulp.dest('./'));
 });
 
