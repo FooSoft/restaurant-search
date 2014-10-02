@@ -4,6 +4,7 @@ var inject     = require('gulp-inject');
 var jshint     = require('gulp-jshint');
 var minifyCss  = require('gulp-minify-css');
 var minifyHtml = require('gulp-minify-html');
+var replace    = require('gulp-replace');
 var sourcemaps = require('gulp-sourcemaps');
 var uglify     = require('gulp-uglify');
 
@@ -27,6 +28,9 @@ var paths = {
     fonts: [
         './bower_components/bootstrap/fonts/*'
     ],
+    images: [
+        './images/*'
+    ],
     html: [
         './html/*.html'
     ]
@@ -36,6 +40,11 @@ gulp.task('lint', function() {
     return gulp.src('./js/*.js')
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
+});
+
+gulp.task('images', function() {
+    return gulp.src(paths.images)
+    .pipe(gulp.dest('./dist/images'));
 });
 
 gulp.task('fonts', function() {
@@ -52,6 +61,7 @@ gulp.task('scripts', function() {
 
 gulp.task('styles', function() {
     return gulp.src(paths.styles)
+    .pipe(replace('../fonts/', './fonts/'))
     .pipe(concat('styles.css'))
     .pipe(minifyCss())
     .pipe(gulp.dest('./dist'));
@@ -60,6 +70,7 @@ gulp.task('styles', function() {
 gulp.task('html_debug', function() {
     var sources = gulp.src(paths.scripts.concat(paths.styles), { read: false });
     return gulp.src(paths.html)
+    .pipe(replace('images', '../images'))
     .pipe(inject(sources, { addRootSlash: false, addPrefix: '..' }))
     .pipe(gulp.dest('./dev'));
 });
@@ -77,6 +88,6 @@ gulp.task('watch_debug', function() {
 });
 
 gulp.task('debug',   ['lint', 'html_debug']);
-gulp.task('release', ['lint', 'fonts', 'scripts', 'styles', 'html_release']);
+gulp.task('release', ['lint', 'fonts', 'images', 'scripts', 'styles', 'html_release']);
 gulp.task('all',     ['debug', 'release']);
 gulp.task('default', ['html_debug', 'watch_debug']);
