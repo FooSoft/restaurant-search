@@ -8,7 +8,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var uglify     = require('gulp-uglify');
 
 var paths = {
-    js: [
+    scripts: [
         './bower_components/underscore/underscore.js',
         './bower_components/handlebars/handlebars.js',
         './bower_components/jquery/dist/jquery.js',
@@ -18,7 +18,7 @@ var paths = {
         './bower_components/bootstrap-select/dist/js/bootstrap-select.js',
         './js/*.js'
     ],
-    css: [
+    styles: [
         './bower_components/bootstrap/dist/css/bootstrap.css',
         './bower_components/bootstrap/dist/css/bootstrap-theme.css',
         './bower_components/bootstrap-select/dist/css/bootstrap-select.css',
@@ -40,43 +40,43 @@ gulp.task('lint', function() {
 
 gulp.task('fonts', function() {
     return gulp.src(paths.fonts)
-    .pipe(gulp.dest('./fonts'));
+    .pipe(gulp.dest('./dist/fonts'));
 });
 
-gulp.task('js', function() {
-    return gulp.src(paths.js)
+gulp.task('scripts', function() {
+    return gulp.src(paths.scripts)
     .pipe(concat('scripts.js'))
     .pipe(uglify())
     .pipe(gulp.dest('./dist'));
 });
 
-gulp.task('css', function() {
-    return gulp.src(paths.css)
+gulp.task('styles', function() {
+    return gulp.src(paths.styles)
     .pipe(concat('styles.css'))
     .pipe(minifyCss())
     .pipe(gulp.dest('./dist'));
 });
 
 gulp.task('html_debug', function() {
-    var sources = gulp.src(paths.js.concat(paths.css), { read: false });
+    var sources = gulp.src(paths.scripts.concat(paths.styles), { read: false });
     return gulp.src(paths.html)
-    .pipe(inject(sources, { addRootSlash: false }))
-    .pipe(gulp.dest('./'));
+    .pipe(inject(sources, { addRootSlash: false, addPrefix: '..' }))
+    .pipe(gulp.dest('./dev'));
 });
 
 gulp.task('html_release', function() {
     var sources = gulp.src(['./dist/*.js', './dist/*.css'], { read: false });
     return gulp.src(paths.html)
-    .pipe(inject(sources, { addRootSlash: false }))
+    .pipe(inject(sources, { addRootSlash: false, ignorePath: 'dist' }))
     .pipe(minifyHtml())
-    .pipe(gulp.dest('./'));
+    .pipe(gulp.dest('./dist'));
 });
 
 gulp.task('watch_debug', function() {
     gulp.watch(paths.html, ['html_debug']);
 });
 
-gulp.task('debug', ['lint', 'html_debug']);
-gulp.task('release', ['lint', 'fonts', 'js', 'css', 'html_release']);
-
+gulp.task('debug',   ['lint', 'html_debug']);
+gulp.task('release', ['lint', 'fonts', 'scripts', 'styles', 'html_release']);
+gulp.task('all',     ['debug', 'release']);
 gulp.task('default', ['html_debug', 'watch_debug']);
