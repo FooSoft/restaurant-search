@@ -36,7 +36,7 @@ var paths = {
 };
 
 gulp.task('lint', function() {
-    return gulp.src('scripts/*.js')
+    gulp.src('scripts/*.js')
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
 });
