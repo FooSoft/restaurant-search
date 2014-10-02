@@ -4,6 +4,7 @@
 
 var _       = require('underscore');
 var express = require('express');
+var path    = require('path');
 var search  = require('./search.js');
 
 
@@ -40,6 +41,7 @@ function main() {
         });
     });
 
+    app.use(express.static(path.join(__dirname, '../client')));
     app.listen(3000);
 }
 
