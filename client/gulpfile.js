@@ -75,7 +75,7 @@ gulp.task('html_debug', function() {
     .pipe(gulp.dest('dev'));
 });
 
-gulp.task('html_release', function() {
+gulp.task('html_release', ['scripts', 'styles'], function() {
     var sources = gulp.src(['dist/*.js', 'dist/*.css'], { read: false });
     return gulp.src(paths.html)
     .pipe(inject(sources, { addRootSlash: false, ignorePath: 'dist' }))
