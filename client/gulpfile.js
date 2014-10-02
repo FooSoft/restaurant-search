@@ -5,7 +5,6 @@ var jshint     = require('gulp-jshint');
 var minifyCss  = require('gulp-minify-css');
 var minifyHtml = require('gulp-minify-html');
 var replace    = require('gulp-replace');
-var sourcemaps = require('gulp-sourcemaps');
 var uglify     = require('gulp-uglify');
 
 var paths = {
