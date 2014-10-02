@@ -17,19 +17,19 @@ function main() {
         'database': 'hscd'
     });
 
-    app.use('/getKeywords', function(req, res) {
+    app.use('/get_keywords', function(req, res) {
         search.getKeywords(function(keywords) {
             res.json(_.keys(keywords).sort());
         });
     });
 
-    app.use('/addKeyword', function(req, res) {
+    app.use('/add_keyword', function(req, res) {
         search.addKeyword(req.query, function(results) {
             res.json(results);
         });
     });
 
-    app.use('/removeKeyword', function(req, res) {
+    app.use('/remove_keyword', function(req, res) {
         search.removeKeyword(req.query, function(results) {
             res.json(results);
         });

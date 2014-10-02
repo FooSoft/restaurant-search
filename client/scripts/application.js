@@ -14,7 +14,7 @@
             maxResults:   ctx.maxResults
         };
 
-        $.getJSON('/node/search', query, function(results) {
+        $.getJSON('/search', query, function(results) {
             var hintData = {};
             for (var keyword in results.columns) {
                 hintData[keyword] = results.columns[keyword].hints;
@@ -41,7 +41,7 @@
             maxResults:   parseInt($('#maxResults').val())
         };
 
-        $.getJSON('/node/search', query, function(results) {
+        $.getJSON('/search', query, function(results) {
             ctx.searchParams = query.searchParams;
             ctx.searchRange  = query.searchRange;
             ctx.minScore     = query.minScore;
@@ -78,7 +78,7 @@
                 params:  ctx.searchParams
             };
 
-            $.getJSON('/node/addKeyword', query, function(results) {
+            $.getJSON('/add_keyword', query, function(results) {
                 if (results.success) {
                     $('#learnDialog').modal('hide');
                 }
@@ -99,7 +99,7 @@
                 keyword: $('#keywordToForget').val()
             };
 
-            $.getJSON('/node/removeKeyword', query, function(results) {
+            $.getJSON('/remove_keyword', query, function(results) {
                 if (results.success) {
                     $('#forgetDialog').modal('hide');
                 }
@@ -136,7 +136,7 @@
         ready: function() {
             $('#keywordsToSearch').selectpicker();
 
-            $.getJSON('/node/getKeywords', function(keywords) {
+            $.getJSON('/get_keywords', function(keywords) {
                 $('#searchKeywords').click(onSearch);
                 for (var i = 0, count = keywords.length; i < count; ++i) {
                     $('#keywordsToSearch').append($('<option></option>', {
@@ -152,7 +152,7 @@
                 $('#forgetKeyword').click(onForget);
                 $('#forgetDialog').on('show.bs.modal', function() {
                     $('#forgetError').hide();
-                    $.getJSON('/node/getKeywords', function(keywords) {
+                    $.getJSON('/get_keywords', function(keywords) {
                         $('#forgetKeyword').prop('disabled', keywords.length === 0);
                         $('#keywordToForget').empty();
                         for (var i = 0, count = keywords.length; i < count; ++i) {
