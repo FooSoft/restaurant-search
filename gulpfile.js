@@ -24,6 +24,8 @@
 
 */
 
+'use strict';
+
 var concat         = require('gulp-concat');
 var gulp           = require('gulp');
 var inject         = require('gulp-inject');
@@ -31,6 +33,7 @@ var jshint         = require('gulp-jshint');
 var mainBowerFiles = require('main-bower-files');
 var minifyCss      = require('gulp-minify-css');
 var minifyHtml     = require('gulp-minify-html');
+var nodemon        = require('gulp-nodemon');
 var path           = require('path');
 var replace        = require('gulp-replace');
 var uglify         = require('gulp-uglify');
@@ -54,7 +57,7 @@ gulp.task('lint', function() {
 });
 
 gulp.task('images', function() {
-    return gulp.src('client/images').pipe(gulp.dest('client/dist/images'));
+    return gulp.src('client/images/*').pipe(gulp.dest('client/dist/images'));
 });
 
 gulp.task('fonts', function() {
@@ -62,12 +65,13 @@ gulp.task('fonts', function() {
 });
 
 gulp.task('scripts', function() {
-    var scripts = ['client/scripts/*.js'].concat(getBowerFiles('.js'));
+    var scripts = getBowerFiles('.js').concat(['client/scripts/*.js']);
     return gulp.src(scripts).pipe(concat('scripts.js')).pipe(uglify()).pipe(gulp.dest('client/dist'));
 });
 
 gulp.task('styles', function() {
-    var styles = ['client/styles/*.css'].concat(getBowerFiles('.css'));
+    var styles = getBowerFiles('.css').concat(['client/styles/*.css']);
+    console.log(styles);
     return gulp.src(styles).pipe(replace('../fonts/', './fonts/')).pipe(concat('styles.css')).pipe(minifyCss()).pipe(gulp.dest('client/dist'));
 });
 
@@ -78,18 +82,21 @@ gulp.task('html_dev', function() {
     return gulp.src(target).pipe(inject(sources, options)).pipe(gulp.dest('client'));
 });
 
-gulp.task('html_dist', ['scripts', 'styles'], function() {
+gulp.task('html_dist', ['fonts', 'images', 'scripts', 'styles'], function() {
     var sources = gulp.src(['client/dist/*.js', 'client/dist/*.css'], {read: false});
     var options = {addRootSlash: false, ignorePath: 'client/dist'};
     var target  = 'client/html/index.html';
     return gulp.src(target).pipe(inject(sources, options)).pipe(minifyHtml()).pipe(gulp.dest('client/dist'));
 });
 
-gulp.task('develop', function() {
-    var options = {script: 'server/server.js', ext: 'js', port: 8000};
+gulp.task('dev', ['lint', 'html_dev'], function() {
+    var options = {script: 'server/server.js', ext: 'js', port: 8000, args: ['client']};
     return nodemon(options).on('change', ['lint']);
 });
 
-gulp.task('dev', ['lint', 'html_dev']);
-gulp.task('dist', ['lint', 'fonts', 'images', 'scripts', 'styles', 'html_dist']);
-gulp.task('server', ['lint', 'develop']);
+gulp.task('dist', ['html_dist'], function() {
+    var options = {script: 'server/server.js', ext: 'js', port: 8000, args: ['client/dist']};
+    return nodemon(options).on('change', ['lint']);
+});
+
+gulp.task('default', ['dev']);
