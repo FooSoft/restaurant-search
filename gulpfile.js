@@ -29,6 +29,7 @@
 var concat         = require('gulp-concat');
 var gulp           = require('gulp');
 var inject         = require('gulp-inject');
+var install        = require('gulp-install');
 var jshint         = require('gulp-jshint');
 var mainBowerFiles = require('main-bower-files');
 var minifyCss      = require('gulp-minify-css');
@@ -107,6 +108,10 @@ gulp.task('dist', ['html_dist'], function() {
         args:   ['client/dist']
     };
     return nodemon(options).on('change', ['html_dist']);
+});
+
+gulp.task('install', function() {
+    gulp.src(['client/bower.json', 'server/package.json', 'scrape/package.json']).pipe(install());
 });
 
 gulp.task('default', ['dev']);
