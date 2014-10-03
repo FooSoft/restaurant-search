@@ -71,32 +71,42 @@ gulp.task('scripts', function() {
 
 gulp.task('styles', function() {
     var styles = getBowerFiles('.css').concat(['client/styles/*.css']);
-    console.log(styles);
     return gulp.src(styles).pipe(replace('../fonts/', './fonts/')).pipe(concat('styles.css')).pipe(minifyCss()).pipe(gulp.dest('client/dist'));
 });
 
-gulp.task('html_dev', function() {
+gulp.task('html_dev', ['lint'], function() {
     var sources = gulp.src(getBowerFiles('.css').concat(getBowerFiles('.js')).concat(['client/scripts/*.js', 'client/styles/*.css']), {read: false});
     var target  = 'client/html/index.html';
     var options = {addRootSlash: false, ignorePath: 'client'};
     return gulp.src(target).pipe(inject(sources, options)).pipe(gulp.dest('client'));
 });
 
-gulp.task('html_dist', ['fonts', 'images', 'scripts', 'styles'], function() {
+gulp.task('html_dist', ['lint', 'fonts', 'images', 'scripts', 'styles'], function() {
     var sources = gulp.src(['client/dist/*.js', 'client/dist/*.css'], {read: false});
     var options = {addRootSlash: false, ignorePath: 'client/dist'};
     var target  = 'client/html/index.html';
     return gulp.src(target).pipe(inject(sources, options)).pipe(minifyHtml()).pipe(gulp.dest('client/dist'));
 });
 
-gulp.task('dev', ['lint', 'html_dev'], function() {
-    var options = {script: 'server/server.js', ext: 'js', port: 8000, args: ['client']};
-    return nodemon(options).on('change', ['lint']);
+gulp.task('dev', ['html_dev'], function() {
+    var options = {
+        script: 'server/server.js',
+        ext:    'js html',
+        ignore: ['client/index.html'],
+        args:   ['client']
+    };
+
+    return nodemon(options).on('change', ['html_dev']);
 });
 
 gulp.task('dist', ['html_dist'], function() {
-    var options = {script: 'server/server.js', ext: 'js', port: 8000, args: ['client/dist']};
-    return nodemon(options).on('change', ['lint']);
+    var options = {
+        script: 'server/server.js',
+        ext:    'js html css',
+        ignore: ['client/dist/*'],
+        args:   ['client/dist']
+    };
+    return nodemon(options).on('change', ['html_dist']);
 });
 
 gulp.task('default', ['dev']);

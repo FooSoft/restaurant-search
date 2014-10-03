@@ -33,7 +33,7 @@ var express = require('express');
 var path    = require('path');
 var search  = require('./search.js');
 
-function main(staticFiles) {
+function main(staticFiles, port) {
     var app = express();
 
     search.loadDb({
@@ -67,9 +67,9 @@ function main(staticFiles) {
     });
 
     app.use(express.static(path.join(__dirname, '..', staticFiles)));
-    app.listen(3000);
+    app.listen(port);
 }
 
 if (require.main === module) {
-    main(process.argv[2] || 'client');
+    main(process.argv[2] || 'client', 3000);
 }
