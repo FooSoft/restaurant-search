@@ -175,25 +175,32 @@ function loadDb(params) {
 }
 
 function addKeyword(query, callback) {
-    getKeywords(function(keywords) {
-        var keyword  = query.keyword.toLowerCase();
-        var features = combine(keywords, query.params);
+    var keyword = (query.keyword || '').toLowerCase();
+    if (!/^[a-zA-Z0-9]+$/.test(keyword)) {
+        callback({
+            keyword: keyword,
+            success: false
+        });
+    }
+    else {
+        getKeywords(function(keywords) {
+            var features = combine(keywords, query.params);
+            var values = [
+                keyword,
+                features.food || 0.0,
+                features.service || 0.0,
+                features.value || 0.0,
+                features.atmosphere || 0.0
+            ];
 
-        var values = [
-            keyword,
-            features.food || 0.0,
-            features.service || 0.0,
-            features.value || 0.0,
-            features.atmosphere || 0.0
-        ];
-
-        connection.query('INSERT INTO keywords VALUES(?, ?, ?, ?, ?)', values, function(err) {
-            callback({
-                keyword: keyword,
-                success: err === null
+            connection.query('INSERT INTO keywords VALUES(?, ?, ?, ?, ?)', values, function(err) {
+                callback({
+                    keyword: keyword,
+                    success: err === null
+                });
             });
         });
-    });
+    }
 }
 
 function removeKeyword(query, callback) {
