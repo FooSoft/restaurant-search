@@ -138,6 +138,10 @@
         });
     }
 
+    function onHistory(arg) {
+
+    }
+
     function outputResults(results, count) {
         var searchResultCnt = String(results.length);
         if (results.length < count) {
@@ -191,6 +195,7 @@
                     });
                 });
 
+                $('#history').on('slideStop', onHistory);
                 $('#learnKeyword').click(onLearn);
                 $('#keywordToLearn').bind('input', function() {
                     $('#learnKeyword').prop('disabled', !$(this).val());
