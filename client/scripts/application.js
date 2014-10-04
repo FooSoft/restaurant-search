@@ -161,6 +161,7 @@
 
         ready: function() {
             $('#keywordsToSearch').selectpicker();
+            $('#history').slider();
 
             $.getJSON('/get_keywords', function(keywords) {
                 $('#searchKeywords').click(onSearch);

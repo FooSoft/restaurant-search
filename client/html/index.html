@@ -117,7 +117,7 @@
                 <!-- semantic tweaker -->
                 <div class="panel panel-default unselectable">
                     <div class="panel-heading">
-                        <big>Semantic tweaks to <span id="query" class="text-primary"></span></big>
+                        <big>Semantic tweaks to: <span id="query"></span></big>
                         <div class="btn-group pull-right">
                             <button class="btn btn-xs btn-success" data-toggle="modal" data-target="#learnDialog">Learn</button>
                             <button class="btn btn-xs btn-danger" data-toggle="modal" data-target="#forgetDialog">Forget</button>
@@ -125,13 +125,14 @@
                         </div>
                     </div>
                     <div style="padding: 10px;">
-                        <canvas id="grapher" width="800" height="550"></canvas>
+                        <canvas id="grapher" width="800" height="550"></canvas><br>
+                        <input id="history" type="text" data-slider-min="0" data-slider-max="20" data-slider-step="1">
                     </div>
                 </div>
 
                 <!-- result listing -->
                 <div class="panel panel-default">
-                    <div class="panel-heading"><big>Query results (<span id="count" class="text-primary"></span>)</big></div>
+                    <div class="panel-heading"><big>Query results (<span id="count"></span>)</big></div>
                     <div style="padding: 10px;">
                         <script id="template" type="text/x-handlers-template">
                             {{#if results}}
