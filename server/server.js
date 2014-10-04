@@ -37,9 +37,10 @@ function main(staticFiles, port) {
     var app = express();
 
     search.loadDb({
-        'host':     'localhost',
-        'user':     'hscd',
-        'database': 'hscd'
+        connectionLimit: 10,
+        database:        'hscd',
+        host:            'localhost',
+        user:            'hscd'
     });
 
     app.use('/get_keywords', function(req, res) {

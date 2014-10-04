@@ -26,9 +26,9 @@
 
 'use strict';
 
-var _           = require('underscore');
-var mysql       = require('mysql');
-var connection  = null;
+var _     = require('underscore');
+var mysql = require('mysql');
+var pool  = null;
 
 function innerProduct(values1, values2) {
     var result = 0.0;
@@ -171,7 +171,7 @@ function buildHints(data, searchParams, minScore, keyword, range, steps) {
 }
 
 function loadDb(params) {
-    connection = mysql.createConnection(params);
+    pool = mysql.createPool(params);
 }
 
 function addKeyword(query, callback) {
@@ -193,7 +193,7 @@ function addKeyword(query, callback) {
                 features.atmosphere || 0.0
             ];
 
-            connection.query('INSERT INTO keywords VALUES(?, ?, ?, ?, ?)', values, function(err) {
+            pool.query('INSERT INTO keywords VALUES(?, ?, ?, ?, ?)', values, function(err) {
                 callback({
                     keyword: keyword,
                     success: err === null
@@ -204,7 +204,7 @@ function addKeyword(query, callback) {
 }
 
 function removeKeyword(query, callback) {
-    connection.query('DELETE FROM keywords WHERE name=? AND name NOT IN (SELECT name FROM presets)', [query.keyword], function(err, fields) {
+    pool.query('DELETE FROM keywords WHERE name=? AND name NOT IN (SELECT name FROM presets)', [query.keyword], function(err, fields) {
         callback({
             keyword: query.keyword,
             success: err === null && fields.affectedRows > 0
@@ -213,7 +213,7 @@ function removeKeyword(query, callback) {
 }
 
 function getKeywords(callback) {
-    connection.query('SELECT * FROM keywords', function(err, rows) {
+    pool.query('SELECT * FROM keywords', function(err, rows) {
         if (err) {
             throw err;
         }
@@ -234,7 +234,7 @@ function getKeywords(callback) {
 }
 
 function getRecords(callback) {
-    connection.query('SELECT * FROM reviews', function(err, rows) {
+    pool.query('SELECT * FROM reviews', function(err, rows) {
         if (err) {
             throw err;
         }
