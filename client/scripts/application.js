@@ -28,6 +28,7 @@
     'use strict';
 
     var ctx = {};
+    var log = [];
 
     function onAdjust(name, value) {
         ctx.searchParams[name] = value;
@@ -41,13 +42,8 @@
         };
 
         $.getJSON('/search', query, function(results) {
-            var hintData = {};
-            for (var keyword in results.columns) {
-                hintData[keyword] = results.columns[keyword].hints;
-            }
-
-            ctx.grapher.setColumnHints(hintData);
-            outputResults(results.items, results.count);
+            saveSnapshot(results);
+            outputSnapshot(results);
         });
     }
 
@@ -78,7 +74,8 @@
             ctx.grapher.setColumns(results.columns);
             ctx.grapher.setValueChangedListener(onAdjust);
 
-            outputResults(results.items, results.count);
+            saveSnapshot(results);
+            outputMatches(results.items, results.count);
 
             $('#query').text(keywords.join(', '));
             $('#useLocalScale').click(function() {
@@ -138,11 +135,30 @@
         });
     }
 
-    function onHistory(arg) {
-
+    function onSelectSnapshot() {
+        var snapshot = $('#history').slider('getValue');
+        outputSnapshot(log[snapshot]);
     }
 
-    function outputResults(results, count) {
+    function saveSnapshot(results) {
+        log.push(results);
+
+        var history = $('#history').slider();
+        history.slider('setAttribute', 'max', log.length - 1);
+        history.slider('setValue', log.length - 1);
+    }
+
+    function outputSnapshot(results) {
+        var hintData = {};
+        for (var keyword in results.columns) {
+            hintData[keyword] = results.columns[keyword].hints;
+        }
+
+        ctx.grapher.setColumnHints(hintData);
+        outputMatches(results.items, results.count);
+    }
+
+    function outputMatches(results, count) {
         var searchResultCnt = String(results.length);
         if (results.length < count) {
             searchResultCnt += ' of ' + count;
@@ -195,7 +211,7 @@
                     });
                 });
 
-                $('#history').on('slideStop', onHistory);
+                $('#history').on('slideStop', onSelectSnapshot);
                 $('#learnKeyword').click(onLearn);
                 $('#keywordToLearn').bind('input', function() {
                     $('#learnKeyword').prop('disabled', !$(this).val());
