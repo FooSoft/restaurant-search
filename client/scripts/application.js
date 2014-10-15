@@ -185,7 +185,7 @@
                     switch (delta) {
                         case 0:
                             return 'Most recent query';
-                        case 1:
+                        default:
                             return String(delta) + ' querie(s) back';
                     }
                 }
