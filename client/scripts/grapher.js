@@ -277,8 +277,10 @@
             }
         };
 
-        this.setHints = function(hints, scale) {
-            this.hints = hints;
+        this.updateParams = function(params, scale) {
+            this.hints = params.hints;
+            this.value = params.value;
+            this.steps = params.steps;
             this.scale = scale;
             this.updateShapes(true);
         };
@@ -527,22 +529,23 @@
             this.indexMap = {};
         };
 
-        this.setColumnHints = function(hintData) {
+        this.updateColumns = function(data) {
             var scale = 0;
             if (!this.useLocalScale) {
                 scale = this.getGlobalScale(hintData);
             }
 
-            var that    = this;
-            _.each(hintData, function(hints, name) {
+            var that = this;
+            _.each(data, function(entry, name) {
                 var index = that.getColumnIndex(name);
                 console.assert(index >= 0);
 
                 if (that.useLocalScale) {
-                    scale = that.getLocalScale(hints);
+                    scale = that.getLocalScale(entry.hints);
                 }
 
-                that.columns[index].setHints(hints, scale);
+                var column = that.columns[index];
+                column.updateParams(entry, scale);
             });
         };
 

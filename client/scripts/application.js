@@ -94,7 +94,6 @@
 
     function onLearn() {
         $('#learnKeyword').prop('disabled', true);
-
         $('#learnError').slideUp(function() {
             var query = {
                 keyword: $('#keywordToLearn').val(),
@@ -116,7 +115,6 @@
 
     function onForget() {
         $('#forgetKeyword').prop('disabled', true);
-
         $('#forgetError').slideUp(function() {
             var query = {
                 keyword: $('#keywordToForget').val()
@@ -136,25 +134,25 @@
     }
 
     function onSelectSnapshot() {
-        var snapshot = $('#history').slider('getValue');
-        outputSnapshot(log[snapshot]);
+        var index = $('#history').slider('getValue');
+        outputSnapshot(log[index]);
     }
 
     function saveSnapshot(results) {
         log.push(results);
 
+        var count = log.length;
         var history = $('#history').slider();
-        history.slider('setAttribute', 'max', log.length - 1);
-        history.slider('setValue', log.length - 1);
+        history.slider('setAttribute', 'max', count - 1);
+        history.slider('setValue', count - 1);
+
+        if (count > 1) {
+            $('#history').parent().slideDown();
+        }
     }
 
     function outputSnapshot(results) {
-        var hintData = {};
-        for (var keyword in results.columns) {
-            hintData[keyword] = results.columns[keyword].hints;
-        }
-
-        ctx.grapher.setColumnHints(hintData);
+        ctx.grapher.updateColumns(results.columns);
         outputMatches(results.items, results.count);
     }
 
