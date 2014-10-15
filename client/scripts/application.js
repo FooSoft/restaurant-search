@@ -179,7 +179,17 @@
 
         ready: function() {
             $('#keywordsToSearch').selectpicker();
-            $('#history').slider();
+            $('#history').slider({
+                formatter: function(value) {
+                    var delta = log.length - (value + 1);
+                    switch (delta) {
+                        case 0:
+                            return 'Most recent query';
+                        case 1:
+                            return String(delta) + ' querie(s) back';
+                    }
+                }
+            });
 
             $.getJSON('/get_keywords', function(keywords) {
                 $('#searchKeywords').click(onSearch);
