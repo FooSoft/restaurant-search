@@ -15,11 +15,11 @@ var conn = mysql.createConnection({
 //
 
 conn.query('DROP TABLE IF EXISTS reviews');
-conn.query('CREATE TABLE reviews(name VARCHAR(100) NOT NULL, url VARCHAR(200) NOT NULL, food FLOAT NOT NULL, service FLOAT NOT NULL, value FLOAT NOT NULL, atmosphere FLOAT NOT NULL)');
+conn.query('CREATE TABLE reviews(name VARCHAR(100) NOT NULL, url VARCHAR(200) NOT NULL, food FLOAT NOT NULL, service FLOAT NOT NULL, value FLOAT NOT NULL, atmosphere FLOAT NOT NULL, id INT NOT NULL AUTO_INCREMENT PRIMARY KEY)');
 
 for (var i = 0, count = data.length; i < count; ++i) {
     var record = data[i];
-    conn.query('INSERT INTO reviews VALUES(?, ?, ?, ?, ?, ?)', [
+    conn.query('INSERT INTO reviews(name, url, food, service, value, atmosphere) VALUES(?, ?, ?, ?, ?, ?)', [
         record.name,
         record.relativeUrl,
         record.rating.food,
