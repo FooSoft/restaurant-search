@@ -113,7 +113,8 @@ function findRecords(data, searchParams, minScore) {
         results.push({
             name:  record.name,
             url:   'http://www.tripadvisor.com' + record.relativeUrl,
-            score: score
+            score: score,
+            id:    record.id
         });
     });
 
