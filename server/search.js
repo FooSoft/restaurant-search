@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /*
 
    The MIT License (MIT)
@@ -63,8 +65,8 @@ function add(values1, values2) {
 function combine(dict, params) {
     var result = {};
 
-    for (var key in params) {
-        var values = scale(dict[key], params[key]);
+    for (var paramIter in params) {
+        var values = scale(dict[paramIter], params[paramIter]);
         result = add(values, result);
     }
 
@@ -73,8 +75,8 @@ function combine(dict, params) {
     });
 
     if (max > 0.0) {
-        for (var key in result) {
-            result[key] = result[key] / max;
+        for (var resultIter in result) {
+            result[resultIter] = result[resultIter] / max;
         }
     }
 
@@ -242,6 +244,7 @@ function getRecords(callback) {
         var records = _.map(rows, function(row) {
             return {
                 name:        row.name,
+                id:          row.id,
                 relativeUrl: row.url,
                 rating:      {
                     food:       row.food,
@@ -290,7 +293,7 @@ function execQuery(query, callback) {
                 value: query.searchParams[keyword],
                 hints: searchHints,
                 steps: query.hintSteps
-            }
+            };
         }
 
         callback({
