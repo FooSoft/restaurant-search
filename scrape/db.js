@@ -38,10 +38,10 @@ conn.query('DROP TABLE IF EXISTS keywords');
 conn.query('CREATE TABLE keywords(name VARCHAR(50) NOT NULL, food FLOAT NOT NULL, service FLOAT NOT NULL, value FLOAT NOT NULL, atmosphere FLOAT NOT NULL, PRIMARY KEY(name))');
 
 var keywords = {
-    'food':       [1.0, 0.0, 0.0, 0.0],
-    'service':    [0.0, 1.0, 0.0, 0.0],
-    'value':      [0.0, 0.0, 1.0, 0.0],
-    'atmosphere': [0.0, 0.0, 0.0, 1.0]
+    'delicious':     [1.0, 0.0, 0.0, 0.0],
+    'accommodating': [0.0, 1.0, 0.0, 0.0],
+    'well-priced':   [0.0, 0.0, 1.0, 0.0],
+    'atmospheric':   [0.0, 0.0, 0.0, 1.0]
 };
 
 for (var keyword in keywords) {

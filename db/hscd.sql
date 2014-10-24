@@ -38,7 +38,7 @@ CREATE TABLE `keywords` (
 
 LOCK TABLES `keywords` WRITE;
 /*!40000 ALTER TABLE `keywords` DISABLE KEYS */;
-INSERT INTO `keywords` VALUES ('atmosphere',0,0,0,1),('food',1,0,0,0),('service',0,1,0,0),('value',0,0,1,0);
+INSERT INTO `keywords` VALUES ('accommodating',0,1,0,0),('atmospheric',0,0,0,1),('delicious',1,0,0,0),('well-priced',0,0,1,0);
 /*!40000 ALTER TABLE `keywords` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -61,7 +61,7 @@ CREATE TABLE `presets` (
 
 LOCK TABLES `presets` WRITE;
 /*!40000 ALTER TABLE `presets` DISABLE KEYS */;
-INSERT INTO `presets` VALUES ('atmosphere'),('food'),('service'),('value');
+INSERT INTO `presets` VALUES ('accommodating'),('atmospheric'),('delicious'),('well-priced');
 /*!40000 ALTER TABLE `presets` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -103,4 +103,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-10-17 17:58:22
+-- Dump completed on 2014-10-24 13:32:15
