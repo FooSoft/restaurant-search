@@ -191,39 +191,39 @@
         };
 
         this.updateRect = function(name, args) {
-            if (name in this) {
-                this[name].set(args);
-            }
-            else {
-                var rect = new fabric.Rect(args);
-                this.canvas.add(rect);
-                this.shapes.push(rect);
-                this[name] = rect;
-            }
+            // if (name in this) {
+            //     this[name].set(args);
+            // }
+            // else {
+            //     var rect = new fabric.Rect(args);
+            //     this.canvas.add(rect);
+            //     this.shapes.push(rect);
+            //     this[name] = rect;
+            // }
         };
 
         this.updateText = function(name, str, args) {
-            if (name in this) {
-                this[name].set(args);
-            }
-            else {
-                var text = new fabric.Text(str, args);
-                this.canvas.add(text);
-                this.shapes.push(text);
-                this[name] = text;
-            }
+            // if (name in this) {
+            //     this[name].set(args);
+            // }
+            // else {
+            //     var text = new fabric.Text(str, args);
+            //     this.canvas.add(text);
+            //     this.shapes.push(text);
+            //     this[name] = text;
+            // }
         };
 
         this.updateLine = function(name, points, args) {
-            if (name in this) {
-                this[name].set(args);
-            }
-            else {
-                var line = new fabric.Line(points, args);
-                this.canvas.add(line);
-                this.shapes.push(line);
-                this[name] = line;
-            }
+            // if (name in this) {
+            //     this[name].set(args);
+            // }
+            // else {
+            //     var line = new fabric.Line(points, args);
+            //     this.canvas.add(line);
+            //     this.shapes.push(line);
+            //     this[name] = line;
+            // }
         };
 
         this.decimateHints = function(steps, scale) {
@@ -679,7 +679,7 @@
         this.useLocalScale    = useLocalScale;
         this.useRelativeScale = useRelativeScale;
         this.columnWidth      = columnWidth;
-        this.canvas           = new fabric.StaticCanvas(canvas);
+        this.canvas           = null;
         this.range            = new Range(range.min, range.max);
         this.padding          = 10;
         this.indexMap         = {};
