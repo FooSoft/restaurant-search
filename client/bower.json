@@ -19,6 +19,6 @@
     "bootstrap-select": "~1.6.2",
     "tinycolor": "~1.0.0",
     "seiyria-bootstrap-slider": "~4.0.1",
-    "raphael": "~2.1.2"
+    "snap.svg": "~0.3.0"
   }
 }
