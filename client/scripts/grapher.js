@@ -111,8 +111,7 @@
 
     function Column(params) {
         this.updateShapes = function() {
-            var colorStops = this.decimateHints(this.data.hints, this.steps, this.scale);
-            var gradient   = this.canvas.gradient(colorStops);
+            var gradient = this.canvas.gradient(this.decimateHints());
 
             // function logger(e, x, y) {
             //     var rect = e.srcElement;
@@ -164,16 +163,16 @@
             group.transform(Snap.format('t{x},{y}', {x: this.index * (this.width + this.padding), y: 0}));
         };
 
-        this.decimateHints = function(hints, steps, scale) {
-            var groups = this.groupHints(hints, steps);
-
+        this.decimateHints = function() {
             var colorStops = 'l(0,0,0,1)';
+
+            var groups = this.groupHints();
             for (var i = 0, count = groups.length; i < count; ++i) {
                 var groupSize = groups[i];
 
                 var colorPercent = 0;
-                if (scale.getLength() > 0) {
-                    colorPercent = Math.max(0, groupSize - scale.start) / scale.getLength();
+                if (this.scale.getLength() > 0) {
+                    colorPercent = Math.max(0, groupSize - this.scale.start) / this.scale.getLength();
                 }
 
                 var colorByte = 0xff - Math.min(0xff, Math.round(0xff * colorPercent));
@@ -189,17 +188,17 @@
             return colorStops;
         };
 
-        this.groupHints = function(hints, steps) {
-            var stepSize = this.range.getLength() / steps;
+        this.groupHints = function() {
+            var stepSize = this.range.getLength() / this.steps;
 
             var hintGroups = [];
-            for (var i = 0; i < steps; ++i) {
+            for (var i = 0; i < this.steps; ++i) {
                 var stepMax = this.range.end - stepSize * i;
                 var stepMin = stepMax - stepSize;
 
                 var hintCount = 0;
-                for (var j = 0, count = hints.length; j < count; ++j) {
-                    var hint = hints[j];
+                for (var j = 0, count = this.data.hints.length; j < count; ++j) {
+                    var hint = this.data.hints[j];
                     if (hint.sample > stepMin && hint.sample <= stepMax) {
                         hintCount += hint.count;
                     }
