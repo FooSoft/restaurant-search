@@ -284,71 +284,24 @@
     //
 
     grapher.Grapher = function(params) {
-        this.setColumns = function(columns) {
-            var scale = 0;
-            if (!useLocalScale) {
-                var hintData = _.pluck(columns, 'hints');
-                scale = this.computeGlobalScale(hintData);
-            }
+        var _canvas           = params.canvas;
+        var _columns          = {};
+        var _data             = {};
+        var _range            = new Range(-1.0, 1.0);
+        var _steps            = params.steps || 20;
+        var _useLocalScale    = params.useLocalScale || true;
+        var _useRelativeScale = params.useRelativeScale || true;
 
-            var index = 0;
-            for (var name in columns) {
-                var data = this.data[name] = columns[name];
-                if (useLocalScale) {
-                    scale = this.computeLocalScale(data.hints);
-                }
-
-                var column = this.columns[name];
-                if (column) {
-                    column.update(data, scale);
-                }
-                else {
-                    this.columns[name] = new Column({
-                        canvas:  this.canvas,
-                        width:   this.columnWidth,
-                        height:  this.columnHeight,
-                        padding: this.columnPadding,
-                        steps:   this.steps,
-                        range:   this.range,
-                        data:    data,
-                        name:    name,
-                        scale:   scale,
-                        index:   index++,
-                    });
-                }
-            }
-        };
-
-        this.setUseLocalScale = function(useLocalScale) {
-            if (useLocalScale != this.useLocalScale) {
-                this.useLocalScale = useLocalScale;
-                this.setColumns(this.data);
-            }
-        };
-
-        this.setUseRelativeScale = function(useRelativeScale) {
-            if (useRelativeScale != this.useRelativeScale) {
-                this.useRelativeScale = useRelativeScale;
-                this.setColumns(this.data);
-            }
-        };
-
-        this.setValueChangedListener = function(listener) {
-            for (var name in this.columns) {
-                this.columns[name].onValueChanged = listener;
-            }
-        };
-
-        this.computeLocalScale = function(hints) {
+        function computeLocalScale(hints) {
             var counts = _.pluck(hints, 'count');
-            var min = this.useRelativeScale ? _.min(counts) : 0;
+            var min = _useRelativeScale ? _.min(counts) : 0;
             return new Range(min, _.max(counts));
-        };
+        }
 
-        this.computeGlobalScale = function(hintData) {
+        function computeGlobalScale(hintData) {
             var globalScale = null;
             for (var i = 0, count = hintData.length; i < count; ++i) {
-                var localScale = this.computeLocalScale(hintData[i]);
+                var localScale = computeLocalScale(hintData[i]);
                 if (globalScale) {
                     globalScale.include(localScale);
                 }
@@ -358,14 +311,58 @@
             }
 
             return globalScale;
+        }
+
+        this.setColumns = function(columns) {
+            var scale = 0;
+            if (!_useLocalScale) {
+                var hintData = _.pluck(columns, 'hints');
+                scale = computeGlobalScale(hintData);
+            }
+
+            var index = 0;
+            for (var name in columns) {
+                var data = _data[name] = columns[name];
+                if (_useLocalScale) {
+                    scale = computeLocalScale(data.hints);
+                }
+
+                var column = _columns[name];
+                if (column) {
+                    column.update(data, scale);
+                }
+                else {
+                    _columns[name] = new Column({
+                        canvas: _canvas,
+                        steps:  _steps,
+                        range:  _range,
+                        data:   data,
+                        name:   name,
+                        scale:  scale,
+                        index:  index++,
+                    });
+                }
+            }
         };
 
-        this.canvas           = params.canvas;
-        this.columns          = {};
-        this.data             = {};
-        this.range            = new Range(-1.0, 1.0);
-        this.steps            = params.steps || 20;
-        this.useLocalScale    = params.useLocalScale || true;
-        this.useRelativeScale = params.useRelativeScale || true;
+        this.setUseLocalScale = function(useLocalScale) {
+            if (useLocalScale != _useLocalScale) {
+                _useLocalScale = useLocalScale;
+                this.setColumns(_data);
+            }
+        };
+
+        this.setUseRelativeScale = function(useRelativeScale) {
+            if (useRelativeScale != _useRelativeScale) {
+                _useRelativeScale = useRelativeScale;
+                this.setColumns(_data);
+            }
+        };
+
+        this.setValueChangedListener = function(listener) {
+            for (var name in _columns) {
+                _columns[name].onValueChanged = listener;
+            }
+        };
     };
 }(window.grapher = window.grapher || {}));
