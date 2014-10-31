@@ -72,6 +72,7 @@
 
             ctx.grapher = new grapher.Grapher({
                 canvas:           new Snap('#svg'),
+                steps:            ctx.hintSteps,
                 range:            ctx.searchRange,
                 useLocalScale:    true,
                 useRelativeScale: true

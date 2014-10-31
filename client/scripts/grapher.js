@@ -111,12 +111,13 @@
 
     function Column(params) {
         this.updateShapes = function() {
-            var gradient = this.canvas.gradient('l(0, 0, 0, 1)#000-#fff');
+            var colorStops = this.decimateHints(this.data.hints, this.steps, this.scale);
+            var gradient   = this.canvas.gradient(colorStops);
 
-            function logger(e, x, y) {
-                // var rect = e.srcElement;
-                // console.log(rect.getBoundingClientRect());
-            }
+            // function logger(e, x, y) {
+            //     var rect = e.srcElement;
+            //     console.log(rect.getBoundingClientRect());
+            // }
 
             var backdrop = this.canvas.rect(
                 this.tickSize,
@@ -160,13 +161,13 @@
             ).attr({'dominant-baseline': 'middle', 'text-anchor': 'middle'});
 
             var group = this.canvas.group(backdrop, value, density, panel, tick, label);
-            group.transform(Snap.format('t {x}, {y}', {x: this.index * (this.width + this.padding), y: 0}));
+            group.transform(Snap.format('t{x},{y}', {x: this.index * (this.width + this.padding), y: 0}));
         };
 
         this.decimateHints = function(hints, steps, scale) {
             var groups = this.groupHints(hints, steps);
 
-            var colorStops = {};
+            var colorStops = 'l(0,0,0,1)';
             for (var i = 0, count = groups.length; i < count; ++i) {
                 var groupSize = groups[i];
 
@@ -179,7 +180,10 @@
                 var colorObj  = tinycolor({ r: colorByte, g: colorByte, b: colorByte });
                 var colorStr  = colorObj.toHexString();
 
-                colorStops[i / steps] = colorStr;
+                colorStops += colorStr;
+                if (i + 1 < count) {
+                    colorStops += '-';
+                }
             }
 
             return colorStops;
@@ -195,7 +199,7 @@
 
                 var hintCount = 0;
                 for (var j = 0, count = hints.length; j < count; ++j) {
-                    var hint = this.hints[j];
+                    var hint = hints[j];
                     if (hint.sample > stepMin && hint.sample <= stepMax) {
                         hintCount += hint.count;
                     }
@@ -268,6 +272,7 @@
         this.data   = params.data;
         this.scale  = params.scale;
         this.range  = params.range;
+        this.steps  = params.steps;
         this.index  = params.index;
         this.state  = this.State.NORMAL;
 
@@ -304,8 +309,9 @@
                         width:   this.columnWidth,
                         height:  this.columnHeight,
                         padding: this.columnPadding,
+                        steps:   this.steps,
                         range:   this.range,
-                        data:    column,
+                        data:    data,
                         name:    name,
                         scale:   scale,
                         index:   index++,
@@ -317,14 +323,14 @@
         this.setUseLocalScale = function(useLocalScale) {
             if (useLocalScale != this.useLocalScale) {
                 this.useLocalScale = useLocalScale;
-                this.updateColumns(this.columnData);
+                this.setColumns(this.data);
             }
         };
 
         this.setUseRelativeScale = function(useRelativeScale) {
             if (useRelativeScale != this.useRelativeScale) {
                 this.useRelativeScale = useRelativeScale;
-                this.updateColumns(this.columnData);
+                this.setColumns(this.data);
             }
         };
 
@@ -359,6 +365,7 @@
         this.columns          = {};
         this.data             = {};
         this.range            = new Range(-1.0, 1.0);
+        this.steps            = params.steps || 20;
         this.useLocalScale    = params.useLocalScale || true;
         this.useRelativeScale = params.useRelativeScale || true;
     };
