@@ -113,12 +113,54 @@
         this.updateShapes = function() {
             var gradient = this.canvas.gradient('l(0, 0, 0, 1)#000-#fff');
 
-            this.canvas.rect(5, 0, 90, 490).attr({'stroke': '#d3d7cf', 'fill': '#eeeeec'});
-            this.canvas.rect(5, 0, 90, 245).attr({'fill': '#cc0000'});
-            this.canvas.rect(90, 0, 10, 490).attr({'stroke': '#d3d7cf', 'fill': gradient});
-            this.canvas.rect(0, 490, 100, 20).attr({'fill': '#d3d7cf'});
-            this.canvas.line(0, 245, 5, 245).attr({'stroke': '#888a85'});
-            this.canvas.text(55, 500, this.name).attr({'dominant-baseline': 'middle', 'text-anchor': 'middle'});
+            function logger(e, x, y) {
+                // var rect = e.srcElement;
+                // console.log(rect.getBoundingClientRect());
+            }
+
+            var backdrop = this.canvas.rect(
+                this.tickSize,
+                0,
+                this.width - (this.densitySize + this.tickSize),
+                this.height - this.panelSize
+            ).attr({'stroke': '#d3d7cf', 'fill': '#eeeeec'});
+
+            var value = this.canvas.rect(
+                this.tickSize,
+                0,
+                this.width - (this.densitySize + this.tickSize),
+                50
+            ).attr({'fill': '#cc0000'});
+
+            var density = this.canvas.rect(
+                this.width - this.densitySize,
+                0,
+                this.densitySize,
+                this.height - this.panelSize
+            ).attr({'stroke': '#d3d7cf', 'fill': gradient});
+
+            var tick = this.canvas.line(
+                0,
+                (this.height - this.panelSize) / 2,
+                this.tickSize,
+                (this.height - this.panelSize) / 2
+            ).attr({'stroke': '#888a85'});
+
+            var panel = this.canvas.rect(
+                this.tickSize,
+                this.height - this.panelSize,
+                this.width - this.tickSize,
+                this.panelSize
+            ).attr({'fill': '#d3d7cf'});
+
+            var label = this.canvas.text(
+                this.tickSize + (this.width - this.tickSize) / 2,
+                this.height - this.panelSize / 2,
+                this.name
+            ).attr({'dominant-baseline': 'middle', 'text-anchor': 'middle'});
+
+            var group = this.canvas.group(backdrop, value, density, panel, tick, label);
+            group.transform(Snap.format('t {x}, {y}', {x: this.index * (this.width + this.padding), y: 0}));
         };
 
         this.decimateHints = function(hints, steps, scale) {
@@ -205,12 +247,14 @@
             DRAG:   2
         };
 
-        this.handleSize     = 10;
         this.desatOffset    = -0.3;
-        this.hintSize       = 10;
-        this.labelFontSize  = 15;
-        this.labelSize      = 20;
-        this.tickLength     = 5;
+        this.handleSize     = 10;
+        this.densitySize    = 10;
+        this.panelSize      = 20;
+        this.tickSize       = 5;
+        this.width          = 125;
+        this.height         = 500;
+        this.padding        = 10;
         this.emptyColor     = '#eeeeec';
         this.strokeColor    = '#d3d7cf';
         this.tickColor      = '#888a85';
@@ -224,6 +268,7 @@
         this.data   = params.data;
         this.scale  = params.scale;
         this.range  = params.range;
+        this.index  = params.index;
         this.state  = this.State.NORMAL;
 
         this.updateShapes();
@@ -242,8 +287,9 @@
                 scale = this.computeGlobalScale(hintData);
             }
 
+            var index = 0;
             for (var name in columns) {
-                var data = columns[name];
+                var data = this.data[name] = columns[name];
                 if (useLocalScale) {
                     scale = this.computeLocalScale(data.hints);
                 }
@@ -254,11 +300,15 @@
                 }
                 else {
                     this.columns[name] = new Column({
-                        canvas: this.canvas,
-                        data:   column,
-                        name:   name,
-                        range:  this.range,
-                        scale:  scale,
+                        canvas:  this.canvas,
+                        width:   this.columnWidth,
+                        height:  this.columnHeight,
+                        padding: this.columnPadding,
+                        range:   this.range,
+                        data:    column,
+                        name:    name,
+                        scale:   scale,
+                        index:   index++,
                     });
                 }
             }
@@ -306,11 +356,9 @@
         };
 
         this.canvas           = params.canvas;
-        this.columnData       = null;
-        this.columnPadding    = params.columnPadding || 10;
-        this.columnRange      = new Range(-1.0, 1.0);
-        this.columnWidth      = params.columnWidth || 100;
         this.columns          = {};
+        this.data             = {};
+        this.range            = new Range(-1.0, 1.0);
         this.useLocalScale    = params.useLocalScale || true;
         this.useRelativeScale = params.useRelativeScale || true;
     };

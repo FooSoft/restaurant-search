@@ -72,8 +72,7 @@
 
             ctx.grapher = new grapher.Grapher({
                 canvas:           new Snap('#svg'),
-                columnRange:      ctx.searchRange,
-                columnWidth:      150,
+                range:            ctx.searchRange,
                 useLocalScale:    true,
                 useRelativeScale: true
             });
