@@ -71,7 +71,7 @@
             ctx.maxResults   = query.maxResults;
 
             ctx.grapher = new grapher.Grapher({
-                canvas:           Snap('#svg'),
+                canvas:           new Snap('#svg'),
                 columnRange:      ctx.searchRange,
                 columnWidth:      150,
                 useLocalScale:    true,
@@ -92,9 +92,9 @@
                 var useRelativeScale = $('#useRelativeScale').is(':checked');
                 ctx.grapher.setUseRelativeScale(useRelativeScale);
             });
-            // $('#input').fadeOut(function() {
-            //     $('#output').fadeIn();
-            // });
+            $('#input').fadeOut(function() {
+                $('#output').fadeIn();
+            });
         });
     }
 

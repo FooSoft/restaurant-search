@@ -111,12 +111,14 @@
 
     function Column(params) {
         this.updateShapes = function() {
-            var bigCircle = this.canvas.circle(150, 150, 100);
-            bigCircle.attr({
-                fill:        "#bada55",
-                stroke:      "#000",
-                strokeWidth: 5
-            });
+            var gradient = this.canvas.gradient('l(0, 0, 0, 1)#000-#fff');
+
+            this.canvas.rect(5, 0, 90, 490).attr({'stroke': '#d3d7cf', 'fill': '#eeeeec'});
+            this.canvas.rect(5, 0, 90, 245).attr({'fill': '#cc0000'});
+            this.canvas.rect(90, 0, 10, 490).attr({'stroke': '#d3d7cf', 'fill': gradient});
+            this.canvas.rect(0, 490, 100, 20).attr({'fill': '#d3d7cf'});
+            this.canvas.line(0, 245, 5, 245).attr({'stroke': '#888a85'});
+            this.canvas.text(55, 500, this.name).attr({'dominant-baseline': 'middle', 'text-anchor': 'middle'});
         };
 
         this.decimateHints = function(hints, steps, scale) {
