@@ -110,69 +110,60 @@
     //
 
     function Column(params) {
-        this.updateShapes = function() {
-            var gradient = this.canvas.gradient(this.decimateHints());
+        var _emptyColor     = '#eeeeec';
+        var _strokeColor    = '#d3d7cf';
+        var _tickColor      = '#888a85';
+        var _fillColorNeg   = '#3465a4';
+        var _fillColorPos   = '#cc0000';
+        var _handleColorNeg = '#204a87';
+        var _handleColorPos = '#a40000';
+
+        var _desatOffset = -0.3;
+        var _handleSize  = 10;
+        var _densitySize = 10;
+        var _panelSize   = 20;
+        var _tickSize    = 5;
+        var _width       = 125;
+        var _height      = 500;
+        var _padding     = 10;
+
+        var _canvas = params.canvas;
+        var _name   = params.name;
+        var _data   = params.data;
+        var _scale  = params.scale;
+        var _range  = params.range;
+        var _steps  = params.steps;
+        var _index  = params.index;
+
+        function updateShapes() {
+            var gradient = _canvas.gradient(decimateHints());
 
             // function logger(e, x, y) {
             //     var rect = e.srcElement;
             //     console.log(rect.getBoundingClientRect());
             // }
 
-            var backdrop = this.canvas.rect(
-                this.tickSize,
-                0,
-                this.width - (this.densitySize + this.tickSize),
-                this.height - this.panelSize
-            ).attr({'stroke': '#d3d7cf', 'fill': '#eeeeec'});
+            var backdrop = _canvas.rect(_tickSize, 0, _width - (_densitySize + _tickSize), _height - _panelSize).attr({'stroke': '#d3d7cf', 'fill': '#eeeeec'});
+            var value    = _canvas.rect( _tickSize, 0, _width - (_densitySize + _tickSize), 50).attr({'fill': '#cc0000'});
+            var density  = _canvas.rect( _width - _densitySize, 0, _densitySize, _height - _panelSize).attr({'stroke': '#d3d7cf', 'fill': gradient});
+            var tick     = _canvas.line( 0, (_height - _panelSize) / 2, _tickSize, (_height - _panelSize) / 2).attr({'stroke': '#888a85'});
+            var panel    = _canvas.rect( _tickSize, _height - _panelSize, _width - _tickSize, _panelSize).attr({'fill': '#d3d7cf'});
+            var label    = _canvas.text( _tickSize + (_width - _tickSize) / 2, _height - _panelSize / 2, _name).attr({'dominant-baseline': 'middle', 'text-anchor': 'middle'});
 
-            var value = this.canvas.rect(
-                this.tickSize,
-                0,
-                this.width - (this.densitySize + this.tickSize),
-                50
-            ).attr({'fill': '#cc0000'});
+            var group = _canvas.group(backdrop, value, density, panel, tick, label);
+            group.transform(Snap.format('t{x},{y}', {x: _index * (_width + _padding), y: 0}));
+        }
 
-            var density = this.canvas.rect(
-                this.width - this.densitySize,
-                0,
-                this.densitySize,
-                this.height - this.panelSize
-            ).attr({'stroke': '#d3d7cf', 'fill': gradient});
-
-            var tick = this.canvas.line(
-                0,
-                (this.height - this.panelSize) / 2,
-                this.tickSize,
-                (this.height - this.panelSize) / 2
-            ).attr({'stroke': '#888a85'});
-
-            var panel = this.canvas.rect(
-                this.tickSize,
-                this.height - this.panelSize,
-                this.width - this.tickSize,
-                this.panelSize
-            ).attr({'fill': '#d3d7cf'});
-
-            var label = this.canvas.text(
-                this.tickSize + (this.width - this.tickSize) / 2,
-                this.height - this.panelSize / 2,
-                this.name
-            ).attr({'dominant-baseline': 'middle', 'text-anchor': 'middle'});
-
-            var group = this.canvas.group(backdrop, value, density, panel, tick, label);
-            group.transform(Snap.format('t{x},{y}', {x: this.index * (this.width + this.padding), y: 0}));
-        };
-
-        this.decimateHints = function() {
+        function decimateHints() {
             var colorStops = 'l(0,0,0,1)';
 
-            var groups = this.groupHints();
+            var groups = groupHints();
             for (var i = 0, count = groups.length; i < count; ++i) {
                 var groupSize = groups[i];
 
                 var colorPercent = 0;
-                if (this.scale.getLength() > 0) {
-                    colorPercent = Math.max(0, groupSize - this.scale.start) / this.scale.getLength();
+                if (_scale.getLength() > 0) {
+                    colorPercent = Math.max(0, groupSize - _scale.start) / _scale.getLength();
                 }
 
                 var colorByte = 0xff - Math.min(0xff, Math.round(0xff * colorPercent));
@@ -186,19 +177,19 @@
             }
 
             return colorStops;
-        };
+        }
 
-        this.groupHints = function() {
-            var stepSize = this.range.getLength() / this.steps;
+        function groupHints() {
+            var stepSize = _range.getLength() / _steps;
 
             var hintGroups = [];
-            for (var i = 0; i < this.steps; ++i) {
-                var stepMax = this.range.end - stepSize * i;
+            for (var i = 0; i < _steps; ++i) {
+                var stepMax = _range.end - stepSize * i;
                 var stepMin = stepMax - stepSize;
 
                 var hintCount = 0;
-                for (var j = 0, count = this.data.hints.length; j < count; ++j) {
-                    var hint = this.data.hints[j];
+                for (var j = 0, count = _data.hints.length; j < count; ++j) {
+                    var hint = _data.hints[j];
                     if (hint.sample > stepMin && hint.sample <= stepMax) {
                         hintCount += hint.count;
                     }
@@ -208,74 +199,44 @@
             }
 
             return hintGroups;
-        };
+        }
 
-        this.setClampedValue = function(value, final) {
-            this.value = this.range.clamp(value);
-            this.updateShapes(final);
+        function setClampedValue(value) {
+            _value = _range.clamp(value);
 
-            if (this.onValueChanged && final) {
-                this.onValueChanged(this.name, this.value);
+            if (onValueChanged) {
+                onValueChanged(_name, _value);
             }
-        };
 
-        this.update = function(data, scale) {
-            this.data  = data;
-            this.scale = scale;
-            this.updateShapes(true);
-        };
+            updateShapes();
+        }
 
-        this.valueColorAdjust = function(color, offset) {
+        function valueColorAdjust(color, offset) {
             var colorObj = tinycolor(color);
-            var rangeEnd = this.value >= 0.0 ? this.range.end : this.range.start;
-            var rangeMid = (this.range.start + this.range.end) / 2.0;
-            var rangeRat = (this.value - rangeMid) / (rangeEnd - rangeMid);
+            var rangeEnd = _value >= 0.0 ? _range.end : _range.start;
+            var rangeMid = (_range.start + _range.end) / 2.0;
+            var rangeRat = (_value - rangeMid) / (rangeEnd - rangeMid);
             var desatVal = Math.max(0.0, 1.0 - rangeRat + offset) * 100.0;
             return colorObj.desaturate(desatVal).toHexString();
+        }
+
+        function computeFillColor() {
+            var color = _value >= 0.0 ? _fillColorPos : _fillColorNeg;
+            return valueColorAdjust(color, _desatOffset);
+        }
+
+        function computeHandleColor() {
+            var color = _value >= 0.0 ? _handleColorPos : _handleColorNeg;
+            return valueColorAdjust(color, _desatOffset);
+        }
+
+        this.update = function(data, scale) {
+            _data  = data;
+            _scale = scale;
+            updateShapes();
         };
 
-        this.computeFillColor = function() {
-            var color = this.value >= 0.0 ? this.fillColorPos : this.fillColorNeg;
-            return this.valueColorAdjust(color, this.desatOffset);
-        };
-
-        this.computeHandleColor = function() {
-            var color = this.value >= 0.0 ? this.handleColorPos : this.handleColorNeg;
-            return this.valueColorAdjust(color, this.desatOffset);
-        };
-
-        this.State = {
-            NORMAL: 0,
-            HOVER:  1,
-            DRAG:   2
-        };
-
-        this.desatOffset    = -0.3;
-        this.handleSize     = 10;
-        this.densitySize    = 10;
-        this.panelSize      = 20;
-        this.tickSize       = 5;
-        this.width          = 125;
-        this.height         = 500;
-        this.padding        = 10;
-        this.emptyColor     = '#eeeeec';
-        this.strokeColor    = '#d3d7cf';
-        this.tickColor      = '#888a85';
-        this.fillColorNeg   = '#3465a4';
-        this.fillColorPos   = '#cc0000';
-        this.handleColorNeg = '#204a87';
-        this.handleColorPos = '#a40000';
-
-        this.canvas = params.canvas;
-        this.name   = params.name;
-        this.data   = params.data;
-        this.scale  = params.scale;
-        this.range  = params.range;
-        this.steps  = params.steps;
-        this.index  = params.index;
-        this.state  = this.State.NORMAL;
-
-        this.updateShapes();
+        updateShapes();
     }
 
 
