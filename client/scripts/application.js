@@ -74,11 +74,11 @@
                 canvas:           new Snap('#svg'),
                 steps:            ctx.hintSteps,
                 range:            ctx.searchRange,
+                onValueChanged:   onAdjust,
                 useLocalScale:    true,
                 useRelativeScale: true
             });
             ctx.grapher.setColumns(results.columns);
-            ctx.grapher.setValueChangedListener(onAdjust);
 
             saveSnapshot(results);
             outputMatches(results.items, results.count);

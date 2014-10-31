@@ -291,6 +291,7 @@
         var _steps            = params.steps || 20;
         var _useLocalScale    = params.useLocalScale || true;
         var _useRelativeScale = params.useRelativeScale || true;
+        var _onValueChanged   = params.onValueChanged;
 
         function computeLocalScale(hints) {
             var counts = _.pluck(hints, 'count');
@@ -333,13 +334,14 @@
                 }
                 else {
                     _columns[name] = new Column({
-                        canvas: _canvas,
-                        steps:  _steps,
-                        range:  _range,
-                        data:   data,
-                        name:   name,
-                        scale:  scale,
-                        index:  index++,
+                        onValueChanged: _onValueChanged,
+                        steps:          _steps,
+                        range:          _range,
+                        canvas:         _canvas,
+                        data:           data,
+                        name:           name,
+                        scale:          scale,
+                        index:          index++,
                     });
                 }
             }
@@ -356,12 +358,6 @@
             if (useRelativeScale != _useRelativeScale) {
                 _useRelativeScale = useRelativeScale;
                 this.setColumns(_data);
-            }
-        };
-
-        this.setValueChangedListener = function(listener) {
-            for (var name in _columns) {
-                _columns[name].onValueChanged = listener;
             }
         };
     };
