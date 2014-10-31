@@ -48,7 +48,7 @@
     }
 
     function onSearch() {
-        var keywords     = $('#keywordsToSearch').val() || [];
+        var keywords = $('#keywordsToSearch').val() || [];
         var searchParams = {};
 
         for (var i = 0, count = keywords.length; i < count; ++i) {
@@ -70,7 +70,13 @@
             ctx.hintSteps    = query.hintSteps;
             ctx.maxResults   = query.maxResults;
 
-            ctx.grapher = new grapher.Grapher('grapher', ctx.searchRange, 150, true, true);
+            ctx.grapher = new grapher.Grapher({
+                canvas:           null,
+                columnRange:      ctx.searchRange,
+                columnWidth:      150,
+                useLocalScale:    true,
+                useRelativeScale: true
+            });
             ctx.grapher.setColumns(results.columns);
             ctx.grapher.setValueChangedListener(onAdjust);
 
@@ -86,9 +92,9 @@
                 var useRelativeScale = $('#useRelativeScale').is(':checked');
                 ctx.grapher.setUseRelativeScale(useRelativeScale);
             });
-            $('#input').fadeOut(function() {
-                $('#output').fadeIn();
-            });
+            // $('#input').fadeOut(function() {
+            //     $('#output').fadeIn();
+            // });
         });
     }
 

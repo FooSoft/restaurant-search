@@ -238,7 +238,7 @@
             for (var name in columns) {
                 var data = columns[name];
                 if (useLocalScale) {
-                    scale = this.computeLocalScale(column.hints);
+                    scale = this.computeLocalScale(data.hints);
                 }
 
                 var column = this.columns[name];
@@ -246,13 +246,13 @@
                     column.update(data, scale);
                 }
                 else {
-                    this.columns.push(new Column({
+                    this.columns[name] = new Column({
                         canvas: this.canvas,
                         data:   column,
                         name:   name,
                         range:  this.range,
                         scale:  scale,
-                    }));
+                    });
                 }
             }
         };
@@ -300,9 +300,9 @@
 
         this.canvas           = params.canvas;
         this.columnData       = null;
-        this.columnPadding    = 10;
+        this.columnPadding    = params.columnPadding || 10;
         this.columnRange      = new Range(-1.0, 1.0);
-        this.columnWidth      = 100;
+        this.columnWidth      = params.columnWidth || 100;
         this.columns          = {};
         this.useLocalScale    = params.useLocalScale || true;
         this.useRelativeScale = params.useRelativeScale || true;
