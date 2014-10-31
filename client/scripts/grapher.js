@@ -109,32 +109,34 @@
     //  Column
     //
 
-    function Column(canvas, name, params, scale, range) {
-        this.updateShapes = function(final) {
+    function Column(params) {
+        this.updateShapes = function() {
 
         };
 
-        this.decimateHints = function(steps, scale) {
-            var groups = this.groupHints(steps);
+        this.decimateHints = function(hints, steps, scale) {
+            var groups = this.groupHints(hints, steps);
 
             var colorStops = {};
-            _.each(groups, function(count, index) {
+            for (var i = 0, count = groups.length; i < count; ++i) {
+                var groupSize = groups[i];
+
                 var colorPercent = 0;
                 if (scale.getLength() > 0) {
-                    colorPercent = Math.max(0, count - scale.start) / scale.getLength();
+                    colorPercent = Math.max(0, groupSize - scale.start) / scale.getLength();
                 }
 
                 var colorByte = 0xff - Math.min(0xff, Math.round(0xff * colorPercent));
                 var colorObj  = tinycolor({ r: colorByte, g: colorByte, b: colorByte });
                 var colorStr  = colorObj.toHexString();
 
-                colorStops[index / steps] = colorStr;
-            });
+                colorStops[i / steps] = colorStr;
+            }
 
             return colorStops;
         };
 
-        this.groupHints = function(steps) {
+        this.groupHints = function(hints, steps) {
             var stepSize = this.range.getLength() / steps;
 
             var hintGroups = [];
@@ -143,7 +145,7 @@
                 var stepMin = stepMax - stepSize;
 
                 var hintCount = 0;
-                for (var j = 0, count = this.hints.length; j < count; ++j) {
+                for (var j = 0, count = hints.length; j < count; ++j) {
                     var hint = this.hints[j];
                     if (hint.sample > stepMin && hint.sample <= stepMax) {
                         hintCount += hint.count;
@@ -165,10 +167,8 @@
             }
         };
 
-        this.updateParams = function(params, scale) {
-            this.hints = params.hints;
-            this.value = params.value;
-            this.steps = params.steps;
+        this.update = function(data, scale) {
+            this.data  = data;
             this.scale = scale;
             this.updateShapes(true);
         };
@@ -182,12 +182,12 @@
             return colorObj.desaturate(desatVal).toHexString();
         };
 
-        this.getFillColor = function() {
+        this.computeFillColor = function() {
             var color = this.value >= 0.0 ? this.fillColorPos : this.fillColorNeg;
             return this.valueColorAdjust(color, this.desatOffset);
         };
 
-        this.getHandleColor = function() {
+        this.computeHandleColor = function() {
             var color = this.value >= 0.0 ? this.handleColorPos : this.handleColorNeg;
             return this.valueColorAdjust(color, this.desatOffset);
         };
@@ -212,18 +212,14 @@
         this.handleColorNeg = '#204a87';
         this.handleColorPos = '#a40000';
 
-        this.canvas = canvas;
-        this.shapes = [];
-        this.name   = name;
-        this.value  = params.value;
-        this.hints  = params.hints;
-        this.steps  = params.steps;
-        this.scale  = scale;
-        this.range  = range;
-        this.bounds = bounds;
+        this.canvas = params.canvas;
+        this.name   = params.name;
+        this.data   = params.data;
+        this.scale  = params.scale;
+        this.range  = params.range;
         this.state  = this.State.NORMAL;
 
-        this.updateShapes(true);
+        this.updateShapes();
     }
 
 
@@ -247,10 +243,7 @@
 
                 var column = this.columns[name];
                 if (column) {
-                    column.update({
-                        data:  data,
-                        scale: scale
-                    });
+                    column.update(data, scale);
                 }
                 else {
                     this.columns.push(new Column({
