@@ -97,6 +97,11 @@
 
             return value;
         };
+
+        this.include = function(range) {
+            this.start = Math.min(this.start, range.start);
+            this.end   = Math.max(this.end, range.end);
+        };
     }
 
 
@@ -226,134 +231,87 @@
     //  Grapher
     //
 
-    grapher.Grapher = function(canvas, range, columnWidth, useLocalScale, useRelativeScale) {
+    grapher.Grapher = function(params) {
         this.setColumns = function(columns) {
-            this.clearColumns();
-
             var scale = 0;
             if (!useLocalScale) {
-                var hintData = {};
-                _.each(columns, function(columnValue, columnName) {
-                    hintData[columnName] = columnValue.hints || [];
-                });
-
-                scale = this.getGlobalScale(hintData);
+                var hintData = _.pluck(columns, 'hints');
+                scale = this.computeGlobalScale(hintData);
             }
 
-            var index = 0;
-            var that = this;
-            _.each(columns, function(columnValue, columnName) {
+            for (var name in columns) {
+                var data = columns[name];
                 if (useLocalScale) {
-                    scale = that.getLocalScale(columnValue.hints);
+                    scale = this.computeLocalScale(column.hints);
                 }
 
-                that.columns.push(new Column(that.canvas, columnName, columnValue, scale, that.range));
-                that.indexMap[columnName] = index++;
-            });
-        };
-
-        this.clearColumns = function() {
-            _.each(this.columns, function(column) {
-                column.clearShapes();
-            });
-
-            this.columns  = [];
-            this.indexMap = {};
-        };
-
-        this.updateColumns = function(data) {
-            var scale = 0;
-            if (!this.useLocalScale) {
-                scale = this.getGlobalScale(hintData);
+                var column = this.columns[name];
+                if (column) {
+                    column.update({
+                        data:  data,
+                        scale: scale
+                    });
+                }
+                else {
+                    this.columns.push(new Column({
+                        canvas: this.canvas,
+                        data:   column,
+                        name:   name,
+                        range:  this.range,
+                        scale:  scale,
+                    }));
+                }
             }
-
-            var that = this;
-            _.each(data, function(entry, name) {
-                if (that.useLocalScale) {
-                    scale = that.getLocalScale(entry.hints);
-                }
-
-                var index = that.getColumnIndex(name);
-                var column = that.columns[index];
-                column.updateParams(entry, scale);
-            });
         };
 
         this.setUseLocalScale = function(useLocalScale) {
             if (useLocalScale != this.useLocalScale) {
                 this.useLocalScale = useLocalScale;
-                this.invalidateHints();
+                this.updateColumns(this.columnData);
             }
         };
 
         this.setUseRelativeScale = function(useRelativeScale) {
             if (useRelativeScale != this.useRelativeScale) {
                 this.useRelativeScale = useRelativeScale;
-                this.invalidateHints();
+                this.updateColumns(this.columnData);
             }
         };
 
-        this.invalidateHints = function() {
-            var hintData = {};
-            _.each(this.columns, function(column) {
-                hintData[column.name] = column.hints;
-            });
-
-            this.setColumnHints(hintData);
-        };
-
         this.setValueChangedListener = function(listener) {
-            _.each(this.columns, function(column) {
-                column.onValueChanged = listener;
-            });
+            for (var name in this.columns) {
+                this.columns[name].onValueChanged = listener;
+            }
         };
 
-        this.getLocalScale = function(hints) {
+        this.computeLocalScale = function(hints) {
             var counts = _.pluck(hints, 'count');
             var min = this.useRelativeScale ? _.min(counts) : 0;
             return new Range(min, _.max(counts));
         };
 
-        this.getGlobalScale = function(hintData) {
-            var that        = this;
+        this.computeGlobalScale = function(hintData) {
             var globalScale = null;
-
-            _.each(hintData, function(hints) {
-                var localScale = that.getLocalScale(hints);
+            for (var i = 0, count = hintData.length; i < count; ++i) {
+                var localScale = this.computeLocalScale(hintData[i]);
                 if (globalScale) {
-                    globalScale.includeRange(localScale);
+                    globalScale.include(localScale);
                 }
                 else {
                     globalScale = localScale;
                 }
-            });
+            }
 
             return globalScale;
         };
 
-        this.getColumnCount = function() {
-            return this.columns.length;
-        };
-
-        this.getColumnIndex = function(name) {
-            return this.indexMap[name];
-        };
-
-        this.getColumnName = function(index) {
-            return this.columns[index].name;
-        };
-
-        this.getColumnNames = function() {
-            return _.pluck(this.columns, 'name');
-        };
-
-        this.useLocalScale    = useLocalScale;
-        this.useRelativeScale = useRelativeScale;
-        this.columnWidth      = columnWidth;
-        this.canvas           = null;
-        this.range            = new Range(range.min, range.max);
-        this.padding          = 10;
-        this.indexMap         = {};
-        this.columns          = [];
+        this.canvas           = params.canvas;
+        this.columnData       = null;
+        this.columnPadding    = 10;
+        this.columnRange      = new Range(-1.0, 1.0);
+        this.columnWidth      = 100;
+        this.columns          = {};
+        this.useLocalScale    = params.useLocalScale || true;
+        this.useRelativeScale = params.useRelativeScale || true;
     };
 }(window.grapher = window.grapher || {}));
