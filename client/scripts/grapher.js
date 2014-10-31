@@ -111,7 +111,12 @@
 
     function Column(params) {
         this.updateShapes = function() {
-
+            var bigCircle = this.canvas.circle(150, 150, 100);
+            bigCircle.attr({
+                fill:        "#bada55",
+                stroke:      "#000",
+                strokeWidth: 5
+            });
         };
 
         this.decimateHints = function(hints, steps, scale) {

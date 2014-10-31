@@ -71,7 +71,7 @@
             ctx.maxResults   = query.maxResults;
 
             ctx.grapher = new grapher.Grapher({
-                canvas:           null,
+                canvas:           Snap('#svg'),
                 columnRange:      ctx.searchRange,
                 columnWidth:      150,
                 useLocalScale:    true,
