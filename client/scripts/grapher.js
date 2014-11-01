@@ -127,31 +127,73 @@
         var _height      = 500;
         var _padding     = 10;
 
-        var _canvas = params.canvas;
-        var _name   = params.name;
-        var _data   = params.data;
-        var _scale  = params.scale;
-        var _range  = params.range;
-        var _steps  = params.steps;
-        var _index  = params.index;
+        var _canvas   = params.canvas;
+        var _name     = params.name;
+        var _data     = params.data;
+        var _scale    = params.scale;
+        var _range    = params.range;
+        var _steps    = params.steps;
+        var _index    = params.index;
+        var _elements = {};
+
+        function createShapes() {
+            _elements.gradient = _canvas.gradient(decimateHints());
+
+            _elements.backdrop = _canvas.rect(
+                _tickSize,
+                0,
+                _width - (_densitySize + _tickSize),
+                _height - _panelSize
+            ).attr({'stroke': '#d3d7cf', 'fill': '#eeeeec'});
+
+            _elements.value = _canvas.rect(
+                _tickSize,
+                0,
+                _width - (_densitySize + _tickSize),
+                50
+            ).attr({'fill': '#cc0000'});
+
+            _elements.density = _canvas.rect(
+                _width - _densitySize,
+                0,
+                _densitySize,
+                _height - _panelSize
+            ).attr({'stroke': '#d3d7cf', 'fill': _elements.gradient});
+
+            _elements.tick = _canvas.line(
+                0,
+                (_height - _panelSize) / 2,
+                _tickSize,
+                (_height - _panelSize) / 2
+            ).attr({'stroke': '#888a85'});
+
+            _elements.panel = _canvas.rect(
+                _tickSize,
+                _height - _panelSize,
+                _width - _tickSize,
+                _panelSize
+            ).attr({'fill': '#d3d7cf'});
+
+            _elements.label = _canvas.text(
+                _tickSize + (_width - _tickSize) / 2,
+                _height - _panelSize / 2,
+                _name
+            ).attr({'dominant-baseline': 'middle', 'text-anchor': 'middle'});
+
+            _elements.group = _canvas.group(
+                _elements.backdrop,
+                _elements.value,
+                _elements.density,
+                _elements.panel,
+                _elements.tick,
+                _elements.label
+            );
+
+            _elements.group.transform(Snap.format('t{x},{y}', {x: _index * (_width + _padding), y: 0}));
+        }
 
         function updateShapes() {
-            var gradient = _canvas.gradient(decimateHints());
 
-            // function logger(e, x, y) {
-            //     var rect = e.srcElement;
-            //     console.log(rect.getBoundingClientRect());
-            // }
-
-            var backdrop = _canvas.rect(_tickSize, 0, _width - (_densitySize + _tickSize), _height - _panelSize).attr({'stroke': '#d3d7cf', 'fill': '#eeeeec'});
-            var value    = _canvas.rect( _tickSize, 0, _width - (_densitySize + _tickSize), 50).attr({'fill': '#cc0000'});
-            var density  = _canvas.rect( _width - _densitySize, 0, _densitySize, _height - _panelSize).attr({'stroke': '#d3d7cf', 'fill': gradient});
-            var tick     = _canvas.line( 0, (_height - _panelSize) / 2, _tickSize, (_height - _panelSize) / 2).attr({'stroke': '#888a85'});
-            var panel    = _canvas.rect( _tickSize, _height - _panelSize, _width - _tickSize, _panelSize).attr({'fill': '#d3d7cf'});
-            var label    = _canvas.text( _tickSize + (_width - _tickSize) / 2, _height - _panelSize / 2, _name).attr({'dominant-baseline': 'middle', 'text-anchor': 'middle'});
-
-            var group = _canvas.group(backdrop, value, density, panel, tick, label);
-            group.transform(Snap.format('t{x},{y}', {x: _index * (_width + _padding), y: 0}));
         }
 
         function decimateHints() {
@@ -201,10 +243,10 @@
             return hintGroups;
         }
 
-        function setClampedValue(value) {
+        function setClampedValue(value, final) {
             _value = _range.clamp(value);
 
-            if (onValueChanged) {
+            if (final && onValueChanged) {
                 onValueChanged(_name, _value);
             }
 
@@ -236,7 +278,7 @@
             updateShapes();
         };
 
-        updateShapes();
+        createShapes();
     }
 
 
