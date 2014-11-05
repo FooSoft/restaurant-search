@@ -90,7 +90,7 @@
         var _tickSize    = 5;
         var _width       = 125;
 
-        var _busy           = false;
+        var _enabled        = true;
         var _canvas         = params.canvas;
         var _data           = params.data;
         var _index          = params.index;
@@ -253,7 +253,7 @@
         }
 
         function clicked(event, x, y) {
-            if (!_busy) {
+            if (_enabled) {
                 var rect = _canvas.node.getBoundingClientRect();
                 updateValue(indicatorToValue(y - rect.top));
             }
@@ -265,8 +265,8 @@
             updateShapes();
         };
 
-        this.setBusy = function(busy) {
-            _busy = busy;
+        this.enable = function(enable) {
+            _enabled = enable;
         };
 
         createShapes();
@@ -355,9 +355,9 @@
             }
         };
 
-        this.setBusy = function(busy) {
+        this.enable = function(enable) {
             for (var name in _columns) {
-                _columns[name].setBusy(busy);
+                _columns[name].enable(enable);
             }
         };
     };

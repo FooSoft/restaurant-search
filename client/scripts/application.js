@@ -41,11 +41,11 @@
             maxResults:   ctx.maxResults
         };
 
-        ctx.grapher.setBusy(true);
+        ctx.grapher.enable(false);
         $.getJSON('/search', query, function(results) {
             saveSnapshot(results);
             outputSnapshot(results);
-            ctx.grapher.setBusy(false);
+            ctx.grapher.enable(true);
         });
     }
 
