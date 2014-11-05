@@ -160,6 +160,10 @@
     }
 
     function outputSnapshot(results) {
+        for (var name in results.columns) {
+            ctx.searchParams[name] = results.columns[name].value;
+        }
+
         ctx.grapher.setColumns(results.columns);
         outputMatches(results.items, results.count);
     }
