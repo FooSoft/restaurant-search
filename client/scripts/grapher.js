@@ -148,49 +148,31 @@
             _elements.gradient = _canvas.gradient(decimateHints());
 
             _elements.backdrop = _canvas.rect(
-                _tickSize,
-                0,
-                _width - (_densitySize + _tickSize),
-                _height - _panelSize
+                _tickSize, 0, _width - (_densitySize + _tickSize), _height - _panelSize
             ).attr({'stroke': '#d3d7cf', 'fill': '#eeeeec'});
 
-            var range = computeIndicatorRange();
-            _elements.indicator = _canvas.rect(
-                _tickSize,
-                range.start,
-                _width - (_densitySize + _tickSize),
-                (range.end - range.start)
-            ).attr({'fill': computeFillColor()});
-
             _elements.density = _canvas.rect(
-                _width - _densitySize,
-                0,
-                _densitySize,
-                _height - _panelSize
+                _width - _densitySize, 0, _densitySize, _height - _panelSize
             ).attr({'stroke': '#d3d7cf', 'fill': _elements.gradient});
 
-            if (_range.contains(0.0)) {
-                var origin = valueToIndicator(0.0);
-                _elements.tick = _canvas.line(
-                    0,
-                    origin,
-                    _tickSize,
-                    origin
-                ).attr({'stroke': '#888a85'});
-            }
-
-            _elements.panel = _canvas.rect(
-                _tickSize,
-                _height - _panelSize,
-                _width - _tickSize,
-                _panelSize
+            _elements.panel = _canvas.rect( _tickSize,
+                _height - _panelSize, _width - _tickSize, _panelSize
             ).attr({'fill': '#d3d7cf'});
 
             _elements.label = _canvas.text(
-                _tickSize + (_width - _tickSize) / 2,
-                _height - _panelSize / 2,
-                _name
+                _tickSize + (_width - _tickSize) / 2, _height - _panelSize / 2, _name
             ).attr({'dominant-baseline': 'middle', 'text-anchor': 'middle'});
+
+            var range = computeIndicatorRange();
+            _elements.indicator = _canvas.rect(
+                _tickSize, range.start, _width - (_densitySize + _tickSize), (range.end - range.start)
+            ).attr({'fill': computeFillColor()});
+
+            if (_range.contains(0.0)) {
+                var origin = valueToIndicator(0.0);
+                    _elements.tick = _canvas.line( 0, origin, _tickSize, origin
+                ).attr({'stroke': '#888a85'});
+            }
 
             _elements.group = _canvas.group(
                 _elements.backdrop,
