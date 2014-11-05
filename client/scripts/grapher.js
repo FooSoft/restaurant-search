@@ -135,14 +135,15 @@
         var _height      = 500;
         var _padding     = 10;
 
-        var _canvas   = params.canvas;
-        var _name     = params.name;
-        var _data     = params.data;
-        var _scale    = params.scale;
-        var _range    = params.range;
-        var _steps    = params.steps;
-        var _index    = params.index;
-        var _elements = {};
+        var _onValueChanged = params.onValueChanged;
+        var _canvas         = params.canvas;
+        var _name           = params.name;
+        var _data           = params.data;
+        var _scale          = params.scale;
+        var _range          = params.range;
+        var _steps          = params.steps;
+        var _index          = params.index;
+        var _elements       = {};
 
         function createShapes() {
             _elements.gradient = _canvas.gradient(decimateHints());
@@ -253,11 +254,11 @@
             return hintGroups;
         }
 
-        function setClampedValue(value, final) {
+        function setClampedValue(value) {
             _data.value = _range.clamp(value);
 
-            if (final && onValueChanged) {
-                onValueChanged(_name, _data.value);
+            if (_onValueChanged) {
+                _onValueChanged(_name, _data.value);
             }
 
             updateShapes();

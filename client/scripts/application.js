@@ -158,7 +158,7 @@
     }
 
     function outputSnapshot(results) {
-        ctx.grapher.updateColumns(results.columns);
+        ctx.grapher.setColumns(results.columns);
         outputMatches(results.items, results.count);
     }
 
