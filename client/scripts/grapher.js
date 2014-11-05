@@ -150,7 +150,7 @@
             // backdrop
             _elements.backdrop = _canvas.rect(
                 _tickSize, 0, _width - (_densitySize + _tickSize), _height - _panelSize
-            ).attr({'stroke': '#d3d7cf', 'fill': '#eeeeec'}).click(clicked);
+            ).attr({'cursor': 'crosshair', 'stroke': '#d3d7cf', 'fill': '#eeeeec'}).click(clicked);
 
             // density
             _elements.density = _canvas.rect(
@@ -171,7 +171,7 @@
             var range = computeIndicatorRange();
             _elements.indicator = _canvas.rect(
                 _tickSize, range.start, _width - (_densitySize + _tickSize), (range.end - range.start)
-            ).attr({'fill': computeFillColor()}).click(clicked);
+            ).attr({'cursor': 'crosshair', 'fill': computeFillColor()}).click(clicked);
 
             // tick
             if (_range.contains(0.0)) {
