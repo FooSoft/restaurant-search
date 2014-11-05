@@ -78,7 +78,7 @@
         this.start = Math.min(start, end);
         this.end   = Math.max(start, end);
 
-        this.containsPoint = function(value) {
+        this.contains = function(value) {
             return value >= this.start && value <= this.end;
         };
 
@@ -159,7 +159,7 @@
                 _tickSize,
                 range.start,
                 _width - (_densitySize + _tickSize),
-                range.end
+                (range.end - range.start)
             ).attr({'fill': computeFillColor()});
 
             _elements.density = _canvas.rect(
@@ -169,12 +169,15 @@
                 _height - _panelSize
             ).attr({'stroke': '#d3d7cf', 'fill': _elements.gradient});
 
-            _elements.tick = _canvas.line(
-                0,
-                (_height - _panelSize) / 2,
-                _tickSize,
-                (_height - _panelSize) / 2
-            ).attr({'stroke': '#888a85'});
+            if (_range.contains(0.0)) {
+                var origin = valueToIndicator(0.0);
+                _elements.tick = _canvas.line(
+                    0,
+                    origin,
+                    _tickSize,
+                    origin
+                ).attr({'stroke': '#888a85'});
+            }
 
             _elements.panel = _canvas.rect(
                 _tickSize,
@@ -202,7 +205,15 @@
         }
 
         function updateShapes() {
+            _elements.gradient = _canvas.gradient(decimateHints());
+            _elements.density.attr('fill', _elements.gradient);
 
+            var range = computeIndicatorRange();
+            _elements.indicator.params({
+                'y':      range.start,
+                'height': range.end - range.start,
+                'fill':   computeFillColor()
+            });
         }
 
         function decimateHints() {
