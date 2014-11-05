@@ -90,33 +90,32 @@
         var _tickSize    = 5;
         var _width       = 125;
 
+        var _busy           = false;
         var _canvas         = params.canvas;
         var _data           = params.data;
-        var _elements       = {};
         var _index          = params.index;
         var _name           = params.name;
         var _onValueChanged = params.onValueChanged;
         var _range          = params.range;
         var _scale          = params.scale;
         var _steps          = params.steps;
+        var _elements       = {};
 
         function createShapes() {
-            _elements.gradient = _canvas.gradient(decimateHints());
-
             // backdrop
             _elements.backdrop = _canvas.rect(
                 _tickSize, 0, _width - (_densitySize + _tickSize), _height - _panelSize
-            ).attr({'cursor': 'crosshair', 'stroke': _borderColor, 'fill': _backdropColor}).click(clicked);
+            ).attr({cursor: 'crosshair', stroke: _borderColor, fill: _backdropColor}).click(clicked);
 
             // density
             _elements.density = _canvas.rect(
                 _width - _densitySize, 0, _densitySize, _height - _panelSize
-            ).attr({'stroke': _borderColor, 'fill': _elements.gradient});
+            ).attr({stroke: _borderColor});
 
             // panel
             _elements.panel = _canvas.rect( _tickSize,
                 _height - _panelSize, _width - _tickSize, _panelSize
-            ).attr({'fill': _panelColor});
+            ).attr({fill: _panelColor});
 
             // label
             _elements.label = _canvas.text(
@@ -127,13 +126,13 @@
             var range = computeIndicatorRange();
             _elements.indicator = _canvas.rect(
                 _tickSize, range.start, _width - (_densitySize + _tickSize), (range.end - range.start)
-            ).attr({'cursor': 'crosshair', 'fill': computeIndicatorColor()}).click(clicked);
+            ).attr({cursor: 'crosshair', fill: computeIndicatorColor()}).click(clicked);
 
             // tick
             if (_range.contains(0.0)) {
                 var origin = valueToIndicator(0.0);
                 _elements.tick = _canvas.line(0, origin, _width - _densitySize, origin
-                ).attr({'stroke': _tickColor});
+                ).attr({stroke: _tickColor});
             }
 
             _elements.group = _canvas.group(
@@ -145,20 +144,24 @@
                 _elements.label
             );
 
-            _elements.group.transform(Snap.format('t{x},{y}', {x: _index * (_width + _padding), y: 0}));
+            _elements.group.transform(
+                Snap.format('t{x},{y}', {x: _index * (_width + _padding), y: 0})
+            );
+
+            updateShapes();
         }
 
         function updateShapes() {
-            // update gradient
-            _elements.gradient = _canvas.gradient(decimateHints());
-            _elements.density.attr('fill', _elements.gradient);
+            var gradient = _canvas.gradient(decimateHints());
+            _elements.density.attr({
+                fill: gradient
+            });
 
-            // update indicator
             var range = computeIndicatorRange();
             _elements.indicator.attr({
-                'y':      range.start,
-                'height': range.end - range.start,
-                'fill':   computeIndicatorColor()
+                y:      range.start,
+                height: range.end - range.start,
+                fill:   computeIndicatorColor()
             });
         }
 
@@ -209,7 +212,7 @@
             return hintGroups;
         }
 
-        function setClampedValue(value) {
+        function updateValue(value) {
             _data.value = _range.clamp(value);
 
             if (_onValueChanged) {
@@ -250,14 +253,20 @@
         }
 
         function clicked(event, x, y) {
-            var rect = _canvas.node.getBoundingClientRect();
-            setClampedValue(indicatorToValue(y - rect.top));
+            if (!_busy) {
+                var rect = _canvas.node.getBoundingClientRect();
+                updateValue(indicatorToValue(y - rect.top));
+            }
         }
 
         this.update = function(data, scale) {
             _data  = data;
             _scale = scale;
             updateShapes();
+        };
+
+        this.setBusy = function(busy) {
+            _busy = busy;
         };
 
         createShapes();
@@ -343,6 +352,12 @@
             if (useRelativeScale != _useRelativeScale) {
                 _useRelativeScale = useRelativeScale;
                 this.setColumns(_data);
+            }
+        };
+
+        this.setBusy = function(busy) {
+            for (var name in _columns) {
+                _columns[name].setBusy(busy);
             }
         };
     };
