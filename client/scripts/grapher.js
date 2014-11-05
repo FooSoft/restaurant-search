@@ -103,12 +103,12 @@
             this.end   = Math.max(this.end, range.end);
         };
 
-        this.offset = function(value, clamp) {
-            if (clamp) {
-                value = this.clamp(value);
-            }
-
+        this.offset = function(value) {
             return (value - this.start) / this.length();
+        };
+
+        this.project = function(value) {
+            return this.start + this.length() * value;
         };
     }
 
@@ -147,27 +147,33 @@
         function createShapes() {
             _elements.gradient = _canvas.gradient(decimateHints());
 
+            // backdrop
             _elements.backdrop = _canvas.rect(
                 _tickSize, 0, _width - (_densitySize + _tickSize), _height - _panelSize
-            ).attr({'stroke': '#d3d7cf', 'fill': '#eeeeec'});
+            ).attr({'stroke': '#d3d7cf', 'fill': '#eeeeec'}).click(clicked);
 
+            // density
             _elements.density = _canvas.rect(
                 _width - _densitySize, 0, _densitySize, _height - _panelSize
             ).attr({'stroke': '#d3d7cf', 'fill': _elements.gradient});
 
+            // panel
             _elements.panel = _canvas.rect( _tickSize,
                 _height - _panelSize, _width - _tickSize, _panelSize
             ).attr({'fill': '#d3d7cf'});
 
+            // label
             _elements.label = _canvas.text(
                 _tickSize + (_width - _tickSize) / 2, _height - _panelSize / 2, _name
             ).attr({'dominant-baseline': 'middle', 'text-anchor': 'middle'});
 
+            // indicator
             var range = computeIndicatorRange();
             _elements.indicator = _canvas.rect(
                 _tickSize, range.start, _width - (_densitySize + _tickSize), (range.end - range.start)
-            ).attr({'fill': computeFillColor()});
+            ).attr({'fill': computeFillColor()}).click(clicked);
 
+            // tick
             if (_range.contains(0.0)) {
                 var origin = valueToIndicator(0.0);
                     _elements.tick = _canvas.line( 0, origin, _tickSize, origin
@@ -187,11 +193,13 @@
         }
 
         function updateShapes() {
+            // update gradient
             _elements.gradient = _canvas.gradient(decimateHints());
             _elements.density.attr('fill', _elements.gradient);
 
+            // update indicator
             var range = computeIndicatorRange();
-            _elements.indicator.params({
+            _elements.indicator.attr({
                 'y':      range.start,
                 'height': range.end - range.start,
                 'fill':   computeFillColor()
@@ -280,9 +288,19 @@
 
         function valueToIndicator(scalar) {
             var box    = _elements.backdrop.getBBox();
-            var ratio  = box.height / _range.length();
-            var offset = _range.offset(scalar, true);
+            var offset = _range.offset(scalar);
             return box.y + box.height * (1.0 - offset);
+        }
+
+        function indicatorToValue(scalar) {
+            var box   = _elements.backdrop.getBBox();
+            var range = new Range(box.y, box.y + box.height);
+            return -_range.project(range.offset(scalar));
+        }
+
+        function clicked(event, x, y) {
+            var rect = _canvas.node.getBoundingClientRect();
+            setClampedValue(indicatorToValue(y - rect.top));
         }
 
         this.update = function(data, scale) {
