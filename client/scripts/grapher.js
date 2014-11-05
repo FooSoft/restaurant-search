@@ -28,49 +28,6 @@
     'use strict';
 
     //
-    //  Coord
-    //
-
-    function Coord(x, y) {
-        this.x = x;
-        this.y = y;
-    }
-
-
-    //
-    //  Rect
-    //
-
-    function Rect(left, top, width, height) {
-        this.left   = left;
-        this.top    = top;
-        this.width  = width;
-        this.height = height;
-        this.right  = left + width;
-        this.bottom = top + height;
-
-        this.contains = function(coord) {
-            var contained =
-                coord.x >= this.left &&
-                coord.x < this.right &&
-                coord.y >= this.top &&
-                coord.y < this.bottom;
-
-            return contained;
-        };
-
-        this.intersection = function(rect) {
-            var left   = Math.max(this.left, rect.left);
-            var top    = Math.max(this.top, rect.top);
-            var right  = Math.min(this.right, rect.right);
-            var bottom = Math.min(this.bottom, rect.bottom);
-
-            return new Rect(left, top, right - left, bottom - top);
-        };
-    }
-
-
-    //
     //  Range
     //
 
@@ -118,32 +75,30 @@
     //
 
     function Column(params) {
-        var _emptyColor     = '#eeeeec';
-        var _strokeColor    = '#d3d7cf';
-        var _tickColor      = '#888a85';
-        var _fillColorNeg   = '#3465a4';
-        var _fillColorPos   = '#cc0000';
-        var _handleColorNeg = '#204a87';
-        var _handleColorPos = '#a40000';
+        var _backdropColor = '#eeeeec';
+        var _borderColor   = '#babdb6';
+        var _fillColorNeg  = '#3465a4';
+        var _fillColorPos  = '#cc0000';
+        var _panelColor    = '#babdb6';
+        var _tickColor     = '#555753';
 
-        var _desatOffset = -0.3;
-        var _handleSize  = 10;
         var _densitySize = 10;
+        var _desatOffset = -0.3;
+        var _height      = 500;
+        var _padding     = 10;
         var _panelSize   = 20;
         var _tickSize    = 5;
         var _width       = 125;
-        var _height      = 500;
-        var _padding     = 10;
 
-        var _onValueChanged = params.onValueChanged;
         var _canvas         = params.canvas;
-        var _name           = params.name;
         var _data           = params.data;
-        var _scale          = params.scale;
-        var _range          = params.range;
-        var _steps          = params.steps;
-        var _index          = params.index;
         var _elements       = {};
+        var _index          = params.index;
+        var _name           = params.name;
+        var _onValueChanged = params.onValueChanged;
+        var _range          = params.range;
+        var _scale          = params.scale;
+        var _steps          = params.steps;
 
         function createShapes() {
             _elements.gradient = _canvas.gradient(decimateHints());
@@ -151,17 +106,17 @@
             // backdrop
             _elements.backdrop = _canvas.rect(
                 _tickSize, 0, _width - (_densitySize + _tickSize), _height - _panelSize
-            ).attr({'cursor': 'crosshair', 'stroke': '#d3d7cf', 'fill': '#eeeeec'}).click(clicked);
+            ).attr({'cursor': 'crosshair', 'stroke': _borderColor, 'fill': _backdropColor}).click(clicked);
 
             // density
             _elements.density = _canvas.rect(
                 _width - _densitySize, 0, _densitySize, _height - _panelSize
-            ).attr({'stroke': '#d3d7cf', 'fill': _elements.gradient});
+            ).attr({'stroke': _borderColor, 'fill': _elements.gradient});
 
             // panel
             _elements.panel = _canvas.rect( _tickSize,
                 _height - _panelSize, _width - _tickSize, _panelSize
-            ).attr({'fill': '#d3d7cf'});
+            ).attr({'fill': _panelColor});
 
             // label
             _elements.label = _canvas.text(
@@ -172,13 +127,13 @@
             var range = computeIndicatorRange();
             _elements.indicator = _canvas.rect(
                 _tickSize, range.start, _width - (_densitySize + _tickSize), (range.end - range.start)
-            ).attr({'cursor': 'crosshair', 'fill': computeFillColor()}).click(clicked);
+            ).attr({'cursor': 'crosshair', 'fill': computeIndicatorColor()}).click(clicked);
 
             // tick
             if (_range.contains(0.0)) {
                 var origin = valueToIndicator(0.0);
-                    _elements.tick = _canvas.line( 0, origin, _tickSize, origin
-                ).attr({'stroke': '#888a85'});
+                _elements.tick = _canvas.line(0, origin, _width - _densitySize, origin
+                ).attr({'stroke': _tickColor});
             }
 
             _elements.group = _canvas.group(
@@ -203,7 +158,7 @@
             _elements.indicator.attr({
                 'y':      range.start,
                 'height': range.end - range.start,
-                'fill':   computeFillColor()
+                'fill':   computeIndicatorColor()
             });
         }
 
@@ -273,13 +228,8 @@
             return colorObj.desaturate(desatVal).toHexString();
         }
 
-        function computeFillColor() {
+        function computeIndicatorColor() {
             var color = _data.value >= 0.0 ? _fillColorPos : _fillColorNeg;
-            return valueColorAdjust(color, _desatOffset);
-        }
-
-        function computeHandleColor() {
-            var color = _data.value >= 0.0 ? _handleColorPos : _handleColorNeg;
             return valueColorAdjust(color, _desatOffset);
         }
 
