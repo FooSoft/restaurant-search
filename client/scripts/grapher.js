@@ -75,14 +75,14 @@
     //
 
     function Range(start, end) {
-        this.start = start;
-        this.end   = end;
+        this.start = Math.min(start, end);
+        this.end   = Math.max(start, end);
 
         this.containsPoint = function(value) {
             return value >= this.start && value <= this.end;
         };
 
-        this.getLength = function() {
+        this.length = function() {
             return this.end - this.start;
         };
 
@@ -101,6 +101,14 @@
         this.include = function(range) {
             this.start = Math.min(this.start, range.start);
             this.end   = Math.max(this.end, range.end);
+        };
+
+        this.offset = function(value, clamp) {
+            if (clamp) {
+                value = this.clamp(value);
+            }
+
+            return (value - this.start) / this.length();
         };
     }
 
@@ -146,12 +154,13 @@
                 _height - _panelSize
             ).attr({'stroke': '#d3d7cf', 'fill': '#eeeeec'});
 
-            _elements.value = _canvas.rect(
+            var range = computeIndicatorRange();
+            _elements.indicator = _canvas.rect(
                 _tickSize,
-                0,
+                range.start,
                 _width - (_densitySize + _tickSize),
-                50
-            ).attr({'fill': '#cc0000'});
+                range.end
+            ).attr({'fill': computeFillColor()});
 
             _elements.density = _canvas.rect(
                 _width - _densitySize,
@@ -182,7 +191,7 @@
 
             _elements.group = _canvas.group(
                 _elements.backdrop,
-                _elements.value,
+                _elements.indicator,
                 _elements.density,
                 _elements.panel,
                 _elements.tick,
@@ -204,8 +213,8 @@
                 var groupSize = groups[i];
 
                 var colorPercent = 0;
-                if (_scale.getLength() > 0) {
-                    colorPercent = Math.max(0, groupSize - _scale.start) / _scale.getLength();
+                if (_scale.length() > 0) {
+                    colorPercent = Math.max(0, groupSize - _scale.start) / _scale.length();
                 }
 
                 var colorByte = 0xff - Math.min(0xff, Math.round(0xff * colorPercent));
@@ -222,7 +231,7 @@
         }
 
         function groupHints() {
-            var stepSize = _range.getLength() / _steps;
+            var stepSize = _range.length() / _steps;
 
             var hintGroups = [];
             for (var i = 0; i < _steps; ++i) {
@@ -244,10 +253,10 @@
         }
 
         function setClampedValue(value, final) {
-            _value = _range.clamp(value);
+            _data.value = _range.clamp(value);
 
             if (final && onValueChanged) {
-                onValueChanged(_name, _value);
+                onValueChanged(_name, _data.value);
             }
 
             updateShapes();
@@ -255,21 +264,32 @@
 
         function valueColorAdjust(color, offset) {
             var colorObj = tinycolor(color);
-            var rangeEnd = _value >= 0.0 ? _range.end : _range.start;
+            var rangeEnd = _data.value >= 0.0 ? _range.end : _range.start;
             var rangeMid = (_range.start + _range.end) / 2.0;
-            var rangeRat = (_value - rangeMid) / (rangeEnd - rangeMid);
+            var rangeRat = (_data.value - rangeMid) / (rangeEnd - rangeMid);
             var desatVal = Math.max(0.0, 1.0 - rangeRat + offset) * 100.0;
             return colorObj.desaturate(desatVal).toHexString();
         }
 
         function computeFillColor() {
-            var color = _value >= 0.0 ? _fillColorPos : _fillColorNeg;
+            var color = _data.value >= 0.0 ? _fillColorPos : _fillColorNeg;
             return valueColorAdjust(color, _desatOffset);
         }
 
         function computeHandleColor() {
-            var color = _value >= 0.0 ? _handleColorPos : _handleColorNeg;
+            var color = _data.value >= 0.0 ? _handleColorPos : _handleColorNeg;
             return valueColorAdjust(color, _desatOffset);
+        }
+
+        function computeIndicatorRange() {
+            return new Range(valueToIndicator(0.0), valueToIndicator(_data.value));
+        }
+
+        function valueToIndicator(scalar) {
+            var box    = _elements.backdrop.getBBox();
+            var ratio  = box.height / _range.length();
+            var offset = _range.offset(scalar, true);
+            return box.y + box.height * (1.0 - offset);
         }
 
         this.update = function(data, scale) {
