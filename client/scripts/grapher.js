@@ -80,7 +80,7 @@
         var _fillColorNeg  = '#3465a4';
         var _fillColorPos  = '#cc0000';
         var _panelColor    = '#babdb6';
-        var _tickColor     = '#555753';
+        var _tickColor     = '#888a85';
 
         var _densitySize = 10;
         var _desatOffset = -0.3;
