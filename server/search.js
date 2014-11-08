@@ -133,32 +133,24 @@ function loadDb(params) {
 }
 
 function addKeyword(query, callback) {
-    // var keyword = (query.keyword || '').toLowerCase();
-    // if (!/^[a-zA-Z0-9]+$/.test(keyword)) {
-    //     callback({
-    //         keyword: keyword,
-    //         success: false
-    //     });
-    // }
-    // else {
-    //     getKeywords(function(keywords) {
-    //         var features = combine(keywords, query.params);
-    //         var values = [
-    //             keyword,
-    //             features.food || 0.0,
-    //             features.service || 0.0,
-    //             features.value || 0.0,
-    //             features.atmosphere || 0.0
-    //         ];
+    if (!/^[a-zA-Z0-9]+$/.test(query.keyword)) {
+        callback({ keyword: query.keyword, success: false });
+        return;
+    }
 
-    //         pool.query('INSERT INTO keywords VALUES(?, ?, ?, ?, ?)', values, function(err) {
-    //             callback({
-    //                 keyword: keyword,
-    //                 success: err === null
-    //             });
-    //         });
-    //     });
-    // }
+    getKeywords(function(keywords) {
+        var values = [
+            query.keyword,
+            query.features.food,
+            query.features.service,
+            query.features.value,
+            query.features.atmosphere
+        ];
+
+        pool.query('INSERT INTO keywords VALUES(?, ?, ?, ?, ?)', values, function(err) {
+            callback({ keyword: query.keyword, success: err === null });
+        });
+    });
 }
 
 function removeKeyword(query, callback) {

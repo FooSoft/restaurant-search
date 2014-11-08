@@ -66,6 +66,27 @@
             });
 
             $('#historyIndex').on('slideStop', onSelectSnapshot);
+
+            $('#learn').click(function() {
+                var keyword = prompt('Input keyword to learn as');
+                if (name === null) {
+                    return;
+                }
+
+                var query = {
+                    keyword:  keyword,
+                    features: _ctx.query.features
+                };
+
+                $.getJSON('/add_keyword', query, function(results) {
+                    if (results.success) {
+
+                    }
+                    else {
+                        alert('Failed to learn keyword');
+                    }
+                });
+            });
         });
     }
 
