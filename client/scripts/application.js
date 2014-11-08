@@ -66,20 +66,6 @@
             }
         });
 
-        $('#forgetKeyword').click(onForget);
-        $('#forgetDialog').on('show.bs.modal', function() {
-            $('#forgetError').hide();
-            $.getJSON('/get_keywords', function(keywords) {
-                $('#keywordToForget').empty();
-                for (var i = 0, count = keywords.length; i < count; ++i) {
-                    $('#keywordToForget').append($('<option></option>', {
-                        value: keywords[i],
-                        text:  keywords[i]
-                    }));
-                }
-            });
-        });
-
         $('#learnKeyword').click(onLearn);
         $('#learnDialog').on('show.bs.modal', function() {
             $('#learnError').hide();
@@ -163,26 +149,6 @@
                 else {
                     $('#learnError').slideDown(function() {
                         $('#learnKeyword').prop('disabled', false);
-                    });
-                }
-            });
-        });
-    }
-
-    function onForget() {
-        $('#forgetKeyword').prop('disabled', true);
-        $('#forgetError').slideUp(function() {
-            var query = {
-                keyword: $('#keywordToForget').val()
-            };
-
-            $.getJSON('/remove_keyword', query, function(results) {
-                if (results.success) {
-                    $('#forgetDialog').modal('hide');
-                }
-                else {
-                    $('#forgetError').slideDown(function() {
-                        $('#forgetKeyword').prop('disabled', false);
                     });
                 }
             });

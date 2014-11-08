@@ -83,28 +83,6 @@
                 </div>
             </div>
 
-            <!-- forget keyword dialog -->
-            <div class="modal fade" id="forgetDialog" tabindex="-1">
-                <div class="modal-dialog modal-sm">
-                    <div class="modal-content">
-                        <div class="modal-header"><big>Forget Keyword</big></div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label for="keywordToForget">Keyword to forget</label>
-                                <select id="keywordToForget" class="form-control"></select>
-                            </div>
-                            <div class="alert alert-danger" id="forgetError" style="display: none;">Unable to forget keyword</div>
-                        </div>
-                        <div class="modal-footer">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-danger" id="forgetKeyword" disabled="disabled">Forget</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <!-- query output -->
             <div>
                 <!-- semantic tweaker -->
@@ -113,7 +91,6 @@
                         <big>Semantic tweaks to: <span id="query"></span></big>
                         <div class="btn-group pull-right">
                             <button class="btn btn-xs btn-success" data-toggle="modal" data-target="#learnDialog">Learn</button>
-                            <button class="btn btn-xs btn-danger" data-toggle="modal" data-target="#forgetDialog">Forget</button>
                             <button class="btn btn-xs btn-default" data-toggle="modal" data-target="#optionsDialog">Options</button>
                         </div>
                     </div>
