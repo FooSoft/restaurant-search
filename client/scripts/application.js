@@ -27,26 +27,17 @@
 (function(hscd) {
     'use strict';
 
-    var ctx = {
-        log: []
-    };
+    var _custom = '[custom]';
+    var _ctx    = { log: [] };
 
     function onAdjust(name, value) {
-        ctx.features[name] = value;
+        _ctx.query.features[name] = value;
+        _ctx.grapher.enable(false);
 
-        var query = {
-            features:   ctx.features,
-            range:      ctx.range,
-            minScore:   ctx.minScore,
-            hintSteps:  ctx.hintSteps,
-            maxResults: ctx.maxResults
-        };
-
-        ctx.grapher.enable(false);
-        $.getJSON('/search', query, function(results) {
+        $.getJSON('/search', _ctx.query, function(results) {
             saveSnapshot(results);
             outputSnapshot(results);
-            ctx.grapher.enable(true);
+            _ctx.grapher.enable(true);
         });
     }
 
@@ -54,7 +45,7 @@
         $('#history').on('slideStop', onSelectSnapshot);
         $('#history').slider({
             formatter: function(value) {
-                var delta = ctx.log.length - (value + 1);
+                var delta = _ctx.log.length - (value + 1);
                 switch (delta) {
                     case 0:
                         return 'Most recent query';
@@ -76,57 +67,66 @@
             $('#learnKeyword').prop('disabled', !$(this).val());
         });
 
-        $.getJSON('/get_keywords', function(keywords) {
-            ctx.keywords = keywords;
-            for (var keyword in keywords) {
+        $.getJSON('/get_parameters', function(parameters) {
+            _ctx.parameters = parameters;
+            for (var keyword in parameters.keywords) {
                 $('#keywordsToSearch').append($('<option></option>', { value: keyword, text: keyword }));
             }
 
-            onSearch();
+            search();
         });
     }
 
-    function onSearch() {
-        var keyword = $('#keywordsToSearch').val();
-        var query = {
-            features:   ctx.keywords[keyword],
+    function search(keyword) {
+        var features = {};
+        if (typeof(keyword) == 'undefined') {
+            for (var i = 0, count = _ctx.parameters.features.length; i < count; ++i) {
+                features[_ctx.parameters.features[i]] = 0.0;
+            }
+        }
+        else {
+            features = _ctx.parameters.keywords[keyword];
+        }
+
+        _ctx.query = {
+            features:   features,
             range:      { min: -1.0, max: 1.0 },
             minScore:   parseFloat($('#minScore').val()),
             hintSteps:  parseInt($('#hintSteps').val()),
             maxResults: parseInt($('#maxResults').val())
         };
 
-        $.getJSON('/search', query, function(results) {
-            ctx.features   = query.features;
-            ctx.range      = query.range;
-            ctx.minScore   = query.minScore;
-            ctx.hintSteps  = query.hintSteps;
-            ctx.maxResults = query.maxResults;
-
-            ctx.grapher = new grapher.Grapher({
+        if (!_.has(_ctx, 'grapher')) {
+            _ctx.grapher = new grapher.Grapher({
                 canvas:           new Snap('#svg'),
-                steps:            ctx.hintSteps,
-                range:            ctx.range,
+                steps:            _ctx.query.hintSteps,
+                range:            _ctx.query.range,
                 onValueChanged:   onAdjust,
                 useLocalScale:    true,
                 useRelativeScale: true
             });
-            ctx.grapher.setColumns(results.columns);
-
-            saveSnapshot(results);
-            outputMatches(results.items, results.count);
 
             $('#useLocalScale').click(function() {
                 var useLocalScale = $('#useLocalScale').is(':checked');
-                ctx.grapher.setUseLocalScale(useLocalScale);
+                _ctx.grapher.setUseLocalScale(useLocalScale);
             });
             $('#useRelativeScale').click(function() {
                 var useRelativeScale = $('#useRelativeScale').is(':checked');
-                ctx.grapher.setUseRelativeScale(useRelativeScale);
+                _ctx.grapher.setUseRelativeScale(useRelativeScale);
             });
 
-            $('#query').text(keyword);
-            $('#output').fadeIn();
+            var columns = {};
+            for (var feature in _ctx.query.features) {
+                columns[feature] = { value: 0.0, hints: [] };
+            }
+
+            _ctx.grapher.setColumns(columns);
+        }
+
+        $.getJSON('/search', _ctx.query, function(results) {
+            _ctx.grapher.setColumns(results.columns);
+            saveSnapshot(results);
+            outputMatches(results.items, results.count);
         });
     }
 
@@ -135,7 +135,7 @@
         $('#learnError').slideUp(function() {
             var query = {
                 keyword: $('#keywordToLearn').val(),
-                params:  ctx.features
+                params:  _ctx.query.features
             };
 
             $.getJSON('/add_keyword', query, function(results) {
@@ -153,13 +153,13 @@
 
     function onSelectSnapshot() {
         var index = $('#history').slider('getValue');
-        outputSnapshot(ctx.log[index]);
+        outputSnapshot(_ctx.log[index]);
     }
 
     function saveSnapshot(results) {
-        ctx.log.push(results);
+        _ctx.log.push(results);
 
-        var count = ctx.log.length;
+        var count = _ctx.log.length;
         var history = $('#history').slider();
         history.slider('setAttribute', 'max', count - 1);
         history.slider('setValue', count - 1);
@@ -171,10 +171,10 @@
 
     function outputSnapshot(results) {
         for (var name in results.columns) {
-            ctx.features[name] = results.columns[name].value;
+            _ctx.query.features[name] = results.columns[name].value;
         }
 
-        ctx.grapher.setColumns(results.columns);
+        _ctx.grapher.setColumns(results.columns);
         outputMatches(results.items, results.count);
     }
 

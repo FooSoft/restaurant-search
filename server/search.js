@@ -42,47 +42,6 @@ function innerProduct(values1, values2) {
     return result;
 }
 
-function scale(values, factor) {
-    var result = {};
-
-    for (var feature in values) {
-        result[feature] = values[feature] * factor;
-    }
-
-    return result;
-}
-
-function add(values1, values2) {
-    var result = {};
-
-    for (var feature in values1) {
-        result[feature] = values1[feature] + (values2[feature] || 0.0);
-    }
-
-    return result;
-}
-
-function combine(dict, params) {
-    var result = {};
-
-    for (var paramIter in params) {
-        var values = scale(dict[paramIter], params[paramIter]);
-        result = add(values, result);
-    }
-
-    var max = _.max(_.values(result), function(value) {
-        return Math.abs(value);
-    });
-
-    if (max > 0.0) {
-        for (var resultIter in result) {
-            result[resultIter] = result[resultIter] / max;
-        }
-    }
-
-    return result;
-}
-
 function walkMatches(data, features, minScore, callback) {
     for (var i = 0, count = data.records.length; i < count; ++i) {
         var record = data.records[i];
@@ -174,32 +133,32 @@ function loadDb(params) {
 }
 
 function addKeyword(query, callback) {
-    var keyword = (query.keyword || '').toLowerCase();
-    if (!/^[a-zA-Z0-9]+$/.test(keyword)) {
-        callback({
-            keyword: keyword,
-            success: false
-        });
-    }
-    else {
-        getKeywords(function(keywords) {
-            var features = combine(keywords, query.params);
-            var values = [
-                keyword,
-                features.food || 0.0,
-                features.service || 0.0,
-                features.value || 0.0,
-                features.atmosphere || 0.0
-            ];
+    // var keyword = (query.keyword || '').toLowerCase();
+    // if (!/^[a-zA-Z0-9]+$/.test(keyword)) {
+    //     callback({
+    //         keyword: keyword,
+    //         success: false
+    //     });
+    // }
+    // else {
+    //     getKeywords(function(keywords) {
+    //         var features = combine(keywords, query.params);
+    //         var values = [
+    //             keyword,
+    //             features.food || 0.0,
+    //             features.service || 0.0,
+    //             features.value || 0.0,
+    //             features.atmosphere || 0.0
+    //         ];
 
-            pool.query('INSERT INTO keywords VALUES(?, ?, ?, ?, ?)', values, function(err) {
-                callback({
-                    keyword: keyword,
-                    success: err === null
-                });
-            });
-        });
-    }
+    //         pool.query('INSERT INTO keywords VALUES(?, ?, ?, ?, ?)', values, function(err) {
+    //             callback({
+    //                 keyword: keyword,
+    //                 success: err === null
+    //             });
+    //         });
+    //     });
+    // }
 }
 
 function removeKeyword(query, callback) {
@@ -267,6 +226,15 @@ function getData(callback) {
     });
 }
 
+function getParameters(callback) {
+    getKeywords(function(keywords) {
+        callback({
+            keywords: keywords,
+            features: [ 'food', 'service', 'atmosphere', 'value' ]
+        });
+    });
+}
+
 function execQuery(query, callback) {
     getData(function(data) {
         var searchResults = findRecords(
@@ -306,6 +274,6 @@ module.exports = {
     'loadDb':        loadDb,
     'addKeyword':    addKeyword,
     'removeKeyword': removeKeyword,
-    'getKeywords':   getKeywords,
+    'getParameters': getParameters,
     'execQuery':     execQuery
 };

@@ -152,10 +152,8 @@
         }
 
         function updateShapes() {
-            var gradient = _canvas.gradient(decimateHints());
-            _elements.density.attr({
-                fill: gradient
-            });
+            var fill = _data.hints.length === 0 ? _backdropColor : _canvas.gradient(decimateHints());
+            _elements.density.attr({ fill: fill });
 
             var range = computeIndicatorRange();
             _elements.indicator.attr({
