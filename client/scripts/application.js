@@ -39,7 +39,6 @@
     }
 
     function onReady() {
-        $('#history').on('slideStop', onSelectSnapshot);
         $('#history').slider({
             formatter: function(value) {
                 var delta = _ctx.log.length - (value + 1);
@@ -54,39 +53,27 @@
             }
         });
 
-        $('#learnKeyword').click(onLearn);
-        $('#learnDialog').on('show.bs.modal', function() {
-            $('#learnError').hide();
-            $('#learnKeyword').prop('disabled', true);
-            $('#keywordToLearn').val('');
-        });
-        $('#keywordToLearn').bind('input', function() {
-            $('#learnKeyword').prop('disabled', !$(this).val());
-        });
-
         $.getJSON('/get_parameters', function(parameters) {
             _ctx.parameters = parameters;
             for (var keyword in parameters.keywords) {
-                $('#keywordsToSearch').append($('<option></option>', { value: keyword, text: keyword }));
+                $('#searchKeyword').append($('<option></option>', { value: keyword, text: keyword }));
             }
 
             search();
+
+            $('#searchKeyword').change(function() {
+                search();
+            });
+
+            $('#history').on('slideStop', onSelectSnapshot);
         });
     }
 
-    function search(keyword) {
-        var features = {};
-        if (typeof(keyword) == 'undefined') {
-            for (var i = 0, count = _ctx.parameters.features.length; i < count; ++i) {
-                features[_ctx.parameters.features[i]] = 0.0;
-            }
-        }
-        else {
-            features = _ctx.parameters.keywords[keyword];
-        }
+    function search() {
+        var keyword = $('#searchKeyword').val();
 
         _ctx.query = {
-            features:   features,
+            features:   _ctx.parameters.keywords[keyword],
             range:      { min: -1.0, max: 1.0 },
             minScore:   parseFloat($('#minScore').val()),
             hintSteps:  parseInt($('#hintSteps').val()),
@@ -124,27 +111,6 @@
             _ctx.grapher.setColumns(results.columns);
             saveSnapshot(results);
             outputMatches(results.items, results.count);
-        });
-    }
-
-    function onLearn() {
-        $('#learnKeyword').prop('disabled', true);
-        $('#learnError').slideUp(function() {
-            var query = {
-                keyword: $('#keywordToLearn').val(),
-                params:  _ctx.query.features
-            };
-
-            $.getJSON('/add_keyword', query, function(results) {
-                if (results.success) {
-                    $('#learnDialog').modal('hide');
-                }
-                else {
-                    $('#learnError').slideDown(function() {
-                        $('#learnKeyword').prop('disabled', false);
-                    });
-                }
-            });
         });
     }
 
@@ -188,18 +154,21 @@
     }
 
     $(document).on({
-        ajaxStart: function() { $('#spinner').show(); },
-        ajaxStop:  function() { $('#spinner').hide(); },
-        ready:     onReady()
+        ajaxStart: function() {
+            if (_.has(_ctx, 'grapher')) {
+                _ctx.grapher.enable(false);
+            }
+            $('#spinner').show();
+        },
+
+        ajaxStop: function() {
+            if (_.has(_ctx, 'grapher')) {
+                _ctx.grapher.enable(true);
+            }
+            $('#spinner').hide();
+        },
+
+        ready: onReady()
     });
 
 }(window.hscd = window.hscd || {}));
-
-/*
-global
-    $,
-    Handlebars,
-    document,
-    grapher,
-    window,
-*/

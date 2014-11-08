@@ -16,9 +16,9 @@
             <!-- query input -->
             <div class="form-horizontal">
                 <div class="form-group">
-                    <label for="keywordsToSearch" class="col-md-2 control-label">Keywords</label>
+                    <label for="searchKeyword" class="col-md-2 control-label">Keywords</label>
                     <div class="col-md-10">
-                        <select id="keywordsToSearch" class="form-control"></select>
+                        <select id="searchKeyword" class="form-control"></select>
                     </div>
                 </div>
                 <div class="form-group">
@@ -61,28 +61,6 @@
                 </div>
             </div>
 
-            <!-- learn keyword dialog -->
-            <div class="modal fade" id="learnDialog" tabindex="-1">
-                <div class="modal-dialog modal-sm">
-                    <div class="modal-content">
-                        <div class="modal-header"><big>Learn Keyword</big></div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label for="keywordToLearn" class="control-label">Learn keyword as</label>
-                                <input id="keywordToLearn" class="form-control" type="text">
-                            </div>
-                            <div class="alert alert-danger" id="learnError" style="display: none;">Unable to learn keyword</div>
-                        </div>
-                        <div class="modal-footer">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-success" id="learnKeyword" disabled="disabled">Learn</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <!-- query output -->
             <div>
                 <!-- semantic tweaker -->
@@ -90,7 +68,6 @@
                     <div class="panel-heading">
                         <big>Semantic tweaker</big>
                         <div class="btn-group pull-right">
-                            <button class="btn btn-xs btn-success" data-toggle="modal" data-target="#learnDialog">Learn</button>
                             <button class="btn btn-xs btn-default" data-toggle="modal" data-target="#optionsDialog">Options</button>
                         </div>
                     </div>
