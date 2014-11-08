@@ -31,41 +31,41 @@
     //  Range
     //
 
-    function Range(start, end) {
-        this.start = Math.min(start, end);
-        this.end   = Math.max(start, end);
+    function Range(min, max) {
+        this.min = Math.min(min, max);
+        this.max = Math.max(min, max);
 
         this.contains = function(value) {
-            return value >= this.start && value <= this.end;
+            return value >= this.min && value <= this.max;
         };
 
         this.length = function() {
-            return this.end - this.start;
+            return this.max - this.min;
         };
 
         this.clamp = function(value) {
-            if (value < this.start) {
-                return this.start;
+            if (value < this.min) {
+                return this.min;
             }
 
-            if (value > this.end) {
-                return this.end;
+            if (value > this.max) {
+                return this.max;
             }
 
             return value;
         };
 
         this.include = function(range) {
-            this.start = Math.min(this.start, range.start);
-            this.end   = Math.max(this.end, range.end);
+            this.min = Math.min(this.min, range.min);
+            this.max = Math.max(this.max, range.max);
         };
 
         this.offset = function(value) {
-            return (value - this.start) / this.length();
+            return (value - this.min) / this.length();
         };
 
         this.project = function(value) {
-            return this.start + this.length() * value;
+            return this.min + this.length() * value;
         };
     }
 
@@ -125,7 +125,7 @@
             // indicator
             var range = computeIndicatorRange();
             _elements.indicator = _canvas.rect(
-                _tickSize, range.start, _width - (_densitySize + _tickSize), (range.end - range.start)
+                _tickSize, range.min, _width - (_densitySize + _tickSize), (range.max - range.min)
             ).attr({cursor: 'crosshair', fill: computeIndicatorColor()}).click(clicked);
 
             // tick
@@ -159,8 +159,8 @@
 
             var range = computeIndicatorRange();
             _elements.indicator.attr({
-                y:      range.start,
-                height: range.end - range.start,
+                y:      range.min,
+                height: range.max - range.min,
                 fill:   computeIndicatorColor()
             });
         }
@@ -174,7 +174,7 @@
 
                 var colorPercent = 0;
                 if (_scale.length() > 0) {
-                    colorPercent = Math.max(0, groupSize - _scale.start) / _scale.length();
+                    colorPercent = Math.max(0, groupSize - _scale.min) / _scale.length();
                 }
 
                 var colorByte = 0xff - Math.min(0xff, Math.round(0xff * colorPercent));
@@ -195,7 +195,7 @@
 
             var hintGroups = [];
             for (var i = 0; i < _steps; ++i) {
-                var stepMax = _range.end - stepSize * i;
+                var stepMax = _range.max - stepSize * i;
                 var stepMin = stepMax - stepSize;
 
                 var hintCount = 0;
@@ -224,8 +224,8 @@
 
         function valueColorAdjust(color, offset) {
             var colorObj = tinycolor(color);
-            var rangeEnd = _data.value >= 0.0 ? _range.end : _range.start;
-            var rangeMid = (_range.start + _range.end) / 2.0;
+            var rangeEnd = _data.value >= 0.0 ? _range.max : _range.min;
+            var rangeMid = (_range.min + _range.max) / 2.0;
             var rangeRat = (_data.value - rangeMid) / (rangeEnd - rangeMid);
             var desatVal = Math.max(0.0, 1.0 - rangeRat + offset) * 100.0;
             return colorObj.desaturate(desatVal).toHexString();
