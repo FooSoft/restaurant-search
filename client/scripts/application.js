@@ -32,12 +32,9 @@
 
     function onAdjust(name, value) {
         _ctx.query.features[name] = value;
-        _ctx.grapher.enable(false);
-
         $.getJSON('/search', _ctx.query, function(results) {
             saveSnapshot(results);
             outputSnapshot(results);
-            _ctx.grapher.enable(true);
         });
     }
 
