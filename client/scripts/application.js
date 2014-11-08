@@ -87,15 +87,9 @@
     }
 
     function onSearch() {
-        var keyword  = $('#keywordsToSearch').val();
-        var features = {};
-
-        for (var feature in ctx.keywords[keyword]) {
-            features[feature] = 1.0;
-        }
-
+        var keyword = $('#keywordsToSearch').val();
         var query = {
-            features:   features,
+            features:   ctx.keywords[keyword],
             range:      { min: -1.0, max: 1.0 },
             minScore:   parseFloat($('#minScore').val()),
             hintSteps:  parseInt($('#hintSteps').val()),
@@ -122,7 +116,6 @@
             saveSnapshot(results);
             outputMatches(results.items, results.count);
 
-            $('#query').text(keyword);
             $('#useLocalScale').click(function() {
                 var useLocalScale = $('#useLocalScale').is(':checked');
                 ctx.grapher.setUseLocalScale(useLocalScale);
@@ -131,6 +124,9 @@
                 var useRelativeScale = $('#useRelativeScale').is(':checked');
                 ctx.grapher.setUseRelativeScale(useRelativeScale);
             });
+
+            $('#query').text(keyword);
+            $('#output').fadeIn();
         });
     }
 
