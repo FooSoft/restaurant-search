@@ -234,7 +234,7 @@
                 _easeTime,
                 mina.easeinout,
                 function() {
-                    // updateDensity();
+                    updateDensity();
                 }
             );
         }
