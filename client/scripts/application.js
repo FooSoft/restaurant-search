@@ -61,7 +61,7 @@
 
             search();
 
-            $('#searchKeyword').change(function() {
+            $('#searchKeyword,#minScore,#hintSteps,#maxResults').change(function() {
                 search();
             });
 
