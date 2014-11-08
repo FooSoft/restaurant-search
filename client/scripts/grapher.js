@@ -89,6 +89,7 @@
         var _panelSize   = 20;
         var _tickSize    = 5;
         var _width       = 125;
+        var _easeTime    = 425;
 
         var _enabled        = true;
         var _canvas         = params.canvas;
@@ -148,12 +149,14 @@
                 Snap.format('t{x},{y}', {x: _index * (_width + _padding), y: 0})
             );
 
-            updateShapes();
+            updateShapes(true);
         }
 
-        function updateShapes() {
-            var fill = _data.hints.length === 0 ? _backdropColor : _canvas.gradient(decimateHints());
-            _elements.density.attr({ fill: fill });
+        function updateShapes(updateHints) {
+            if (updateHints) {
+                var fill = _data.hints.length === 0 ? _backdropColor : _canvas.gradient(decimateHints());
+                _elements.density.attr({ fill: fill });
+            }
 
             var range = computeIndicatorRange();
             _elements.indicator.attr({
@@ -211,13 +214,29 @@
         }
 
         function updateValue(value) {
-            _data.value = _range.clamp(value);
+            var clamped = _range.clamp(value);
 
             if (_onValueChanged) {
-                _onValueChanged(_name, _data.value);
+                _onValueChanged(_name, clamped);
             }
 
-            updateShapes();
+            animateValueTo(clamped);
+        }
+
+        function animateValueTo(value) {
+            Snap.animate(
+                _data.value,
+                value,
+                function(value) {
+                    _data.value = value;
+                    updateShapes(false);
+                },
+                _easeTime,
+                mina.easeinout,
+                function() {
+                    updateShapes(true);
+                }
+            );
         }
 
         function valueColorAdjust(color, offset) {
@@ -258,9 +277,10 @@
         }
 
         this.update = function(data, scale) {
-            _data  = data;
-            _scale = scale;
-            updateShapes();
+            _data.hints = data.hints;
+            _scale      = scale;
+
+            animateValueTo(data.value);
         };
 
         this.enable = function(enable) {
