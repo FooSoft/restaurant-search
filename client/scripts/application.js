@@ -68,8 +68,8 @@
             $('#historyIndex').on('slideStop', onSelectSnapshot);
 
             $('#learn').click(function() {
-                var keyword = prompt('Input keyword to learn as');
-                if (name === null) {
+                var keyword = prompt('Input keyword to learn as (alphanumeric, no spaces)');
+                if (keyword === null) {
                     return;
                 }
 
@@ -80,7 +80,9 @@
 
                 $.getJSON('/add_keyword', query, function(results) {
                     if (results.success) {
-
+                        _ctx.parameters.keywords[keyword] = query.features;
+                        $('#searchKeyword').append($('<option></option>', { value: keyword, text: keyword }));
+                        $('#searchKeyword').val(keyword);
                     }
                     else {
                         alert('Failed to learn keyword');
