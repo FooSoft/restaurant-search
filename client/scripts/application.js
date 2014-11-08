@@ -39,7 +39,7 @@
     }
 
     function onReady() {
-        $('#history').slider({
+        $('#historyIndex').slider({
             formatter: function(value) {
                 var delta = _ctx.log.length - (value + 1);
                 switch (delta) {
@@ -65,7 +65,7 @@
                 search();
             });
 
-            $('#history').on('slideStop', onSelectSnapshot);
+            $('#historyIndex').on('slideStop', onSelectSnapshot);
         });
     }
 
@@ -115,7 +115,7 @@
     }
 
     function onSelectSnapshot() {
-        var index = $('#history').slider('getValue');
+        var index = $('#historyIndex').slider('getValue');
         outputSnapshot(_ctx.log[index]);
     }
 
@@ -123,12 +123,12 @@
         _ctx.log.push(results);
 
         var count = _ctx.log.length;
-        var history = $('#history').slider();
+        var history = $('#historyIndex').slider();
         history.slider('setAttribute', 'max', count - 1);
         history.slider('setValue', count - 1);
 
         if (count > 1) {
-            $('#history').parent().slideDown();
+            $('#history').slideDown();
         }
     }
 
@@ -145,8 +145,11 @@
         var searchResultCnt = String(results.length);
         if (results.length < count) {
             searchResultCnt += ' of ' + count;
+
         }
-        $('#count').text(searchResultCnt);
+
+        $('#resultCount').text(searchResultCnt);
+        $('#resultPanel').slideDown();
 
         var template = Handlebars.compile($('#template').html());
         $('#results').empty();

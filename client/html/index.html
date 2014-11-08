@@ -14,17 +14,14 @@
             </div>
 
             <div class="row">
-                <!-- semantic tweaker -->
+                <!-- visualizer -->
                 <div class="col-md-7">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <big>Tweaker</big>
+                            <big>Visualizer</big>
                         </div>
                         <div class="panel-body">
                             <svg id="svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="800" height="500"></svg>
-                            <div class="text-center" style="display: none;">
-                                <input id="history" style="width: 90%;" type="text" data-slider-reversed="true" data-slider-max="0">
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -37,7 +34,7 @@
                         </div>
                         <div class="panel-body">
                             <div class="form-group">
-                                <label for="searchKeyword">Keywords</label>
+                                <label for="searchKeyword">Keyword</label>
                                 <select id="searchKeyword" class="form-control"></select>
                             </div>
                             <div class="form-group">
@@ -58,15 +55,21 @@
                             <div class="checkbox">
                                 <label><input type="checkbox" id="useRelativeScale" checked="checked">Use relative scale</label>
                             </div>
+                            <div id="history" class="form-group" style="display: none;">
+                                <label for="history">History</label>
+                                <div class="text-center">
+                                    <input id="historyIndex" style="width: 90%;" type="text" data-slider-reversed="true" data-slider-max="0">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- result listing -->
-            <div class="panel panel-default">
+            <div class="panel panel-default" style="display: none;" id="resultPanel">
                 <div class="panel-heading">
-                    <big>Results (<span id="count"></span>)</big>
+                    <big>Results (<span id="resultCount"></span>)</big>
                 </div>
                 <div class="panel-body">
                     <script id="template" type="text/x-handlers-template">
