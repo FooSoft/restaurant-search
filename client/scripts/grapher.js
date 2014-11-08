@@ -124,7 +124,7 @@
             ).attr({'dominant-baseline': 'middle', 'text-anchor': 'middle'});
 
             // indicator
-            var range = computeIndicatorRange();
+            var range = computeIndicatorRange(_data.value);
             _elements.indicator = _canvas.rect(
                 _tickSize, range.min, _width - (_densitySize + _tickSize), (range.max - range.min)
             ).attr({cursor: 'crosshair', fill: computeIndicatorColor()}).click(clicked);
@@ -149,21 +149,21 @@
                 Snap.format('t{x},{y}', {x: _index * (_width + _padding), y: 0})
             );
 
-            updateShapes(true);
+            updateDensity();
         }
 
-        function updateShapes(updateHints) {
-            if (updateHints) {
-                var fill = _data.hints.length === 0 ? _backdropColor : _canvas.gradient(decimateHints());
-                _elements.density.attr({ fill: fill });
-            }
-
-            var range = computeIndicatorRange();
+        function updateIndicator(value) {
+            var range = computeIndicatorRange(value);
             _elements.indicator.attr({
                 y:      range.min,
                 height: range.max - range.min,
-                fill:   computeIndicatorColor()
+                fill:   computeIndicatorColor(value)
             });
+        }
+
+        function updateDensity() {
+            var fill = _data.hints.length === 0 ? _backdropColor : _canvas.gradient(decimateHints());
+            _elements.density.attr({ fill: fill });
         }
 
         function decimateHints() {
@@ -214,47 +214,47 @@
         }
 
         function updateValue(value) {
-            var clamped = _range.clamp(value);
+            var valueOld = _data.value;
 
+            _data.value = _range.clamp(value);
             if (_onValueChanged) {
-                _onValueChanged(_name, clamped);
+                _onValueChanged(_name, _data.value);
             }
 
-            animateValueTo(clamped);
+            animateIndicator(valueOld, _data.value);
         }
 
-        function animateValueTo(value) {
+        function animateIndicator(valueOld, valueNew) {
             Snap.animate(
-                _data.value,
-                value,
+                valueOld,
+                valueNew,
                 function(value) {
-                    _data.value = value;
-                    updateShapes(false);
+                    updateIndicator(value);
                 },
                 _easeTime,
                 mina.easeinout,
                 function() {
-                    updateShapes(true);
+                    // updateDensity();
                 }
             );
         }
 
-        function valueColorAdjust(color, offset) {
+        function valueColorAdjust(value, color, offset) {
             var colorObj = tinycolor(color);
-            var rangeEnd = _data.value >= 0.0 ? _range.max : _range.min;
+            var rangeEnd = value >= 0.0 ? _range.max : _range.min;
             var rangeMid = (_range.min + _range.max) / 2.0;
-            var rangeRat = (_data.value - rangeMid) / (rangeEnd - rangeMid);
+            var rangeRat = (value - rangeMid) / (rangeEnd - rangeMid);
             var desatVal = Math.max(0.0, 1.0 - rangeRat + offset) * 100.0;
             return colorObj.desaturate(desatVal).toHexString();
         }
 
-        function computeIndicatorColor() {
-            var color = _data.value >= 0.0 ? _fillColorPos : _fillColorNeg;
-            return valueColorAdjust(color, _desatOffset);
+        function computeIndicatorColor(value) {
+            var color = value >= 0.0 ? _fillColorPos : _fillColorNeg;
+            return valueColorAdjust(value, color, _desatOffset);
         }
 
-        function computeIndicatorRange() {
-            return new Range(valueToIndicator(0.0), valueToIndicator(_data.value));
+        function computeIndicatorRange(value) {
+            return new Range(valueToIndicator(0.0), valueToIndicator(value));
         }
 
         function valueToIndicator(scalar) {
@@ -277,10 +277,12 @@
         }
 
         this.update = function(data, scale) {
-            _data.hints = data.hints;
-            _scale      = scale;
+            var valueOld = _data.value;
 
-            animateValueTo(data.value);
+            _data  = data;
+            _scale = scale;
+
+            animateIndicator(valueOld, _data.value);
         };
 
         this.enable = function(enable) {
