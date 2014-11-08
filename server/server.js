@@ -45,7 +45,7 @@ function main(staticFiles, port) {
 
     app.use('/get_keywords', function(req, res) {
         search.getKeywords(function(keywords) {
-            res.json(_.keys(keywords).sort());
+            res.json(keywords);
         });
     });
 

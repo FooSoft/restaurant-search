@@ -27,18 +27,19 @@
 (function(hscd) {
     'use strict';
 
-    var ctx = {};
-    var log = [];
+    var ctx = {
+        log: []
+    };
 
     function onAdjust(name, value) {
-        ctx.searchParams[name] = value;
+        ctx.features[name] = value;
 
         var query = {
-            searchParams: ctx.searchParams,
-            searchRange:  ctx.searchRange,
-            minScore:     ctx.minScore,
-            hintSteps:    ctx.hintSteps,
-            maxResults:   ctx.maxResults
+            features:   ctx.features,
+            range:      ctx.range,
+            minScore:   ctx.minScore,
+            hintSteps:  ctx.hintSteps,
+            maxResults: ctx.maxResults
         };
 
         ctx.grapher.enable(false);
@@ -49,33 +50,83 @@
         });
     }
 
-    function onSearch() {
-        var keywords = $('#keywordsToSearch').val() || [];
-        var searchParams = {};
+    function onReady() {
+        $('#history').on('slideStop', onSelectSnapshot);
+        $('#history').slider({
+            formatter: function(value) {
+                var delta = ctx.log.length - (value + 1);
+                switch (delta) {
+                    case 0:
+                        return 'Most recent query';
+                    case 1:
+                        return 'Previous query';
+                    default:
+                        return String(delta) + ' queries back';
+                }
+            }
+        });
 
-        for (var i = 0, count = keywords.length; i < count; ++i) {
-            searchParams[keywords[i]] = 1.0;
+        $('#forgetKeyword').click(onForget);
+        $('#forgetDialog').on('show.bs.modal', function() {
+            $('#forgetError').hide();
+            $.getJSON('/get_keywords', function(keywords) {
+                $('#keywordToForget').empty();
+                for (var i = 0, count = keywords.length; i < count; ++i) {
+                    $('#keywordToForget').append($('<option></option>', {
+                        value: keywords[i],
+                        text:  keywords[i]
+                    }));
+                }
+            });
+        });
+
+        $('#learnKeyword').click(onLearn);
+        $('#learnDialog').on('show.bs.modal', function() {
+            $('#learnError').hide();
+            $('#learnKeyword').prop('disabled', true);
+            $('#keywordToLearn').val('');
+        });
+        $('#keywordToLearn').bind('input', function() {
+            $('#learnKeyword').prop('disabled', !$(this).val());
+        });
+
+        $.getJSON('/get_keywords', function(keywords) {
+            ctx.keywords = keywords;
+            for (var keyword in keywords) {
+                $('#keywordsToSearch').append($('<option></option>', { value: keyword, text: keyword }));
+            }
+
+            onSearch();
+        });
+    }
+
+    function onSearch() {
+        var keyword  = $('#keywordsToSearch').val();
+        var features = {};
+
+        for (var feature in ctx.keywords[keyword]) {
+            features[feature] = 1.0;
         }
 
         var query = {
-            searchParams: searchParams,
-            searchRange:  { min: -1.0, max: 1.0 },
-            minScore:     parseFloat($('#minScore').val()),
-            hintSteps:    parseInt($('#hintSteps').val()),
-            maxResults:   parseInt($('#maxResults').val())
+            features:   features,
+            range:      { min: -1.0, max: 1.0 },
+            minScore:   parseFloat($('#minScore').val()),
+            hintSteps:  parseInt($('#hintSteps').val()),
+            maxResults: parseInt($('#maxResults').val())
         };
 
         $.getJSON('/search', query, function(results) {
-            ctx.searchParams = query.searchParams;
-            ctx.searchRange  = query.searchRange;
-            ctx.minScore     = query.minScore;
-            ctx.hintSteps    = query.hintSteps;
-            ctx.maxResults   = query.maxResults;
+            ctx.features   = query.features;
+            ctx.range      = query.range;
+            ctx.minScore   = query.minScore;
+            ctx.hintSteps  = query.hintSteps;
+            ctx.maxResults = query.maxResults;
 
             ctx.grapher = new grapher.Grapher({
                 canvas:           new Snap('#svg'),
                 steps:            ctx.hintSteps,
-                range:            ctx.searchRange,
+                range:            ctx.range,
                 onValueChanged:   onAdjust,
                 useLocalScale:    true,
                 useRelativeScale: true
@@ -85,7 +136,7 @@
             saveSnapshot(results);
             outputMatches(results.items, results.count);
 
-            $('#query').text(keywords.join(', '));
+            $('#query').text(keyword);
             $('#useLocalScale').click(function() {
                 var useLocalScale = $('#useLocalScale').is(':checked');
                 ctx.grapher.setUseLocalScale(useLocalScale);
@@ -93,9 +144,6 @@
             $('#useRelativeScale').click(function() {
                 var useRelativeScale = $('#useRelativeScale').is(':checked');
                 ctx.grapher.setUseRelativeScale(useRelativeScale);
-            });
-            $('#input').fadeOut(function() {
-                $('#output').fadeIn();
             });
         });
     }
@@ -105,7 +153,7 @@
         $('#learnError').slideUp(function() {
             var query = {
                 keyword: $('#keywordToLearn').val(),
-                params:  ctx.searchParams
+                params:  ctx.features
             };
 
             $.getJSON('/add_keyword', query, function(results) {
@@ -143,13 +191,13 @@
 
     function onSelectSnapshot() {
         var index = $('#history').slider('getValue');
-        outputSnapshot(log[index]);
+        outputSnapshot(ctx.log[index]);
     }
 
     function saveSnapshot(results) {
-        log.push(results);
+        ctx.log.push(results);
 
-        var count = log.length;
+        var count = ctx.log.length;
         var history = $('#history').slider();
         history.slider('setAttribute', 'max', count - 1);
         history.slider('setValue', count - 1);
@@ -161,7 +209,7 @@
 
     function outputSnapshot(results) {
         for (var name in results.columns) {
-            ctx.searchParams[name] = results.columns[name].value;
+            ctx.features[name] = results.columns[name].value;
         }
 
         ctx.grapher.setColumns(results.columns);
@@ -181,70 +229,9 @@
     }
 
     $(document).on({
-        ajaxStart: function() {
-            $('#spinner').show();
-        },
-
-        ajaxStop: function() {
-            $('#spinner').hide();
-        },
-
-        ready: function() {
-            $('#keywordsToSearch').selectpicker();
-            $('#history').slider({
-                formatter: function(value) {
-                    var delta = log.length - (value + 1);
-                    switch (delta) {
-                        case 0:
-                            return 'Most recent query';
-                        case 1:
-                            return 'Previous query';
-                        default:
-                            return String(delta) + ' queries back';
-                    }
-                }
-            });
-
-            $.getJSON('/get_keywords', function(keywords) {
-                $('#searchKeywords').click(onSearch);
-                for (var i = 0, count = keywords.length; i < count; ++i) {
-                    $('#keywordsToSearch').append($('<option></option>', {
-                        value: keywords[i],
-                        text:  keywords[i]
-                    }));
-                }
-                $('#keywordsToSearch').selectpicker('refresh');
-                $('#keywordsToSearch').change(function() {
-                    $('#searchKeywords').prop('disabled', !$(this).val());
-                });
-
-                $('#forgetKeyword').click(onForget);
-                $('#forgetDialog').on('show.bs.modal', function() {
-                    $('#forgetError').hide();
-                    $.getJSON('/get_keywords', function(keywords) {
-                        $('#forgetKeyword').prop('disabled', keywords.length === 0);
-                        $('#keywordToForget').empty();
-                        for (var i = 0, count = keywords.length; i < count; ++i) {
-                            $('#keywordToForget').append($('<option></option>', {
-                                value: keywords[i],
-                                text:  keywords[i]
-                            }));
-                        }
-                    });
-                });
-
-                $('#history').on('slideStop', onSelectSnapshot);
-                $('#learnKeyword').click(onLearn);
-                $('#keywordToLearn').bind('input', function() {
-                    $('#learnKeyword').prop('disabled', !$(this).val());
-                });
-                $('#learnDialog').on('show.bs.modal', function() {
-                    $('#learnKeyword').prop('disabled', true);
-                    $('#keywordToLearn').val('');
-                    $('#learnError').hide();
-                });
-            });
-        }
+        ajaxStart: function() { $('#spinner').show(); },
+        ajaxStop:  function() { $('#spinner').hide(); },
+        ready:     onReady()
     });
 
 }(window.hscd = window.hscd || {}));

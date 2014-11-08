@@ -281,7 +281,7 @@
         var _canvas           = params.canvas;
         var _columns          = {};
         var _data             = {};
-        var _range            = new Range(-1.0, 1.0);
+        var _range            = new Range(params.range.min || -1.0, params.range.max || 1.0);
         var _steps            = params.steps || 20;
         var _useLocalScale    = params.useLocalScale || true;
         var _useRelativeScale = params.useRelativeScale || true;

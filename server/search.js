@@ -83,9 +83,7 @@ function combine(dict, params) {
     return result;
 }
 
-function walkRecords(data, searchParams, minScore, callback) {
-    var features = combine(data.keywords, searchParams);
-
+function walkMatches(data, features, minScore, callback) {
     for (var i = 0, count = data.records.length; i < count; ++i) {
         var record = data.records[i];
         var score  = innerProduct(features, record.rating);
@@ -94,22 +92,20 @@ function walkRecords(data, searchParams, minScore, callback) {
             callback(record, score);
         }
     }
-
-    return features;
 }
 
-function countRecords(data, searchParams, minScore) {
+function countRecords(data, features, minScore) {
     var count = 0;
-    walkRecords(data, searchParams, minScore, function(record, score) {
+    walkMatches(data, features, minScore, function(record, score) {
         ++count;
     });
 
     return count;
 }
 
-function findRecords(data, searchParams, minScore) {
+function findRecords(data, features, minScore) {
     var results = [];
-    walkRecords(data, searchParams, minScore, function(record, score) {
+    walkMatches(data, features, minScore, function(record, score) {
         results.push({
             name:  record.name,
             url:   'http://www.tripadvisor.com' + record.relativeUrl,
@@ -137,27 +133,27 @@ function step(range, steps, callback) {
     }
 }
 
-function project(data, searchParams, minScore, keyword, range, steps) {
-    var testParams = _.clone(searchParams);
-    var results    = [];
+function project(data, features, feature, minScore, range, steps) {
+    var sample  = _.clone(features);
+    var results = [];
 
     step(range, steps, function(position) {
-        testParams[keyword] = position;
+        sample[feature] = position;
         results.push({
             sample: position,
-            count:  countRecords(data, testParams, minScore)
+            count:  countRecords(data, sample, minScore)
         });
     });
 
     return results;
 }
 
-function buildHints(data, searchParams, minScore, keyword, range, steps) {
+function buildHints(data, features, feature, minScore, range, steps) {
     var projection = project(
         data,
-        searchParams,
+        features,
+        feature,
         minScore,
-        keyword,
         range,
         steps
     );
@@ -275,23 +271,24 @@ function execQuery(query, callback) {
     getData(function(data) {
         var searchResults = findRecords(
             data,
-            query.searchParams,
+            query.features,
             query.minScore
         );
 
         var graphColumns = {};
-        for (var keyword in query.searchParams) {
+        console.log(query);
+        for (var feature in query.features) {
             var searchHints = buildHints(
                 data,
-                query.searchParams,
+                query.features,
+                feature,
                 query.minScore,
-                keyword,
-                query.searchRange,
+                query.range,
                 query.hintSteps
             );
 
-            graphColumns[keyword] = {
-                value: query.searchParams[keyword],
+            graphColumns[feature] = {
+                value: query.features[feature],
                 hints: searchHints,
                 steps: query.hintSteps
             };
