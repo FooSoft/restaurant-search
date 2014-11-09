@@ -30,7 +30,6 @@ var concat         = require('gulp-concat');
 var gulp           = require('gulp');
 var inject         = require('gulp-inject');
 var install        = require('gulp-install');
-var jshint         = require('gulp-jshint');
 var mainBowerFiles = require('main-bower-files');
 var minifyCss      = require('gulp-minify-css');
 var minifyHtml     = require('gulp-minify-html');
