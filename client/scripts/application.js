@@ -177,12 +177,13 @@
     }
 
     function setCustomized(customized) {
-        $('#forget').prop('disabled', customized);
         if (customized) {
             $('#customized').show();
+            $('#forget').hide();
         }
         else {
             $('#customized').hide();
+            $('#forget').show();
         }
     }
 
