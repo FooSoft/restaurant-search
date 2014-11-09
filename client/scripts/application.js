@@ -35,6 +35,7 @@
         $.getJSON('/search', _ctx.query, function(results) {
             saveSnapshot(results);
             outputSnapshot(results);
+            $('#customized').show();
         });
     }
 
@@ -133,12 +134,14 @@
         $.getJSON('/search', _ctx.query, function(results) {
             saveSnapshot(results);
             outputSnapshot(results);
+            $('#customized').hide();
         });
     }
 
     function onSelectSnapshot() {
         var index = $('#historyIndex').slider('getValue');
         outputSnapshot(_ctx.log[index]);
+        $('#customized').show();
     }
 
     function saveSnapshot(results) {

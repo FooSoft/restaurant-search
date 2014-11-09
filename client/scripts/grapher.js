@@ -89,7 +89,7 @@
         var _panelSize   = 20;
         var _tickSize    = 5;
         var _width       = 125;
-        var _easeTime    = 250;
+        var _easeTime    = 200;
 
         var _enabled        = true;
         var _canvas         = params.canvas;
