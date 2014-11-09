@@ -236,7 +236,6 @@ function execQuery(query, callback) {
         );
 
         var graphColumns = {};
-        console.log(query);
         for (var feature in query.features) {
             var searchHints = buildHints(
                 data,
