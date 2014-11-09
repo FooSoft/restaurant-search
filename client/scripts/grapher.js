@@ -221,8 +221,6 @@
             if (_onValueChanged) {
                 _onValueChanged(_name, _data.value);
             }
-
-            animateIndicator(_valueAnimated, _data.value);
         }
 
         function animateIndicator(valueOld, valueNew) {
