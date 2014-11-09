@@ -65,8 +65,14 @@
             $('#historyIndex').on('slideStop', onSelectSnapshot);
             $('#learn').click(onLearn);
             $('#forget').click(onForget);
-            $('#reset').click(onSearch);
+            $('#customized').click(onReset);
         });
+    }
+
+    function onReset() {
+        if (confirm('Reset customizations?')) {
+            onSearch();
+        }
     }
 
     function onLearn() {
@@ -181,12 +187,10 @@
     function setCustomized(customized) {
         if (customized) {
             $('#customized').show();
-            $('#reset').show();
             $('#forget').hide();
         }
         else {
             $('#customized').hide();
-            $('#reset').hide();
             $('#forget').show();
         }
     }
