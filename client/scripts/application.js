@@ -65,6 +65,7 @@
             $('#historyIndex').on('slideStop', onSelectSnapshot);
             $('#learn').click(onLearn);
             $('#forget').click(onForget);
+            $('#reset').click(onSearch);
         });
     }
 
@@ -81,7 +82,7 @@
 
         $.getJSON('/add_keyword', query, function(results) {
             if (results.success) {
-                _ctx.parameters.keywords[keyword] = query.features;
+                _ctx.parameters.keywords[keyword] = _.clone(query.features);
                 $('#searchKeyword').append($('<option></option>', { value: keyword, text: keyword }));
                 $('#searchKeyword').val(keyword);
                 setCustomized(false);
@@ -117,7 +118,7 @@
         var keyword = $('#searchKeyword').val();
 
         _ctx.query = {
-            features:   _ctx.parameters.keywords[keyword],
+            features:   _.clone(_ctx.parameters.keywords[keyword]),
             range:      { min: -1.0, max: 1.0 },
             minScore:   parseFloat($('#minScore').val()),
             hintSteps:  parseInt($('#hintSteps').val()),
@@ -180,10 +181,12 @@
     function setCustomized(customized) {
         if (customized) {
             $('#customized').show();
+            $('#reset').show();
             $('#forget').hide();
         }
         else {
             $('#customized').hide();
+            $('#reset').hide();
             $('#forget').show();
         }
     }
