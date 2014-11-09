@@ -278,10 +278,8 @@
         }
 
         function clicked(event, x, y) {
-            if (_animation === null) {
-                var rect = _canvas.node.getBoundingClientRect();
-                updateValue(indicatorToValue(y - rect.top));
-            }
+            var rect = _canvas.node.getBoundingClientRect();
+            updateValue(indicatorToValue(y - rect.top));
         }
 
         this.update = function(data, scale) {
