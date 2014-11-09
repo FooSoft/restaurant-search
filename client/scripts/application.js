@@ -84,6 +84,7 @@
                 _ctx.parameters.keywords[keyword] = query.features;
                 $('#searchKeyword').append($('<option></option>', { value: keyword, text: keyword }));
                 $('#searchKeyword').val(keyword);
+                setCustomized(false);
             }
             else {
                 alert('Failed to learn keyword');
