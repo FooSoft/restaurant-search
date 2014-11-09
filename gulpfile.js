@@ -52,11 +52,6 @@ function getBowerFiles(extension) {
     return resultPaths;
 }
 
-gulp.task('lint', function() {
-    var scripts = ['*.js', 'client/scripts/*.js', 'server/*.js'];
-    gulp.src(scripts).pipe(jshint());
-});
-
 gulp.task('images', function() {
     return gulp.src('client/images/*').pipe(gulp.dest('client/dist/images'));
 });
@@ -75,14 +70,14 @@ gulp.task('styles', function() {
     return gulp.src(styles).pipe(replace('../fonts/', './fonts/')).pipe(concat('styles.css')).pipe(minifyCss()).pipe(gulp.dest('client/dist'));
 });
 
-gulp.task('html_dev', ['lint'], function() {
+gulp.task('html_dev', function() {
     var sources = gulp.src(getBowerFiles('.css').concat(getBowerFiles('.js')).concat(['client/scripts/*.js', 'client/styles/*.css']), {read: false});
     var target  = 'client/html/index.html';
     var options = {addRootSlash: false, ignorePath: 'client'};
     return gulp.src(target).pipe(inject(sources, options)).pipe(gulp.dest('client'));
 });
 
-gulp.task('html_dist', ['lint', 'fonts', 'images', 'scripts', 'styles'], function() {
+gulp.task('html_dist', ['fonts', 'images', 'scripts', 'styles'], function() {
     var sources = gulp.src(['client/dist/*.js', 'client/dist/*.css'], {read: false});
     var options = {addRootSlash: false, ignorePath: 'client/dist'};
     var target  = 'client/html/index.html';
