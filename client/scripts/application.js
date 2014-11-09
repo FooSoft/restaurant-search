@@ -35,7 +35,7 @@
         $.getJSON('/search', _ctx.query, function(results) {
             saveSnapshot(results);
             outputSnapshot(results);
-            $('#customized').show();
+            setCustomized(true);
         });
     }
 
@@ -60,40 +60,43 @@
                 $('#searchKeyword').append($('<option></option>', { value: keyword, text: keyword }));
             }
 
-            search();
+            onSearch();
 
-            $('#searchKeyword,#minScore,#hintSteps,#maxResults').change(function() {
-                search();
-            });
-
+            $('#searchKeyword,#minScore,#hintSteps,#maxResults').change(onSearch);
             $('#historyIndex').on('slideStop', onSelectSnapshot);
-
-            $('#learn').click(function() {
-                var keyword = prompt('Input keyword to learn as (alphanumeric, no spaces)');
-                if (keyword === null) {
-                    return;
-                }
-
-                var query = {
-                    keyword:  keyword,
-                    features: _ctx.query.features
-                };
-
-                $.getJSON('/add_keyword', query, function(results) {
-                    if (results.success) {
-                        _ctx.parameters.keywords[keyword] = query.features;
-                        $('#searchKeyword').append($('<option></option>', { value: keyword, text: keyword }));
-                        $('#searchKeyword').val(keyword);
-                    }
-                    else {
-                        alert('Failed to learn keyword');
-                    }
-                });
-            });
+            $('#learn').click(onLearn);
+            $('#forget').click(onForget);
         });
     }
 
-    function search() {
+    function onLearn() {
+        var keyword = prompt('Input keyword to learn as (alphanumeric, no spaces)');
+        if (keyword === null) {
+            return;
+        }
+
+        var query = {
+            keyword:  keyword,
+            features: _ctx.query.features
+        };
+
+        $.getJSON('/add_keyword', query, function(results) {
+            if (results.success) {
+                _ctx.parameters.keywords[keyword] = query.features;
+                $('#searchKeyword').append($('<option></option>', { value: keyword, text: keyword }));
+                $('#searchKeyword').val(keyword);
+            }
+            else {
+                alert('Failed to learn keyword');
+            }
+        });
+    }
+
+    function onForget() {
+
+    }
+
+    function onSearch() {
         var keyword = $('#searchKeyword').val();
 
         _ctx.query = {
@@ -134,14 +137,14 @@
         $.getJSON('/search', _ctx.query, function(results) {
             saveSnapshot(results);
             outputSnapshot(results);
-            $('#customized').hide();
+            setCustomized(false);
         });
     }
 
     function onSelectSnapshot() {
         var index = $('#historyIndex').slider('getValue');
         outputSnapshot(_ctx.log[index]);
-        $('#customized').show();
+        setCustomized(true);
     }
 
     function saveSnapshot(results) {
@@ -154,6 +157,16 @@
 
         if (count > 1) {
             $('#history').slideDown();
+        }
+    }
+
+    function setCustomized(customized) {
+        $('#forget').prop('disabled', customized);
+        if (customized) {
+            $('#customized').show();
+        }
+        else {
+            $('#customized').hide();
         }
     }
 
