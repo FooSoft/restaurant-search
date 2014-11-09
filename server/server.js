@@ -55,6 +55,12 @@ function main(staticFiles, port) {
         });
     });
 
+    app.use('/remove_keyword', function(req, res) {
+        search.removeKeyword(req.query, function(results) {
+            res.json(results);
+        });
+    });
+
     app.use('/search', function(req, res) {
         search.execQuery(req.query, function(results) {
             res.json(results);

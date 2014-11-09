@@ -93,7 +93,24 @@
     }
 
     function onForget() {
+        var keyword = $('#searchKeyword').val();
+        if (!confirm('Are you sure you want to delete keyword "' + keyword + '"?')) {
+            return;
+        }
 
+        var query = {
+            keyword: keyword
+        };
+
+        $.getJSON('/remove_keyword', query, function(results) {
+            if (results.success) {
+                $('#searchKeyword option:selected').remove();
+                onSearch();
+            }
+            else {
+                alert('Failed to forget keyword');
+            }
+        });
     }
 
     function onSearch() {
@@ -156,7 +173,7 @@
         history.slider('setValue', count - 1);
 
         if (count > 1) {
-            $('#history').slideDown();
+            $('#history').show();
         }
     }
 
