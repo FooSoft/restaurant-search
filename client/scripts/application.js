@@ -131,9 +131,8 @@
         }
 
         $.getJSON('/search', _ctx.query, function(results) {
-            _ctx.grapher.setColumns(results.columns);
             saveSnapshot(results);
-            outputMatches(results.items, results.count);
+            outputSnapshot(results);
         });
     }
 
@@ -168,7 +167,6 @@
         var searchResultCnt = String(results.length);
         if (results.length < count) {
             searchResultCnt += ' of ' + count;
-
         }
 
         $('#resultCount').text(searchResultCnt);
