@@ -91,7 +91,7 @@
         var _width       = 125;
         var _easeTime    = 200;
 
-        var _enabled        = true;
+        var _animation      = null;
         var _canvas         = params.canvas;
         var _data           = params.data;
         var _index          = params.index;
@@ -226,7 +226,15 @@
         }
 
         function animateIndicator(valueOld, valueNew) {
-            Snap.animate(
+            if (valueOld === valueNew) {
+                return;
+            }
+
+            if (_animation !== null) {
+                _animation.stop();
+            }
+
+            _animation = Snap.animate(
                 valueOld,
                 valueNew,
                 function(value) {
@@ -236,6 +244,7 @@
                 mina.linear,
                 function() {
                     updateDensity();
+                    _animation = null;
                 }
             );
         }
@@ -271,7 +280,7 @@
         }
 
         function clicked(event, x, y) {
-            if (_enabled) {
+            if (_animation === null) {
                 var rect = _canvas.node.getBoundingClientRect();
                 updateValue(indicatorToValue(y - rect.top));
             }
@@ -282,10 +291,6 @@
             _scale = scale;
 
             animateIndicator(_valueAnimated, _data.value);
-        };
-
-        this.enable = function(enable) {
-            _enabled = enable;
         };
 
         createShapes();
@@ -371,12 +376,6 @@
             if (useRelativeScale != _useRelativeScale) {
                 _useRelativeScale = useRelativeScale;
                 this.setColumns(_data);
-            }
-        };
-
-        this.enable = function(enable) {
-            for (var name in _columns) {
-                _columns[name].enable(enable);
             }
         };
     };

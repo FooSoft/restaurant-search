@@ -27,8 +27,7 @@
 (function(hscd) {
     'use strict';
 
-    var _custom = '[custom]';
-    var _ctx    = { log: [] };
+    var _ctx = { log: [] };
 
     function onAdjust(name, value) {
         _ctx.query.features[name] = value;
@@ -212,20 +211,13 @@
 
     $(document).on({
         ajaxStart: function() {
-            if (_.has(_ctx, 'grapher')) {
-                _ctx.grapher.enable(false);
-            }
             $('#spinner').show();
         },
 
         ajaxStop: function() {
-            if (_.has(_ctx, 'grapher')) {
-                _ctx.grapher.enable(true);
-            }
             $('#spinner').hide();
         },
 
         ready: onReady()
     });
-
 }(window.hscd = window.hscd || {}));
