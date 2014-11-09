@@ -89,13 +89,14 @@
         var _panelSize   = 20;
         var _tickSize    = 5;
         var _width       = 125;
-        var _easeTime    = 425;
+        var _easeTime    = 250;
 
         var _enabled        = true;
         var _canvas         = params.canvas;
         var _data           = params.data;
         var _index          = params.index;
         var _name           = params.name;
+        var _valueAnimated  = params.data.value;
         var _onValueChanged = params.onValueChanged;
         var _range          = params.range;
         var _scale          = params.scale;
@@ -159,6 +160,8 @@
                 height: range.max - range.min,
                 fill:   computeIndicatorColor(value)
             });
+
+            _valueAnimated = value;
         }
 
         function updateDensity() {
@@ -214,14 +217,12 @@
         }
 
         function updateValue(value) {
-            var valueOld = _data.value;
-
             _data.value = _range.clamp(value);
             if (_onValueChanged) {
                 _onValueChanged(_name, _data.value);
             }
 
-            animateIndicator(valueOld, _data.value);
+            animateIndicator(_valueAnimated, _data.value);
         }
 
         function animateIndicator(valueOld, valueNew) {
@@ -232,7 +233,7 @@
                     updateIndicator(value);
                 },
                 _easeTime,
-                mina.easeinout,
+                mina.linear,
                 function() {
                     updateDensity();
                 }
@@ -277,12 +278,10 @@
         }
 
         this.update = function(data, scale) {
-            var valueOld = _data.value;
-
             _data  = data;
             _scale = scale;
 
-            animateIndicator(valueOld, _data.value);
+            animateIndicator(_valueAnimated, _data.value);
         };
 
         this.enable = function(enable) {
