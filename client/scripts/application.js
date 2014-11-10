@@ -152,7 +152,10 @@
 
             var columns = {};
             for (var feature in _ctx.query.features) {
-                columns[feature] = { value: 0.0, hints: [] };
+                columns[feature] = {
+                    value: 0.0,
+                    hints: []
+                };
             }
 
             _ctx.grapher.setColumns(columns);

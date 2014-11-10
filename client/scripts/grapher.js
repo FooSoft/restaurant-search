@@ -128,7 +128,7 @@
             var range = computeIndicatorRange(_data.value);
             _elements.indicator = _canvas.rect(
                 _tickSize, range.min, _width - (_densitySize + _tickSize), (range.max - range.min)
-            ).attr({cursor: 'crosshair', fill: computeIndicatorColor()}).click(clicked);
+            ).attr({cursor: 'crosshair', fill: computeIndicatorColor(_data.value)}).click(clicked);
 
             // tick
             if (_range.contains(0.0)) {
