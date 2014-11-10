@@ -76,7 +76,7 @@
     }
 
     function onLearn() {
-        var keyword = prompt('Input keyword to learn as (alphanumeric, no spaces)');
+        var keyword = prompt('Learn keyword as');
         if (keyword === null) {
             return;
         }

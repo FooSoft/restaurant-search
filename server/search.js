@@ -133,7 +133,7 @@ function loadDb(params) {
 }
 
 function addKeyword(query, callback) {
-    if (!/^[a-zA-Z0-9]+$/.test(query.keyword)) {
+    if (!/^[a-zA-Z0-9\s\-]+$/.test(query.keyword)) {
         callback({ keyword: query.keyword, success: false });
         return;
     }
