@@ -33,7 +33,7 @@
         _ctx.query.features[name] = value;
         $.getJSON('/search', _ctx.query, function(results) {
             saveSnapshot(results);
-            outputSnapshot(results);
+            outputSnapshot(results, true);
             setCustomized(true);
         });
     }
@@ -160,14 +160,14 @@
 
         $.getJSON('/search', _ctx.query, function(results) {
             saveSnapshot(results);
-            outputSnapshot(results);
+            outputSnapshot(results, false);
             setCustomized(false);
         });
     }
 
     function onSelectSnapshot() {
         var index = $('#historyIndex').slider('getValue');
-        outputSnapshot(_ctx.log[index]);
+        outputSnapshot(_ctx.log[index], false);
         setCustomized(true);
     }
 
@@ -195,12 +195,15 @@
         }
     }
 
-    function outputSnapshot(results) {
+    function outputSnapshot(results, omitValues) {
+        var columns = {};
         for (var name in results.columns) {
-            _ctx.query.features[name] = results.columns[name].value;
+            var column = results.columns[name];
+            columns[name] = omitValues ? _.omit(column, 'value') : column;
+            _ctx.query.features[name] = column.value;
         }
 
-        _ctx.grapher.setColumns(results.columns);
+        _ctx.grapher.setColumns(columns);
         outputMatches(results.items, results.count);
     }
 

@@ -89,7 +89,7 @@
         var _panelSize   = 20;
         var _tickSize    = 5;
         var _width       = 125;
-        var _easeTime    = 200;
+        var _easeTime    = 400;
 
         var _animation      = null;
         var _canvas         = params.canvas;
@@ -221,6 +221,8 @@
             if (_onValueChanged) {
                 _onValueChanged(_name, _data.value);
             }
+
+            animateIndicator(_valueAnimated, _data.value);
         }
 
         function animateIndicator(valueOld, valueNew) {
@@ -239,9 +241,8 @@
                     updateIndicator(value);
                 },
                 _easeTime,
-                mina.linear,
+                mina.easeinout,
                 function() {
-                    updateDensity();
                     _animation = null;
                 }
             );
@@ -283,10 +284,16 @@
         }
 
         this.update = function(data, scale) {
-            _data  = data;
             _scale = scale;
 
-            animateIndicator(_valueAnimated, _data.value);
+            if (_.has(data, 'value')) {
+                _data.value = data.value;
+                animateIndicator(_valueAnimated, _data.value);
+            }
+            if (_.has(data, 'hints')) {
+                _data.hints = data.hints;
+                updateDensity();
+            }
         };
 
         createShapes();
