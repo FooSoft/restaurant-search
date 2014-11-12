@@ -50,7 +50,7 @@ function reviewScraped(err, resp, html) {
     var rateValue      = getBarPercent($(bars[7]));
     var rateAtmosphere = getBarPercent($(bars[8]));
 
-    if (rateFood == 0.0 && rateService == 0.0 && rateValue == 0.0 && rateAtmosphere == 0.0) {
+    if (rateFood === 0.0 && rateService === 0.0 && rateValue === 0.0 && rateAtmosphere === 0.0) {
         return;
     }
 
@@ -114,7 +114,7 @@ function scrapeIndices(relativeUrl, callback) {
 }
 
 function main() {
-    var relativePath = '/Restaurants-g60763-New_York_City_New_York.html';
+    var relativePath = '/Restaurants-g298173-Yokohama_Kanagawa_Prefecture_Kanto.html';
     var databasePath = 'data.json';
 
     var abort = false;
