@@ -28,9 +28,11 @@
 
 'use strict';
 
-var _     = require('underscore');
-var mysql = require('mysql');
-var pool  = null;
+var _      = require('underscore');
+var geolib = require('geolib');
+var mysql  = require('mysql');
+var pool   = null;
+
 
 function innerProduct(values1, values2) {
     var result = 0.0;

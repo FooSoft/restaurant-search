@@ -12,6 +12,7 @@
   "dependencies": {
     "express": "~4.5.1",
     "mysql": "^2.5.0",
-    "underscore": "^1.6.0"
+    "underscore": "^1.6.0",
+    "geolib": "~2.0.14"
   }
 }

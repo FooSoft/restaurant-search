@@ -33,6 +33,7 @@ var express = require('express');
 var path    = require('path');
 var search  = require('./search.js');
 
+
 function main(staticFiles, port) {
     var app = express();
 
