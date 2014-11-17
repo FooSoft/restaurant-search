@@ -27,7 +27,7 @@
 (function(hscd) {
     'use strict';
 
-    var _ctx = { log: [] };
+    var _ctx = { };
 
     function onAdjust(name, value) {
         _ctx.query.features[name] = value;
@@ -38,7 +38,12 @@
         });
     }
 
-    function onReady() {
+    function onReady(geo) {
+        _ctx = {
+            log: [],
+            geo: geo
+        };
+
         $('#historyIndex').slider({
             formatter: function(value) {
                 var delta = _ctx.log.length - (value + 1);
@@ -130,6 +135,11 @@
             hintSteps:  parseInt($('#hintSteps').val()),
             maxResults: parseInt($('#maxResults').val())
         };
+
+        if (_ctx.geo) {
+            _ctx.query.latitude  = _ctx.geo.coords.latitude;
+            _ctx.query.longitude = _ctx.geo.coords.longitude;
+        }
 
         if (!_.has(_ctx, 'grapher')) {
             _ctx.grapher = new grapher.Grapher({
@@ -233,6 +243,11 @@
             $('#spinner').hide();
         },
 
-        ready: onReady()
+        ready: function() {
+            navigator.geolocation.getCurrentPosition(
+                function(geo) { onReady(geo); },
+                function(err) { onReady(null); }
+            );
+        }
     });
 }(window.hscd = window.hscd || {}));
