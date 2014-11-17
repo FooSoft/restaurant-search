@@ -5,23 +5,27 @@ var jf       = require('jsonfile');
 var _        = require('underscore');
 
 
-function queryPosition(gc, address, cache, callback) {
+function queryPosition(gc, address, cache, sequence, callback) {
     if (_.has(cache, address)) {
         console.log('Cache lookup success for:\n\t%s', address);
         callback(cache[address]);
-        return;
+        return sequence;
     }
 
-    gc.geocode(address, function(err, res) {
-        if (err) {
-            console.log('Geocode lookup fail for: \n\t%s', address);
-            callback(null);
-        }
-        else {
-            console.log('Geocode lookup success for: \n\t%s', address);
-            callback(cache[address] = res[0]);
-        }
-    });
+    setTimeout(function() {
+        gc.geocode(address, function(err, res) {
+            if (err) {
+                console.log('Geocode lookup fail for: \n\t%s', address);
+                callback(null);
+            }
+            else {
+                console.log('Geocode lookup success for: \n\t%s', address);
+                callback(cache[address] = res[0]);
+            }
+        });
+    }, sequence * 200);
+
+    return sequence + 1;
 }
 
 
@@ -31,9 +35,10 @@ function main() {
     var srcCount  = srcData.length;
     var cacheData = jf.readFileSync('cache/geo.json', {throws: false}) || {};
     var destData  = [];
+    var sequence  = 0;
 
     _.each(srcData, function(srcItem) {
-        queryPosition(gc, srcItem.address, cacheData, function(geo) {
+        sequence = queryPosition(gc, srcItem.address, cacheData, sequence, function(geo) {
             if (geo) {
                 var destItem = _.clone(srcItem);
                 destItem.geo = geo;
