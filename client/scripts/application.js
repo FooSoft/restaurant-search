@@ -246,11 +246,16 @@
         },
 
         ready: function() {
-            navigator.geolocation.getCurrentPosition(
-                function(geo) { onReady(geo); },
-                function(err) { onReady(null); },
-                {enableHighAccuracy: true}
-            );
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(geo) { onReady(geo); },
+                    function(err) { onReady(null); },
+                    {enableHighAccuracy: true}
+                );
+            }
+            else {
+                onReady(null);
+            }
         }
     });
 }(window.hscd = window.hscd || {}));
