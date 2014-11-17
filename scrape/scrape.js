@@ -35,13 +35,18 @@ function reviewScraped(err, resp, html) {
 
     var $ = cheerio.load(html);
 
-    var bars = $('div.fill');
-    if (bars.length != 9) {
+    var address = $('span.format_address').text().trim();
+    if (!address) {
         return;
     }
 
     var storeName = $('h1#HEADING').text().trim();
-    if (storeName.indexOf('CLOSED') != -1) {
+    if (storeName.indexOf('CLOSED') !== -1) {
+        return;
+    }
+
+    var bars = $('div.fill');
+    if (bars.length !== 9) {
         return;
     }
 
@@ -55,13 +60,14 @@ function reviewScraped(err, resp, html) {
     }
 
     var data = {
-        'name':        storeName,
-        'relativeUrl': this.relativeUrl,
-        'rating': {
-            'food':       (rateFood - 0.5) * 2.0,
-            'service':    (rateService - 0.5) * 2.0,
-            'value':      (rateValue - 0.5) * 2.0,
-            'atmosphere': (rateAtmosphere - 0.5) * 2.0
+        name:        storeName,
+        relativeUrl: this.relativeUrl,
+        address:     address,
+        rating: {
+            food:       (rateFood - 0.5) * 2.0,
+            service:    (rateService - 0.5) * 2.0,
+            value:      (rateValue - 0.5) * 2.0,
+            atmosphere: (rateAtmosphere - 0.5) * 2.0
         }
     };
 
