@@ -47,7 +47,7 @@ function innerProduct(values1, values2) {
 function walkMatches(data, features, minScore, callback) {
     for (var i = 0, count = data.records.length; i < count; ++i) {
         var record = data.records[i];
-        var score  = innerProduct(features, record.rating);
+        var score  = innerProduct(features, record.features);
 
         if (score >= minScore) {
             callback(record, score);
@@ -151,8 +151,11 @@ function addKeyword(query, callback) {
             query.features.proximity
         ];
 
-        pool.query('INSERT INTO keywords VALUES(?, ?, ?, ?, ?)', values, function(err) {
-            callback({ keyword: query.keyword, success: err === null });
+        pool.query('INSERT INTO keywords VALUES(?, ?, ?, ?, ?, ?)', values, function(err) {
+            callback({
+                keyword: query.keyword,
+                success: err === null
+            });
         });
     });
 }
@@ -188,7 +191,7 @@ function getKeywords(callback) {
     });
 }
 
-function getRecords(callback) {
+function getRecords(geo, callback) {
     pool.query('SELECT * FROM reviews', function(err, rows) {
         if (err) {
             throw err;
@@ -203,7 +206,7 @@ function getRecords(callback) {
                     latitude:    row.latitude,
                     longitude:   row.longitude
                 },
-                rating: {
+                features: {
                     food:       row.food,
                     service:    row.service,
                     value:      row.value,
@@ -212,23 +215,35 @@ function getRecords(callback) {
             };
         });
 
+        computeRecordGeo(records, geo);
         callback(records);
     });
 }
 
 function computeRecordGeo(records, geo) {
+    var distMin = Number.MAX_VALUE;
+    var distMax = Number.MIN_VALUE;
+
     _.each(records, function(record) {
         record.distance = 0.0;
         if (geo !== null) {
             record.distance = geolib.getDistance(record.geo, geo) / 1000.0;
         }
+
+        distMin = Math.min(distMin, record.distance);
+        distMax = Math.max(distMax, record.distance);
+    });
+
+    var distRange = distMax - distMin;
+
+    _.each(records, function(record) {
+        record.features.proximity = -((record.distance - distMin) / distRange - 0.5) * 2.0;
     });
 }
 
 function getData(geo, callback) {
     getKeywords(function(keywords) {
-        getRecords(function(records) {
-            computeRecordGeo(records, geo);
+        getRecords(geo, function(records) {
             callback({
                 keywords: keywords,
                 records:  records
