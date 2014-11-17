@@ -37,8 +37,9 @@ var pool   = null;
 function innerProduct(values1, values2) {
     var result = 0.0;
 
+    console.assert(_.keys(values1).length == _.keys(values2).length);
     for (var feature in values1) {
-        result += values1[feature] * (values2[feature] || 0.0);
+        result += values1[feature] * values2[feature];
     }
 
     return result;
@@ -137,7 +138,10 @@ function loadDb(params) {
 
 function addKeyword(query, callback) {
     if (!/^[a-zA-Z0-9\s\-]+$/.test(query.keyword)) {
-        callback({ keyword: query.keyword, success: false });
+        callback({
+            keyword: query.keyword,
+            success: false
+        });
         return;
     }
 
