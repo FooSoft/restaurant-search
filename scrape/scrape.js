@@ -35,7 +35,7 @@ function reviewScraped(err, resp, html) {
 
     var $ = cheerio.load(html);
 
-    var address = $('span.format_address').text().trim();
+    var address = $('div.addr').text().trim();
     if (!address) {
         return;
     }
