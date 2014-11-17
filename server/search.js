@@ -64,14 +64,20 @@ function countRecords(data, features, minScore) {
     return count;
 }
 
-function findRecords(data, features, minScore) {
+function findRecords(data, geo, features, minScore) {
     var results = [];
     walkMatches(data, features, minScore, function(record, score) {
+        var distance = 0.0;
+        if (geo !== null) {
+            distance = geolib.getDistance(record.geo, geo) / 1000.0;
+        }
+
         results.push({
-            name:  record.name,
-            url:   'http://www.tripadvisor.com' + record.relativeUrl,
-            score: score,
-            id:    record.id
+            name:     record.name,
+            url:      'http://www.tripadvisor.com' + record.relativeUrl,
+            score:    score,
+            distance: distance,
+            id:       record.id
         });
     });
 
@@ -196,12 +202,16 @@ function getRecords(callback) {
                 name:        row.name,
                 id:          row.id,
                 relativeUrl: row.url,
-                rating:      {
+                geo: {
+                    latitude:    row.latitude,
+                    longitude:   row.longitude
+                },
+                rating: {
                     food:       row.food,
                     service:    row.service,
                     value:      row.value,
                     atmosphere: row.atmosphere
-                }
+                },
             };
         });
 
@@ -233,6 +243,7 @@ function execQuery(query, callback) {
     getData(function(data) {
         var searchResults = findRecords(
             data,
+            query.geo,
             query.features,
             query.minScore
         );
@@ -264,9 +275,9 @@ function execQuery(query, callback) {
 }
 
 module.exports = {
-    'loadDb':        loadDb,
-    'addKeyword':    addKeyword,
-    'removeKeyword': removeKeyword,
-    'getParameters': getParameters,
-    'execQuery':     execQuery
+    loadDb:        loadDb,
+    addKeyword:    addKeyword,
+    removeKeyword: removeKeyword,
+    getParameters: getParameters,
+    execQuery:     execQuery
 };

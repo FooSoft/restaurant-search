@@ -137,8 +137,10 @@
         };
 
         if (_ctx.geo) {
-            _ctx.query.latitude  = _ctx.geo.coords.latitude;
-            _ctx.query.longitude = _ctx.geo.coords.longitude;
+            _ctx.query.geo = {
+                latitude:  _ctx.geo.coords.latitude,
+                longitude: _ctx.geo.coords.longitude
+            };
         }
 
         if (!_.has(_ctx, 'grapher')) {
@@ -231,7 +233,7 @@
 
         var template = Handlebars.compile($('#template').html());
         $('#results').empty();
-        $('#results').append(template({'results': results}));
+        $('#results').append(template({results: results}));
     }
 
     $(document).on({
@@ -246,7 +248,8 @@
         ready: function() {
             navigator.geolocation.getCurrentPosition(
                 function(geo) { onReady(geo); },
-                function(err) { onReady(null); }
+                function(err) { onReady(null); },
+                {enableHighAccuracy: true}
             );
         }
     });
