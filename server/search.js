@@ -64,19 +64,14 @@ function countRecords(data, features, minScore) {
     return count;
 }
 
-function findRecords(data, geo, features, minScore) {
+function findRecords(data, features, minScore) {
     var results = [];
     walkMatches(data, features, minScore, function(record, score) {
-        var distance = 0.0;
-        if (geo !== null) {
-            distance = geolib.getDistance(record.geo, geo) / 1000.0;
-        }
-
         results.push({
             name:     record.name,
             url:      'http://www.tripadvisor.com' + record.relativeUrl,
             score:    score,
-            distance: distance,
+            distance: record.distance,
             id:       record.id
         });
     });
@@ -221,9 +216,19 @@ function getRecords(callback) {
     });
 }
 
-function getData(callback) {
+function computeRecordGeo(records, geo) {
+    _.each(records, function(record) {
+        record.distance = 0.0;
+        if (geo !== null) {
+            record.distance = geolib.getDistance(record.geo, geo) / 1000.0;
+        }
+    });
+}
+
+function getData(geo, callback) {
     getKeywords(function(keywords) {
         getRecords(function(records) {
+            computeRecordGeo(records, geo);
             callback({
                 keywords: keywords,
                 records:  records
@@ -234,15 +239,14 @@ function getData(callback) {
 
 function getParameters(callback) {
     getKeywords(function(keywords) {
-        callback({ keywords: keywords });
+        callback({keywords: keywords});
     });
 }
 
 function execQuery(query, callback) {
-    getData(function(data) {
+    getData(query.geo, function(data) {
         var searchResults = findRecords(
             data,
-            query.geo,
             query.features,
             query.minScore
         );
