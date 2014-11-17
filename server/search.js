@@ -152,7 +152,8 @@ function addKeyword(query, callback) {
             query.features.food,
             query.features.service,
             query.features.value,
-            query.features.atmosphere
+            query.features.atmosphere,
+            query.features.proximity
         ];
 
         pool.query('INSERT INTO keywords VALUES(?, ?, ?, ?, ?)', values, function(err) {
@@ -183,7 +184,8 @@ function getKeywords(callback) {
                 food:       row.food,
                 service:    row.service,
                 value:      row.value,
-                atmosphere: row.atmosphere
+                atmosphere: row.atmosphere,
+                proximity:  row.proximity
             };
         }
 
@@ -232,10 +234,7 @@ function getData(callback) {
 
 function getParameters(callback) {
     getKeywords(function(keywords) {
-        callback({
-            keywords: keywords,
-            features: [ 'food', 'service', 'atmosphere', 'value' ]
-        });
+        callback({ keywords: keywords });
     });
 }
 

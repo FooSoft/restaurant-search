@@ -88,7 +88,7 @@
         var _padding     = 10;
         var _panelSize   = 20;
         var _tickSize    = 5;
-        var _width       = 125;
+        var _width       = 110;
         var _easeTime    = 400;
 
         var _animation      = null;
