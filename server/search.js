@@ -230,7 +230,7 @@ function computeRecordGeo(records, geo) {
 
     _.each(records, function(record) {
         record.distance = 0.0;
-        if (geo !== null) {
+        if (geo) {
             record.distance = geolib.getDistance(record.geo, geo) / 1000.0;
         }
 
