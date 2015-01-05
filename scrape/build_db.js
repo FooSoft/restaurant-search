@@ -36,7 +36,7 @@ var conn = mysql.createConnection({
 //
 
 conn.query('DROP TABLE IF EXISTS reviews');
-conn.query('CREATE TABLE reviews(name VARCHAR(100) NOT NULL, url VARCHAR(200) NOT NULL, delicious FLOAT NOT NULL, accomodating FLOAT NOT NULL, affordable FLOAT NOT NULL, atmospheric FLOAT NOT NULL, latitude FLOAT NOT NULL, longitude FLOAT NOT NULL, distanceToStn FLOAT NOT NULL, closestStn VARCHAR(100) NOT NULL, id INT NOT NULL AUTO_INCREMENT PRIMARY KEY)');
+conn.query('CREATE TABLE reviews(name VARCHAR(100) NOT NULL, url VARCHAR(200) NOT NULL, delicious FLOAT NOT NULL, accomodating FLOAT NOT NULL, affordable FLOAT NOT NULL, atmospheric FLOAT NOT NULL, latitude FLOAT NOT NULL, longitude FLOAT NOT NULL, distanceToStn FLOAT NOT NULL, closestStn VARCHAR(100) NOT NULL, id INT NOT NULL AUTO_INCREMENT PRIMARY KEY) DEFAULT CHARACTER SET utf8');
 
 for (var i = 0, count = data.length; i < count; ++i) {
     var record = data[i];
@@ -60,7 +60,7 @@ for (var i = 0, count = data.length; i < count; ++i) {
 //
 
 conn.query('DROP TABLE IF EXISTS keywords');
-conn.query('CREATE TABLE keywords(name VARCHAR(50) NOT NULL, delicious FLOAT NOT NULL, accomodating FLOAT NOT NULL, affordable FLOAT NOT NULL, atmospheric FLOAT NOT NULL, nearby FLOAT NOT NULL, access FLOAT NOT NULL, PRIMARY KEY(name))');
+conn.query('CREATE TABLE keywords(name VARCHAR(50) NOT NULL, delicious FLOAT NOT NULL, accomodating FLOAT NOT NULL, affordable FLOAT NOT NULL, atmospheric FLOAT NOT NULL, nearby FLOAT NOT NULL, access FLOAT NOT NULL, PRIMARY KEY(name)) DEFAULT CHARACTER SET utf8');
 
 var keywords = {
     delicious:     [1.0, 0.0, 0.0, 0.0, 0.0, 0.0],
@@ -80,7 +80,7 @@ for (var keyword in keywords) {
 //
 
 conn.query('DROP TABLE IF EXISTS presets');
-conn.query('CREATE TABLE presets(name VARCHAR(50) NOT NULL, PRIMARY KEY(name))');
+conn.query('CREATE TABLE presets(name VARCHAR(50) NOT NULL, PRIMARY KEY(name)) DEFAULT CHARACTER SET utf8');
 
 for (var keyword in keywords) {
     conn.query('INSERT INTO presets VALUES(?)', [keyword]);
