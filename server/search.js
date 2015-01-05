@@ -194,7 +194,7 @@ function getKeywords(callback) {
     });
 }
 
-function getRecords(geo, walkingDist, callback) {
+function getRecords(context, callback) {
     pool.query('SELECT * FROM reviews', function(err, rows) {
         if (err) {
             throw err;
@@ -220,19 +220,19 @@ function getRecords(geo, walkingDist, callback) {
             };
         });
 
-        computeRecordGeo(records, geo, walkingDist * 1000.0);
+        computeRecordGeo(records, context);
         callback(records);
     });
 }
 
-function computeRecordGeo(records, geo, accessDist) {
+function computeRecordGeo(records, context) {
     var distUserMin = Number.MAX_VALUE;
     var distUserMax = Number.MIN_VALUE;
 
     _.each(records, function(record) {
         record.distanceToUser = 0.0;
-        if (geo) {
-            record.distanceToUser = geolib.getDistance(record.geo, geo);
+        if (context.geo) {
+            record.distanceToUser = geolib.getDistance(record.geo, context.geo);
         }
 
         distUserMin = Math.min(distUserMin, record.distanceToUser);
@@ -244,15 +244,15 @@ function computeRecordGeo(records, geo, accessDist) {
     _.each(records, function(record) {
         record.features.nearby = -((record.distanceToUser - distUserMin) / distUserRange - 0.5) * 2.0;
 
-        record.features.accessible = 1.0 - (record.distanceToStn / accessDist);
+        record.features.accessible = 1.0 - (record.distanceToStn / context.walkingDist);
         record.features.accessible = Math.min(record.features.accessible, 1.0);
         record.features.accessible = Math.max(record.features.accessible, -1.0);
     });
 }
 
-function getData(geo, walkingDist, callback) {
+function getData(context, callback) {
     getKeywords(function(keywords) {
-        getRecords(geo, walkingDist, function(records) {
+        getRecords(context, function(records) {
             callback({
                 keywords: keywords,
                 records:  records
@@ -268,7 +268,12 @@ function getParameters(callback) {
 }
 
 function execQuery(query, callback) {
-    getData(query.geo, query.walkingDist, function(data) {
+    var context = {
+        geo:         query.geo,
+        walkingDist: query.walkingDist * 1000.0
+    };
+
+    getData(context, function(data) {
         var searchResults = findRecords(
             data,
             query.features,

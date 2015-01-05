@@ -66,7 +66,7 @@
 
             onSearch();
 
-            $('#searchKeyword,#minScore,#hintSteps,#walkingDist,#maxResults').change(onSearch);
+            $('#searchKeyword,#minScore,#hintSteps,#walkingDist,#maxResults').change(function() { onSearch(getFeaturesGrapher); });
             $('#historyIndex').on('slideStop', onSelectSnapshot);
             $('#learn').click(onLearn);
             $('#forget').click(onForget);
@@ -125,11 +125,18 @@
         });
     }
 
-    function onSearch() {
+    function getFeaturesKeyword() {
         var keyword = $('#searchKeyword').val();
+        return _.clone(_ctx.parameters.keywords[keyword]);
+    }
 
+    function getFeaturesGrapher() {
+        return _.clone(_ctx.query.features);
+    }
+
+    function onSearch(provider) {
         _ctx.query = {
-            features:    _.clone(_ctx.parameters.keywords[keyword]),
+            features:    (provider || getFeaturesKeyword)(),
             range:       { min: -1.0, max: 1.0 },
             walkingDist: parseFloat($('#walkingDist').val()),
             minScore:    parseFloat($('#minScore').val()),
@@ -251,7 +258,7 @@
                 navigator.geolocation.getCurrentPosition(
                     function(geo) { onReady(geo); },
                     function(err) { onReady(null); },
-                    {enableHighAccuracy: true}
+                    { enableHighAccuracy: true }
                 );
             }
             else {
