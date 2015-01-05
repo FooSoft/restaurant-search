@@ -64,11 +64,13 @@ function findRecords(data, features, minScore) {
     var results = [];
     walkMatches(data, features, minScore, function(record, score) {
         results.push({
-            name:     record.name,
-            url:      'http://www.tripadvisor.com' + record.relativeUrl,
-            score:    score,
-            distance: record.distanceToUser / 1000.0,
-            id:       record.id
+            name:           record.name,
+            url:            'http://www.tripadvisor.com' + record.relativeUrl,
+            score:          score,
+            distanceToUser: record.distanceToUser / 1000.0,
+            distanceToStn:  record.distanceToStn / 1000.0,
+            closestStn:     record.closestStn,
+            id:             record.id
         });
     });
 
@@ -200,16 +202,15 @@ function getRecords(geo, callback) {
 
         var records = _.map(rows, function(row) {
             return {
-                name:              row.name,
-                id:                row.id,
-                relativeUrl:       row.url,
-                distanceToStation: row.distanceToStation,
-
+                name:          row.name,
+                id:            row.id,
+                relativeUrl:   row.url,
+                closestStn:    row.closestStn,
+                distanceToStn: row.distanceToStn,
                 geo: {
                     latitude:    row.latitude,
                     longitude:   row.longitude
                 },
-
                 features: {
                     delicious:    row.delicious,
                     accomodating: row.accomodating,
@@ -243,7 +244,7 @@ function computeRecordGeo(records, geo, accessDist) {
     _.each(records, function(record) {
         record.features.nearby = -((record.distanceToUser - distUserMin) / distUserRange - 0.5) * 2.0;
 
-        record.features.accessible = 1.0 - (record.distanceToStation / accessDist);
+        record.features.accessible = 1.0 - (record.distanceToStn / accessDist);
         record.features.accessible = Math.min(record.features.accessible, 1.0);
         record.features.accessible = Math.max(record.features.accessible, -1.0);
     });

@@ -83,7 +83,9 @@
                             <tr>
                                 <th>Id</th>
                                 <th>Name</th>
-                                <th>Distance</th>
+                                <th>Distance to User</th>
+                                <th>Closest Station</th>
+                                <th>Distance to Station</th>
                                 <th>Score</th>
                             </tr>
                         </thead>
@@ -91,7 +93,9 @@
                             <tr>
                                 <td>{{id}}</td>
                                 <td><a href="{{url}}">{{name}}</a></td>
-                                <th>{{distance}} km</th>
+                                <th>{{distanceToUser}} km</th>
+                                <th>{{closestStn}}</th>
+                                <th>{{distanceToStn}} km</th>
                                 <td>{{score}}</td>
                             </tr>
                         {{/each}}
