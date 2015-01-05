@@ -15,11 +15,11 @@ var conn = mysql.createConnection({
 //
 
 conn.query('DROP TABLE IF EXISTS reviews');
-conn.query('CREATE TABLE reviews(name VARCHAR(100) NOT NULL, url VARCHAR(200) NOT NULL, food FLOAT NOT NULL, service FLOAT NOT NULL, value FLOAT NOT NULL, atmosphere FLOAT NOT NULL, latitude FLOAT NOT NULL, longitude FLOAT NOT NULL, id INT NOT NULL AUTO_INCREMENT PRIMARY KEY)');
+conn.query('CREATE TABLE reviews(name VARCHAR(100) NOT NULL, url VARCHAR(200) NOT NULL, delicious FLOAT NOT NULL, accomodating FLOAT NOT NULL, affordable FLOAT NOT NULL, atmospheric FLOAT NOT NULL, latitude FLOAT NOT NULL, longitude FLOAT NOT NULL, distanceToStation FLOAT NOT NULL, id INT NOT NULL AUTO_INCREMENT PRIMARY KEY)');
 
 for (var i = 0, count = data.length; i < count; ++i) {
     var record = data[i];
-    conn.query('INSERT INTO reviews(name, url, food, service, value, atmosphere, latitude, longitude) VALUES(?, ?, ?, ?, ?, ?, ?, ?)', [
+    conn.query('INSERT INTO reviews(name, url, delicious, accomodating, affordable, atmospheric, latitude, longitude, distanceToStation) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)', [
         record.name,
         record.relativeUrl,
         record.rating.food,
@@ -27,7 +27,8 @@ for (var i = 0, count = data.length; i < count; ++i) {
         record.rating.value,
         record.rating.atmosphere,
         record.geo.latitude,
-        record.geo.longitude
+        record.geo.longitude,
+        record.distanceToStation
     ]);
 }
 
@@ -37,7 +38,7 @@ for (var i = 0, count = data.length; i < count; ++i) {
 //
 
 conn.query('DROP TABLE IF EXISTS keywords');
-conn.query('CREATE TABLE keywords(name VARCHAR(50) NOT NULL, food FLOAT NOT NULL, service FLOAT NOT NULL, value FLOAT NOT NULL, atmosphere FLOAT NOT NULL, proximity FLOAT NOT NULL, PRIMARY KEY(name))');
+conn.query('CREATE TABLE keywords(name VARCHAR(50) NOT NULL, delicious FLOAT NOT NULL, accomodating FLOAT NOT NULL, affordable FLOAT NOT NULL, atmospheric FLOAT NOT NULL, nearby FLOAT NOT NULL, PRIMARY KEY(name))');
 
 var keywords = {
     delicious:     [1.0, 0.0, 0.0, 0.0, 0.0],
