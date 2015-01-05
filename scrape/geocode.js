@@ -1,9 +1,30 @@
 #!/usr/bin/env node
 
-var geocoder = require('node-geocoder');
-var jf       = require('jsonfile');
-var _        = require('underscore');
+/*
+ * Copyright (c) 2015 Alex Yatskov <alex@foosoft.net>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+ * the Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
 
+var _        = require('underscore');
+var geocoder = require('node-geocoder');
+var geolib   = require('geolib');
+var jf       = require('jsonfile');
 
 function queryPosition(gc, address, cache, sequence, callback) {
     if (_.has(cache, address)) {
@@ -28,25 +49,42 @@ function queryPosition(gc, address, cache, sequence, callback) {
     return sequence + 1;
 }
 
+function buildAccess(reviewData, stationData, accessibility) {
+    _.each(reviewData, function(reviewItem) {
+        var distMin = Number.MAX_VALUE;
+
+        console.log('Computing access for: \n\t%s', reviewItem.name);
+        _.each(stationData, function(stationItem) {
+            var distance = geolib.getDistance(reviewItem.geo, stationItem.geo);
+            distMin = Math.min(distance, distMin);
+        });
+
+        reviewItem.distanceToStation = distMin;
+    });
+}
 
 function main() {
-    var gc        = geocoder.getGeocoder('google', 'http', {});
-    var srcData   = jf.readFileSync('data.json');
-    var srcCount  = srcData.length;
-    var cacheData = jf.readFileSync('cache/geo.json', {throws: false}) || {};
-    var destData  = [];
-    var sequence  = 0;
+    var gc       = geocoder.getGeocoder('google', 'http', {});
+    var sequence = 0;
 
-    _.each(srcData, function(srcItem) {
-        sequence = queryPosition(gc, srcItem.address, cacheData, sequence, function(geo) {
+    var stationData    = jf.readFileSync('stations.json');
+    var cacheData      = jf.readFileSync('cache/geo.json', {throws: false}) || {};
+    var reviewData     = jf.readFileSync('data.json');
+    var reviewCount    = reviewData.length;
+    var reviewDataDest = [];
+
+    _.each(reviewData, function(reviewItem) {
+        sequence = queryPosition(gc, reviewItem.address, cacheData, sequence, function(geo) {
             if (geo) {
-                var destItem = _.clone(srcItem);
+                var destItem = _.clone(reviewItem);
                 destItem.geo = geo;
-                destData.push(destItem);
+                reviewDataDest.push(destItem);
             }
 
-            if (--srcCount === 0) {
-                jf.writeFileSync('data.json', destData);
+            if (--reviewCount === 0) {
+                buildAccess(reviewDataDest, stationData);
+
+                jf.writeFileSync('data.json', reviewDataDest);
                 jf.writeFileSync('cache/geo.json', cacheData);
             }
         });

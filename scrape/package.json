@@ -12,6 +12,7 @@
     "cheerio": "~0.17.0",
     "mysql": "^2.5.0",
     "underscore": "~1.6.0",
-    "node-geocoder": "~2.11.0"
+    "node-geocoder": "~2.11.0",
+    "geolib": "~2.0.14"
   }
 }
