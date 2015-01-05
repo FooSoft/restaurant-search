@@ -66,7 +66,7 @@
 
             onSearch();
 
-            $('#searchKeyword,#minScore,#hintSteps,#maxResults').change(onSearch);
+            $('#searchKeyword,#minScore,#hintSteps,#walkingDist,#maxResults').change(onSearch);
             $('#historyIndex').on('slideStop', onSelectSnapshot);
             $('#learn').click(onLearn);
             $('#forget').click(onForget);
@@ -129,11 +129,12 @@
         var keyword = $('#searchKeyword').val();
 
         _ctx.query = {
-            features:   _.clone(_ctx.parameters.keywords[keyword]),
-            range:      { min: -1.0, max: 1.0 },
-            minScore:   parseFloat($('#minScore').val()),
-            hintSteps:  parseInt($('#hintSteps').val()),
-            maxResults: parseInt($('#maxResults').val())
+            features:    _.clone(_ctx.parameters.keywords[keyword]),
+            range:       { min: -1.0, max: 1.0 },
+            walkingDist: parseFloat($('#walkingDist').val()),
+            minScore:    parseFloat($('#minScore').val()),
+            hintSteps:   parseInt($('#hintSteps').val()),
+            maxResults:  parseInt($('#maxResults').val())
         };
 
         if (_ctx.geo) {

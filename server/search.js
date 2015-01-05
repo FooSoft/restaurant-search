@@ -194,7 +194,7 @@ function getKeywords(callback) {
     });
 }
 
-function getRecords(geo, callback) {
+function getRecords(geo, walkingDist, callback) {
     pool.query('SELECT * FROM reviews', function(err, rows) {
         if (err) {
             throw err;
@@ -220,7 +220,7 @@ function getRecords(geo, callback) {
             };
         });
 
-        computeRecordGeo(records, geo, 1000.0);
+        computeRecordGeo(records, geo, walkingDist * 1000.0);
         callback(records);
     });
 }
@@ -250,9 +250,9 @@ function computeRecordGeo(records, geo, accessDist) {
     });
 }
 
-function getData(geo, callback) {
+function getData(geo, walkingDist, callback) {
     getKeywords(function(keywords) {
-        getRecords(geo, function(records) {
+        getRecords(geo, walkingDist, function(records) {
             callback({
                 keywords: keywords,
                 records:  records
@@ -268,7 +268,7 @@ function getParameters(callback) {
 }
 
 function execQuery(query, callback) {
-    getData(query.geo, function(data) {
+    getData(query.geo, query.walkingDist, function(data) {
         var searchResults = findRecords(
             data,
             query.features,
