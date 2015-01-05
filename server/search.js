@@ -67,7 +67,7 @@ function findRecords(data, features, minScore) {
             name:     record.name,
             url:      'http://www.tripadvisor.com' + record.relativeUrl,
             score:    score,
-            distance: record.distance,
+            distance: record.distanceToUser / 1000.0,
             id:       record.id
         });
     });
@@ -219,29 +219,33 @@ function getRecords(geo, callback) {
             };
         });
 
-        computeRecordGeo(records, geo);
+        computeRecordGeo(records, geo, 1000.0);
         callback(records);
     });
 }
 
-function computeRecordGeo(records, geo) {
-    var distMin = Number.MAX_VALUE;
-    var distMax = Number.MIN_VALUE;
+function computeRecordGeo(records, geo, accessDist) {
+    var distUserMin = Number.MAX_VALUE;
+    var distUserMax = Number.MIN_VALUE;
 
     _.each(records, function(record) {
-        record.distance = 0.0;
+        record.distanceToUser = 0.0;
         if (geo) {
-            record.distance = geolib.getDistance(record.geo, geo) / 1000.0;
+            record.distanceToUser = geolib.getDistance(record.geo, geo);
         }
 
-        distMin = Math.min(distMin, record.distance);
-        distMax = Math.max(distMax, record.distance);
+        distUserMin = Math.min(distUserMin, record.distanceToUser);
+        distUserMax = Math.max(distUserMax, record.distanceToUser);
     });
 
-    var distRange = distMax - distMin;
+    var distUserRange = distUserMax - distUserMin;
 
     _.each(records, function(record) {
-        record.features.proximity = -((record.distance - distMin) / distRange - 0.5) * 2.0;
+        record.features.nearby = -((record.distanceToUser - distUserMin) / distUserRange - 0.5) * 2.0;
+
+        record.features.accessible = 1.0 - (record.distanceToStation / accessDist);
+        record.features.accessible = Math.min(record.features.accessible, 1.0);
+        record.features.accessible = Math.max(record.features.accessible, -1.0);
     });
 }
 
