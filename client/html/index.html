@@ -43,15 +43,15 @@
                             </div>
                             <div class="form-group">
                                 <label for="walkingDist">Walking distance (km)</label>
-                                <input class="form-control" type="number" step="any" value="1.0" id="walkingDist">
+                                <input class="form-control" type="number" step="0.1" min="0.1" value="1.0" id="walkingDist">
                             </div>
                             <div class="form-group">
                                 <label for="minScore">Minimum score</label>
-                                <input class="form-control" type="number" step="any" value="0.25" id="minScore">
+                                <input class="form-control" type="number" step="0.01" value="0.25" id="minScore">
                             </div>
                             <div class="form-group">
                                 <label for="hintSteps">Hint steps</label>
-                                <input class="form-control" type="number" value="20" id="hintSteps">
+                                <input class="form-control" type="number" value="20" min="1" id="hintSteps">
                             </div>
                             <div class="form-group">
                                 <label for="maxResults">Max results</label>
