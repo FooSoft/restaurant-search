@@ -52,14 +52,19 @@ function queryPosition(gc, address, cache, sequence, callback) {
 function buildAccess(reviewData, stationData, accessibility) {
     _.each(reviewData, function(reviewItem) {
         var distMin = Number.MAX_VALUE;
+        var station = '';
 
         console.log('Computing access for: \n\t%s', reviewItem.name);
-        _.each(stationData, function(stationItem) {
+        _.each(stationData, function(stationItem, stationName) {
             var distance = geolib.getDistance(reviewItem.geo, stationItem.geo);
-            distMin = Math.min(distance, distMin);
+            if (distance < distMin) {
+                station = stationName;
+                distMin = distance;
+            }
         });
 
-        reviewItem.distanceToStation = distMin;
+        reviewItem.distanceToStn = distMin;
+        reviewItem.closestStn    = station;
     });
 }
 
