@@ -1,5 +1,26 @@
 #!/usr/bin/env node
 
+/*
+ * Copyright (c) 2015 Alex Yatskov <alex@foosoft.net>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+ * the Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 var mysql = require('mysql');
 var data  = require('./data.json');
 
@@ -38,18 +59,18 @@ for (var i = 0, count = data.length; i < count; ++i) {
 //
 
 conn.query('DROP TABLE IF EXISTS keywords');
-conn.query('CREATE TABLE keywords(name VARCHAR(50) NOT NULL, delicious FLOAT NOT NULL, accomodating FLOAT NOT NULL, affordable FLOAT NOT NULL, atmospheric FLOAT NOT NULL, nearby FLOAT NOT NULL, PRIMARY KEY(name))');
+conn.query('CREATE TABLE keywords(name VARCHAR(50) NOT NULL, delicious FLOAT NOT NULL, accomodating FLOAT NOT NULL, affordable FLOAT NOT NULL, atmospheric FLOAT NOT NULL, nearby FLOAT NOT NULL, access FLOAT NOT NULL, PRIMARY KEY(name))');
 
 var keywords = {
-    delicious:     [1.0, 0.0, 0.0, 0.0, 0.0],
-    accommodating: [0.0, 1.0, 0.0, 0.0, 0.0],
-    affordable:    [0.0, 0.0, 1.0, 0.0, 0.0],
-    atmospheric:   [0.0, 0.0, 0.0, 1.0, 0.0]
+    delicious:     [1.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+    accommodating: [0.0, 1.0, 0.0, 0.0, 0.0, 0.0],
+    affordable:    [0.0, 0.0, 1.0, 0.0, 0.0, 0.0],
+    atmospheric:   [0.0, 0.0, 0.0, 1.0, 0.0, 0.0]
 };
 
 for (var keyword in keywords) {
     var record = keywords[keyword];
-    conn.query('INSERT INTO keywords VALUES(?, ?, ?, ?, ?, ?)', [keyword].concat(record));
+    conn.query('INSERT INTO keywords VALUES(?, ?, ?, ?, ?, ?, ?)', [keyword].concat(record));
 }
 
 

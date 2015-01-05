@@ -29,6 +29,7 @@ CREATE TABLE `keywords` (
   `affordable` float NOT NULL,
   `atmospheric` float NOT NULL,
   `nearby` float NOT NULL,
+  `access` float NOT NULL,
   PRIMARY KEY (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -39,7 +40,7 @@ CREATE TABLE `keywords` (
 
 LOCK TABLES `keywords` WRITE;
 /*!40000 ALTER TABLE `keywords` DISABLE KEYS */;
-INSERT INTO `keywords` VALUES ('accommodating',0,1,0,0,0),('affordable',0,0,1,0,0),('atmospheric',0,0,0,1,0),('delicious',1,0,0,0,0);
+INSERT INTO `keywords` VALUES ('accommodating',0,1,0,0,0,0),('affordable',0,0,1,0,0,0),('atmospheric',0,0,0,1,0,0),('delicious',1,0,0,0,0,0);
 /*!40000 ALTER TABLE `keywords` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -107,4 +108,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-01-05 14:32:39
+-- Dump completed on 2015-01-05 15:09:00
