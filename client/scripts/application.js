@@ -66,7 +66,8 @@
 
             onSearch();
 
-            $('#searchKeyword,#minScore,#hintSteps,#walkingDist,#maxResults').change(function() { onSearch(getFeaturesGrapher); });
+            $('#searchKeyword').change(function() { onSearch(); });
+            $('#minScore,#hintSteps,#walkingDist,#maxResults').change(function() { onSearch(getFeaturesGrapher); });
             $('#historyIndex').on('slideStop', onSelectSnapshot);
             $('#learn').click(onLearn);
             $('#forget').click(onForget);
