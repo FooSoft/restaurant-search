@@ -133,67 +133,6 @@ function loadDb(params) {
     pool = mysql.createPool(params);
 }
 
-function addKeyword(query, callback) {
-    if (!/^[a-zA-Z0-9\s\-]+$/.test(query.keyword)) {
-        callback({
-            keyword: query.keyword,
-            success: false
-        });
-        return;
-    }
-
-    getKeywords(function(keywords) {
-        var values = [
-            query.keyword,
-            query.features.delicious,
-            query.features.accomodating,
-            query.features.affordable,
-            query.features.atmospheric,
-            query.features.nearby,
-            query.features.accessible
-        ];
-
-        pool.query('INSERT INTO keywords VALUES(?, ?, ?, ?, ?, ?, ?)', values, function(err) {
-            callback({
-                keyword: query.keyword,
-                success: err === null
-            });
-        });
-    });
-}
-
-function removeKeyword(query, callback) {
-    pool.query('DELETE FROM keywords WHERE name=? AND name NOT IN (SELECT name FROM presets)', [query.keyword], function(err, fields) {
-        callback({
-            keyword: query.keyword,
-            success: err === null && fields.affectedRows > 0
-        });
-    });
-}
-
-function getKeywords(callback) {
-    pool.query('SELECT * FROM keywords', function(err, rows) {
-        if (err) {
-            throw err;
-        }
-
-        var keywords = {};
-        for (var i = 0, count = rows.length; i < count; ++i) {
-            var row = rows[i];
-            keywords[row.name] = {
-                delicious:    row.delicious,
-                accomodating: row.accomodating,
-                affordable:   row.affordable,
-                atmospheric:  row.atmospheric,
-                nearby:       row.nearby,
-                accessible:   row.access
-            };
-        }
-
-        callback(keywords);
-    });
-}
-
 function getRecords(context, callback) {
     pool.query('SELECT * FROM reviews', function(err, rows) {
         if (err) {
@@ -250,30 +189,13 @@ function computeRecordGeo(records, context) {
     });
 }
 
-function getData(context, callback) {
-    getKeywords(function(keywords) {
-        getRecords(context, function(records) {
-            callback({
-                keywords: keywords,
-                records:  records
-            });
-        });
-    });
-}
-
-function getParameters(callback) {
-    getKeywords(function(keywords) {
-        callback({keywords: keywords});
-    });
-}
-
 function execQuery(query, callback) {
     var context = {
         geo:         query.geo,
         walkingDist: query.walkingDist * 1000.0
     };
 
-    getData(context, function(data) {
+    getRecords(context, function(data) {
         var searchResults = findRecords(
             data,
             query.features,
@@ -308,8 +230,5 @@ function execQuery(query, callback) {
 
 module.exports = {
     loadDb:        loadDb,
-    addKeyword:    addKeyword,
-    removeKeyword: removeKeyword,
-    getParameters: getParameters,
     execQuery:     execQuery
 };

@@ -39,24 +39,6 @@ function main(staticFiles, port) {
         user:            'hscd'
     });
 
-    app.use('/get_parameters', function(req, res) {
-        search.getParameters(function(parameters) {
-            res.json(parameters);
-        });
-    });
-
-    app.use('/add_keyword', function(req, res) {
-        search.addKeyword(req.query, function(results) {
-            res.json(results);
-        });
-    });
-
-    app.use('/remove_keyword', function(req, res) {
-        search.removeKeyword(req.query, function(results) {
-            res.json(results);
-        });
-    });
-
     app.use('/search', function(req, res) {
         search.execQuery(req.query, function(results) {
             res.json(results);
