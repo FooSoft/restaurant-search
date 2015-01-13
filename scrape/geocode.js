@@ -26,6 +26,7 @@ var geocoder = require('node-geocoder');
 var geolib   = require('geolib');
 var jf       = require('jsonfile');
 
+
 function queryPosition(gc, address, cache, sequence, callback) {
     if (_.has(cache, address)) {
         console.log('Cache lookup success for:\n\t%s', address);

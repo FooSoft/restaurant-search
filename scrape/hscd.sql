@@ -16,58 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `keywords`
---
-
-DROP TABLE IF EXISTS `keywords`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `keywords` (
-  `name` varchar(50) NOT NULL,
-  `delicious` float NOT NULL,
-  `accomodating` float NOT NULL,
-  `affordable` float NOT NULL,
-  `atmospheric` float NOT NULL,
-  `nearby` float NOT NULL,
-  `access` float NOT NULL,
-  PRIMARY KEY (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `keywords`
---
-
-LOCK TABLES `keywords` WRITE;
-/*!40000 ALTER TABLE `keywords` DISABLE KEYS */;
-INSERT INTO `keywords` VALUES ('accommodating',0,1,0,0,0,0),('affordable',0,0,1,0,0,0),('atmospheric',0,0,0,1,0,0),('delicious',1,0,0,0,0,0);
-/*!40000 ALTER TABLE `keywords` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `presets`
---
-
-DROP TABLE IF EXISTS `presets`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `presets` (
-  `name` varchar(50) NOT NULL,
-  PRIMARY KEY (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `presets`
---
-
-LOCK TABLES `presets` WRITE;
-/*!40000 ALTER TABLE `presets` DISABLE KEYS */;
-INSERT INTO `presets` VALUES ('accommodating'),('affordable'),('atmospheric'),('delicious');
-/*!40000 ALTER TABLE `presets` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `reviews`
 --
 
@@ -109,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-01-05 16:09:59
+-- Dump completed on 2015-01-13 15:58:36
