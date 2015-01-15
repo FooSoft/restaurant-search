@@ -32,17 +32,18 @@ var pool   = null;
 function innerProduct(values1, values2) {
     var result = 0.0;
 
-    console.assert(_.keys(values1).length == _.keys(values2).length);
     for (var feature in values1) {
-        result += values1[feature] * values2[feature];
+        if (feature in values2) {
+            result += values1[feature] * values2[feature];
+        }
     }
 
     return result;
 }
 
 function walkMatches(data, features, minScore, callback) {
-    for (var i = 0, count = data.records.length; i < count; ++i) {
-        var record = data.records[i];
+    for (var i = 0, count = data.length; i < count; ++i) {
+        var record = data[i];
         var score  = innerProduct(features, record.features);
 
         if (score >= minScore) {
@@ -62,6 +63,7 @@ function countRecords(data, features, minScore) {
 
 function findRecords(data, features, minScore) {
     var results = [];
+
     walkMatches(data, features, minScore, function(record, score) {
         results.push({
             name:           record.name,
@@ -189,7 +191,27 @@ function computeRecordGeo(records, context) {
     });
 }
 
+function sanitizeQuery(query) {
+    var keys = [
+        'delicious',
+        'accomodating',
+        'affordable',
+        'atmospheric',
+        'nearby',
+        'accessible'
+    ];
+
+    var features = {};
+    _.each(keys, function(key) {
+        features[key] = _.has(query.features, key) ? query.features[key] : 0.0;
+    });
+
+    query.features = features;
+}
+
 function execQuery(query, callback) {
+    sanitizeQuery(query);
+
     var context = {
         geo:         query.geo,
         walkingDist: query.walkingDist * 1000.0
