@@ -35,7 +35,6 @@
 
     function onReady(geo) {
         _ctx = {
-            log:   [],
             geo:   geo,
             query: {}
         };
@@ -102,7 +101,7 @@
     }
 
     function saveSnapshot(results) {
-        _ctx.log.push(results);
+        window.history.pushState(results);
     }
 
     function outputSnapshot(results, omitValues) {
@@ -137,6 +136,12 @@
             $('#resultPanel').slideDown();
         }
     }
+
+    window.onpopstate = function(state) {
+        if (state.state) {
+            outputSnapshot(state.state, false);
+        }
+    };
 
     $(document).on({
         ajaxStart: function() {
