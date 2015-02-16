@@ -38,6 +38,7 @@ var path           = require('path');
 var replace        = require('gulp-replace');
 var uglify         = require('gulp-uglify');
 
+
 function getBowerFiles(extension) {
     var allPaths = mainBowerFiles({paths: 'client'});
 
