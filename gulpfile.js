@@ -24,8 +24,6 @@
 
 */
 
-'use strict';
-
 var concat         = require('gulp-concat');
 var gulp           = require('gulp');
 var inject         = require('gulp-inject');
@@ -72,15 +70,17 @@ gulp.task('styles', function() {
 
 gulp.task('html_dev', function() {
     var sources = gulp.src(getBowerFiles('.css').concat(getBowerFiles('.js')).concat(['client/scripts/*.js', 'client/styles/*.css']), {read: false});
-    var target  = 'client/html/index.html';
+    var target  = 'client/html/*.html';
     var options = {addRootSlash: false, ignorePath: 'client'};
+
     return gulp.src(target).pipe(inject(sources, options)).pipe(gulp.dest('client'));
 });
 
 gulp.task('html_dist', ['fonts', 'images', 'scripts', 'styles'], function() {
     var sources = gulp.src(['client/dist/*.js', 'client/dist/*.css'], {read: false});
+    var target  = 'client/html/*.html';
     var options = {addRootSlash: false, ignorePath: 'client/dist'};
-    var target  = 'client/html/index.html';
+
     return gulp.src(target).pipe(inject(sources, options)).pipe(minifyHtml()).pipe(gulp.dest('client/dist'));
 });
 
@@ -88,7 +88,7 @@ gulp.task('dev', ['html_dev'], function() {
     var options = {
         script: 'server/server.js',
         ext:    'js html',
-        ignore: ['client/index.html'],
+        ignore: ['client/*.html'],
         args:   ['client']
     };
 
@@ -102,6 +102,7 @@ gulp.task('dist', ['html_dist'], function() {
         ignore: ['client/dist/*'],
         args:   ['client/dist']
     };
+
     return nodemon(options).on('change', ['html_dist']);
 });
 
