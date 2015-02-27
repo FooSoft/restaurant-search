@@ -50,5 +50,5 @@ function main(staticFiles, port) {
 }
 
 if (require.main === module) {
-    main(process.argv[2] || 'client', 3000);
+    main('client', 3000);
 }
