@@ -17,10 +17,30 @@
                 <h1><img id="spinner" alt="loading" class="pull-right" src="images/spinner.gif" style="display: none;" width="32" height="32">Search Profile</h1>
             </div>
 
-            <div class="form-horizontal">
-                <div class="form-group">
-                    <label class="control-label col-sm-6 text-left">Now is the time for all good men</label>
-                    <div class="text-right">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="text-left">Category</th>
+                        <th class="text-right">Rating</th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td class="text-left">Now is the time for all good men</td>
+                    <td class="text-right">
+                        <label class="radio-inline">
+                            <input type="radio" name="test1" value="-1"> Agree
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="test1" value="-1" checked> Neither
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="test1" value="-1"> Disagree
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">Now is the time for all good men</td>
+                    <td class="text-right">
                         <label class="radio-inline">
                             <input type="radio" name="test2" value="-1"> Agree
                         </label>
@@ -30,32 +50,16 @@
                         <label class="radio-inline">
                             <input type="radio" name="test2" value="-1"> Disagree
                         </label>
-                    </div>
-                </div>
+                    </td>
+                </tr>
+            </table>
 
-                <div class="form-group">
-                    <label class="control-label col-sm-8 text-left">Now is the time for all good men</label>
-                    <div class="text-right">
-                        <label class="radio-inline">
-                            <input type="radio" name="test2" value="-1"> Agree
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="test2" value="-1" checked> Neither
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="test2" value="-1"> Disagree
-                        </label>
-                    </div>
-                </div>
-
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="New property text">
-                    <span class="input-group-btn">
-                        <button class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span></button>
-                    </span>
-                </div>
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="New property text">
+                <span class="input-group-btn">
+                    <button class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span></button>
+                </span>
             </div>
-
 
             <!-- result listing -->
             <!-- <div class="panel panel-default" style="display: none;" id="resultPanel"> -->
