@@ -1,63 +1,61 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Reactive Search Properties</title>
+        <title>Search Profile</title>
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
         <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+        <style type="text/css">
+        .form-horizontal .control-label {
+            text-align: left;
+        }
+        </style>
     </head>
     <body>
         <div class="container">
             <!-- busy spinner -->
             <div class="page-header">
-                <h1><img id="spinner" alt="loading" class="pull-right" src="images/spinner.gif" style="display: none;" width="32" height="32">Reactive Search</h1>
+                <h1><img id="spinner" alt="loading" class="pull-right" src="images/spinner.gif" style="display: none;" width="32" height="32">Search Profile</h1>
             </div>
 
-            <div class="row">
-                <!-- visualizer -->
-                <!-- <div class="col-md-7"> -->
-                <!--     <div class="panel panel-default"> -->
-                <!--         <div class="panel-heading"> -->
-                <!--             <big>Visualizer</big> -->
-                <!--         </div> -->
-                <!--         <div class="panel-body"> -->
-                <!--             <svg id="svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="800" height="500"></svg> -->
-                <!--         </div> -->
-                <!--     </div> -->
-                <!-- </div> -->
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-sm-6 text-left">Now is the time for all good men</label>
+                    <div class="text-right">
+                        <label class="radio-inline">
+                            <input type="radio" name="test2" value="-1"> Agree
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="test2" value="-1" checked> Neither
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="test2" value="-1"> Disagree
+                        </label>
+                    </div>
+                </div>
 
-                <!-- query -->
-                <!-- <div class="col-md-5"> -->
-                <!--     <div class="panel panel-default"> -->
-                <!--         <div class="panel-heading"> -->
-                <!--             <big>Query</big> -->
-                <!--         </div> -->
-                <!--         <div class="panel-body"> -->
-                <!--             <div class="form-group"> -->
-                <!--                 <label for="walkingDist">Walking distance (km)</label> -->
-                <!--                 <input class="form-control" type="number" step="0.1" min="0.1" value="1.0" id="walkingDist"> -->
-                <!--             </div> -->
-                <!--             <div class="form-group"> -->
-                <!--                 <label for="minScore">Minimum score</label> -->
-                <!--                 <input class="form-control" type="number" step="0.01" value="0.25" id="minScore"> -->
-                <!--             </div> -->
-                <!--             <div class="form-group"> -->
-                <!--                 <label for="hintSteps">Hint steps</label> -->
-                <!--                 <input class="form-control" type="number" value="20" min="1" id="hintSteps"> -->
-                <!--             </div> -->
-                <!--             <div class="form-group"> -->
-                <!--                 <label for="maxResults">Max results</label> -->
-                <!--                 <input class="form-control" type="number" value="100" id="maxResults"> -->
-                <!--             </div> -->
-                <!--             <div class="checkbox"> -->
-                <!--                 <label><input type="checkbox" id="useLocalScale" checked="checked">Use local scale</label> -->
-                <!--             </div> -->
-                <!--             <div class="checkbox"> -->
-                <!--                 <label><input type="checkbox" id="useRelativeScale" checked="checked">Use relative scale</label> -->
-                <!--             </div> -->
-                <!--         </div> -->
-                <!--     </div> -->
-                <!-- </div> -->
+                <div class="form-group">
+                    <label class="control-label col-sm-8 text-left">Now is the time for all good men</label>
+                    <div class="text-right">
+                        <label class="radio-inline">
+                            <input type="radio" name="test2" value="-1"> Agree
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="test2" value="-1" checked> Neither
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="test2" value="-1"> Disagree
+                        </label>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="New property text">
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span></button>
+                    </span>
+                </div>
             </div>
+
 
             <!-- result listing -->
             <!-- <div class="panel panel-default" style="display: none;" id="resultPanel"> -->
