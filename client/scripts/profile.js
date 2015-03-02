@@ -20,4 +20,34 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+(function(hscd) {
+    'use strict';
 
+    function displayCategories(categories) {
+        var template = Handlebars.compile($('#template').html());
+        $('#categories').empty();
+        $('#categories').append(template({categories: categories}));
+    }
+
+    function onReady() {
+        Handlebars.registerHelper('checkMatch', function(value, options) {
+            return new Handlebars.SafeString(
+                value == this.value ? 'checked' : ''
+            );
+        });
+
+        var categories = [
+            {description: 'Description1', id: 0, value: -1},
+            {description: 'Description2', id: 1, value: 0},
+            {description: 'Description3', id: 2, value: 1},
+        ];
+
+        displayCategories(categories);
+    }
+
+    $(document).on({
+        ajaxStart: function() { $('#spinner').show(); },
+        ajaxStop: function() { $('#spinner').hide(); },
+        ready: onReady()
+    });
+})();

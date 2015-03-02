@@ -25,79 +25,35 @@
                         <th class="text-right">Rating</th>
                     </tr>
                 </thead>
-                <tr>
-                    <td class="text-left">Now is the time for all good men</td>
-                    <td class="text-right">
-                        <label class="radio-inline">
-                            <input type="radio" name="test1" value="-1"> Agree
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="test1" value="-1" checked> Neither
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="test1" value="-1"> Disagree
-                        </label>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="text-left">Now is the time for all good men</td>
-                    <td class="text-right">
-                        <label class="radio-inline">
-                            <input type="radio" name="test2" value="-1"> Agree
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="test2" value="-1" checked> Neither
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="test2" value="-1"> Disagree
-                        </label>
-                    </td>
-                </tr>
+                <tbody id="categories">
+                    <script id="template" type="text/x-handlers-template">
+                            {{#each categories}}
+                            <tr>
+                                <td class="text-left">{{description}}</td>
+                                <td class="text-right">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="category_{{id}}" value="1" {{checkMatch 1}}> Agree
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="category_{{id}}" value="0" {{checkMatch 0}}> Neither
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="category_{{id}}" value="-1" {{checkMatch -1}}> Disagree
+                                    </label>
+                                </td>
+                            </tr>
+                            {{/each}}
+                    </script>
+                </tbody>
             </table>
 
             <!-- category adder -->
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="New category text">
+                <input type="text" class="form-control" placeholder="New category description">
                 <span class="input-group-btn">
                     <button class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span></button>
                 </span>
             </div>
-
-            <!-- result listing -->
-            <!-- <div class="panel panel-default" style="display: none;" id="resultPanel"> -->
-            <!--     <div class="panel-heading"> -->
-            <!--         <big>Results (<span id="resultCount"></span>)</big> -->
-            <!--     </div> -->
-            <!--     <div class="panel-body"> -->
-            <!--         <script id="template" type="text/x-handlers-template"> -->
-            <!--             {{#if results}} -->
-            <!--             <table class="table table-striped table-condensed"> -->
-            <!--             <thead> -->
-            <!--                 <tr> -->
-            <!--                     <th>Id</th> -->
-            <!--                     <th>Name</th> -->
-            <!--                     <th>Distance to user</th> -->
-            <!--                     <th>Closest station</th> -->
-            <!--                     <th>Distance to station</th> -->
-            <!--                     <th>Score</th> -->
-            <!--                 </tr> -->
-            <!--             </thead> -->
-            <!--             {{#each results}} -->
-            <!--                 <tr> -->
-            <!--                     <td>{{id}}</td> -->
-            <!--                     <td><a href="{{url}}">{{name}}</a></td> -->
-            <!--                     <th>{{distanceToUser}} km</th> -->
-            <!--                     <th>{{closestStn}}</th> -->
-            <!--                     <th>{{distanceToStn}} km</th> -->
-            <!--                     <td>{{score}}</td> -->
-            <!--                 </tr> -->
-            <!--             {{/each}} -->
-            <!--             </table> -->
-            <!--             {{/if}} -->
-            <!--         </script> -->
-            <!--         <div id="results"></div> -->
-            <!--     </div> -->
-            <!-- </div> -->
 
         </div>
         <script src="bower_components/jquery/dist/jquery.js"></script>
