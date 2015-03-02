@@ -25,37 +25,37 @@
                         <th class="text-right">Rating</th>
                     </tr>
                 </thead>
-                <tbody id="categories">
-                    <script id="template" type="text/x-handlers-template">
-                            {{#each categories}}
-                            <tr>
-                                <td class="text-left">{{description}}</td>
-                                <td class="text-right">
-                                    <label class="radio-inline">
-                                        <input type="radio" name="category_{{id}}" value="1" {{checkMatch 1}}> Agree
-                                    </label>
-                                    <label class="radio-inline">
-                                        <input type="radio" name="category_{{id}}" value="0" {{checkMatch 0}}> Neither
-                                    </label>
-                                    <label class="radio-inline">
-                                        <input type="radio" name="category_{{id}}" value="-1" {{checkMatch -1}}> Disagree
-                                    </label>
-                                </td>
-                            </tr>
-                            {{/each}}
-                    </script>
-                </tbody>
+                <tbody id="categories"></tbody>
+                <script id="template" type="text/x-handlers-template">
+                    {{#each categories}}
+                    <tr>
+                        <td class="text-left">{{description}}</td>
+                        <td class="text-right">
+                            <label class="radio-inline">
+                                <input type="radio" name="category_{{@key}}" categoryId="{{@key}}" value="1" {{checkMatch 1}}> Agree
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="category_{{@key}}" categoryId="{{@key}}" value="0" {{checkMatch 0}}> Neither
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="category_{{@key}}" categoryId="{{@key}}" value="-1" {{checkMatch -1}}> Disagree
+                            </label>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </script>
             </table>
 
             <!-- category adder -->
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="New category description">
+                <input type="text" class="form-control" id="newCategory" placeholder="New category description">
                 <span class="input-group-btn">
-                    <button class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span></button>
+                    <button class="btn btn-primary" id="addCategory"><span class="glyphicon glyphicon-plus"></span></button>
                 </span>
             </div>
 
         </div>
+
         <script src="bower_components/jquery/dist/jquery.js"></script>
         <script src="bower_components/handlebars/handlebars.js"></script>
         <script src="bower_components/underscore/underscore.js"></script>

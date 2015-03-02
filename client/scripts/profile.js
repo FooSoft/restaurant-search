@@ -20,29 +20,61 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-(function(hscd) {
+(function(categories) {
     'use strict';
 
-    function displayCategories(categories) {
+    function guid() {
+        function s4() {
+            return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+        }
+
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+    }
+
+    function transmitCategories() {
+        console.log(categories);
+    }
+
+    function displayCategories() {
         var template = Handlebars.compile($('#template').html());
+
         $('#categories').empty();
         $('#categories').append(template({categories: categories}));
+
+        $('#categories input:radio').change(function() {
+            categories[$(this).attr('categoryId')].value = parseInt(this.value);
+            transmitCategories();
+        });
+    }
+
+    function addCategory(description) {
+        description = description.trim();
+        if (!description) {
+            return;
+        }
+
+        categories[guid()] = {description: description, value: 0};
+
+        transmitCategories();
+        displayCategories();
     }
 
     function onReady() {
         Handlebars.registerHelper('checkMatch', function(value, options) {
-            return new Handlebars.SafeString(
-                value == this.value ? 'checked' : ''
-            );
+            return new Handlebars.SafeString(value == this.value ? 'checked' : '');
         });
 
-        var categories = [
-            {description: 'Description1', id: 0, value: -1},
-            {description: 'Description2', id: 1, value: 0},
-            {description: 'Description3', id: 2, value: 1},
-        ];
+        categories = {
+            0: {description: 'Description1', value: -1},
+            1: {description: 'Description2', value: 0},
+            2: {description: 'Description3', value: 1},
+        };
 
-        displayCategories(categories);
+        $('#addCategory').click(function() {
+            addCategory($('#newCategory').val());
+        });
+
+        displayCategories();
     }
 
     $(document).on({
@@ -50,4 +82,4 @@
         ajaxStop: function() { $('#spinner').hide(); },
         ready: onReady()
     });
-})();
+})(window.categories = window.categories || {});
