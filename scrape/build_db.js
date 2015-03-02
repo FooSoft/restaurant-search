@@ -22,6 +22,7 @@
  */
 
 var mysql = require('mysql');
+var uuid  = require('node-uuid');
 var data  = require('./data.json');
 
 var conn = mysql.createConnection({
@@ -51,6 +52,28 @@ for (var i = 0, count = data.length; i < count; ++i) {
         record.geo.longitude,
         record.distanceToStn,
         record.closestStn
+    ]);
+}
+
+
+//
+// Categories
+//
+
+conn.query('DROP TABLE IF EXISTS categories');
+conn.query('CREATE TABLE categories(description VARCHAR(200) NOT NULL, id VARCHAR(36) NOT NULL PRIMARY KEY)');
+
+var categories = [
+    'I prefer quiet places',
+    'I enjoy Mexican Food',
+    'I drive a car'
+];
+
+for (var i = 0, count = categories.length; i < count; ++i) {
+    conn.query(
+        'INSERT INTO categories(description, id) VALUES (?, ?)', [
+        categories[i],
+        uuid.v1()
     ]);
 }
 
