@@ -64,17 +64,19 @@
             return new Handlebars.SafeString(value == this.value ? 'checked' : '');
         });
 
-        categories = {
-            0: {description: 'Description1', value: -1},
-            1: {description: 'Description2', value: 0},
-            2: {description: 'Description3', value: 1},
-        };
+        $.getJSON('/query', _ctx.query, function(results) {
+            var profile = {};
+            for (var i = 0, length = results.length; i < length; ++i) {
+                var result = results[i];
+                profile[result.id] = {description: result.description, value: 0};
+            }
 
-        $('#addCategory').click(function() {
-            addCategory($('#newCategory').val());
+            $('#addCategory').click(function() {
+                addCategory($('#newCategory').val());
+            });
+
+            displayCategories();
         });
-
-        displayCategories();
     }
 
     $(document).on({
@@ -82,4 +84,4 @@
         ajaxStop: function() { $('#spinner').hide(); },
         ready: onReady()
     });
-})(window.categories = window.categories || {});
+})();
