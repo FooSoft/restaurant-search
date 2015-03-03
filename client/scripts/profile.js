@@ -23,40 +23,48 @@
 (function(categories) {
     'use strict';
 
-    function guid() {
-        function s4() {
-            return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-        }
-
-        return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-    }
-
     function transmitCategories() {
         console.log(categories);
     }
 
-    function displayCategories() {
+    function displayCategories(categories) {
         var template = Handlebars.compile($('#template').html());
 
-        $('#categories').empty();
         $('#categories').append(template({categories: categories}));
-
         $('#categories input:radio').change(function() {
             categories[$(this).attr('categoryId')].value = parseInt(this.value);
             transmitCategories();
         });
     }
 
+    function clearCategories() {
+        $('#categories').empty();
+    }
+
     function addCategory(description) {
-        description = description.trim();
-        if (!description) {
-            return;
-        }
+        $.getJSON('/learn', {description: description}, function(results) {
+            if (results.success) {
+                var categories = {};
+                categories[results.id] = {description: results.description, value: 0};
+                displayCategories(categories);
+            }
+        });
+    }
 
-        categories[guid()] = {description: description, value: 0};
+    function refreshCategories() {
+        $.getJSON('/categories', function(results) {
+            var categories = {};
+            for (var i = 0, length = results.length; i < length; ++i) {
+                var result = results[i];
+                categories[result.id] = {
+                    description: result.description,
+                    value: 0
+                };
+            }
 
-        transmitCategories();
-        displayCategories();
+            clearCategories();
+            displayCategories(categories);
+        });
     }
 
     function onReady() {
@@ -64,18 +72,10 @@
             return new Handlebars.SafeString(value == this.value ? 'checked' : '');
         });
 
-        $.getJSON('/query', _ctx.query, function(results) {
-            var profile = {};
-            for (var i = 0, length = results.length; i < length; ++i) {
-                var result = results[i];
-                profile[result.id] = {description: result.description, value: 0};
-            }
+        refreshCategories();
 
-            $('#addCategory').click(function() {
-                addCategory($('#newCategory').val());
-            });
-
-            displayCategories();
+        $('#addCategory').click(function() {
+            addCategory($('#newCategory').val());
         });
     }
 

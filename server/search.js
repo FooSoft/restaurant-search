@@ -225,16 +225,25 @@ function getCategories(callback) {
 }
 
 function addCategory(query, callback) {
-    var description = query.description;
+    var description = query.description.trim();
     var id          = uuid.v1();
 
-    pool.query('INSERT INTO categories(description, id) VALUES(?, ?)', [description, id], function(err, rows) {
-        if (err) {
-            throw err;
-        }
+    if (description) {
+        pool.query('INSERT INTO categories(description, id) VALUES(?, ?)', [description, id], function(err, rows) {
+            if (err) {
+                throw err;
+            }
 
-        callback({id: id, description: description});
-    });
+            callback({
+                id:          id,
+                description: description,
+                success:     true
+            });
+        });
+    }
+    else {
+        callback({success: false});
+    }
 }
 
 function execQuery(query, callback) {
