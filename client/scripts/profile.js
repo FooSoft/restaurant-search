@@ -23,8 +23,32 @@
 (function(categories) {
     'use strict';
 
-    function transmitCategories() {
-        console.log(categories);
+    function setProfileValue(id, value) {
+        var profile = localStorage.profile || {};
+        profile[id] = value;
+        localStorage.profile = profile;
+    }
+
+    function getProfileValue(id) {
+        var profile = localStorage.profile || {};
+        return profile[id] || 0;
+    }
+
+    function addCategory(description) {
+        $.getJSON('/learn', {description: description}, function(results) {
+            if (!results.success) {
+                return;
+            }
+
+            var categories = {};
+
+            categories[results.id] = {
+                description: results.description,
+                value:       getProfileValue(results.id)
+            };
+
+            displayCategories(categories);
+        });
     }
 
     function displayCategories(categories) {
@@ -32,23 +56,12 @@
 
         $('#categories').append(template({categories: categories}));
         $('#categories input:radio').change(function() {
-            categories[$(this).attr('categoryId')].value = parseInt(this.value);
-            transmitCategories();
+            setProfileValue($(this).attr('categoryId'), this.value);
         });
     }
 
     function clearCategories() {
         $('#categories').empty();
-    }
-
-    function addCategory(description) {
-        $.getJSON('/learn', {description: description}, function(results) {
-            if (results.success) {
-                var categories = {};
-                categories[results.id] = {description: results.description, value: 0};
-                displayCategories(categories);
-            }
-        });
     }
 
     function refreshCategories() {
@@ -58,7 +71,7 @@
                 var result = results[i];
                 categories[result.id] = {
                     description: result.description,
-                    value: 0
+                    value:       getProfileValue(result.id)
                 };
             }
 
