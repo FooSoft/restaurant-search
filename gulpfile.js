@@ -26,7 +26,7 @@ var nodemon = require('gulp-nodemon');
 
 
 gulp.task('default', function() {
-    return nodemon({script: 'server/server.js', ext: 'js html'}).on('change', ['default']);
+    return nodemon({script: 'server/server.js', ext: 'js html'});
 });
 
 gulp.task('install', function() {
