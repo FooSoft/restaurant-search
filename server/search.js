@@ -246,7 +246,7 @@ function addCategory(query, callback) {
     }
 }
 
-function execQuery(query, callback) {
+function runQuery(query, callback) {
     sanitizeQuery(query);
 
     var context = {
@@ -289,7 +289,7 @@ function execQuery(query, callback) {
 
 module.exports = {
     loadDb:        loadDb,
-    execQuery:     execQuery,
+    runQuery:      runQuery,
     getCategories: getCategories,
     addCategory:   addCategory
 };

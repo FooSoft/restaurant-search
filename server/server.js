@@ -40,7 +40,7 @@ function main(staticFiles, port) {
     });
 
     app.use('/query', function(req, res) {
-        search.execQuery(req.query, function(results) {
+        search.runQuery(req.query, function(results) {
             res.json(results);
         });
     });
