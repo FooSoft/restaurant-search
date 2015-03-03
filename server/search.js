@@ -220,7 +220,7 @@ function getCategories(callback) {
             return {id: row.id, description: row.description};
         });
 
-        callback(categories);
+        callback(categories.reverse());
     });
 }
 

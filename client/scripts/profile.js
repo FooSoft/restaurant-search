@@ -24,14 +24,11 @@
     'use strict';
 
     function setProfileValue(id, value) {
-        var profile = localStorage.profile || {};
-        profile[id] = value;
-        localStorage.profile = profile;
+        localStorage[id] = value;
     }
 
     function getProfileValue(id) {
-        var profile = localStorage.profile || {};
-        return profile[id] || 0;
+        return localStorage[id] || 0;
     }
 
     function addCategory(description) {
@@ -53,8 +50,8 @@
 
     function displayCategories(categories) {
         var template = Handlebars.compile($('#template').html());
-
         $('#categories').append(template({categories: categories}));
+
         $('#categories input:radio').change(function() {
             setProfileValue($(this).attr('categoryId'), this.value);
         });
@@ -66,14 +63,15 @@
 
     function refreshCategories() {
         $.getJSON('/categories', function(results) {
-            var categories = {};
-            for (var i = 0, length = results.length; i < length; ++i) {
-                var result = results[i];
-                categories[result.id] = {
+            var categories = [];
+
+            _.each(results, function(result) {
+                categories.push({
+                    id:          result.id,
                     description: result.description,
                     value:       getProfileValue(result.id)
-                };
-            }
+                });
+            });
 
             clearCategories();
             displayCategories(categories);
