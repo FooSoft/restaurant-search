@@ -27,7 +27,7 @@
     function onAdjust(name, value) {
         _ctx.query.features[name] = value;
 
-        $.getJSON('/search', _ctx.query, function(results) {
+        $.getJSON('/query', _ctx.query, function(results) {
             saveSnapshot(results);
             outputSnapshot(results, true);
         });
@@ -61,7 +61,7 @@
             };
         }
 
-        $.getJSON('/search', _ctx.query, function(results) {
+        $.getJSON('/query', _ctx.query, function(results) {
             if (!_.has(_ctx, 'grapher')) {
                 _ctx.grapher = new grapher.Grapher({
                     canvas:           new Snap('#svg'),

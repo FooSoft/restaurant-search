@@ -39,8 +39,20 @@ function main(staticFiles, port) {
         user:            'hscd'
     });
 
-    app.use('/search', function(req, res) {
+    app.use('/query', function(req, res) {
         search.execQuery(req.query, function(results) {
+            res.json(results);
+        });
+    });
+
+    app.use('/categories', function(req, res) {
+        search.getCategories(function(results) {
+            res.json(results);
+        });
+    });
+
+    app.use('/learn', function(req, res) {
+        search.addCategory(req.query, function(results) {
             res.json(results);
         });
     });

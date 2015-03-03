@@ -26,6 +26,7 @@
 var _      = require('underscore');
 var geolib = require('geolib');
 var mysql  = require('mysql');
+var uuid   = require('node-uuid');
 var pool   = null;
 
 
@@ -209,6 +210,33 @@ function sanitizeQuery(query) {
     query.features = features;
 }
 
+function getCategories(callback) {
+    pool.query('SELECT * FROM categories', function(err, rows) {
+        if (err) {
+            throw err;
+        }
+
+        var categories = _.map(rows, function(row) {
+            return {id: row.id, description: row.description};
+        });
+
+        callback(categories);
+    });
+}
+
+function addCategory(query, callback) {
+    var description = query.description;
+    var id          = uuid.v1();
+
+    pool.query('INSERT INTO categories(description, id) VALUES(?, ?)', [description, id], function(err, rows) {
+        if (err) {
+            throw err;
+        }
+
+        callback({id: id, description: description});
+    });
+}
+
 function execQuery(query, callback) {
     sanitizeQuery(query);
 
@@ -252,5 +280,7 @@ function execQuery(query, callback) {
 
 module.exports = {
     loadDb:        loadDb,
-    execQuery:     execQuery
+    execQuery:     execQuery,
+    getCategories: getCategories,
+    addCategory:   addCategory
 };
