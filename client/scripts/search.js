@@ -48,15 +48,10 @@
         };
 
         $('#minScore,#hintSteps,#walkingDist,#maxResults').change(onSearch);
-        $('#editProfile').click(onEditProfile);
 
         window.accessReview = accessReview;
 
         onSearch();
-    }
-
-    function onEditProfile() {
-
     }
 
     function onSearch() {

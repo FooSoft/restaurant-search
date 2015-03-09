@@ -13,16 +13,22 @@
             </div>
 
             <!-- profile dialog -->
-            <div id="profileDlg" class="modal hide fade" tabindex="-1" role="dialog">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">×</button>
-                    <h3>Profile</h3>
-                </div>
-                <div class="modal-body">
-                    <iframe src="/profile.html" style="zoom:0.60" width="99.6%" height="250" frameborder="0"></iframe>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn" data-dismiss="modal">OK</button>
+            <div id="profileDlg" class="modal fade" tabindex="-1" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="model-header">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">×</button>
+                                <h3>Profile</h3>
+                            </div>
+                            <div class="modal-body">
+                                <iframe src="/profile.html" width="100%" height="250" frameborder="0"></iframe>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-default" data-dismiss="modal">OK</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -56,7 +62,7 @@
                             <div class="checkbox">
                                 <label><input type="checkbox" id="useRelativeScale" checked="checked">Use relative scale</label>
                             </div>
-                            <button type="button" id="editProfile" class="btn btn-primary">Edit profile</button>
+                            <button type="button" data-toggle="modal" data-target="#profileDlg" class="btn btn-primary">Edit profile</button>
                         </div>
                     </div>
                 </div>
