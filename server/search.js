@@ -250,8 +250,6 @@ function accessReview(query, callback) {
             throw err;
         }
 
-        console.log(query.id);
-
         var results = {
             success: rows.length > 0
         };
