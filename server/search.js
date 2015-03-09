@@ -68,7 +68,6 @@ function findRecords(data, features, minScore) {
     walkMatches(data, features, minScore, function(record, score) {
         results.push({
             name:           record.name,
-            url:            'http://www.tripadvisor.com' + record.relativeUrl,
             score:          score,
             distanceToUser: record.distanceToUser / 1000.0,
             distanceToStn:  record.distanceToStn / 1000.0,
@@ -146,7 +145,6 @@ function getRecords(context, callback) {
             return {
                 name:          row.name,
                 id:            row.id,
-                relativeUrl:   row.url,
                 closestStn:    row.closestStn,
                 distanceToStn: row.distanceToStn,
                 geo: {
@@ -246,6 +244,26 @@ function addCategory(query, callback) {
     }
 }
 
+function accessReview(query, callback) {
+    pool.query('SELECT url FROM reviews WHERE id = (?) LIMIT 1', [query.id], function(err, rows) {
+        if (err) {
+            throw err;
+        }
+
+        console.log(query.id);
+
+        var results = {
+            success: rows.length > 0
+        };
+
+        if (results.success) {
+            results.url = 'http://www.tripadvisor.com' + rows[0].url;
+        }
+
+        callback(results);
+    });
+}
+
 function runQuery(query, callback) {
     sanitizeQuery(query);
 
@@ -291,5 +309,6 @@ module.exports = {
     loadDb:        loadDb,
     runQuery:      runQuery,
     getCategories: getCategories,
-    addCategory:   addCategory
+    addCategory:   addCategory,
+    accessReview:  accessReview
 };

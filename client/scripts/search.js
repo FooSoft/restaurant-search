@@ -33,6 +33,14 @@
         });
     }
 
+    function accessReview(id) {
+        $.getJSON('/access', {id: id}, function(results) {
+            if (results.success) {
+                location.replace(results.url);
+            }
+        });
+    }
+
     function onReady(geo) {
         _ctx = {
             geo:   geo,
@@ -40,6 +48,8 @@
         };
 
         $('#minScore,#hintSteps,#walkingDist,#maxResults').change(onSearch);
+
+        window.accessReview = accessReview;
 
         onSearch();
     }

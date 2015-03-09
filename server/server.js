@@ -57,6 +57,12 @@ function main(staticFiles, port) {
         });
     });
 
+    app.use('/access', function(req, res) {
+        search.accessReview(req.query, function(results) {
+            res.json(results);
+        });
+    });
+
     app.use(express.static(path.join(__dirname, '..', staticFiles)));
     app.listen(port);
 }
