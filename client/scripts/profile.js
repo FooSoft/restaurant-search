@@ -78,7 +78,7 @@
         });
     }
 
-    function onReady() {
+    $(document).ready(function() {
         Handlebars.registerHelper('checkMatch', function(value, options) {
             return new Handlebars.SafeString(value == this.value ? 'checked' : '');
         });
@@ -88,11 +88,5 @@
         $('#addCategory').click(function() {
             addCategory($('#newCategory').val());
         });
-    }
-
-    $(document).on({
-        ajaxStart: function() { $('#spinner').show(); },
-        ajaxStop: function() { $('#spinner').hide(); },
-        ready: onReady()
     });
 })();
