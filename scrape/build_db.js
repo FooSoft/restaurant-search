@@ -82,15 +82,15 @@ for (var i = 0, count = categories.length; i < count; ++i) {
 //
 
 conn.query('DROP TABLE IF EXISTS history');
-conn.query('CREATE TABLE history(date DATETIME NOT NULL, reviewId INT NOT NULL, subspaceId INT NOT NULL)');
+conn.query('CREATE TABLE history(date DATETIME NOT NULL, reviewId INT NOT NULL, id INT NOT NULL AUTO_INCREMENT PRIMARY KEY)');
 
 
 //
-// Subspaces
+// HistoryGroup
 //
 
-conn.query('DROP TABLE IF EXISTS subspaces');
-conn.query('CREATE TABLE subspaces(categoryId INT NOT NULL, subspaceId INT NOT NULL AUTO_INCREMENT PRIMARY KEY)');
+conn.query('DROP TABLE IF EXISTS historyGroups');
+conn.query('CREATE TABLE historyGroups(categoryId INT NOT NULL, historyId INT NOT NULL)');
 
 
 //
