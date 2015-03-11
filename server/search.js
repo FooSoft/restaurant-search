@@ -26,7 +26,6 @@
 var _      = require('underscore');
 var geolib = require('geolib');
 var mysql  = require('mysql');
-var uuid   = require('node-uuid');
 var pool   = null;
 
 
@@ -224,22 +223,21 @@ function getCategories(callback) {
             return {id: row.id, description: row.description};
         });
 
-        callback(categories.reverse());
+        callback(categories);
     });
 }
 
 function addCategory(query, callback) {
     var description = query.description.trim();
-    var id          = uuid.v1();
 
     if (description) {
-        pool.query('INSERT INTO categories(description, id) VALUES(?, ?)', [description, id], function(err, rows) {
+        pool.query('INSERT INTO categories(description) VALUES(?)', [description], function(err, info) {
             if (err) {
                 throw err;
             }
 
             callback({
-                id:          id,
+                id:          info.insertId,
                 description: description,
                 success:     true
             });

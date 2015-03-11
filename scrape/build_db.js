@@ -22,7 +22,6 @@
  */
 
 var mysql = require('mysql');
-var uuid  = require('node-uuid');
 var data  = require('./data.json');
 
 var conn = mysql.createConnection({
@@ -61,7 +60,7 @@ for (var i = 0, count = data.length; i < count; ++i) {
 //
 
 conn.query('DROP TABLE IF EXISTS categories');
-conn.query('CREATE TABLE categories(description VARCHAR(200) NOT NULL, id VARCHAR(36) NOT NULL PRIMARY KEY)');
+conn.query('CREATE TABLE categories(description VARCHAR(200) NOT NULL, id INT NOT NULL AUTO_INCREMENT PRIMARY KEY)');
 
 var categories = [
     'I prefer quiet places',
@@ -70,11 +69,7 @@ var categories = [
 ];
 
 for (var i = 0, count = categories.length; i < count; ++i) {
-    conn.query(
-        'INSERT INTO categories(description, id) VALUES (?, ?)', [
-        categories[i],
-        uuid.v1()
-    ]);
+    conn.query('INSERT INTO categories(description) VALUES (?)', [categories[i]]);
 }
 
 
