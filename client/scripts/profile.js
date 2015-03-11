@@ -50,12 +50,22 @@
         });
     }
 
+    function removeCategory(id) {
+        alert('Delete stub');
+    }
+
     function displayCategories(categories) {
         var template = Handlebars.compile($('#template').html());
         $('#categories').append(template({categories: categories}));
 
         $('#categories input:radio').change(function() {
-            setProfileValue($(this).attr('categoryId'), this.value);
+            setProfileValue($(this).attr('data-categoryId'), this.value);
+        });
+
+        $('#categories button').click(function() {
+            if (confirm('Are you sure you want to delete this category?')) {
+                removeCategory($(this).attr('data-categoryId'));
+            }
         });
     }
 
