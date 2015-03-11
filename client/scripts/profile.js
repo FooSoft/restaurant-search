@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015 <name of copyright holder>
+ * Copyright (c) 2015 Alex Yatskov <alex@foosoft.net>
  * Author: Alex Yatskov <alex@foosoft.net>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -24,11 +24,14 @@
     'use strict';
 
     function setProfileValue(id, value) {
-        localStorage[id] = value;
+        var profile = JSON.parse(localStorage.profile || '{}');
+        profile[id] = value;
+        localStorage.profile = JSON.stringify(profile);
     }
 
     function getProfileValue(id) {
-        return localStorage[id] || 0;
+        var profile = JSON.parse(localStorage.profile || '{}');
+        return profile[id] || 0;
     }
 
     function addCategory(description) {

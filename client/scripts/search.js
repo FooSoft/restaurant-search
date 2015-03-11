@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2015 Alex Yatskov <alex@foosoft.net>
+ * Author: Alex Yatskov <alex@foosoft.net>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -43,7 +44,7 @@
         $('#profileDlg').on('hidden.bs.modal', onSearch);
 
         window.accessReview = function(id) {
-            $.getJSON('/access', {id: id, profile: localStorage}, function(results) {
+            $.getJSON('/access', {id: id, profile: getProfile()}, function(results) {
                 if (results.success) {
                     location.replace(results.url);
                 }
@@ -57,7 +58,7 @@
         _ctx.query = {
             features:    _ctx.query.features || {},
             range:       { min: -1.0, max: 1.0 },
-            profile:     localStorage,
+            profile:     getProfile(),
             walkingDist: parseFloat($('#walkingDist').val()),
             minScore:    parseFloat($('#minScore').val()),
             hintSteps:   parseInt($('#hintSteps').val()),
@@ -145,6 +146,10 @@
         else {
             $('#resultPanel').slideDown();
         }
+    }
+
+    function getProfile() {
+        return JSON.parse(localStorage.profile || '{}');
     }
 
     window.onpopstate = function(state) {
