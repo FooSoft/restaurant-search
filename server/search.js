@@ -202,10 +202,16 @@ function sanitizeQuery(query) {
 
     var features = {};
     _.each(keys, function(key) {
-        features[key] = _.has(query.features, key) ? query.features[key] : 0.0;
+        features[key] = _.has(query.features, key) ? query.features[key] : 0;
     });
 
     query.features = features;
+
+    for (var category in query.profile) {
+        if (parseFloat(query.profile[category]) === 0) {
+            delete query.profile[category];
+        }
+    }
 }
 
 function getCategories(callback) {
