@@ -260,6 +260,19 @@ function accessReview(query, callback) {
 
         if (results.success) {
             results.url = 'http://www.tripadvisor.com' + rows[0].url;
+
+            pool.query('INSERT INTO history(date, reviewId) VALUES(NOW(), ?)', [query.id], function(err, info) {
+                if (err) {
+                    throw err;
+                }
+
+                for (var categoryId in query.profile) {
+                    pool.query(
+                        'INSERT INTO historyGroups(categoryId, categoryValue, historyId) VALUES(?, ?, ?)',
+                        [categoryId, query.profile[categoryId], info.insertId]
+                    );
+                }
+            });
         }
 
         callback(results);

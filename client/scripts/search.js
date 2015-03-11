@@ -43,7 +43,7 @@
         $('#profileDlg').on('hidden.bs.modal', onSearch);
 
         window.accessReview = function(id) {
-            $.getJSON('/access', {id: id}, function(results) {
+            $.getJSON('/access', {id: id, profile: localStorage}, function(results) {
                 if (results.success) {
                     location.replace(results.url);
                 }
