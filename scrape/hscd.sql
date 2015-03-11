@@ -24,9 +24,9 @@ DROP TABLE IF EXISTS `categories`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `categories` (
   `description` varchar(200) NOT NULL,
-  `id` varchar(36) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -35,8 +35,55 @@ CREATE TABLE `categories` (
 
 LOCK TABLES `categories` WRITE;
 /*!40000 ALTER TABLE `categories` DISABLE KEYS */;
-INSERT INTO `categories` VALUES ('I prefer quiet places','b7e0d2f0-c0ac-11e4-ad9d-8d58248cbb9e'),('I enjoy Mexican Food','b7e0d2f1-c0ac-11e4-ad9d-8d58248cbb9e'),('I drive a car','b7e0d2f2-c0ac-11e4-ad9d-8d58248cbb9e');
+INSERT INTO `categories` VALUES ('I prefer quiet places',1),('I enjoy Mexican Food',2),('I drive a car',3);
 /*!40000 ALTER TABLE `categories` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `history`
+--
+
+DROP TABLE IF EXISTS `history`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `history` (
+  `date` datetime NOT NULL,
+  `reviewId` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `history`
+--
+
+LOCK TABLES `history` WRITE;
+/*!40000 ALTER TABLE `history` DISABLE KEYS */;
+/*!40000 ALTER TABLE `history` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `historyGroups`
+--
+
+DROP TABLE IF EXISTS `historyGroups`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `historyGroups` (
+  `categoryId` int(11) NOT NULL,
+  `categoryValue` float NOT NULL,
+  `historyId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `historyGroups`
+--
+
+LOCK TABLES `historyGroups` WRITE;
+/*!40000 ALTER TABLE `historyGroups` DISABLE KEYS */;
+/*!40000 ALTER TABLE `historyGroups` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -81,4 +128,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-03-02 16:22:31
+-- Dump completed on 2015-03-11 16:20:36
