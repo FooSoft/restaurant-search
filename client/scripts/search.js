@@ -33,14 +33,6 @@
         });
     }
 
-    function accessReview(id) {
-        $.getJSON('/access', {id: id}, function(results) {
-            if (results.success) {
-                location.replace(results.url);
-            }
-        });
-    }
-
     function onReady(geo) {
         _ctx = {
             geo:   geo,
@@ -48,8 +40,15 @@
         };
 
         $('#minScore,#hintSteps,#walkingDist,#maxResults').change(onSearch);
+        $('#profileDlg').on('hidden.bs.modal', onSearch);
 
-        window.accessReview = accessReview;
+        window.accessReview = function(id) {
+            $.getJSON('/access', {id: id}, function(results) {
+                if (results.success) {
+                    location.replace(results.url);
+                }
+            });
+        };
 
         onSearch();
     }
@@ -58,6 +57,7 @@
         _ctx.query = {
             features:    _ctx.query.features || {},
             range:       { min: -1.0, max: 1.0 },
+            profile:     localStorage,
             walkingDist: parseFloat($('#walkingDist').val()),
             minScore:    parseFloat($('#minScore').val()),
             hintSteps:   parseInt($('#hintSteps').val()),
