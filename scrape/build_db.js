@@ -79,9 +79,26 @@ for (var i = 0, count = categories.length; i < count; ++i) {
 
 
 //
+// History
+//
+
+conn.query('DROP TABLE IF EXISTS history');
+conn.query('CREATE TABLE history(date DATETIME NOT NULL, reviewId INT NOT NULL, dimensionId INT NOT NULL)');
+
+
+//
+// Groups
+//
+
+conn.query('DROP TABLE IF EXISTS dimensions');
+conn.query('CREATE TABLE dimensions(categoryId INT NOT NULL, dimentionId INT NOT NULL AUTO_INCREMENT PRIMARY KEY)');
+
+
+//
 // Cleanup
 //
 
 conn.query('DROP TABLE IF EXISTS keywords');
 conn.query('DROP TABLE IF EXISTS presets');
+conn.query('DROP TABLE IF EXISTS groups');
 conn.end();
