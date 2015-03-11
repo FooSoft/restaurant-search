@@ -266,10 +266,17 @@ function accessReview(query, callback) {
                     throw err;
                 }
 
+                var pitcher = function(err, info) {
+                    if (err) {
+                        throw err;
+                    }
+                };
+
                 for (var categoryId in query.profile) {
                     pool.query(
                         'INSERT INTO historyGroups(categoryId, categoryValue, historyId) VALUES(?, ?, ?)',
-                        [categoryId, query.profile[categoryId], info.insertId]
+                        [categoryId, query.profile[categoryId], info.insertId],
+                        pitcher
                     );
                 }
             });
