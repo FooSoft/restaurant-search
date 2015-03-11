@@ -40,12 +40,11 @@
                 return;
             }
 
-            var categories = {};
-
-            categories[results.id] = {
-                description: results.description,
-                value:       getProfileValue(results.id)
-            };
+            var categories = [{
+                id:          results.id,
+                value:       getProfileValue(results.id),
+                description: results.description
+            }];
 
             displayCategories(categories);
         });
@@ -81,6 +80,11 @@
         });
     }
 
+    function submitCategory() {
+        addCategory($('#newCategory').val());
+        $('#newCategory').val('');
+    }
+
     $(document).ready(function() {
         Handlebars.registerHelper('checkMatch', function(value, options) {
             return new Handlebars.SafeString(value == this.value ? 'checked' : '');
@@ -88,8 +92,11 @@
 
         refreshCategories();
 
-        $('#addCategory').click(function() {
-            addCategory($('#newCategory').val());
+        $('#addCategory').click(submitCategory);
+        $('#newCategory').keyup(function(e) {
+            if (e.keyCode == 13) {
+                submitCategory();
+            }
         });
     });
 })();
