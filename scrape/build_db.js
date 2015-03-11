@@ -24,11 +24,15 @@
 var mysql = require('mysql');
 var data  = require('./data.json');
 
-var conn = mysql.createConnection({
-    host:     'localhost',
-    user:     'hscd',
-    database: 'hscd'
-});
+
+//
+// Setup
+//
+
+var conn = mysql.createConnection({host: 'localhost', user: 'hscd'});
+conn.query('DROP DATABASE IF EXISTS hscd');
+conn.query('CREATE DATABASE hscd');
+conn.query('USE hscd');
 
 
 //
@@ -78,22 +82,19 @@ for (var i = 0, count = categories.length; i < count; ++i) {
 //
 
 conn.query('DROP TABLE IF EXISTS history');
-conn.query('CREATE TABLE history(date DATETIME NOT NULL, reviewId INT NOT NULL, dimensionId INT NOT NULL)');
+conn.query('CREATE TABLE history(date DATETIME NOT NULL, reviewId INT NOT NULL, subspaceId INT NOT NULL)');
 
 
 //
-// Groups
+// Subspaces
 //
 
-conn.query('DROP TABLE IF EXISTS dimensions');
-conn.query('CREATE TABLE dimensions(categoryId INT NOT NULL, dimentionId INT NOT NULL AUTO_INCREMENT PRIMARY KEY)');
+conn.query('DROP TABLE IF EXISTS subspaces');
+conn.query('CREATE TABLE subspaces(categoryId INT NOT NULL, subspaceId INT NOT NULL AUTO_INCREMENT PRIMARY KEY)');
 
 
 //
 // Cleanup
 //
 
-conn.query('DROP TABLE IF EXISTS keywords');
-conn.query('DROP TABLE IF EXISTS presets');
-conn.query('DROP TABLE IF EXISTS groups');
 conn.end();
