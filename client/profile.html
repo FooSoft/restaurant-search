@@ -18,19 +18,19 @@
                 <tbody id="categories"></tbody>
                 <script id="template" type="text/x-handlers-template">
                     {{#each categories}}
-                    <tr>
+                    <tr class="category_{{id}}">
                         <td class="text-left">{{description}}</td>
                         <td class="text-right">
                             <label class="radio-inline">
                                 <input type="radio" name="category_{{id}}" data-categoryId="{{id}}" value="1" {{checkMatch 1}}> Agree
-                            </label>&nbsp;
+                            </label>
                             <label class="radio-inline">
                                 <input type="radio" name="category_{{id}}" data-categoryId="{{id}}" value="-1" {{checkMatch -1}}> Disagree
-                            </label>&nbsp;
+                            </label>
                             <label class="radio-inline">
                                 <input type="radio" name="category_{{id}}" data-categoryId="{{id}}" value="0" {{checkMatch 0}}> Neither
-                            </label>&nbsp;
-                            <button type="button" data-categoryId="{{id}}" class="btn btn-xs btn-danger">&times;</button>
+                            </label>
+                            &nbsp;<button type="button" data-categoryId="{{id}}" class="btn btn-xs btn-danger">&times;</button>
                         </td>
                     </tr>
                     {{/each}}

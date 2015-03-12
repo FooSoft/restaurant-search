@@ -51,7 +51,11 @@
     }
 
     function removeCategory(id) {
-        alert('Delete stub');
+        $.getJSON('/forget', {id: id}, function(results) {
+            if (results.success) {
+                $('tr.category_' + id).remove();
+            }
+        });
     }
 
     function displayCategories(categories) {
