@@ -13,7 +13,7 @@
                     <tr>
                         <th></th>
                         <th>Category</th>
-                        <th>Rating</th>
+                        <th class="text-right">Rating</th>
                     </tr>
                 </thead>
                 <tbody id="categories"></tbody>
@@ -22,7 +22,7 @@
                     <tr class="category_{{id}}">
                         <td><button type="button" data-categoryId="{{id}}" class="btn btn-xs btn-danger">&times;</button></td>
                         <td>{{description}}</td>
-                        <td>
+                        <td class="text-right">
                             <label class="radio-inline">
                                 <input type="radio" name="category_{{id}}" data-categoryId="{{id}}" value="1" {{checkMatch 1}}> Agree
                             </label>

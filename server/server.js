@@ -57,6 +57,12 @@ function main(staticFiles, port) {
         });
     });
 
+    app.use('/forget', function(req, res) {
+        search.removeCategory(req.query, function(results) {
+            res.json(results);
+        });
+    });
+
     app.use('/access', function(req, res) {
         search.accessReview(req.query, function(results) {
             res.json(results);

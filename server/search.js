@@ -248,6 +248,16 @@ function addCategory(query, callback) {
     }
 }
 
+function removeCategory(query, callback) {
+    pool.query('DELETE FROM categories WHERE id = (?)', [query.id], function(err, info) {
+        if (err) {
+            throw err;
+        }
+
+        callback({success: info.affectedRows > 0});
+    });
+}
+
 function accessReview(query, callback) {
     pool.query('SELECT url FROM reviews WHERE id = (?) LIMIT 1', [query.id], function(err, rows) {
         if (err) {
@@ -266,17 +276,10 @@ function accessReview(query, callback) {
                     throw err;
                 }
 
-                var pitcher = function(err, info) {
-                    if (err) {
-                        throw err;
-                    }
-                };
-
                 for (var categoryId in query.profile) {
                     pool.query(
                         'INSERT INTO historyGroups(categoryId, categoryValue, historyId) VALUES(?, ?, ?)',
-                        [categoryId, query.profile[categoryId], info.insertId],
-                        pitcher
+                        [categoryId, query.profile[categoryId], info.insertId]
                     );
                 }
             });
@@ -328,9 +331,10 @@ function runQuery(query, callback) {
 }
 
 module.exports = {
-    loadDb:        loadDb,
-    runQuery:      runQuery,
-    getCategories: getCategories,
-    addCategory:   addCategory,
-    accessReview:  accessReview
+    loadDb:         loadDb,
+    runQuery:       runQuery,
+    getCategories:  getCategories,
+    addCategory:    addCategory,
+    removeCategory: removeCategory,
+    accessReview:   accessReview
 };
