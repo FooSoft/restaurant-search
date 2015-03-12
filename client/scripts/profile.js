@@ -53,20 +53,22 @@
     function removeCategory(id) {
         $.getJSON('/forget', {id: id}, function(results) {
             if (results.success) {
-                $('tr.category_' + id).remove();
+                $('tr.category_' + id).fadeOut(function() {
+                    $(this).remove();
+                });
             }
         });
     }
 
     function displayCategories(categories) {
         var template = Handlebars.compile($('#template').html());
-        $('#categories').append(template({categories: categories}));
+        $('#categories').append($(template({categories: categories})).hide().fadeIn());
 
-        $('#categories input:radio').change(function() {
+        $('#categories input:radio').unbind().change(function() {
             setProfileValue($(this).attr('data-categoryId'), this.value);
         });
 
-        $('#categories button').click(function() {
+        $('#categories button').unbind().click(function() {
             if (confirm('Are you sure you want to delete this category?')) {
                 removeCategory($(this).attr('data-categoryId'));
             }
