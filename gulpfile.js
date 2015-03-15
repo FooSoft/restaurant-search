@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015 <name of copyright holder>
+ * Copyright (c) 2015 Alex Yatskov <alex@foosoft.net>
  * Author: Alex Yatskov <alex@foosoft.net>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -26,9 +26,16 @@ var nodemon = require('gulp-nodemon');
 
 
 gulp.task('default', function() {
-    return nodemon({script: 'server/server.js', ext: 'js html'});
+    return nodemon({
+        script: 'server/index.js',
+        ext:    'js html'
+    });
 });
 
 gulp.task('install', function() {
-    gulp.src(['client/bower.json', 'server/package.json', 'scrape/package.json']).pipe(install());
+    gulp.src([
+        'client/bower.json',
+        'server/package.json',
+        'scrape/package.json'
+    ]).pipe(install());
 });
