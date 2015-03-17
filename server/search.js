@@ -210,9 +210,6 @@ function computeRecordCompat(records, context, callback) {
                                         reviewFeatures[historyGroupRow.categoryId] = historyGroupRow.categoryValue;
                                     });
 
-                                    console.log(context.profile);
-                                    console.log(reviewFeatures);
-                                    console.log('***\n');
                                     var groupScore = innerProduct(context.profile, reviewFeatures);
                                     callback(err, groupScore);
                                 }
@@ -231,18 +228,23 @@ function computeRecordCompat(records, context, callback) {
                 throw err;
             }
 
-            _.each(records, function(record) {
-                if (record.groupScores.length > 0) {
-                    console.log(record);
-                }
-            });
-
             callback(records);
         }
     );
 }
 
-function sanitizeQuery(query) {
+function fixupProfile(profile) {
+    var fixed = {};
+    _.each(JSON.parse(profile), function(value, key) {
+        if (parseFloat(value) !== 0) {
+            fixed[key] = value;
+        }
+    });
+
+    return fixed;
+}
+
+function fixupFeatures(features) {
     var keys = [
         'delicious',
         'accomodating',
@@ -253,19 +255,12 @@ function sanitizeQuery(query) {
         'compatible'
     ];
 
-    var features = {};
+    var fixed = {};
     _.each(keys, function(key) {
-        features[key] = _.has(query.features, key) ? query.features[key] : 0;
+        fixed[key] = _.has(features, key) ? features[key] : 0;
     });
-    query.features = features;
 
-    var profile = {};
-    _.each(JSON.parse(query.profile), function(key, value) {
-        if (parseFloat(value) !== 0) {
-            profile[key] = value;
-        }
-    });
-    query.profile = profile;
+    return fixed;
 }
 
 function getCategories(callback) {
@@ -314,6 +309,8 @@ function removeCategory(query, callback) {
 }
 
 function accessReview(query, callback) {
+    query.profile = fixupProfile(query.profile);
+
     pool.query('SELECT url FROM reviews WHERE id = (?) LIMIT 1', [query.id], function(err, rows) {
         if (err) {
             throw err;
@@ -326,18 +323,20 @@ function accessReview(query, callback) {
         if (results.success) {
             results.url = 'http://www.tripadvisor.com' + rows[0].url;
 
-            pool.query('INSERT INTO history(date, reviewId) VALUES(NOW(), ?)', [query.id], function(err, info) {
-                if (err) {
-                    throw err;
-                }
+            if (_.keys(query.profile).length > 0) {
+                pool.query('INSERT INTO history(date, reviewId) VALUES(NOW(), ?)', [query.id], function(err, info) {
+                    if (err) {
+                        throw err;
+                    }
 
-                for (var categoryId in query.profile) {
-                    pool.query(
-                        'INSERT INTO historyGroups(categoryId, categoryValue, historyId) VALUES(?, ?, ?)',
-                        [categoryId, query.profile[categoryId], info.insertId]
-                    );
-                }
-            });
+                    for (var categoryId in query.profile) {
+                        pool.query(
+                            'INSERT INTO historyGroups(categoryId, categoryValue, historyId) VALUES(?, ?, ?)',
+                            [categoryId, query.profile[categoryId], info.insertId]
+                        );
+                    }
+                });
+            }
         }
 
         callback(results);
@@ -345,7 +344,8 @@ function accessReview(query, callback) {
 }
 
 function runQuery(query, callback) {
-    sanitizeQuery(query);
+    query.profile  = fixupProfile(query.profile);
+    query.features = fixupFeatures(query.features);
 
     var context = {
         geo:         query.geo,
