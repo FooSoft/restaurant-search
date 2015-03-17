@@ -72,6 +72,7 @@ function findRecords(data, features, minScore) {
             distanceToUser: record.distanceToUser / 1000.0,
             distanceToStn:  record.distanceToStn / 1000.0,
             closestStn:     record.closestStn,
+            accessCount:    record.accessCount,
             id:             record.id
         });
     });
@@ -147,6 +148,7 @@ function getRecords(context, callback) {
                 id:            row.id,
                 closestStn:    row.closestStn,
                 distanceToStn: row.distanceToStn,
+                accessCount:   row.accessCount,
                 geo: {
                     latitude:    row.latitude,
                     longitude:   row.longitude
@@ -161,7 +163,7 @@ function getRecords(context, callback) {
         });
 
         computeRecordGeo(records, context);
-        computeRecordCompat(records, context, callback);
+        computeRecordPopularity(records, context, callback);
     });
 }
 
@@ -190,7 +192,7 @@ function computeRecordGeo(records, context) {
     });
 }
 
-function computeRecordCompat(records, context, callback) {
+function computeRecordPopularity(records, context, callback) {
     async.each(
         records,
         function(record, callback) {
@@ -330,20 +332,22 @@ function accessReview(query, callback) {
         if (results.success) {
             results.url = 'http://www.tripadvisor.com' + rows[0].url;
 
-            if (_.keys(query.profile).length > 0) {
-                pool.query('INSERT INTO history(date, reviewId) VALUES(NOW(), ?)', [query.id], function(err, info) {
-                    if (err) {
-                        throw err;
-                    }
+            pool.query('UPDATE reviews SET accessCount = accessCount + 1 WHERE id = (?)', [query.id], function(err, info) {
+                if (_.keys(query.profile).length > 0) {
+                    pool.query('INSERT INTO history(date, reviewId) VALUES(NOW(), ?)', [query.id], function(err, info) {
+                        if (err) {
+                            throw err;
+                        }
 
-                    for (var categoryId in query.profile) {
-                        pool.query(
-                            'INSERT INTO historyGroups(categoryId, categoryValue, historyId) VALUES(?, ?, ?)',
-                            [categoryId, query.profile[categoryId], info.insertId]
-                        );
-                    }
-                });
-            }
+                        for (var categoryId in query.profile) {
+                            pool.query(
+                                'INSERT INTO historyGroups(categoryId, categoryValue, historyId) VALUES(?, ?, ?)',
+                                [categoryId, query.profile[categoryId], info.insertId]
+                            );
+                        }
+                    });
+                }
+            });
         }
 
         callback(results);

@@ -142,9 +142,7 @@
 
         var template = Handlebars.compile($('#template').html());
         $('#results').empty();
-        $('#results').append(
-            template({ results: results })
-        );
+        $('#results').append(template({results: results}));
 
         if (results.length === 0) {
             $('#resultPanel').slideUp();
