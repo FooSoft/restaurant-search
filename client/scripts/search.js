@@ -42,6 +42,12 @@
 
         $('#minScore,#hintSteps,#walkingDist,#maxResults').change(onSearch);
         $('#profileDlg').on('hidden.bs.modal', onSearch);
+        $('#resetStorage').click(function() {
+            if (confirm('Are you sure you want to reset your profile?')) {
+                localStorage.clear();
+                $('iframe').attr('src', $('iframe').attr('src'));
+            }
+        });
 
         window.accessReview = function(id) {
             $.getJSON('/access', {id: id, profile: getProfile()}, function(results) {

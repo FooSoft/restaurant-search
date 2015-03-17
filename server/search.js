@@ -191,48 +191,52 @@ function computeRecordGeo(records, context) {
 }
 
 function computeRecordCompat(records, context, callback) {
-    console.log(context.profile);
-    async.map(
+    async.each(
         records,
         function(record, callback) {
-            pool.query('SELECT * FROM history WHERE reviewId = (?)', [record.id], function(err, rows) {
-                if (err) {
-                    throw err;
-                }
+            pool.query(
+                'SELECT * FROM history WHERE reviewId = (?)',
+                [record.id],
+                function(err, rows) {
+                    async.map(
+                        rows,
+                        function(row, callback) {
+                            pool.query(
+                                'SELECT * FROM historyGroups WHERE historyId = (?)',
+                                [row.id],
+                                function(err, historyGroupRows) {
+                                    var reviewFeatures = {};
+                                    _.each(historyGroupRows, function(historyGroupRow) {
+                                        reviewFeatures[historyGroupRow.categoryId] = historyGroupRow.categoryValue;
+                                    });
 
-                async.map(
-                    rows,
-                    function(row, callback) {
-                        pool.query(
-                            'SELECT * FROM historyGroups WHERE historyId = (?)',
-                            [row.id],
-                            function(err, historyGroupRows) {
-                                if (err) {
-                                    throw err;
+                                    console.log(context.profile);
+                                    console.log(reviewFeatures);
+                                    console.log('***\n');
+                                    var groupScore = innerProduct(context.profile, reviewFeatures);
+                                    callback(err, groupScore);
                                 }
-
-                                var reviewFeatures = {};
-                                _.each(historyGroupRows, function(historyGroupRow) {
-                                    reviewFeatures[historyGroupRow.categoryId] = historyGroupRow.categoryValue;
-                                });
-
-                                var groupScore = innerProduct(context.profile, reviewFeatures);
-                                callback(err, groupScore);
-                            }
-                        );
-                    },
-                    function(err, results) {
-                        if (err) {
-                            throw err;
+                            );
+                        },
+                        function(err, groupScores) {
+                            record.groupScores = groupScores;
+                            callback(err);
                         }
-
-                        callback(results);
-                    }
-                );
-            });
+                    );
+                }
+            );
         },
-        function(err, results) {
-            // console.log(results);
+        function(err) {
+            if (err) {
+                throw err;
+            }
+
+            _.each(records, function(record) {
+                if (record.groupScores.length > 0) {
+                    console.log(record);
+                }
+            });
+
             callback(records);
         }
     );
@@ -245,8 +249,8 @@ function sanitizeQuery(query) {
         'affordable',
         'atmospheric',
         'nearby',
-        'accessible'
-        // 'compatible'
+        'accessible',
+        'compatible'
     ];
 
     var features = {};
@@ -256,11 +260,10 @@ function sanitizeQuery(query) {
 
     query.features = features;
 
-    // for (var category in query.profile) {
-    //     if (parseFloat(query.profile[category]) === 0) {
-    //         delete query.profile[category];
-    //     }
-    // }
+    query.profile = _.reject(
+        query.profile,
+        function(num) { return num === 0; }
+    );
 }
 
 function getCategories(callback) {
