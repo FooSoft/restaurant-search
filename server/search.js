@@ -257,13 +257,15 @@ function sanitizeQuery(query) {
     _.each(keys, function(key) {
         features[key] = _.has(query.features, key) ? query.features[key] : 0;
     });
-
     query.features = features;
 
-    query.profile = _.reject(
-        query.profile,
-        function(num) { return num === 0; }
-    );
+    var profile = {};
+    _.each(JSON.parse(query.profile), function(key, value) {
+        if (parseFloat(value) !== 0) {
+            profile[key] = value;
+        }
+    });
+    query.profile = profile;
 }
 
 function getCategories(callback) {
