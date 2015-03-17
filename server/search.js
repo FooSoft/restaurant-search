@@ -235,7 +235,7 @@ function computeRecordCompat(records, context, callback) {
 
 function fixupProfile(profile) {
     var fixed = {};
-    _.each(JSON.parse(profile), function(value, key) {
+    _.each(JSON.parse(profile || '{}'), function(value, key) {
         if (parseFloat(value) !== 0) {
             fixed[key] = value;
         }
@@ -255,9 +255,13 @@ function fixupFeatures(features) {
         'compatible'
     ];
 
+    if (!features) {
+        features = {};
+    }
+
     var fixed = {};
     _.each(keys, function(key) {
-        fixed[key] = _.has(features, key) ? features[key] : 0;
+        fixed[key] = features[key] || 0;
     });
 
     return fixed;
@@ -270,7 +274,10 @@ function getCategories(callback) {
         }
 
         var categories = _.map(rows, function(row) {
-            return {id: row.id, description: row.description};
+            return {
+                id:          row.id,
+                description: row.description
+            };
         });
 
         callback(categories);
