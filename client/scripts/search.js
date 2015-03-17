@@ -149,7 +149,9 @@
     }
 
     function getProfile() {
-        return JSON.parse(localStorage.profile || '{}');
+        var profile = JSON.parse(localStorage.profile || '{}');
+        profile.serial = true;
+        return profile;
     }
 
     window.onpopstate = function(state) {

@@ -191,6 +191,7 @@ function computeRecordGeo(records, context) {
 }
 
 function computeRecordCompat(records, context, callback) {
+    console.log(context.profile);
     async.map(
         records,
         function(record, callback) {
@@ -231,7 +232,7 @@ function computeRecordCompat(records, context, callback) {
             });
         },
         function(err, results) {
-            console.log(results);
+            // console.log(results);
             callback(records);
         }
     );
@@ -255,11 +256,11 @@ function sanitizeQuery(query) {
 
     query.features = features;
 
-    for (var category in query.profile) {
-        if (parseFloat(query.profile[category]) === 0) {
-            delete query.profile[category];
-        }
-    }
+    // for (var category in query.profile) {
+    //     if (parseFloat(query.profile[category]) === 0) {
+    //         delete query.profile[category];
+    //     }
+    // }
 }
 
 function getCategories(callback) {
