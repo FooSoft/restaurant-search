@@ -24,6 +24,7 @@
 'use strict';
 
 var _      = require('underscore');
+var async  = require('async');
 var geolib = require('geolib');
 var mysql  = require('mysql');
 var pool   = null;
@@ -160,7 +161,7 @@ function getRecords(context, callback) {
         });
 
         computeRecordGeo(records, context);
-        callback(records);
+        computeRecordCompat(records, context, callback);
     });
 }
 
@@ -189,6 +190,53 @@ function computeRecordGeo(records, context) {
     });
 }
 
+function computeRecordCompat(records, context, callback) {
+    async.map(
+        records,
+        function(record, callback) {
+            pool.query('SELECT * FROM history WHERE reviewId = (?)', [record.id], function(err, rows) {
+                if (err) {
+                    throw err;
+                }
+
+                async.map(
+                    rows,
+                    function(row, callback) {
+                        pool.query(
+                            'SELECT * FROM historyGroups WHERE historyId = (?)',
+                            [row.id],
+                            function(err, historyGroupRows) {
+                                if (err) {
+                                    throw err;
+                                }
+
+                                var reviewFeatures = {};
+                                _.each(historyGroupRows, function(historyGroupRow) {
+                                    reviewFeatures[historyGroupRow.categoryId] = historyGroupRow.categoryValue;
+                                });
+
+                                var groupScore = innerProduct(context.profile, reviewFeatures);
+                                callback(err, groupScore);
+                            }
+                        );
+                    },
+                    function(err, results) {
+                        if (err) {
+                            throw err;
+                        }
+
+                        callback(results);
+                    }
+                );
+            });
+        },
+        function(err, results) {
+            console.log(results);
+            callback(records);
+        }
+    );
+}
+
 function sanitizeQuery(query) {
     var keys = [
         'delicious',
@@ -197,6 +245,7 @@ function sanitizeQuery(query) {
         'atmospheric',
         'nearby',
         'accessible'
+        // 'compatible'
     ];
 
     var features = {};
@@ -294,6 +343,7 @@ function runQuery(query, callback) {
 
     var context = {
         geo:         query.geo,
+        profile:     query.profile,
         walkingDist: query.walkingDist * 1000.0
     };
 
