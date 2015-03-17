@@ -74,5 +74,5 @@ function main(staticFiles, port) {
 }
 
 if (require.main === module) {
-    main('client', 3000);
+    main('client', process.env.PORT || 3000);
 }
