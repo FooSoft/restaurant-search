@@ -53,13 +53,23 @@ function walkMatches(data, features, minScore, callback) {
     }
 }
 
-function countRecords(data, features, minScore) {
-    var count = 0;
+function statRecords(data, features, minScore) {
+    var compatibility = 0;
+    var count         = 0;
+
     walkMatches(data, features, minScore, function(record, score) {
+        compatibility += record.compatibility;
         ++count;
     });
 
-    return count;
+    if (count > 0) {
+        compatibility /= count;
+    }
+
+    return {
+        compatibility: compatibility,
+        count:         count
+    };
 }
 
 function findRecords(data, features, minScore) {
@@ -104,7 +114,7 @@ function project(data, features, feature, minScore, range, steps) {
         sample[feature] = position;
         results.push({
             sample: position,
-            count:  countRecords(data, sample, minScore)
+            stats:  statRecords(data, sample, minScore)
         });
     });
 
@@ -125,7 +135,7 @@ function buildHints(data, features, feature, minScore, range, steps) {
     _.each(projection, function(result) {
         hints.push({
             sample: result.sample,
-            count:  result.count
+            stats:  result.stats
         });
     });
 
@@ -193,8 +203,6 @@ function computeRecordGeo(records, context) {
 }
 
 function computeRecordPopularity(records, context, callback) {
-    var scoreMax = 0;
-
     async.each(
         records,
         function(record, callback) {
@@ -215,8 +223,6 @@ function computeRecordPopularity(records, context, callback) {
                                     });
 
                                     var groupScore = innerProduct(context.profile, reviewFeatures);
-                                    scoreMax = Math.max(scoreMax, groupScore);
-
                                     callback(err, groupScore);
                                 }
                             );
@@ -228,13 +234,7 @@ function computeRecordPopularity(records, context, callback) {
                                 scoreAvg = scoreSum / groupScores.length;
                             }
 
-                            if (scoreMax !== 0) {
-                                record.features.compatibility = scoreAvg / scoreMax;
-                            }
-                            else {
-                                record.features.compatibility = 0;
-                            }
-
+                            record.compatibility = scoreAvg;
                             callback(err);
                         }
                     );
@@ -269,8 +269,7 @@ function fixupFeatures(features) {
         'affordable',
         'atmospheric',
         'nearby',
-        'accessible',
-        'compatible'
+        'accessible'
     ];
 
     if (!features) {

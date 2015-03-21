@@ -63,7 +63,7 @@
     function onSearch() {
         _ctx.query = {
             features:    _ctx.query.features || {},
-            range:       { min: -1.0, max: 1.0 },
+            range:       {min: -1.0, max: 1.0},
             profile:     getProfile(),
             walkingDist: parseFloat($('#walkingDist').val()),
             minScore:    parseFloat($('#minScore').val()),
@@ -85,18 +85,21 @@
                     steps:            _ctx.query.hintSteps,
                     range:            _ctx.query.range,
                     onValueChanged:   onAdjust,
-                    useLocalScale:    true,
-                    useRelativeScale: true
+                    displayType:      $('#displayType').val(),
+                    useLocalScale:    $('#useLocalScale').is(':checked'),
+                    useRelativeScale: $('#useRelativeScale').is(':checked')
                 });
 
                 $('#useLocalScale').click(function() {
-                    var useLocalScale = $('#useLocalScale').is(':checked');
-                    _ctx.grapher.setUseLocalScale(useLocalScale);
+                    _ctx.grapher.setUseLocalScale($('#useLocalScale').is(':checked'));
                 });
 
                 $('#useRelativeScale').click(function() {
-                    var useRelativeScale = $('#useRelativeScale').is(':checked');
-                    _ctx.grapher.setUseRelativeScale(useRelativeScale);
+                    _ctx.grapher.setUseRelativeScale($('#useRelativeScale').is(':checked'));
+                });
+
+                $('#displayType').change(function() {
+                    _ctx.grapher.setDisplayType($('#displayType').val());
                 });
 
                 var columns = {};

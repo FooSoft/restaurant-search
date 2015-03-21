@@ -70,21 +70,21 @@
     //
 
     function Column(params) {
-        var _backdropColor = '#eeeeec';
-        var _borderColor   = '#babdb6';
-        var _fillColorNeg  = '#3465a4';
-        var _fillColorPos  = '#cc0000';
-        var _panelColor    = '#babdb6';
-        var _tickColor     = '#888a85';
+        var _backdropColor  = '#eeeeec';
+        var _borderColor    = '#babdb6';
+        var _fillColorNeg   = '#3465a4';
+        var _fillColorPos   = '#cc0000';
+        var _panelColor     = '#babdb6';
+        var _tickColor      = '#888a85';
 
-        var _densitySize = 10;
-        var _desatOffset = -0.3;
-        var _height      = 500;
-        var _padding     = 5;
-        var _panelSize   = 20;
-        var _tickSize    = 5;
-        var _width       = 100;
-        var _easeTime    = 400;
+        var _densitySize    = 10;
+        var _desatOffset    = -0.3;
+        var _height         = 500;
+        var _padding        = 5;
+        var _panelSize      = 20;
+        var _tickSize       = 5;
+        var _width          = 100;
+        var _easeTime       = 400;
 
         var _animation      = null;
         var _canvas         = params.canvas;
@@ -160,8 +160,12 @@
         }
 
         function updateDensity() {
-            var fill = _data.hints.length === 0 ? _backdropColor : _canvas.gradient(decimateHints());
-            _elements.density.attr({ fill: fill });
+            var fill = _backdropColor;
+            if (_data.hints.length > 0) {
+                fill = _canvas.gradient(decimateHints());
+            }
+
+            _elements.density.attr({fill: fill});
         }
 
         function decimateHints() {
@@ -197,15 +201,15 @@
                 var stepMax = _range.max - stepSize * i;
                 var stepMin = stepMax - stepSize;
 
-                var hintCount = 0;
+                var hintValue = 0;
                 for (var j = 0, count = _data.hints.length; j < count; ++j) {
                     var hint = _data.hints[j];
                     if (hint.sample > stepMin && hint.sample <= stepMax) {
-                        hintCount += hint.count;
+                        hintValue += hint.rating;
                     }
                 }
 
-                hintGroups.push(hintCount);
+                hintGroups.push(hintValue);
             }
 
             return hintGroups;
@@ -307,18 +311,38 @@
         var _steps            = params.steps || 20;
         var _useLocalScale    = params.useLocalScale || true;
         var _useRelativeScale = params.useRelativeScale || true;
+        var _displayType      = params.displayType || 'density';
         var _onValueChanged   = params.onValueChanged;
 
-        function computeLocalScale(hints) {
-            var counts = _.pluck(hints, 'count');
-            var min = _useRelativeScale ? _.min(counts) : 0;
-            return new Range(min, _.max(counts));
+        function processHintParameters(columns) {
+            var displayTypes = {compatibility: 'compatibility', density: 'count'};
+            var statKey      = displayTypes[_displayType];
+
+            for (var name in columns) {
+                var column = columns[name];
+                for (var i = 0, count = column.hints.length; i < count; ++i) {
+                    column.hints[i].rating = column.hints[i].stats[statKey];
+                }
+            }
         }
 
-        function computeGlobalScale(hintData) {
+        function computeLocalScale(column) {
+            var ratings = _.map(column.hints, function(hint) {
+                return hint.rating;
+            });
+
+            var min = 0;
+            if (_useRelativeScale) {
+                min = _.min(ratings);
+            }
+
+            return new Range(min, _.max(ratings));
+        }
+
+        function computeGlobalScale(columns) {
             var globalScale = null;
-            for (var i = 0, count = hintData.length; i < count; ++i) {
-                var localScale = computeLocalScale(hintData[i]);
+            for (var i = 0, count = columns.length; i < count; ++i) {
+                var localScale = computeLocalScale(columns[i]);
                 if (globalScale) {
                     globalScale.include(localScale);
                 }
@@ -331,17 +355,18 @@
         }
 
         this.setColumns = function(columns) {
+            processHintParameters(columns);
+
             var scale = 0;
             if (!_useLocalScale) {
-                var hintData = _.pluck(columns, 'hints');
-                scale = computeGlobalScale(hintData);
+                scale = computeGlobalScale(columns);
             }
 
             var index = 0;
             for (var name in columns) {
                 var data = _data[name] = columns[name];
                 if (_useLocalScale) {
-                    scale = computeLocalScale(data.hints);
+                    scale = computeLocalScale(data);
                 }
 
                 var column = _columns[name];
@@ -373,6 +398,13 @@
         this.setUseRelativeScale = function(useRelativeScale) {
             if (useRelativeScale != _useRelativeScale) {
                 _useRelativeScale = useRelativeScale;
+                this.setColumns(_data);
+            }
+        };
+
+        this.setDisplayType = function(displayType) {
+            if (displayType != _displayType) {
+                _displayType = displayType;
                 this.setColumns(_data);
             }
         };
