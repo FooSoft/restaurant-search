@@ -326,8 +326,8 @@
             }
         }
 
-        function computeLocalScale(column) {
-            var ratings = _.map(column.hints, function(hint) {
+        function computeLocalScale(columnData) {
+            var ratings = _.map(columnData.hints, function(hint) {
                 return hint.rating;
             });
 
@@ -339,10 +339,10 @@
             return new Range(min, _.max(ratings));
         }
 
-        function computeGlobalScale(columns) {
+        function computeGlobalScale(columnsData) {
             var globalScale = null;
-            for (var i = 0, count = columns.length; i < count; ++i) {
-                var localScale = computeLocalScale(columns[i]);
+            for (var i = 0, count = columnsData.length; i < count; ++i) {
+                var localScale = computeLocalScale(columnsData[i]);
                 if (globalScale) {
                     globalScale.include(localScale);
                 }
@@ -354,24 +354,24 @@
             return globalScale;
         }
 
-        this.setColumns = function(columns) {
-            processHintParameters(columns);
+        this.setColumns = function(columnsData) {
+            processHintParameters(columnsData);
 
             var scale = 0;
             if (!_useLocalScale) {
-                scale = computeGlobalScale(columns);
+                scale = computeGlobalScale(columnsData);
             }
 
             var index = 0;
-            for (var name in columns) {
-                var data = _data[name] = columns[name];
+            for (var name in columnsData) {
+                var columnData = _data[name] = columnsData[name];
                 if (_useLocalScale) {
-                    scale = computeLocalScale(data);
+                    scale = computeLocalScale(columnData);
                 }
 
                 var column = _columns[name];
                 if (column) {
-                    column.update(data, scale);
+                    column.update(columnData, scale);
                 }
                 else {
                     _columns[name] = new Column({
@@ -379,7 +379,7 @@
                         steps:          _steps,
                         range:          _range,
                         canvas:         _canvas,
-                        data:           data,
+                        data:           columnData,
                         name:           name,
                         scale:          scale,
                         index:          index++,
