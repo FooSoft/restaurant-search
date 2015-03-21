@@ -193,7 +193,6 @@ function computeRecordGeo(records, context) {
 }
 
 function computeRecordPopularity(records, context, callback) {
-    var scoreMin = 0;
     var scoreMax = 0;
 
     async.each(
@@ -216,7 +215,6 @@ function computeRecordPopularity(records, context, callback) {
                                     });
 
                                     var groupScore = innerProduct(context.profile, reviewFeatures);
-                                    scoreMin = Math.min(scoreMin, groupScore);
                                     scoreMax = Math.max(scoreMax, groupScore);
 
                                     callback(err, groupScore);
@@ -224,10 +222,19 @@ function computeRecordPopularity(records, context, callback) {
                             );
                         },
                         function(err, groupScores) {
-                            var scoreSum = _.reduce(groupScores, function(a, b) { return a + b; });
-                            var scoreAvg = scoreSum / groupScores.length;
+                            var scoreAvg = 0;
+                            if (groupScores.length > 0) {
+                                var scoreSum = _.reduce(groupScores, function(a, b) { return a + b; });
+                                scoreAvg = scoreSum / groupScores.length;
+                            }
 
-                            record.features.compatibility = (scoreAvg - scoreMin) / (scoreMax - scoreMin);
+                            if (scoreMax !== 0) {
+                                record.features.compatibility = scoreAvg / scoreMax;
+                            }
+                            else {
+                                record.features.compatibility = 0;
+                            }
+
                             callback(err);
                         }
                     );
