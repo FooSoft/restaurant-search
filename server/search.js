@@ -58,13 +58,9 @@ function statRecords(data, features, minScore) {
     var count         = 0;
 
     walkMatches(data, features, minScore, function(record, score) {
-        compatibility += record.compatibility;
+        compatibility += record.compatibility * score;
         ++count;
     });
-
-    if (count > 0) {
-        compatibility /= count;
-    }
 
     return {
         compatibility: compatibility,
