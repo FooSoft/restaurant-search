@@ -341,8 +341,8 @@
 
         function computeGlobalScale(columnsData) {
             var globalScale = null;
-            for (var i = 0, count = columnsData.length; i < count; ++i) {
-                var localScale = computeLocalScale(columnsData[i]);
+            for (var name in columnsData) {
+                var localScale = computeLocalScale(columnsData[name]);
                 if (globalScale) {
                     globalScale.include(localScale);
                 }
