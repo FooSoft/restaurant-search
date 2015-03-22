@@ -81,13 +81,12 @@
         $.getJSON('/query', _ctx.query, function(results) {
             if (!_.has(_ctx, 'grapher')) {
                 _ctx.grapher = new grapher.Grapher({
-                    canvas:           new Snap('#svg'),
-                    steps:            _ctx.query.hintSteps,
-                    range:            _ctx.query.range,
-                    onValueChanged:   onAdjust,
-                    displayType:      $('#displayType').val(),
-                    useLocalScale:    $('#useLocalScale').is(':checked'),
-                    useRelativeScale: $('#useRelativeScale').is(':checked')
+                    canvas:         new Snap('#svg'),
+                    steps:          _ctx.query.hintSteps,
+                    range:          _ctx.query.range,
+                    onValueChanged: onAdjust,
+                    displayType:    $('#displayType').val(),
+                    useLocalScale:  $('#useLocalScale').is(':checked')
                 });
 
                 $('#useLocalScale').click(function() {

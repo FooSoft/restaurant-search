@@ -304,15 +304,14 @@
     //
 
     grapher.Grapher = function(params) {
-        var _canvas           = params.canvas;
-        var _columns          = {};
-        var _data             = {};
-        var _range            = new Range(params.range.min || -1.0, params.range.max || 1.0);
-        var _steps            = params.steps || 20;
-        var _useLocalScale    = params.useLocalScale || true;
-        var _useRelativeScale = params.useRelativeScale || true;
-        var _displayType      = params.displayType || 'density';
-        var _onValueChanged   = params.onValueChanged;
+        var _canvas         = params.canvas;
+        var _columns        = {};
+        var _data           = {};
+        var _range          = new Range(params.range.min || -1.0, params.range.max || 1.0);
+        var _steps          = params.steps || 20;
+        var _useLocalScale  = params.useLocalScale || false;
+        var _displayType    = params.displayType || 'density';
+        var _onValueChanged = params.onValueChanged;
 
         function processHintParameters(columns) {
             var displayTypes = {compatibility: 'compatibility', density: 'count'};
@@ -331,12 +330,7 @@
                 return hint.rating;
             });
 
-            var min = 0;
-            if (_useRelativeScale) {
-                min = _.min(ratings);
-            }
-
-            return new Range(min, _.max(ratings));
+            return new Range(0, _.max(ratings));
         }
 
         function computeGlobalScale(columnsData) {
@@ -357,7 +351,7 @@
         this.setColumns = function(columnsData) {
             processHintParameters(columnsData);
 
-            var scale = 0;
+            var scale = null;
             if (!_useLocalScale) {
                 scale = computeGlobalScale(columnsData);
             }
@@ -391,13 +385,6 @@
         this.setUseLocalScale = function(useLocalScale) {
             if (useLocalScale != _useLocalScale) {
                 _useLocalScale = useLocalScale;
-                this.setColumns(_data);
-            }
-        };
-
-        this.setUseRelativeScale = function(useRelativeScale) {
-            if (useRelativeScale != _useRelativeScale) {
-                _useRelativeScale = useRelativeScale;
                 this.setColumns(_data);
             }
         };
