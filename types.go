@@ -22,59 +22,59 @@
 
 package main
 
-type Context struct {
-	geo         Geo
+type queryContext struct {
+	geo         geoContext
 	latitude    float64
 	longitude   float64
-	profile     Features
+	profile     featureMap
 	walkingDist float64
 }
 
-type Projection struct {
+type queryProjection struct {
 	sample float64
-	stats  RecordStats
+	stats  recordStats
 }
 
-type Features map[interface{}]float64
+type featureMap map[interface{}]float64
 
-type RecordStats struct {
+type recordStats struct {
 	compatibility float64
 	count         int
 }
 
-type Bounds struct {
+type queryBounds struct {
 	max float64
 	min float64
 }
 
-type Geo struct {
+type geoContext struct {
 	latitude  float64
 	longitude float64
 	valid     bool
 }
 
-type Record struct {
+type record struct {
 	accessCount    int
 	compatibility  float64
 	distanceToStn  float64
 	distanceToUser float64
-	features       Features
-	geo            Geo
+	features       featureMap
+	geo            geoContext
 	id             int
 	name           string
 	score          float64
 }
 
-type Records []Record
+type records []record
 
-func (slice Records) Len() int {
+func (slice records) Len() int {
 	return len(slice)
 }
 
-func (slice Records) Less(i, j int) bool {
+func (slice records) Less(i, j int) bool {
 	return slice[i].score > slice[j].score
 }
 
-func (slice Records) Swap(i, j int) {
+func (slice records) Swap(i, j int) {
 	slice[i], slice[j] = slice[j], slice[i]
 }

@@ -29,7 +29,7 @@ import (
 	"sort"
 )
 
-func innerProduct(features1 Features, features2 Features) float64 {
+func innerProduct(features1 featureMap, features2 featureMap) float64 {
 	var result float64
 	for key, value1 := range features1 {
 		value2, _ := features2[key]
@@ -39,17 +39,17 @@ func innerProduct(features1 Features, features2 Features) float64 {
 	return result
 }
 
-func walkMatches(records Records, features Features, minScore float64, callback func(Record, float64)) {
-	for _, record := range records {
+func walkMatches(entries records, features featureMap, minScore float64, callback func(record, float64)) {
+	for _, record := range entries {
 		if score := innerProduct(features, record.features); score >= minScore {
 			callback(record, score)
 		}
 	}
 }
 
-func statRecords(records Records, features Features, minScore float64) RecordStats {
-	var stats RecordStats
-	walkMatches(records, features, minScore, func(record Record, score float64) {
+func statRecords(entries records, features featureMap, minScore float64) recordStats {
+	var stats recordStats
+	walkMatches(entries, features, minScore, func(record record, score float64) {
 		stats.compatibility += record.compatibility
 		stats.count++
 	})
@@ -57,7 +57,7 @@ func statRecords(records Records, features Features, minScore float64) RecordSta
 	return stats
 }
 
-func stepRange(bounds Bounds, steps int, callback func(float64)) {
+func stepRange(bounds queryBounds, steps int, callback func(float64)) {
 	stepSize := (bounds.max - bounds.min) / float64(steps)
 
 	for i := 0; i < steps; i++ {
@@ -69,37 +69,37 @@ func stepRange(bounds Bounds, steps int, callback func(float64)) {
 	}
 }
 
-func findRecords(records Records, features Features, minScore float64) {
-	var foundRecords Records
+func findRecords(entries records, features featureMap, minScore float64) {
+	var foundRecords records
 
-	walkMatches(records, features, minScore, func(record Record, score float64) {
+	walkMatches(entries, features, minScore, func(record record, score float64) {
 		foundRecords = append(foundRecords, record)
 	})
 
 	sort.Sort(foundRecords)
 }
 
-func project(records Records, features Features, featureName string, minScore float64, bounds Bounds, steps int) []Projection {
-	sampleFeatures := make(Features)
+func project(entries records, features featureMap, featureName string, minScore float64, bounds queryBounds, steps int) []queryProjection {
+	sampleFeatures := make(featureMap)
 	for key, value := range features {
 		sampleFeatures[key] = value
 	}
 
-	var projection []Projection
+	var projection []queryProjection
 	stepRange(bounds, steps, func(sample float64) {
 		sampleFeatures[featureName] = sample
-		stats := statRecords(records, sampleFeatures, minScore)
-		projection = append(projection, Projection{sample: sample, stats: stats})
+		stats := statRecords(entries, sampleFeatures, minScore)
+		projection = append(projection, queryProjection{sample: sample, stats: stats})
 	})
 
 	return projection
 }
 
-func computeRecordGeo(records Records, context Context) {
+func computeRecordGeo(entries records, context queryContext) {
 	distUserMin := math.MaxFloat64
 	distUserMax := 0.0
 
-	for _, record := range records {
+	for _, record := range entries {
 		if context.geo.valid {
 			userPoint := geo.NewPoint(context.geo.latitude, context.geo.longitude)
 			recordPoint := geo.NewPoint(record.geo.latitude, context.geo.longitude)
@@ -116,7 +116,7 @@ func computeRecordGeo(records Records, context Context) {
 
 	distUserRange := distUserMax - distUserMin
 
-	for _, record := range records {
+	for _, record := range entries {
 		nearby := -((record.distanceToUser-distUserMin)/distUserRange - 0.5) * 2.0
 
 		accessible := 1.0 - (record.distanceToStn / context.walkingDist)
@@ -131,8 +131,8 @@ func computeRecordGeo(records Records, context Context) {
 	}
 }
 
-func computeRecordPopularity(records Records, context Context) {
-	for _, record := range records {
+func computeRecordPopularity(entries records, context queryContext) {
+	for _, record := range entries {
 		historyRows, err := db.Query("SELECT id FROM history WHERE reviewId = (?)", record.id)
 		if err != nil {
 			log.Fatal(err)
@@ -152,7 +152,7 @@ func computeRecordPopularity(records Records, context Context) {
 				log.Fatal(err)
 			}
 
-			recordProfile := make(Features)
+			recordProfile := make(featureMap)
 			for groupRows.Next() {
 				var categoryId int
 				var categoryValue float64

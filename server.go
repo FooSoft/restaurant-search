@@ -37,9 +37,9 @@ var db *sql.DB
 
 func executeQuery(rw http.ResponseWriter, req *http.Request) {
 	type Request struct {
-		features    Features
-		bounds      Bounds
-		geo         Geo
+		features    featureMap
+		bounds      queryBounds
+		geo         geoContext
 		walkingDist float64
 		minScore    float64
 		hintSteps   int
