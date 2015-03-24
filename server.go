@@ -42,7 +42,13 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	log.Print(request)
+	var geo *geoContext
+	if request.Geo != nil {
+		geo.latitude = request.Geo.Latitude
+		geo.longitude = request.Geo.Longitude
+	}
+
+	context := queryContext{geo, convertFeatures(request.Profile), request.WalkingDist}
 
 	// function runQuery(query, callback) {
 	//     query.profile  = fixupProfile(query.profile);

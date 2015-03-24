@@ -29,6 +29,15 @@ import (
 	"sort"
 )
 
+func convertFeatures(features jsonFeatureMap) featureMap {
+	resultMap := make(featureMap)
+	for key, value := range features {
+		resultMap[key] = value
+	}
+
+	return resultMap
+}
+
 func innerProduct(features1 featureMap, features2 featureMap) float64 {
 	var result float64
 	for key, value1 := range features1 {
@@ -100,7 +109,7 @@ func computeRecordGeo(entries records, context queryContext) {
 	distUserMax := 0.0
 
 	for _, record := range entries {
-		if context.geo.valid {
+		if context.geo != nil {
 			userPoint := geo.NewPoint(context.geo.latitude, context.geo.longitude)
 			recordPoint := geo.NewPoint(record.geo.latitude, context.geo.longitude)
 			record.distanceToUser = userPoint.GreatCircleDistance(recordPoint)

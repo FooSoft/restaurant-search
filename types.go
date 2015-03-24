@@ -70,9 +70,7 @@ type jsonRemoveCategoryResponse struct {
 }
 
 type queryContext struct {
-	geo         geoContext
-	latitude    float64
-	longitude   float64
+	geo         *geoContext
 	profile     featureMap
 	walkingDist float64
 }
@@ -95,7 +93,6 @@ type queryBounds struct {
 type geoContext struct {
 	latitude  float64
 	longitude float64
-	valid     bool
 }
 
 type record struct {
