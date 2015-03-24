@@ -36,23 +36,37 @@ import (
 var db *sql.DB
 
 func executeQuery(rw http.ResponseWriter, req *http.Request) {
-	type Request struct {
-		features    featureMap
-		bounds      queryBounds
-		geo         geoContext
-		walkingDist float64
-		minScore    float64
-		hintSteps   int
-		maxResults  int
+	type JsonFeatureMap map[string]float64
 
-		//             features:    _ctx.query.features || {},
-		//             range:       {min: -1.0, max: 1.0},
-		//             profile:     getProfile(),
-		//             walkingDist: parseFloat($('#walkingDist').val()),
-		//             minScore:    parseFloat($('#minScore').val()),
-		//             hintSteps:   parseInt($('#hintSteps').val()),
-		//             maxResults:  parseInt($('#maxResults').val())
+	type JsonRange struct {
+		Max float64 `json:"max"`
+		Min float64 `json:"min"`
 	}
+
+	type JsonGeo struct {
+		Latitude  float64 `json:"latitude"`
+		Longitude float64 `json:"longitude"`
+		Valid     bool    `json:"valid"`
+	}
+
+	type JsonRequest struct {
+		Features    JsonFeatureMap `json:"features"`
+		Geo         *JsonGeo       `json:"geo"`
+		HintSteps   int            `json:"hintSteps"`
+		MaxResults  int            `json:"maxResults"`
+		MinScore    float64        `json:"minScore"`
+		Profile     JsonFeatureMap `json:"profile"`
+		Range       JsonRange      `json:"range"`
+		WalkingDist float64        `json:"walkingDist"`
+	}
+
+	var request JsonRequest
+	if err := json.NewDecoder(req.Body).Decode(&request); err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	log.Print("Ready")
 
 	// function runQuery(query, callback) {
 	//     query.profile  = fixupProfile(query.profile);
@@ -99,7 +113,7 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 }
 
 func getCategories(rw http.ResponseWriter, req *http.Request) {
-	type Category struct {
+	type JsonCategory struct {
 		Description string `json:"description"`
 		Id          int    `json:"id"`
 	}
@@ -110,7 +124,7 @@ func getCategories(rw http.ResponseWriter, req *http.Request) {
 	}
 	defer rows.Close()
 
-	var categories []Category
+	var categories []JsonCategory
 	for rows.Next() {
 		var (
 			description string
@@ -121,7 +135,7 @@ func getCategories(rw http.ResponseWriter, req *http.Request) {
 			log.Fatal(err)
 		}
 
-		categories = append(categories, Category{description, id})
+		categories = append(categories, JsonCategory{description, id})
 	}
 
 	if err := rows.Err(); err != nil {
@@ -138,23 +152,23 @@ func getCategories(rw http.ResponseWriter, req *http.Request) {
 }
 
 func addCategory(rw http.ResponseWriter, req *http.Request) {
-	type Request struct {
+	type JsonRequest struct {
 		Description string `json:"description"`
 	}
 
-	type Response struct {
+	type JsonResponse struct {
 		Description string `json:"description"`
 		Id          int    `json:"id"`
 		Success     bool   `json:"success"`
 	}
 
-	var request Request
+	var request JsonRequest
 	if err := json.NewDecoder(req.Body).Decode(&request); err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	response := Response{Description: strings.TrimSpace(request.Description)}
+	response := JsonResponse{Description: strings.TrimSpace(request.Description)}
 
 	if len(request.Description) > 0 {
 		result, err := db.Exec("INSERT INTO categories(description) VALUES(?)", request.Description)
@@ -186,15 +200,15 @@ func addCategory(rw http.ResponseWriter, req *http.Request) {
 }
 
 func removeCategory(rw http.ResponseWriter, req *http.Request) {
-	type Request struct {
+	type JsonRequest struct {
 		Id int `json:"id"`
 	}
 
-	type Response struct {
+	type JsonResponse struct {
 		Success bool `json:"success"`
 	}
 
-	var request Request
+	var request JsonRequest
 	if err := json.NewDecoder(req.Body).Decode(&request); err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
@@ -210,7 +224,7 @@ func removeCategory(rw http.ResponseWriter, req *http.Request) {
 		log.Fatal(err)
 	}
 
-	js, err := json.Marshal(Response{affectedRows > 0})
+	js, err := json.Marshal(JsonResponse{affectedRows > 0})
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -258,7 +272,7 @@ func accessReview(rw http.ResponseWriter, req *http.Request) {
 	// }
 }
 
-func getStaticPath() (string, error) {
+func staticPath() (string, error) {
 	if len(os.Args) > 1 {
 		return os.Args[1], nil
 	}
@@ -267,7 +281,7 @@ func getStaticPath() (string, error) {
 }
 
 func main() {
-	dir, err := getStaticPath()
+	dir, err := staticPath()
 	if err != nil {
 		log.Fatal(err)
 	}

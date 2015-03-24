@@ -155,7 +155,7 @@
     }
 
     function getProfile() {
-        return localStorage.profile || '{}';
+        return JSON.parse(localStorage.profile || '{}');
     }
 
     window.onpopstate = function(state) {
