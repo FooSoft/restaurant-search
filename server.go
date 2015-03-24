@@ -118,7 +118,7 @@ func getCategories(rw http.ResponseWriter, req *http.Request) {
 		Id          int    `json:"id"`
 	}
 
-	rows, err := db.Query("SELECT * FROM categories")
+	rows, err := db.Query("SELECT description, id FROM categories")
 	if err != nil {
 		log.Fatal(err)
 	}
