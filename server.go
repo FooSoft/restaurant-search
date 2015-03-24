@@ -36,37 +36,37 @@ import (
 var db *sql.DB
 
 func executeQuery(rw http.ResponseWriter, req *http.Request) {
-	type JsonFeatureMap map[string]float64
+	type jsonFeatureMap map[string]float64
 
-	type JsonRange struct {
+	type jsonRange struct {
 		Max float64 `json:"max"`
 		Min float64 `json:"min"`
 	}
 
-	type JsonGeo struct {
+	type jsonGeo struct {
 		Latitude  float64 `json:"latitude"`
 		Longitude float64 `json:"longitude"`
 		Valid     bool    `json:"valid"`
 	}
 
-	type JsonRequest struct {
-		Features    JsonFeatureMap `json:"features"`
-		Geo         *JsonGeo       `json:"geo"`
+	type jsonRequest struct {
+		Features    jsonFeatureMap `json:"features"`
+		Geo         *jsonGeo       `json:"geo"`
 		HintSteps   int            `json:"hintSteps"`
 		MaxResults  int            `json:"maxResults"`
 		MinScore    float64        `json:"minScore"`
-		Profile     JsonFeatureMap `json:"profile"`
-		Range       JsonRange      `json:"range"`
+		Profile     jsonFeatureMap `json:"profile"`
+		Range       jsonRange      `json:"range"`
 		WalkingDist float64        `json:"walkingDist"`
 	}
 
-	var request JsonRequest
+	var request jsonRequest
 	if err := json.NewDecoder(req.Body).Decode(&request); err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	log.Print("Ready")
+	log.Print(request)
 
 	// function runQuery(query, callback) {
 	//     query.profile  = fixupProfile(query.profile);
@@ -113,7 +113,7 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 }
 
 func getCategories(rw http.ResponseWriter, req *http.Request) {
-	type JsonCategory struct {
+	type jsonCategory struct {
 		Description string `json:"description"`
 		Id          int    `json:"id"`
 	}
@@ -124,7 +124,7 @@ func getCategories(rw http.ResponseWriter, req *http.Request) {
 	}
 	defer rows.Close()
 
-	var categories []JsonCategory
+	var categories []jsonCategory
 	for rows.Next() {
 		var (
 			description string
@@ -135,7 +135,7 @@ func getCategories(rw http.ResponseWriter, req *http.Request) {
 			log.Fatal(err)
 		}
 
-		categories = append(categories, JsonCategory{description, id})
+		categories = append(categories, jsonCategory{description, id})
 	}
 
 	if err := rows.Err(); err != nil {
@@ -152,23 +152,23 @@ func getCategories(rw http.ResponseWriter, req *http.Request) {
 }
 
 func addCategory(rw http.ResponseWriter, req *http.Request) {
-	type JsonRequest struct {
+	type jsonRequest struct {
 		Description string `json:"description"`
 	}
 
-	type JsonResponse struct {
+	type jsonResponse struct {
 		Description string `json:"description"`
 		Id          int    `json:"id"`
 		Success     bool   `json:"success"`
 	}
 
-	var request JsonRequest
+	var request jsonRequest
 	if err := json.NewDecoder(req.Body).Decode(&request); err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	response := JsonResponse{Description: strings.TrimSpace(request.Description)}
+	response := jsonResponse{Description: strings.TrimSpace(request.Description)}
 
 	if len(request.Description) > 0 {
 		result, err := db.Exec("INSERT INTO categories(description) VALUES(?)", request.Description)
@@ -200,15 +200,15 @@ func addCategory(rw http.ResponseWriter, req *http.Request) {
 }
 
 func removeCategory(rw http.ResponseWriter, req *http.Request) {
-	type JsonRequest struct {
+	type jsonRequest struct {
 		Id int `json:"id"`
 	}
 
-	type JsonResponse struct {
+	type jsonResponse struct {
 		Success bool `json:"success"`
 	}
 
-	var request JsonRequest
+	var request jsonRequest
 	if err := json.NewDecoder(req.Body).Decode(&request); err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
@@ -224,7 +224,7 @@ func removeCategory(rw http.ResponseWriter, req *http.Request) {
 		log.Fatal(err)
 	}
 
-	js, err := json.Marshal(JsonResponse{affectedRows > 0})
+	js, err := json.Marshal(jsonResponse{affectedRows > 0})
 	if err != nil {
 		log.Fatal(err)
 	}
