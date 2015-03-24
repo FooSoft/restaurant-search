@@ -24,14 +24,13 @@ package main
 
 import (
 	"database/sql"
-	"os"
-	"strings"
-	// "encoding/json"
 	"encoding/json"
 	_ "github.com/go-sql-driver/mysql"
 	"log"
 	"net/http"
+	"os"
 	"path/filepath"
+	"strings"
 )
 
 var db *sql.DB

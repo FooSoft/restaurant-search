@@ -28,10 +28,10 @@
     function onAdjust(name, value) {
         _ctx.query.features[name] = value;
 
-        $.getJSON('/query', _ctx.query, function(results) {
+        $.post('/query', JSON.stringify(_ctx.query), function(results) {
             saveSnapshot(results);
             outputSnapshot(results, true);
-        });
+        }, 'json');
     }
 
     function onReady(geo) {
@@ -50,11 +50,11 @@
         });
 
         window.accessReview = function(id) {
-            $.getJSON('/access', {id: id, profile: getProfile()}, function(results) {
+            $.post('/access', JSON.stringify({id: id, profile: getProfile()}), function(results) {
                 if (results.success) {
                     location.replace(results.url);
                 }
-            });
+            }, 'json');
         };
 
         onSearch();
@@ -78,7 +78,7 @@
             };
         }
 
-        $.getJSON('/query', _ctx.query, function(results) {
+        $.post('/query', JSON.stringify(_ctx.query), function(results) {
             if (!_.has(_ctx, 'grapher')) {
                 _ctx.grapher = new grapher.Grapher({
                     canvas:         new Snap('#svg'),
@@ -116,7 +116,7 @@
 
             saveSnapshot(results);
             outputSnapshot(results, false);
-        });
+        }, 'json');
     }
 
     function saveSnapshot(results) {
