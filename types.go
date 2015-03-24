@@ -22,32 +22,42 @@
 
 package main
 
+type Context struct {
+	hasPosition bool
+	latitude    float64
+	longitude   float64
+	profile     Features
+	walkingDist float64
+}
+
 type Projection struct {
-	sample float32
+	sample float64
 	stats  RecordStats
 }
 
-type Features map[string]float32
+type Features map[interface{}]float64
 
 type RecordStats struct {
-	compatibility float32
+	compatibility float64
 	count         int
 }
 
 type Range struct {
-	max float32
-	min float32
+	max float64
+	min float64
 }
 
 type Record struct {
 	accessCount    int
-	compatibility  float32
-	distanceToStn  float32
-	distanceToUser float32
+	compatibility  float64
+	distanceToStn  float64
+	distanceToUser float64
 	features       Features
 	id             int
+	latitude       float64
+	longitude      float64
 	name           string
-	score          float32
+	score          float64
 }
 
 type Records []Record

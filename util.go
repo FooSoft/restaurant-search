@@ -22,10 +22,15 @@
 
 package main
 
-import "sort"
+import (
+	"github.com/kellydunn/golang-geo"
+	"log"
+	"math"
+	"sort"
+)
 
-func innerProduct(features1 Features, features2 Features) float32 {
-	var result float32
+func innerProduct(features1 Features, features2 Features) float64 {
+	var result float64
 	for key, value1 := range features1 {
 		value2, _ := features2[key]
 		result += value1 * value2
@@ -34,7 +39,7 @@ func innerProduct(features1 Features, features2 Features) float32 {
 	return result
 }
 
-func walkMatches(records Records, features Features, minScore float32, callback func(Record, float32)) {
+func walkMatches(records Records, features Features, minScore float64, callback func(Record, float64)) {
 	for _, record := range records {
 		if score := innerProduct(features, record.features); score >= minScore {
 			callback(record, score)
@@ -42,9 +47,9 @@ func walkMatches(records Records, features Features, minScore float32, callback 
 	}
 }
 
-func statRecords(records Records, features Features, minScore float32) RecordStats {
+func statRecords(records Records, features Features, minScore float64) RecordStats {
 	var stats RecordStats
-	walkMatches(records, features, minScore, func(record Record, score float32) {
+	walkMatches(records, features, minScore, func(record Record, score float64) {
 		stats.compatibility += record.compatibility
 		stats.count++
 	})
@@ -52,11 +57,11 @@ func statRecords(records Records, features Features, minScore float32) RecordSta
 	return stats
 }
 
-func stepRange(rng Range, steps int, callback func(float32)) {
-	stepSize := (rng.max - rng.min) / float32(steps)
+func stepRange(rng Range, steps int, callback func(float64)) {
+	stepSize := (rng.max - rng.min) / float64(steps)
 
 	for i := 0; i < steps; i++ {
-		stepMax := rng.max - stepSize*float32(i)
+		stepMax := rng.max - stepSize*float64(i)
 		stepMin := stepMax - stepSize
 		stepMid := (stepMin + stepMax) / 2
 
@@ -64,28 +69,116 @@ func stepRange(rng Range, steps int, callback func(float32)) {
 	}
 }
 
-func findRecords(records Records, features Features, minScore float32) {
+func findRecords(records Records, features Features, minScore float64) {
 	var foundRecords Records
 
-	walkMatches(records, features, minScore, func(record Record, score float32) {
+	walkMatches(records, features, minScore, func(record Record, score float64) {
 		foundRecords = append(foundRecords, record)
 	})
 
 	sort.Sort(foundRecords)
 }
 
-func project(records Records, features Features, featureName string, minScore float32, rng Range, steps int) []Projection {
+func project(records Records, features Features, featureName string, minScore float64, rng Range, steps int) []Projection {
 	sampleFeatures := make(Features)
 	for key, value := range features {
 		sampleFeatures[key] = value
 	}
 
 	var projection []Projection
-	stepRange(rng, steps, func(sample float32) {
+	stepRange(rng, steps, func(sample float64) {
 		sampleFeatures[featureName] = sample
 		stats := statRecords(records, sampleFeatures, minScore)
 		projection = append(projection, Projection{sample: sample, stats: stats})
 	})
 
 	return projection
+}
+
+func computeRecordGeo(records Records, context Context) {
+	distUserMin := math.MaxFloat64
+	distUserMax := 0.0
+
+	for _, record := range records {
+		if context.hasPosition {
+			userPoint := geo.NewPoint(context.latitude, context.longitude)
+			recordPoint := geo.NewPoint(record.latitude, context.longitude)
+			record.distanceToUser = userPoint.GreatCircleDistance(recordPoint)
+		}
+
+		if record.distanceToUser < distUserMin {
+			distUserMin = record.distanceToUser
+		}
+		if record.distanceToUser > distUserMax {
+			distUserMax = record.distanceToUser
+		}
+	}
+
+	distUserRange := distUserMax - distUserMin
+
+	for _, record := range records {
+		nearby := -((record.distanceToUser-distUserMin)/distUserRange - 0.5) * 2.0
+
+		accessible := 1.0 - (record.distanceToStn / context.walkingDist)
+		if accessible < -1.0 {
+			accessible = 1.0
+		} else if accessible > 1.0 {
+			accessible = 1.0
+		}
+
+		record.features["nearby"] = nearby
+		record.features["accessible"] = accessible
+	}
+}
+
+func computeRecordPopularity(records Records, context Context) {
+	for _, record := range records {
+		historyRows, err := db.Query("SELECT id FROM history WHERE reviewId = (?)", record.id)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		var groupSum float64
+		var groupCount int
+
+		for historyRows.Next() {
+			var historyId int
+			if err := historyRows.Scan(&historyId); err != nil {
+				log.Fatal(err)
+			}
+
+			groupRows, err := db.Query("SELECT categoryId, categoryValue FROM historyGroups WHERE historyId = (?)", historyId)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			recordProfile := make(Features)
+			for groupRows.Next() {
+				var categoryId int
+				var categoryValue float64
+
+				if err := groupRows.Scan(&categoryId, &categoryValue); err != nil {
+					log.Fatal(err)
+				}
+
+				recordProfile[categoryId] = categoryValue
+			}
+			if err := groupRows.Err(); err != nil {
+				log.Fatal(err)
+			}
+
+			groupSum += innerProduct(recordProfile, context.profile)
+			groupCount++
+		}
+		if err := historyRows.Err(); err != nil {
+			log.Fatal(err)
+		}
+
+		var compatibility float64
+		if groupCount > 0 {
+			compatibility = groupSum / float64(groupCount)
+		}
+
+		record.features["compatibility"] = compatibility
+	}
 }

@@ -47,8 +47,7 @@ func getCategories(rw http.ResponseWriter, req *http.Request) {
 
 	rows, err := db.Query("SELECT * FROM categories")
 	if err != nil {
-		http.Error(rw, err.Error(), http.StatusInternalServerError)
-		return
+		log.Fatal(err)
 	}
 	defer rows.Close()
 
@@ -60,22 +59,19 @@ func getCategories(rw http.ResponseWriter, req *http.Request) {
 		)
 
 		if err := rows.Scan(&description, &id); err != nil {
-			http.Error(rw, err.Error(), http.StatusInternalServerError)
-			return
+			log.Fatal(err)
 		}
 
 		categories = append(categories, Category{description, id})
 	}
 
 	if err := rows.Err(); err != nil {
-		http.Error(rw, err.Error(), http.StatusInternalServerError)
-		return
+		log.Fatal(err)
 	}
 
 	js, err := json.Marshal(categories)
 	if err != nil {
-		http.Error(rw, err.Error(), http.StatusInternalServerError)
-		return
+		log.Fatal(err)
 	}
 
 	rw.Header().Set("Content-Type", "application/json")
@@ -104,20 +100,17 @@ func addCategory(rw http.ResponseWriter, req *http.Request) {
 	if len(request.Description) > 0 {
 		result, err := db.Exec("INSERT INTO categories(description) VALUES(?)", request.Description)
 		if err != nil {
-			http.Error(rw, err.Error(), http.StatusInternalServerError)
-			return
+			log.Fatal(err)
 		}
 
 		insertId, err := result.LastInsertId()
 		if err != nil {
-			http.Error(rw, err.Error(), http.StatusInternalServerError)
-			return
+			log.Fatal(err)
 		}
 
 		affectedRows, err := result.RowsAffected()
 		if err != nil {
-			http.Error(rw, err.Error(), http.StatusInternalServerError)
-			return
+			log.Fatal(err)
 		}
 
 		response.Success = affectedRows > 0
@@ -126,8 +119,7 @@ func addCategory(rw http.ResponseWriter, req *http.Request) {
 
 	js, err := json.Marshal(response)
 	if err != nil {
-		http.Error(rw, err.Error(), http.StatusInternalServerError)
-		return
+		log.Fatal(err)
 	}
 
 	rw.Header().Set("Content-Type", "application/json")
@@ -151,20 +143,17 @@ func removeCategory(rw http.ResponseWriter, req *http.Request) {
 
 	result, err := db.Exec("DELETE FROM categories WHERE id = (?)", request.Id)
 	if err != nil {
-		http.Error(rw, err.Error(), http.StatusInternalServerError)
-		return
+		log.Fatal(err)
 	}
 
 	affectedRows, err := result.RowsAffected()
 	if err != nil {
-		http.Error(rw, err.Error(), http.StatusInternalServerError)
-		return
+		log.Fatal(err)
 	}
 
 	js, err := json.Marshal(Response{affectedRows > 0})
 	if err != nil {
-		http.Error(rw, err.Error(), http.StatusInternalServerError)
-		return
+		log.Fatal(err)
 	}
 
 	rw.Header().Set("Content-Type", "application/json")
