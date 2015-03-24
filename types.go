@@ -22,6 +22,53 @@
 
 package main
 
+type jsonFeatureMap map[string]float64
+
+type jsonRange struct {
+	Max float64 `json:"max"`
+	Min float64 `json:"min"`
+}
+
+type jsonGeo struct {
+	Latitude  float64 `json:"latitude"`
+	Longitude float64 `json:"longitude"`
+	Valid     bool    `json:"valid"`
+}
+
+type jsonRequest struct {
+	Features    jsonFeatureMap `json:"features"`
+	Geo         *jsonGeo       `json:"geo"`
+	HintSteps   int            `json:"hintSteps"`
+	MaxResults  int            `json:"maxResults"`
+	MinScore    float64        `json:"minScore"`
+	Profile     jsonFeatureMap `json:"profile"`
+	Range       jsonRange      `json:"range"`
+	WalkingDist float64        `json:"walkingDist"`
+}
+
+type jsonCategory struct {
+	Description string `json:"description"`
+	Id          int    `json:"id"`
+}
+
+type jsonAddCategoryRequest struct {
+	Description string `json:"description"`
+}
+
+type jsonAddCategoryResponse struct {
+	Description string `json:"description"`
+	Id          int    `json:"id"`
+	Success     bool   `json:"success"`
+}
+
+type jsonRemoveCategoryRequest struct {
+	Id int `json:"id"`
+}
+
+type jsonRemoveCategoryResponse struct {
+	Success bool `json:"success"`
+}
+
 type queryContext struct {
 	geo         geoContext
 	latitude    float64

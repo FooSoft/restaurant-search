@@ -36,30 +36,6 @@ import (
 var db *sql.DB
 
 func executeQuery(rw http.ResponseWriter, req *http.Request) {
-	type jsonFeatureMap map[string]float64
-
-	type jsonRange struct {
-		Max float64 `json:"max"`
-		Min float64 `json:"min"`
-	}
-
-	type jsonGeo struct {
-		Latitude  float64 `json:"latitude"`
-		Longitude float64 `json:"longitude"`
-		Valid     bool    `json:"valid"`
-	}
-
-	type jsonRequest struct {
-		Features    jsonFeatureMap `json:"features"`
-		Geo         *jsonGeo       `json:"geo"`
-		HintSteps   int            `json:"hintSteps"`
-		MaxResults  int            `json:"maxResults"`
-		MinScore    float64        `json:"minScore"`
-		Profile     jsonFeatureMap `json:"profile"`
-		Range       jsonRange      `json:"range"`
-		WalkingDist float64        `json:"walkingDist"`
-	}
-
 	var request jsonRequest
 	if err := json.NewDecoder(req.Body).Decode(&request); err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
@@ -113,11 +89,6 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 }
 
 func getCategories(rw http.ResponseWriter, req *http.Request) {
-	type jsonCategory struct {
-		Description string `json:"description"`
-		Id          int    `json:"id"`
-	}
-
 	rows, err := db.Query("SELECT description, id FROM categories")
 	if err != nil {
 		log.Fatal(err)
@@ -152,16 +123,6 @@ func getCategories(rw http.ResponseWriter, req *http.Request) {
 }
 
 func addCategory(rw http.ResponseWriter, req *http.Request) {
-	type jsonAddCategoryRequest struct {
-		Description string `json:"description"`
-	}
-
-	type jsonAddCategoryResponse struct {
-		Description string `json:"description"`
-		Id          int    `json:"id"`
-		Success     bool   `json:"success"`
-	}
-
 	var request jsonAddCategoryRequest
 	if err := json.NewDecoder(req.Body).Decode(&request); err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
@@ -200,14 +161,6 @@ func addCategory(rw http.ResponseWriter, req *http.Request) {
 }
 
 func removeCategory(rw http.ResponseWriter, req *http.Request) {
-	type jsonRemoveCategoryRequest struct {
-		Id int `json:"id"`
-	}
-
-	type jsonRemoveCategoryResponse struct {
-		Success bool `json:"success"`
-	}
-
 	var request jsonRemoveCategoryRequest
 	if err := json.NewDecoder(req.Body).Decode(&request); err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
