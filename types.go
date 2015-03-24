@@ -35,8 +35,6 @@ type queryProjection struct {
 	stats  recordStats
 }
 
-type featureMap map[interface{}]float64
-
 type recordStats struct {
 	compatibility float64
 	count         int
@@ -78,3 +76,5 @@ func (slice records) Less(i, j int) bool {
 func (slice records) Swap(i, j int) {
 	slice[i], slice[j] = slice[j], slice[i]
 }
+
+type featureMap map[interface{}]float64

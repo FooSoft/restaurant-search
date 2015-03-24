@@ -152,23 +152,23 @@ func getCategories(rw http.ResponseWriter, req *http.Request) {
 }
 
 func addCategory(rw http.ResponseWriter, req *http.Request) {
-	type jsonRequest struct {
+	type jsonAddCategoryRequest struct {
 		Description string `json:"description"`
 	}
 
-	type jsonResponse struct {
+	type jsonAddCategoryResponse struct {
 		Description string `json:"description"`
 		Id          int    `json:"id"`
 		Success     bool   `json:"success"`
 	}
 
-	var request jsonRequest
+	var request jsonAddCategoryRequest
 	if err := json.NewDecoder(req.Body).Decode(&request); err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	response := jsonResponse{Description: strings.TrimSpace(request.Description)}
+	response := jsonAddCategoryResponse{Description: strings.TrimSpace(request.Description)}
 
 	if len(request.Description) > 0 {
 		result, err := db.Exec("INSERT INTO categories(description) VALUES(?)", request.Description)
@@ -200,15 +200,15 @@ func addCategory(rw http.ResponseWriter, req *http.Request) {
 }
 
 func removeCategory(rw http.ResponseWriter, req *http.Request) {
-	type jsonRequest struct {
+	type jsonRemoveCategoryRequest struct {
 		Id int `json:"id"`
 	}
 
-	type jsonResponse struct {
+	type jsonRemoveCategoryResponse struct {
 		Success bool `json:"success"`
 	}
 
-	var request jsonRequest
+	var request jsonRemoveCategoryRequest
 	if err := json.NewDecoder(req.Body).Decode(&request); err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
@@ -224,7 +224,7 @@ func removeCategory(rw http.ResponseWriter, req *http.Request) {
 		log.Fatal(err)
 	}
 
-	js, err := json.Marshal(jsonResponse{affectedRows > 0})
+	js, err := json.Marshal(jsonRemoveCategoryResponse{affectedRows > 0})
 	if err != nil {
 		log.Fatal(err)
 	}
