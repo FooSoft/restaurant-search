@@ -22,22 +22,7 @@
 
 package main
 
-type Features map[string]float32
-
-type Record struct {
-	features      Features
-	compatibility float32
-}
-
-type RecordStats struct {
-	compatibility float32
-	count         int
-}
-
-type Range struct {
-	min float32
-	max float32
-}
+import "sort"
 
 func innerProduct(features1 Features, features2 Features) float32 {
 	var result float32
@@ -49,7 +34,7 @@ func innerProduct(features1 Features, features2 Features) float32 {
 	return result
 }
 
-func walkMatches(records []Record, features Features, minScore float32, callback func(Record, float32)) {
+func walkMatches(records Records, features Features, minScore float32, callback func(Record, float32)) {
 	for _, record := range records {
 		if score := innerProduct(features, record.features); score >= minScore {
 			callback(record, score)
@@ -57,7 +42,7 @@ func walkMatches(records []Record, features Features, minScore float32, callback
 	}
 }
 
-func statRecords(records []Record, features Features, minScore float32) RecordStats {
+func statRecords(records Records, features Features, minScore float32) RecordStats {
 	var stats RecordStats
 	walkMatches(records, features, minScore, func(record Record, score float32) {
 		stats.compatibility += record.compatibility
@@ -67,7 +52,7 @@ func statRecords(records []Record, features Features, minScore float32) RecordSt
 	return stats
 }
 
-func step(rng Range, steps int, minScore float32, callback func(float32)) {
+func stepRange(rng Range, steps int, callback func(float32)) {
 	stepSize := (rng.max - rng.min) / float32(steps)
 
 	for i := 0; i < steps; i++ {
@@ -79,60 +64,28 @@ func step(rng Range, steps int, minScore float32, callback func(float32)) {
 	}
 }
 
-// function findRecords(data, features, minScore) {
-//     var results = [];
+func findRecords(records Records, features Features, minScore float32) {
+	var foundRecords Records
 
-//     walkMatches(data, features, minScore, function(record, score) {
-//         results.push({
-//             name:           record.name,
-//             score:          score,
-//             distanceToUser: record.distanceToUser / 1000.0,
-//             distanceToStn:  record.distanceToStn / 1000.0,
-//             closestStn:     record.closestStn,
-//             accessCount:    record.accessCount,
-//             id:             record.id
-//         });
-//     });
+	walkMatches(records, features, minScore, func(record Record, score float32) {
+		foundRecords = append(foundRecords, record)
+	})
 
-//     results.sort(function(a, b) {
-//         return b.score - a.score;
-//     });
+	sort.Sort(foundRecords)
+}
 
-//     return results;
-// }
+func project(records Records, features Features, featureName string, minScore float32, rng Range, steps int) []Projection {
+	sampleFeatures := make(Features)
+	for key, value := range features {
+		sampleFeatures[key] = value
+	}
 
-// function project(data, features, feature, minScore, range, steps) {
-//     var sample  = _.clone(features);
-//     var results = [];
+	var projection []Projection
+	stepRange(rng, steps, func(sample float32) {
+		sampleFeatures[featureName] = sample
+		stats := statRecords(records, sampleFeatures, minScore)
+		projection = append(projection, Projection{sample: sample, stats: stats})
+	})
 
-//     step(range, steps, function(position) {
-//         sample[feature] = position;
-//         results.push({
-//             sample: position,
-//             stats:  statRecords(data, sample, minScore)
-//         });
-//     });
-
-//     return results;
-// }
-
-// function buildHints(data, features, feature, minScore, range, steps) {
-//     var projection = project(
-//         data,
-//         features,
-//         feature,
-//         minScore,
-//         range,
-//         steps
-//     );
-
-//     var hints = [];
-//     _.each(projection, function(result) {
-//         hints.push({
-//             sample: result.sample,
-//             stats:  result.stats
-//         });
-//     });
-
-//     return hints;
-// }
+	return projection
+}
