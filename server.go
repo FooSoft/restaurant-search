@@ -36,7 +36,51 @@ import (
 var db *sql.DB
 
 func executeQuery(rw http.ResponseWriter, req *http.Request) {
+	type Request struct {
+	}
 
+	// function runQuery(query, callback) {
+	//     query.profile  = fixupProfile(query.profile);
+	//     query.features = fixupFeatures(query.features);
+
+	//     var context = {
+	//         geo:         query.geo,
+	//         profile:     query.profile,
+	//         walkingDist: query.walkingDist * 1000.0
+	//     };
+
+	//     getRecords(context, function(data) {
+	//         var searchResults = findRecords(
+	//             data,
+	//             query.features,
+	//             query.minScore
+	//         );
+
+	//         var graphColumns = {};
+	//         for (var feature in query.features) {
+	//             var searchHints = buildHints(
+	//                 data,
+	//                 query.features,
+	//                 feature,
+	//                 query.minScore,
+	//                 query.range,
+	//                 query.hintSteps
+	//             );
+
+	//             graphColumns[feature] = {
+	//                 value: query.features[feature],
+	//                 hints: searchHints,
+	//                 steps: query.hintSteps
+	//             };
+	//         }
+
+	//         callback({
+	//             columns: graphColumns,
+	//             items:   searchResults.slice(0, query.maxResults),
+	//             count:   searchResults.length
+	//         });
+	//     });
+	// }
 }
 
 func getCategories(rw http.ResponseWriter, req *http.Request) {
@@ -161,7 +205,42 @@ func removeCategory(rw http.ResponseWriter, req *http.Request) {
 }
 
 func accessReview(rw http.ResponseWriter, req *http.Request) {
+	// function accessReview(query, callback) {
+	//     query.profile = fixupProfile(query.profile);
 
+	//     pool.query('SELECT url FROM reviews WHERE id = (?) LIMIT 1', [query.id], function(err, rows) {
+	//         if (err) {
+	//             throw err;
+	//         }
+
+	//         var results = {
+	//             success: rows.length > 0
+	//         };
+
+	//         if (results.success) {
+	//             results.url = 'http://www.tripadvisor.com' + rows[0].url;
+
+	//             pool.query('UPDATE reviews SET accessCount = accessCount + 1 WHERE id = (?)', [query.id], function(err, info) {
+	//                 if (_.keys(query.profile).length > 0) {
+	//                     pool.query('INSERT INTO history(date, reviewId) VALUES(NOW(), ?)', [query.id], function(err, info) {
+	//                         if (err) {
+	//                             throw err;
+	//                         }
+
+	//                         for (var categoryId in query.profile) {
+	//                             pool.query(
+	//                                 'INSERT INTO historyGroups(categoryId, categoryValue, historyId) VALUES(?, ?, ?)',
+	//                                 [categoryId, query.profile[categoryId], info.insertId]
+	//                             );
+	//                         }
+	//                     });
+	//                 }
+	//             });
+	//         }
+
+	//         callback(results);
+	//     });
+	// }
 }
 
 func getStaticPath() (string, error) {
