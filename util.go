@@ -23,8 +23,20 @@
 package main
 
 type Features map[string]float32
+
 type Record struct {
-	features Features
+	features      Features
+	compatibility float32
+}
+
+type RecordStats struct {
+	compatibility float32
+	count         int
+}
+
+type Range struct {
+	min float32
+	max float32
 }
 
 func innerProduct(features1 Features, features2 Features) float32 {
@@ -44,3 +56,83 @@ func walkMatches(records []Record, features Features, minScore float32, callback
 		}
 	}
 }
+
+func statRecords(records []Record, features Features, minScore float32) RecordStats {
+	var stats RecordStats
+	walkMatches(records, features, minScore, func(record Record, score float32) {
+		stats.compatibility += record.compatibility
+		stats.count++
+	})
+
+	return stats
+}
+
+func step(rng Range, steps int, minScore float32, callback func(float32)) {
+	stepSize := (rng.max - rng.min) / float32(steps)
+
+	for i := 0; i < steps; i++ {
+		stepMax := rng.max - stepSize*float32(i)
+		stepMin := stepMax - stepSize
+		stepMid := (stepMin + stepMax) / 2
+
+		callback(stepMid)
+	}
+}
+
+// function findRecords(data, features, minScore) {
+//     var results = [];
+
+//     walkMatches(data, features, minScore, function(record, score) {
+//         results.push({
+//             name:           record.name,
+//             score:          score,
+//             distanceToUser: record.distanceToUser / 1000.0,
+//             distanceToStn:  record.distanceToStn / 1000.0,
+//             closestStn:     record.closestStn,
+//             accessCount:    record.accessCount,
+//             id:             record.id
+//         });
+//     });
+
+//     results.sort(function(a, b) {
+//         return b.score - a.score;
+//     });
+
+//     return results;
+// }
+
+// function project(data, features, feature, minScore, range, steps) {
+//     var sample  = _.clone(features);
+//     var results = [];
+
+//     step(range, steps, function(position) {
+//         sample[feature] = position;
+//         results.push({
+//             sample: position,
+//             stats:  statRecords(data, sample, minScore)
+//         });
+//     });
+
+//     return results;
+// }
+
+// function buildHints(data, features, feature, minScore, range, steps) {
+//     var projection = project(
+//         data,
+//         features,
+//         feature,
+//         minScore,
+//         range,
+//         steps
+//     );
+
+//     var hints = [];
+//     _.each(projection, function(result) {
+//         hints.push({
+//             sample: result.sample,
+//             stats:  result.stats
+//         });
+//     });
+
+//     return hints;
+// }
