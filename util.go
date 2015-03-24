@@ -57,11 +57,11 @@ func statRecords(records Records, features Features, minScore float64) RecordSta
 	return stats
 }
 
-func stepRange(rng Range, steps int, callback func(float64)) {
-	stepSize := (rng.max - rng.min) / float64(steps)
+func stepRange(bounds Bounds, steps int, callback func(float64)) {
+	stepSize := (bounds.max - bounds.min) / float64(steps)
 
 	for i := 0; i < steps; i++ {
-		stepMax := rng.max - stepSize*float64(i)
+		stepMax := bounds.max - stepSize*float64(i)
 		stepMin := stepMax - stepSize
 		stepMid := (stepMin + stepMax) / 2
 
@@ -79,14 +79,14 @@ func findRecords(records Records, features Features, minScore float64) {
 	sort.Sort(foundRecords)
 }
 
-func project(records Records, features Features, featureName string, minScore float64, rng Range, steps int) []Projection {
+func project(records Records, features Features, featureName string, minScore float64, bounds Bounds, steps int) []Projection {
 	sampleFeatures := make(Features)
 	for key, value := range features {
 		sampleFeatures[key] = value
 	}
 
 	var projection []Projection
-	stepRange(rng, steps, func(sample float64) {
+	stepRange(bounds, steps, func(sample float64) {
 		sampleFeatures[featureName] = sample
 		stats := statRecords(records, sampleFeatures, minScore)
 		projection = append(projection, Projection{sample: sample, stats: stats})
@@ -100,9 +100,9 @@ func computeRecordGeo(records Records, context Context) {
 	distUserMax := 0.0
 
 	for _, record := range records {
-		if context.hasPosition {
-			userPoint := geo.NewPoint(context.latitude, context.longitude)
-			recordPoint := geo.NewPoint(record.latitude, context.longitude)
+		if context.geo.valid {
+			userPoint := geo.NewPoint(context.geo.latitude, context.geo.longitude)
+			recordPoint := geo.NewPoint(record.geo.latitude, context.geo.longitude)
 			record.distanceToUser = userPoint.GreatCircleDistance(recordPoint)
 		}
 

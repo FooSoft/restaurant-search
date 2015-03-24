@@ -23,7 +23,7 @@
 package main
 
 type Context struct {
-	hasPosition bool
+	geo         Geo
 	latitude    float64
 	longitude   float64
 	profile     Features
@@ -42,9 +42,15 @@ type RecordStats struct {
 	count         int
 }
 
-type Range struct {
+type Bounds struct {
 	max float64
 	min float64
+}
+
+type Geo struct {
+	latitude  float64
+	longitude float64
+	valid     bool
 }
 
 type Record struct {
@@ -53,9 +59,8 @@ type Record struct {
 	distanceToStn  float64
 	distanceToUser float64
 	features       Features
+	geo            Geo
 	id             int
-	latitude       float64
-	longitude      float64
 	name           string
 	score          float64
 }

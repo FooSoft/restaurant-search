@@ -37,6 +37,21 @@ var db *sql.DB
 
 func executeQuery(rw http.ResponseWriter, req *http.Request) {
 	type Request struct {
+		features    Features
+		bounds      Bounds
+		geo         Geo
+		walkingDist float64
+		minScore    float64
+		hintSteps   int
+		maxResults  int
+
+		//             features:    _ctx.query.features || {},
+		//             range:       {min: -1.0, max: 1.0},
+		//             profile:     getProfile(),
+		//             walkingDist: parseFloat($('#walkingDist').val()),
+		//             minScore:    parseFloat($('#minScore').val()),
+		//             hintSteps:   parseInt($('#hintSteps').val()),
+		//             maxResults:  parseInt($('#maxResults').val())
 	}
 
 	// function runQuery(query, callback) {
