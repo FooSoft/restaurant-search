@@ -91,10 +91,9 @@ func removeCategory(rw http.ResponseWriter, req *http.Request) {
 		Id int `json:"id"`
 	}
 
-	decoder := json.NewDecoder(req.Body)
-
 	var request Request
-	if err := decoder.Decode(&request); err != nil {
+	if err := json.NewDecoder(req.Body).Decode(&request); err != nil {
+		log.Print(err)
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
 	}

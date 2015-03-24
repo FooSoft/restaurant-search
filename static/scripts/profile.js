@@ -35,7 +35,7 @@
     }
 
     function addCategory(description) {
-        $.getJSON('/learn', {description: description}, function(results) {
+        $.post('/learn', JSON.stringify({description: description}), function(results) {
             if (!results.success) {
                 return;
             }
@@ -47,17 +47,17 @@
             }];
 
             displayCategories(categories);
-        });
+        }, 'json');
     }
 
     function removeCategory(id) {
-        $.getJSON('/forget', {id: id}, function(results) {
+        $.post('/forget', JSON.stringify({id: id}), function(results) {
             if (results.success) {
                 $('tr.category_' + id).fadeOut(function() {
                     $(this).remove();
                 });
             }
-        });
+        }, 'json');
     }
 
     function displayCategories(categories) {
@@ -70,7 +70,7 @@
 
         $('#categories button').unbind().click(function() {
             if (confirm('Are you sure you want to delete this category?')) {
-                removeCategory($(this).attr('data-categoryId'));
+                removeCategory(parseInt($(this).attr('data-categoryId')));
             }
         });
     }
@@ -80,7 +80,7 @@
     }
 
     function refreshCategories() {
-        $.getJSON('/categories', function(results) {
+        $.get('/categories', function(results) {
             var categories = [];
 
             _.each(results, function(result) {
@@ -93,7 +93,7 @@
 
             clearCategories();
             displayCategories(categories);
-        });
+        }, 'json');
     }
 
     function submitCategory() {
