@@ -25,6 +25,7 @@ package main
 import (
 	"database/sql"
 	"os"
+	"strings"
 	// "encoding/json"
 	"encoding/json"
 	_ "github.com/go-sql-driver/mysql"
@@ -40,17 +41,17 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 }
 
 func getCategories(rw http.ResponseWriter, req *http.Request) {
+	type Category struct {
+		Description string `json:"description"`
+		Id          int    `json:"id"`
+	}
+
 	rows, err := db.Query("SELECT * FROM categories")
 	if err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	defer rows.Close()
-
-	type Category struct {
-		Description string `json:"description"`
-		Id          int    `json:"id"`
-	}
 
 	var categories []Category
 	for rows.Next() {
@@ -83,7 +84,55 @@ func getCategories(rw http.ResponseWriter, req *http.Request) {
 }
 
 func addCategory(rw http.ResponseWriter, req *http.Request) {
+	type Request struct {
+		Description string `json:"description"`
+	}
 
+	type Response struct {
+		Description string `json:"description"`
+		Id          int    `json:"id"`
+		Success     bool   `json:"success"`
+	}
+
+	var request Request
+	if err := json.NewDecoder(req.Body).Decode(&request); err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	response := Response{Description: strings.TrimSpace(request.Description)}
+
+	if len(request.Description) > 0 {
+		result, err := db.Exec("INSERT INTO categories(description) VALUES(?)", request.Description)
+		if err != nil {
+			http.Error(rw, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		insertId, err := result.LastInsertId()
+		if err != nil {
+			http.Error(rw, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		affectedRows, err := result.RowsAffected()
+		if err != nil {
+			http.Error(rw, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		response.Success = affectedRows > 0
+		response.Id = int(insertId)
+	}
+
+	js, err := json.Marshal(response)
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	rw.Header().Set("Content-Type", "application/json")
+	rw.Write(js)
 }
 
 func removeCategory(rw http.ResponseWriter, req *http.Request) {
@@ -91,9 +140,12 @@ func removeCategory(rw http.ResponseWriter, req *http.Request) {
 		Id int `json:"id"`
 	}
 
+	type Response struct {
+		Success bool `json:"success"`
+	}
+
 	var request Request
 	if err := json.NewDecoder(req.Body).Decode(&request); err != nil {
-		log.Print(err)
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -104,17 +156,13 @@ func removeCategory(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	affected, err := result.RowsAffected()
+	affectedRows, err := result.RowsAffected()
 	if err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	type Response struct {
-		Success bool `json:"success"`
-	}
-
-	js, err := json.Marshal(Response{affected > 0})
+	js, err := json.Marshal(Response{affectedRows > 0})
 	if err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
