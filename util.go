@@ -27,16 +27,8 @@ import (
 	"log"
 	"math"
 	"sort"
+	"strconv"
 )
-
-func convertFeatures(features jsonFeatureMap) featureMap {
-	resultMap := make(featureMap)
-	for key, value := range features {
-		resultMap[key] = value
-	}
-
-	return resultMap
-}
 
 func innerProduct(features1 featureMap, features2 featureMap) float64 {
 	var result float64
@@ -171,7 +163,7 @@ func computeRecordPopularity(entries records, context queryContext) {
 					log.Fatal(err)
 				}
 
-				recordProfile[categoryId] = categoryValue
+				recordProfile[strconv.Itoa(categoryId)] = categoryValue
 			}
 			if err := groupRows.Err(); err != nil {
 				log.Fatal(err)
@@ -205,9 +197,28 @@ func getRecords(context queryContext) records {
 		var delicious, accomodating, affordable, atmospheric, latitude, longitude, distanceToStn float64
 		var accessCount, id int
 
-		rows.Scan(&name, &url, &delicious, &accomodating, &affordable, &atmospheric, &latitude, &longitude, &distanceToStn, &closestStn, &accessCount, &id)
+		rows.Scan(
+			&name,
+			&url,
+			&delicious,
+			&accomodating,
+			&affordable,
+			&atmospheric,
+			&latitude,
+			&longitude,
+			&distanceToStn,
+			&closestStn,
+			&accessCount,
+			&id)
 
-		entry := record{name: name, url: url, distanceToStn: distanceToStn, closestStn: closestStn, accessCount: accessCount, id: id}
+		entry := record{
+			name:          name,
+			url:           url,
+			distanceToStn: distanceToStn,
+			closestStn:    closestStn,
+			accessCount:   accessCount,
+			id:            id}
+
 		entry.features["delicious"] = delicious
 		entry.features["accomodating"] = accomodating
 		entry.features["affordable"] = affordable

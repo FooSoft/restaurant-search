@@ -22,7 +22,7 @@
 
 package main
 
-type jsonFeatureMap map[string]float64
+type featureMap map[string]float64
 
 type jsonRange struct {
 	Max float64 `json:"max"`
@@ -36,14 +36,14 @@ type jsonGeo struct {
 }
 
 type jsonQueryRequest struct {
-	Features    jsonFeatureMap `json:"features"`
-	Geo         *jsonGeo       `json:"geo"`
-	HintSteps   int            `json:"hintSteps"`
-	MaxResults  int            `json:"maxResults"`
-	MinScore    float64        `json:"minScore"`
-	Profile     jsonFeatureMap `json:"profile"`
-	Range       jsonRange      `json:"range"`
-	WalkingDist float64        `json:"walkingDist"`
+	Features    featureMap `json:"features"`
+	Geo         *jsonGeo   `json:"geo"`
+	HintSteps   int        `json:"hintSteps"`
+	MaxResults  int        `json:"maxResults"`
+	MinScore    float64    `json:"minScore"`
+	Profile     featureMap `json:"profile"`
+	Range       jsonRange  `json:"range"`
+	WalkingDist float64    `json:"walkingDist"`
 }
 
 type jsonColumn struct {
@@ -154,5 +154,3 @@ func (slice records) Less(i, j int) bool {
 func (slice records) Swap(i, j int) {
 	slice[i], slice[j] = slice[j], slice[i]
 }
-
-type featureMap map[interface{}]float64

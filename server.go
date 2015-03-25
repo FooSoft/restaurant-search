@@ -48,53 +48,57 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 		geo.longitude = request.Geo.Longitude
 	}
 
-	context := queryContext{geo, convertFeatures(request.Profile), request.WalkingDist}
+	context := queryContext{geo, request.Profile, request.WalkingDist}
 	entries := getRecords(context)
 
-	foundEntries := findRecords(entries, featureMap(request.Features), request.MinScore)
+	foundEntries := findRecords(entries, request.Features, request.MinScore)
 
-	// function runQuery(query, callback) {
-	//     query.profile  = fixupProfile(query.profile);
-	//     query.features = fixupFeatures(query.features);
+	var response jsonQueryResponse
+	for featureName, featureValue := range request.Features {
+		column := jsonColumn{Value: featureValue, Steps: request.HintSteps}
 
-	//     var context = {
-	//         geo:         query.geo,
-	//         profile:     query.profile,
-	//         walkingDist: query.walkingDist * 1000.0
-	//     };
+		hints := project(
+			foundEntries,
+			request.Features,
+			featureName,
+			request.MinScore,
+			queryBounds{min: request.Range.Min, max: request.Range.Max},
+			request.HintSteps)
 
-	//     getRecords(context, function(data) {
-	//         var searchResults = findRecords(
-	//             data,
-	//             query.features,
-	//             query.minScore
-	//         );
+		for _, hint := range hints {
+			jsonHint := jsonProjection{
+				Sample: hint.sample,
+				Stats:  jsonStats{Count: hint.stats.count, Compatibility: hint.stats.compatibility}}
+			column.Hints = append(column.Hints, jsonHint)
+		}
 
-	//         var graphColumns = {};
-	//         for (var feature in query.features) {
-	//             var searchHints = buildHints(
-	//                 data,
-	//                 query.features,
-	//                 feature,
-	//                 query.minScore,
-	//                 query.range,
-	//                 query.hintSteps
-	//             );
+		response.Columns[featureName] = column
+	}
 
-	//             graphColumns[feature] = {
-	//                 value: query.features[feature],
-	//                 hints: searchHints,
-	//                 steps: query.hintSteps
-	//             };
-	//         }
+	for entryIndex, entryValue := range foundEntries {
+		if entryIndex > request.MaxResults {
+			break
+		}
 
-	//         callback({
-	//             columns: graphColumns,
-	//             items:   searchResults.slice(0, query.maxResults),
-	//             count:   searchResults.length
-	//         });
-	//     });
-	// }
+		jsonEntry := jsonRecord{
+			Name:           entryValue.name,
+			Score:          entryValue.score,
+			DistanceToUser: entryValue.distanceToUser,
+			DistanceToStn:  entryValue.distanceToStn,
+			ClosestStn:     entryValue.closestStn,
+			AccessCount:    entryValue.accessCount,
+			Id:             entryValue.id}
+
+		response.Items = append(response.Items, jsonEntry)
+	}
+
+	js, err := json.Marshal(response)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	rw.Header().Set("Content-Type", "application/json")
+	rw.Write(js)
 }
 
 func getCategories(rw http.ResponseWriter, req *http.Request) {
