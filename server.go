@@ -44,8 +44,7 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 
 	var geo *geoContext
 	if request.Geo != nil {
-		geo.latitude = request.Geo.Latitude
-		geo.longitude = request.Geo.Longitude
+		geo = &geoContext{latitude: request.Geo.Latitude, longitude: request.Geo.Longitude}
 	}
 
 	context := queryContext{geo, request.Profile, request.WalkingDist}

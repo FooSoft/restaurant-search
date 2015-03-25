@@ -219,6 +219,7 @@ func getRecords(context queryContext) records {
 			accessCount:   accessCount,
 			id:            id}
 
+		entry.features = make(featureMap)
 		entry.features["delicious"] = delicious
 		entry.features["accomodating"] = accomodating
 		entry.features["affordable"] = affordable
