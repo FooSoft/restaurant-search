@@ -30,6 +30,23 @@ import (
 	"strconv"
 )
 
+func fixFeatures(features featureMap) featureMap {
+	fixedFeatures := featureMap{
+		"nearby":       0.0,
+		"accessible":   0.0,
+		"delicious":    0.0,
+		"accomodating": 0.0,
+		"affordable":   0.0,
+		"atmospheric":  0.0}
+
+	for name, _ := range fixedFeatures {
+		value, _ := features[name]
+		fixedFeatures[name] = value
+	}
+
+	return fixedFeatures
+}
+
 func innerProduct(features1 featureMap, features2 featureMap) float64 {
 	var result float64
 	for key, value1 := range features1 {

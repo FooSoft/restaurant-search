@@ -49,17 +49,18 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 
 	context := queryContext{geo, request.Profile, request.WalkingDist}
 	entries := getRecords(context)
+	features := fixFeatures(request.Features)
 
-	foundEntries := findRecords(entries, request.Features, request.MinScore)
+	foundEntries := findRecords(entries, features, request.MinScore)
 
-	var response jsonQueryResponse
-	for featureName, featureValue := range request.Features {
-		column := jsonColumn{Value: featureValue, Steps: request.HintSteps}
+	response := jsonQueryResponse{Columns: make(map[string]jsonColumn)}
+	for name, value := range features {
+		column := jsonColumn{Value: value, Steps: request.HintSteps}
 
 		hints := project(
 			foundEntries,
-			request.Features,
-			featureName,
+			features,
+			name,
 			request.MinScore,
 			queryBounds{min: request.Range.Min, max: request.Range.Max},
 			request.HintSteps)
@@ -71,22 +72,22 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 			column.Hints = append(column.Hints, jsonHint)
 		}
 
-		response.Columns[featureName] = column
+		response.Columns[name] = column
 	}
 
-	for entryIndex, entryValue := range foundEntries {
-		if entryIndex > request.MaxResults {
+	for index, value := range foundEntries {
+		if index > request.MaxResults {
 			break
 		}
 
 		jsonEntry := jsonRecord{
-			Name:           entryValue.name,
-			Score:          entryValue.score,
-			DistanceToUser: entryValue.distanceToUser,
-			DistanceToStn:  entryValue.distanceToStn,
-			ClosestStn:     entryValue.closestStn,
-			AccessCount:    entryValue.accessCount,
-			Id:             entryValue.id}
+			Name:           value.name,
+			Score:          value.score,
+			DistanceToUser: value.distanceToUser,
+			DistanceToStn:  value.distanceToStn,
+			ClosestStn:     value.closestStn,
+			AccessCount:    value.accessCount,
+			Id:             value.id}
 
 		response.Items = append(response.Items, jsonEntry)
 	}
