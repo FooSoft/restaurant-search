@@ -79,7 +79,7 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	for index, value := range foundEntries {
-		if index > request.MaxResults {
+		if index >= request.MaxResults {
 			break
 		}
 
