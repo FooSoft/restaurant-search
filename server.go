@@ -36,7 +36,7 @@ import (
 var db *sql.DB
 
 func executeQuery(rw http.ResponseWriter, req *http.Request) {
-	var request jsonRequest
+	var request jsonQueryRequest
 	if err := json.NewDecoder(req.Body).Decode(&request); err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
@@ -49,6 +49,9 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	context := queryContext{geo, convertFeatures(request.Profile), request.WalkingDist}
+	entries := getRecords(context)
+
+	foundEntries := findRecords(entries, featureMap(request.Features), request.MinScore)
 
 	// function runQuery(query, callback) {
 	//     query.profile  = fixupProfile(query.profile);

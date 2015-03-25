@@ -78,14 +78,15 @@ func stepRange(bounds queryBounds, steps int, callback func(float64)) {
 	}
 }
 
-func findRecords(entries records, features featureMap, minScore float64) {
-	var foundRecords records
+func findRecords(entries records, features featureMap, minScore float64) records {
+	var foundEntries records
 
 	walkMatches(entries, features, minScore, func(record record, score float64) {
-		foundRecords = append(foundRecords, record)
+		foundEntries = append(foundEntries, record)
 	})
 
-	sort.Sort(foundRecords)
+	sort.Sort(foundEntries)
+	return foundEntries
 }
 
 func project(entries records, features featureMap, featureName string, minScore float64, bounds queryBounds, steps int) []queryProjection {
@@ -190,4 +191,34 @@ func computeRecordPopularity(entries records, context queryContext) {
 
 		record.features["compatibility"] = compatibility
 	}
+}
+
+func getRecords(context queryContext) records {
+	rows, err := db.Query("SELECT name, url, delicious, accomodating, affordable, atmospheric, latitude, longitude, distanceToStn, closestStn, accessCount, id FROM reviews")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var entries []record
+	for rows.Next() {
+		var name, url, closestStn string
+		var delicious, accomodating, affordable, atmospheric, latitude, longitude, distanceToStn float64
+		var accessCount, id int
+
+		rows.Scan(&name, &url, &delicious, &accomodating, &affordable, &atmospheric, &latitude, &longitude, &distanceToStn, &closestStn, &accessCount, &id)
+
+		entry := record{name: name, url: url, distanceToStn: distanceToStn, closestStn: closestStn, accessCount: accessCount, id: id}
+		entry.features["delicious"] = delicious
+		entry.features["accomodating"] = accomodating
+		entry.features["affordable"] = affordable
+		entry.features["atmospheric"] = atmospheric
+		entry.geo = geoContext{latitude, longitude}
+
+		entries = append(entries, entry)
+	}
+	if err := rows.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+	return entries
 }
