@@ -91,6 +91,7 @@ func findRecords(entries records, features featureMap, minScore float64) records
 	var foundEntries records
 
 	walkMatches(entries, features, minScore, func(record record, score float64) {
+		record.score = score
 		foundEntries = append(foundEntries, record)
 	})
 
@@ -151,8 +152,10 @@ func computeRecordGeo(entries records, context queryContext) {
 }
 
 func computeRecordPopularity(entries records, context queryContext) {
-	for _, record := range entries {
-		historyRows, err := db.Query("SELECT id FROM history WHERE reviewId = (?)", record.id)
+	for index := range entries {
+		entry := &entries[index]
+
+		historyRows, err := db.Query("SELECT id FROM history WHERE reviewId = (?)", entry.id)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -193,12 +196,9 @@ func computeRecordPopularity(entries records, context queryContext) {
 			log.Fatal(err)
 		}
 
-		var compatibility float64
 		if groupCount > 0 {
-			compatibility = groupSum / float64(groupCount)
+			entry.compatibility = groupSum / float64(groupCount)
 		}
-
-		record.features["compatibility"] = compatibility
 	}
 }
 

@@ -47,13 +47,12 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 		geo = &geoContext{latitude: request.Geo.Latitude, longitude: request.Geo.Longitude}
 	}
 
-	context := queryContext{geo, request.Profile, request.WalkingDist}
-	entries := getRecords(context)
+	entries := getRecords(queryContext{geo, request.Profile, request.WalkingDist})
 	features := fixFeatures(request.Features)
-
 	foundEntries := findRecords(entries, features, request.MinScore)
 
 	response := jsonQueryResponse{
+		Count:   len(foundEntries),
 		Columns: make(map[string]jsonColumn),
 		Items:   make([]jsonRecord, 0)}
 
@@ -84,7 +83,7 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 			break
 		}
 
-		jsonEntry := jsonRecord{
+		item := jsonRecord{
 			Name:           value.name,
 			Score:          value.score,
 			DistanceToUser: value.distanceToUser,
@@ -93,7 +92,7 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 			AccessCount:    value.accessCount,
 			Id:             value.id}
 
-		response.Items = append(response.Items, jsonEntry)
+		response.Items = append(response.Items, item)
 	}
 
 	js, err := json.Marshal(response)
