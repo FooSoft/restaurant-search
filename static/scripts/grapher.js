@@ -307,7 +307,7 @@
         var _canvas         = params.canvas;
         var _columns        = {};
         var _data           = {};
-        var _range          = new Range(params.range.min || -1.0, params.range.max || 1.0);
+        var _range          = new Range(-1.0, 1.0);
         var _steps          = params.steps || 20;
         var _useLocalScale  = params.useLocalScale || false;
         var _displayType    = params.displayType || 'density';
@@ -320,7 +320,7 @@
             for (var name in columns) {
                 var column = columns[name];
                 for (var i = 0, count = column.hints.length; i < count; ++i) {
-                    column.hints[i].rating = column.hints[i].stats[statKey];
+                    column.hints[i].rating = column.hints[i][statKey];
                 }
             }
         }

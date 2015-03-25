@@ -92,7 +92,7 @@
                 </div>
                 <div class="panel-body">
                     <script id="template" type="text/x-handlers-template">
-                        {{#if results}}
+                        {{#if records}}
                         <table class="table table-striped table-condensed">
                         <thead>
                             <tr>
@@ -104,7 +104,7 @@
                                 <th>Score</th>
                             </tr>
                         </thead>
-                        {{#each results}}
+                        {{#each records}}
                             <tr>
                                 <td><a href="javascript:accessReview({{id}});">{{name}}</a></td>
                                 <td>{{distanceToUser}} km</td>
@@ -117,7 +117,7 @@
                         </table>
                         {{/if}}
                     </script>
-                    <div id="results"></div>
+                    <div id="records"></div>
                 </div>
             </div>
 

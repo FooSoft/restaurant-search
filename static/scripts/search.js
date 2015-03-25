@@ -63,7 +63,6 @@
     function onSearch() {
         _ctx.query = {
             features:    _ctx.query.features || {},
-            range:       {min: -1.0, max: 1.0},
             profile:     getProfile(),
             walkingDist: parseFloat($('#walkingDist').val()),
             minScore:    parseFloat($('#minScore').val()),
@@ -83,7 +82,6 @@
                 _ctx.grapher = new grapher.Grapher({
                     canvas:         new Snap('#svg'),
                     steps:          _ctx.query.hintSteps,
-                    range:          _ctx.query.range,
                     onValueChanged: onAdjust,
                     displayType:    $('#displayType').val(),
                     useLocalScale:  $('#useLocalScale').is(':checked')
@@ -132,21 +130,21 @@
         }
 
         _ctx.grapher.setColumns(columns);
-        outputMatches(results.items, results.count);
+        outputMatches(results.records, results.count);
     }
 
-    function outputMatches(results, count) {
-        var searchResultCnt = String(results.length);
-        if (results.length < count) {
+    function outputMatches(records, count) {
+        var searchResultCnt = String(records.length);
+        if (records.length < count) {
             searchResultCnt += ' of ' + count;
         }
         $('#resultCount').text(searchResultCnt);
 
         var template = Handlebars.compile($('#template').html());
-        $('#results').empty();
-        $('#results').append(template({results: results}));
+        $('#records').empty();
+        $('#records').append(template({records: records}));
 
-        if (results.length === 0) {
+        if (records.length === 0) {
             $('#resultPanel').slideUp();
         }
         else {
