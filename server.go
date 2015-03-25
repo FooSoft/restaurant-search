@@ -105,27 +105,27 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 }
 
 func getCategories(rw http.ResponseWriter, req *http.Request) {
-	rows, err := db.Query("SELECT description, id FROM categories")
+	categoryRows, err := db.Query("SELECT description, id FROM categories")
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer rows.Close()
+	defer categoryRows.Close()
 
 	var categories []jsonCategory
-	for rows.Next() {
+	for categoryRows.Next() {
 		var (
 			description string
 			id          int
 		)
 
-		if err := rows.Scan(&description, &id); err != nil {
+		if err := categoryRows.Scan(&description, &id); err != nil {
 			log.Fatal(err)
 		}
 
 		categories = append(categories, jsonCategory{description, id})
 	}
 
-	if err := rows.Err(); err != nil {
+	if err := categoryRows.Err(); err != nil {
 		log.Fatal(err)
 	}
 
@@ -209,10 +209,10 @@ func accessReview(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	reviewRows := db.QueryRow("SELECT url FROM reviews WHERE id = (?) LIMIT 1", request.Id)
+	reviewRow := db.QueryRow("SELECT url FROM reviews WHERE id = (?) LIMIT 1", request.Id)
 
 	var reply jsonAccessReply
-	if err := reviewRows.Scan(&reply.Url); err == nil {
+	if err := reviewRow.Scan(&reply.Url); err == nil {
 		reply.Url = "http://www.tripadvisor.com" + reply.Url
 		reply.Success = true
 	}

@@ -65,7 +65,7 @@
         $('#categories').append($(template({categories: categories})).hide().fadeIn());
 
         $('#categories input:radio').unbind().change(function() {
-            setProfileValue($(this).attr('data-categoryId'), this.value);
+            setProfileValue(parseInt($(this).attr('data-categoryId'), this.value));
         });
 
         $('#categories button').unbind().click(function() {

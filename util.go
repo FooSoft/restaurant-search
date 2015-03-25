@@ -159,6 +159,7 @@ func computeRecordPopularity(entries records, context queryContext) {
 		if err != nil {
 			log.Fatal(err)
 		}
+		defer historyRows.Close()
 
 		var groupSum float64
 		var groupCount int
@@ -173,6 +174,7 @@ func computeRecordPopularity(entries records, context queryContext) {
 			if err != nil {
 				log.Fatal(err)
 			}
+			defer groupRows.Close()
 
 			recordProfile := make(featureMap)
 			for groupRows.Next() {
@@ -203,18 +205,19 @@ func computeRecordPopularity(entries records, context queryContext) {
 }
 
 func getRecords(context queryContext) records {
-	rows, err := db.Query("SELECT name, url, delicious, accomodating, affordable, atmospheric, latitude, longitude, distanceToStn, closestStn, accessCount, id FROM reviews")
+	recordRows, err := db.Query("SELECT name, url, delicious, accomodating, affordable, atmospheric, latitude, longitude, distanceToStn, closestStn, accessCount, id FROM reviews")
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer recordRows.Close()
 
 	var entries []record
-	for rows.Next() {
+	for recordRows.Next() {
 		var name, url, closestStn string
 		var delicious, accomodating, affordable, atmospheric, latitude, longitude, distanceToStn float64
 		var accessCount, id int
 
-		rows.Scan(
+		recordRows.Scan(
 			&name,
 			&url,
 			&delicious,
@@ -245,7 +248,7 @@ func getRecords(context queryContext) records {
 
 		entries = append(entries, entry)
 	}
-	if err := rows.Err(); err != nil {
+	if err := recordRows.Err(); err != nil {
 		log.Fatal(err)
 	}
 
