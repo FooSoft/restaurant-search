@@ -34,26 +34,19 @@ type jsonAccessReply struct {
 	Url     string `json:"url"`
 }
 
-type jsonRange struct {
-	Max float64 `json:"max"`
-	Min float64 `json:"min"`
-}
-
-type jsonGeo struct {
+type jsonGeoData struct {
 	Latitude  float64 `json:"latitude"`
 	Longitude float64 `json:"longitude"`
-	Valid     bool    `json:"valid"`
 }
 
 type jsonQueryRequest struct {
-	Features    featureMap `json:"features"`
-	Geo         *jsonGeo   `json:"geo"`
-	HintSteps   int        `json:"hintSteps"`
-	MaxResults  int        `json:"maxResults"`
-	MinScore    float64    `json:"minScore"`
-	Profile     featureMap `json:"profile"`
-	Range       jsonRange  `json:"range"`
-	WalkingDist float64    `json:"walkingDist"`
+	Features    featureMap   `json:"features"`
+	Geo         *jsonGeoData `json:"geo"`
+	HintSteps   int          `json:"hintSteps"`
+	MaxResults  int          `json:"maxResults"`
+	MinScore    float64      `json:"minScore"`
+	Profile     featureMap   `json:"profile"`
+	WalkingDist float64      `json:"walkingDist"`
 }
 
 type jsonColumn struct {
@@ -63,29 +56,25 @@ type jsonColumn struct {
 }
 
 type jsonProjection struct {
-	Sample float64   `json:"sample"`
-	Stats  jsonStats `json:"stats"`
-}
-
-type jsonStats struct {
 	Compatibility float64 `json:"compatibility"`
 	Count         int     `json:"count"`
+	Sample        float64 `json:"sample"`
 }
 
 type jsonRecord struct {
+	AccessCount    int     `json:"accessCount"`
+	ClosestStn     string  `json:"closestStn"`
+	DistanceToStn  float64 `json:"distanceToStn"`
+	DistanceToUser float64 `json:"distanceToUser"`
+	Id             int     `json:"id"`
 	Name           string  `json:"name"`
 	Score          float64 `json:"score"`
-	DistanceToUser float64 `json:"distanceToUser"`
-	DistanceToStn  float64 `json:"distanceToStn"`
-	ClosestStn     string  `json:"closestStn"`
-	AccessCount    int     `json:"accessCount"`
-	Id             int     `json:"id"`
 }
 
 type jsonQueryResponse struct {
 	Columns map[string]jsonColumn `json:"columns"`
 	Count   int                   `json:"count"`
-	Items   []jsonRecord          `json:"items"`
+	Records []jsonRecord          `json:"records"`
 }
 
 type jsonCategory struct {
@@ -112,27 +101,18 @@ type jsonRemoveCategoryResponse struct {
 }
 
 type queryContext struct {
-	geo         *geoContext
+	geo         *geoData
 	profile     featureMap
 	walkingDist float64
 }
 
 type queryProjection struct {
-	sample float64
-	stats  recordStats
-}
-
-type recordStats struct {
 	compatibility float64
 	count         int
+	sample        float64
 }
 
-type queryBounds struct {
-	max float64
-	min float64
-}
-
-type geoContext struct {
+type geoData struct {
 	latitude  float64
 	longitude float64
 }
@@ -144,7 +124,7 @@ type record struct {
 	distanceToStn  float64
 	distanceToUser float64
 	features       featureMap
-	geo            geoContext
+	geo            geoData
 	id             int
 	name           string
 	score          float64

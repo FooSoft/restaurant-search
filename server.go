@@ -42,9 +42,9 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	var geo *geoContext
+	var geo *geoData
 	if request.Geo != nil {
-		geo = &geoContext{request.Geo.Latitude, request.Geo.Longitude}
+		geo = &geoData{request.Geo.Latitude, request.Geo.Longitude}
 	}
 
 	entries := getRecords(queryContext{geo, request.Profile, request.WalkingDist})
@@ -54,7 +54,7 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 	response := jsonQueryResponse{
 		Count:   len(foundEntries),
 		Columns: make(map[string]jsonColumn),
-		Items:   make([]jsonRecord, 0)}
+		Records: make([]jsonRecord, 0)}
 
 	for name, value := range features {
 		column := jsonColumn{Value: value, Steps: request.HintSteps}
@@ -64,14 +64,10 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 			features,
 			name,
 			request.MinScore,
-			queryBounds{request.Range.Min, request.Range.Max},
 			request.HintSteps)
 
 		for _, hint := range hints {
-			jsonHint := jsonProjection{
-				Sample: hint.sample,
-				Stats:  jsonStats{hint.stats.compatibility, hint.stats.count}}
-
+			jsonHint := jsonProjection{hint.compatibility, hint.count, hint.sample}
 			column.Hints = append(column.Hints, jsonHint)
 		}
 
@@ -92,7 +88,7 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 			AccessCount:    value.accessCount,
 			Id:             value.id}
 
-		response.Items = append(response.Items, item)
+		response.Records = append(response.Records, item)
 	}
 
 	js, err := json.Marshal(response)

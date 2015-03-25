@@ -65,21 +65,23 @@ func walkMatches(entries records, features featureMap, minScore float64, callbac
 	}
 }
 
-func statRecords(entries records, features featureMap, minScore float64) recordStats {
-	var stats recordStats
+func statRecords(entries records, features featureMap, minScore float64) (float64, int) {
+	var compatibility float64
+	var count int
+
 	walkMatches(entries, features, minScore, func(record record, score float64) {
-		stats.compatibility += record.compatibility
-		stats.count++
+		compatibility += record.compatibility
+		count++
 	})
 
-	return stats
+	return compatibility, count
 }
 
-func stepRange(bounds queryBounds, steps int, callback func(float64)) {
-	stepSize := (bounds.max - bounds.min) / float64(steps)
+func stepRange(min, max float64, steps int, callback func(float64)) {
+	stepSize := (max - min) / float64(steps)
 
 	for i := 0; i < steps; i++ {
-		stepMax := bounds.max - stepSize*float64(i)
+		stepMax := max - stepSize*float64(i)
 		stepMin := stepMax - stepSize
 		stepMid := (stepMin + stepMax) / 2
 
@@ -99,17 +101,17 @@ func findRecords(entries records, features featureMap, minScore float64) records
 	return foundEntries
 }
 
-func project(entries records, features featureMap, featureName string, minScore float64, bounds queryBounds, steps int) []queryProjection {
+func project(entries records, features featureMap, featureName string, minScore float64, steps int) []queryProjection {
 	sampleFeatures := make(featureMap)
 	for key, value := range features {
 		sampleFeatures[key] = value
 	}
 
 	var projection []queryProjection
-	stepRange(bounds, steps, func(sample float64) {
+	stepRange(-1.0, 1.0, steps, func(sample float64) {
 		sampleFeatures[featureName] = sample
-		stats := statRecords(entries, sampleFeatures, minScore)
-		projection = append(projection, queryProjection{sample: sample, stats: stats})
+		compatibility, count := statRecords(entries, sampleFeatures, minScore)
+		projection = append(projection, queryProjection{compatibility, count, sample})
 	})
 
 	return projection
@@ -237,7 +239,7 @@ func getRecords(context queryContext) records {
 			distanceToStn: distanceToStn,
 			closestStn:    closestStn,
 			accessCount:   accessCount,
-			geo:           geoContext{latitude, longitude},
+			geo:           geoData{latitude, longitude},
 			id:            id}
 
 		entry.features = featureMap{
