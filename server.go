@@ -44,7 +44,7 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 
 	var geo *geoContext
 	if request.Geo != nil {
-		geo = &geoContext{latitude: request.Geo.Latitude, longitude: request.Geo.Longitude}
+		geo = &geoContext{request.Geo.Latitude, request.Geo.Longitude}
 	}
 
 	entries := getRecords(queryContext{geo, request.Profile, request.WalkingDist})
@@ -64,13 +64,13 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 			features,
 			name,
 			request.MinScore,
-			queryBounds{min: request.Range.Min, max: request.Range.Max},
+			queryBounds{request.Range.Min, request.Range.Max},
 			request.HintSteps)
 
 		for _, hint := range hints {
 			jsonHint := jsonProjection{
 				Sample: hint.sample,
-				Stats:  jsonStats{Count: hint.stats.count, Compatibility: hint.stats.compatibility}}
+				Stats:  jsonStats{hint.stats.compatibility, hint.stats.count}}
 
 			column.Hints = append(column.Hints, jsonHint)
 		}
