@@ -72,6 +72,7 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 			jsonHint := jsonProjection{
 				Sample: hint.sample,
 				Stats:  jsonStats{Count: hint.stats.count, Compatibility: hint.stats.compatibility}}
+
 			column.Hints = append(column.Hints, jsonHint)
 		}
 
@@ -268,5 +269,5 @@ func main() {
 	http.HandleFunc("/access", accessReview)
 	http.Handle("/", http.FileServer(http.Dir(dir)))
 
-	log.Fatal(http.ListenAndServe(":3000", nil))
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }

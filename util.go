@@ -118,35 +118,35 @@ func computeRecordGeo(entries records, context queryContext) {
 	distUserMin := math.MaxFloat64
 	distUserMax := 0.0
 
-	for _, record := range entries {
+	for index := range entries {
+		entry := &entries[index]
+
 		if context.geo != nil {
 			userPoint := geo.NewPoint(context.geo.latitude, context.geo.longitude)
-			recordPoint := geo.NewPoint(record.geo.latitude, context.geo.longitude)
-			record.distanceToUser = userPoint.GreatCircleDistance(recordPoint)
+			entryPoint := geo.NewPoint(entry.geo.latitude, context.geo.longitude)
+			entry.distanceToUser = userPoint.GreatCircleDistance(entryPoint)
 		}
 
-		if record.distanceToUser < distUserMin {
-			distUserMin = record.distanceToUser
-		}
-		if record.distanceToUser > distUserMax {
-			distUserMax = record.distanceToUser
-		}
+		distUserMin = math.Min(entry.distanceToUser, distUserMin)
+		distUserMax = math.Max(entry.distanceToUser, distUserMax)
 	}
 
 	distUserRange := distUserMax - distUserMin
 
-	for _, record := range entries {
-		nearby := -((record.distanceToUser-distUserMin)/distUserRange - 0.5) * 2.0
+	for index := range entries {
+		entry := &entries[index]
 
-		accessible := 1.0 - (record.distanceToStn / context.walkingDist)
-		if accessible < -1.0 {
-			accessible = 1.0
-		} else if accessible > 1.0 {
-			accessible = 1.0
+		var accessible, nearby float64
+		if distUserRange > 0 {
+			nearby = -((entry.distanceToUser-distUserMin)/distUserRange - 0.5) * 2.0
+
+			accessible = 1.0 - (entry.distanceToStn / context.walkingDist)
+			accessible = math.Max(accessible, -1.0)
+			accessible = math.Min(accessible, 1.0)
 		}
 
-		record.features["nearby"] = nearby
-		record.features["accessible"] = accessible
+		entry.features["nearby"] = nearby
+		entry.features["accessible"] = accessible
 	}
 }
 
@@ -234,20 +234,23 @@ func getRecords(context queryContext) records {
 			distanceToStn: distanceToStn,
 			closestStn:    closestStn,
 			accessCount:   accessCount,
+			geo:           geoContext{latitude, longitude},
 			id:            id}
 
-		entry.features = make(featureMap)
-		entry.features["delicious"] = delicious
-		entry.features["accomodating"] = accomodating
-		entry.features["affordable"] = affordable
-		entry.features["atmospheric"] = atmospheric
-		entry.geo = geoContext{latitude, longitude}
+		entry.features = featureMap{
+			"delicious":    delicious,
+			"accomodating": accomodating,
+			"affordable":   affordable,
+			"atmospheric":  atmospheric}
 
 		entries = append(entries, entry)
 	}
 	if err := rows.Err(); err != nil {
 		log.Fatal(err)
 	}
+
+	computeRecordPopularity(entries, context)
+	computeRecordGeo(entries, context)
 
 	return entries
 }
