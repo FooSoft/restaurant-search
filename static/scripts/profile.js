@@ -65,12 +65,12 @@
         $('#categories').append($(template({categories: categories})).hide().fadeIn());
 
         $('#categories input:radio').unbind().change(function() {
-            setProfileValue(parseInt($(this).attr('data-categoryId'), this.value));
+            setProfileValue($(this).attr('data-categoryId'), parseInt(this.value));
         });
 
         $('#categories button').unbind().click(function() {
             if (confirm('Are you sure you want to delete this category?')) {
-                removeCategory(parseInt($(this).attr('data-categoryId')));
+                removeCategory($(this).attr('data-categoryId'));
             }
         });
     }
