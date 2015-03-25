@@ -24,6 +24,16 @@ package main
 
 type featureMap map[string]float64
 
+type jsonAccessRequest struct {
+	Id      int        `json:"id"`
+	Profile featureMap `json:"profile"`
+}
+
+type jsonAccessReply struct {
+	Success bool   `json:"success"`
+	Url     string `json:"url"`
+}
+
 type jsonRange struct {
 	Max float64 `json:"max"`
 	Min float64 `json:"min"`

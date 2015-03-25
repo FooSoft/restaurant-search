@@ -203,42 +203,52 @@ func removeCategory(rw http.ResponseWriter, req *http.Request) {
 }
 
 func accessReview(rw http.ResponseWriter, req *http.Request) {
-	// function accessReview(query, callback) {
-	//     query.profile = fixupProfile(query.profile);
+	var request jsonAccessRequest
+	if err := json.NewDecoder(req.Body).Decode(&request); err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
 
-	//     pool.query('SELECT url FROM reviews WHERE id = (?) LIMIT 1', [query.id], function(err, rows) {
-	//         if (err) {
-	//             throw err;
-	//         }
+	reviewRows := db.QueryRow("SELECT url FROM reviews WHERE id = (?) LIMIT 1", request.Id)
 
-	//         var results = {
-	//             success: rows.length > 0
-	//         };
+	var reply jsonAccessReply
+	if err := reviewRows.Scan(&reply.Url); err == nil {
+		reply.Url = "http://www.tripadvisor.com" + reply.Url
+		reply.Success = true
+	}
 
-	//         if (results.success) {
-	//             results.url = 'http://www.tripadvisor.com' + rows[0].url;
+	if reply.Success {
+		_, err := db.Exec("UPDATE reviews SET accessCount = accessCount + 1 WHERE id = (?)", request.Id)
+		if err != nil {
+			log.Fatal(err)
+		}
 
-	//             pool.query('UPDATE reviews SET accessCount = accessCount + 1 WHERE id = (?)', [query.id], function(err, info) {
-	//                 if (_.keys(query.profile).length > 0) {
-	//                     pool.query('INSERT INTO history(date, reviewId) VALUES(NOW(), ?)', [query.id], function(err, info) {
-	//                         if (err) {
-	//                             throw err;
-	//                         }
+		if len(request.Profile) > 0 {
+			result, err := db.Exec("INSERT INTO history(date, reviewId) VALUES(NOW(), ?)", request.Id)
+			if err != nil {
+				log.Fatal(err)
+			}
 
-	//                         for (var categoryId in query.profile) {
-	//                             pool.query(
-	//                                 'INSERT INTO historyGroups(categoryId, categoryValue, historyId) VALUES(?, ?, ?)',
-	//                                 [categoryId, query.profile[categoryId], info.insertId]
-	//                             );
-	//                         }
-	//                     });
-	//                 }
-	//             });
-	//         }
+			insertId, err := result.LastInsertId()
+			if err != nil {
+				log.Fatal(err)
+			}
 
-	//         callback(results);
-	//     });
-	// }
+			for id, value := range request.Profile {
+				if _, err := db.Exec("INSERT INTO historyGroups(categoryId, categoryValue, historyId) VALUES(?, ?, ?)", id, value, insertId); err != nil {
+					log.Fatal(err)
+				}
+			}
+		}
+	}
+
+	js, err := json.Marshal(reply)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	rw.Header().Set("Content-Type", "application/json")
+	rw.Write(js)
 }
 
 func staticPath() (string, error) {
