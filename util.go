@@ -58,9 +58,9 @@ func innerProduct(features1 featureMap, features2 featureMap) float64 {
 }
 
 func walkMatches(entries records, features featureMap, minScore float64, callback func(record, float64)) {
-	for _, record := range entries {
-		if score := innerProduct(features, record.features); score >= minScore {
-			callback(record, score)
+	for _, entry := range entries {
+		if score := innerProduct(features, entry.features); score >= minScore {
+			callback(entry, score)
 		}
 	}
 }
@@ -69,8 +69,8 @@ func statRecords(entries records, features featureMap, minScore float64) (float6
 	var compatibility float64
 	var count int
 
-	walkMatches(entries, features, minScore, func(record record, score float64) {
-		compatibility += record.compatibility
+	walkMatches(entries, features, minScore, func(entry record, score float64) {
+		compatibility += entry.compatibility
 		count++
 	})
 
@@ -92,9 +92,9 @@ func stepRange(min, max float64, steps int, callback func(float64)) {
 func findRecords(entries records, features featureMap, minScore float64) records {
 	var foundEntries records
 
-	walkMatches(entries, features, minScore, func(record record, score float64) {
-		record.score = score
-		foundEntries = append(foundEntries, record)
+	walkMatches(entries, features, minScore, func(entry record, score float64) {
+		entry.score = score
+		foundEntries = append(foundEntries, entry)
 	})
 
 	sort.Sort(foundEntries)
