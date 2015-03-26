@@ -21,12 +21,13 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-var cheerio = require('cheerio');
-var request = require('request');
-var url     = require('url');
-var path    = require('path');
-var fs      = require('fs');
-var _       = require('underscore');
+var cheerio    = require('cheerio');
+var request    = require('request');
+var underscore = require('underscore');
+var url        = require('url');
+var path       = require('path');
+var fs         = require('fs');
+var _          = require('underscore');
 
 
 function requestCached(relativeUrl, callback) {
@@ -45,8 +46,7 @@ function requestCached(relativeUrl, callback) {
 }
 
 function getBarPercent(bar) {
-    var width = bar.css('width');
-    return parseInt(width) / 91.0;
+    return parseFloat(bar.attr('alt')) / 5.0;
 }
 
 function reviewScraped(err, resp, html) {
@@ -56,27 +56,31 @@ function reviewScraped(err, resp, html) {
 
     var $ = cheerio.load(html);
 
-    var address = $('div.addr').text().trim();
+    var address = $('address span.format_address').text().trim();
     if (!address) {
+        console.warn('Warning: review skipped, no address');
         return;
     }
 
     var storeName = $('h1#HEADING').text().trim();
     if (storeName.indexOf('CLOSED') !== -1) {
+        console.warn('Warning: review skipped, closed');
         return;
     }
 
-    var bars = $('div.fill');
-    if (bars.length !== 9) {
+    var rating = $('ul.barChart img.rating_s_fill');
+    if (rating.length != 4) {
+        console.warn('Warning: review skipped, no summary');
         return;
     }
 
-    var rateFood       = getBarPercent($(bars[5]));
-    var rateService    = getBarPercent($(bars[6]));
-    var rateValue      = getBarPercent($(bars[7]));
-    var rateAtmosphere = getBarPercent($(bars[8]));
+    var rateFood       = getBarPercent($(rating[0]));
+    var rateService    = getBarPercent($(rating[1]));
+    var rateValue      = getBarPercent($(rating[2]));
+    var rateAtmosphere = getBarPercent($(rating[3]));
 
     if (rateFood === 0.0 && rateService === 0.0 && rateValue === 0.0 && rateAtmosphere === 0.0) {
+        console.warn('Warning: review skipped, empty review');
         return;
     }
 
@@ -91,6 +95,10 @@ function reviewScraped(err, resp, html) {
             atmosphere: (rateAtmosphere - 0.5) * 2.0
         }
     };
+
+    if (data.rating.food < 0) {
+        console.assert(blah);
+    }
 
     this.callback(data);
 }
@@ -141,7 +149,12 @@ function scrapeIndices(relativeUrl, callback) {
 }
 
 function main() {
-    var relativePath = '/Restaurants-g298173-Yokohama_Kanagawa_Prefecture_Kanto.html';
+    var relativePaths = [
+        '/Restaurants-g298173-Yokohama_Kanagawa_Prefecture_Kanto.html',
+        '/Restaurants-g1021277-Fujisawa_Kanagawa_Prefecture_Kanto.html',
+        '/Restaurants-g1021279-Chigasaki_Kanagawa_Prefecture_Kanto.html',
+        '/Restaurants-g298184-Tokyo_Tokyo_Prefecture_Kanto.html'
+    ];
     var databasePath = 'data.json';
 
     var abort = false;
@@ -151,15 +164,18 @@ function main() {
     });
 
     var results = [];
-    scrapeIndices(relativePath, function(relativeUrl) {
-        scrapeReview(relativeUrl, function(data) {
-            results.push(data);
-        });
+    _.each(relativePaths, function(relativePath) {
+        scrapeIndices(relativePath, function(relativeUrl) {
+            scrapeReview(relativeUrl, function(data) {
+                results.push(data);
+            });
 
-        return abort;
+            return abort;
+        });
     });
 
     process.on('exit', function() {
+        console.log('Total reviews scraped: %d', results.length);
         var strData = JSON.stringify(results, null, 4);
         fs.writeFileSync(databasePath, strData);
     });
