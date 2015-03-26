@@ -35,10 +35,11 @@
     }
 
     function onReady(geo) {
-        _ctx = {
-            geo:   geo,
-            query: {}
-        };
+        _ctx = {geo: geo, query: {}};
+
+        Handlebars.registerHelper('prettyFloat', function(precision, options) {
+            return parseFloat(options.fn(this)).toFixed(precision);
+        });
 
         $('#minScore,#hintSteps,#walkingDist,#maxResults').change(onSearch);
         $('#profileDlg').on('hidden.bs.modal', onSearch);
@@ -50,11 +51,8 @@
         });
 
         window.accessReview = function(id) {
-            $.post('/access', JSON.stringify({id: id, profile: getProfile()}), function(results) {
-                if (results.success) {
-                    location.replace(results.url);
-                }
-            }, 'json');
+            $.post('/access', JSON.stringify({id: id, profile: getProfile()}));
+            onSearch();
         };
 
         onSearch();
@@ -130,21 +128,18 @@
         }
 
         _ctx.grapher.setColumns(columns);
-        outputMatches(results.records, results.count);
-    }
 
-    function outputMatches(records, count) {
-        var searchResultCnt = String(records.length);
-        if (records.length < count) {
-            searchResultCnt += ' of ' + count;
+        var searchResultCnt = String(results.records.length);
+        if (results.records.length < results.count) {
+            searchResultCnt += ' of ' + results.count;
         }
         $('#resultCount').text(searchResultCnt);
 
         var template = Handlebars.compile($('#template').html());
         $('#records').empty();
-        $('#records').append(template({records: records}));
+        $('#records').append(template({records: results.records}));
 
-        if (records.length === 0) {
+        if (results.records.length === 0) {
             $('#resultPanel').slideUp();
         }
         else {

@@ -29,11 +29,6 @@ type jsonAccessRequest struct {
 	Profile featureMap `json:"profile"`
 }
 
-type jsonAccessReply struct {
-	Success bool   `json:"success"`
-	Url     string `json:"url"`
-}
-
 type jsonGeoData struct {
 	Latitude  float64 `json:"latitude"`
 	Longitude float64 `json:"longitude"`
@@ -69,6 +64,7 @@ type jsonRecord struct {
 	Id             int     `json:"id"`
 	Name           string  `json:"name"`
 	Score          float64 `json:"score"`
+	Url            string  `json:"url"`
 }
 
 type jsonQueryResponse struct {

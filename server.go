@@ -81,6 +81,7 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 
 		item := jsonRecord{
 			Name:           value.name,
+			Url:            value.url,
 			Score:          value.score,
 			DistanceToUser: value.distanceToUser,
 			DistanceToStn:  value.distanceToStn,
@@ -205,46 +206,35 @@ func accessReview(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	reviewRow := db.QueryRow("SELECT url FROM reviews WHERE id = (?) LIMIT 1", request.Id)
-
-	var reply jsonAccessReply
-	if err := reviewRow.Scan(&reply.Url); err == nil {
-		reply.Url = "http://www.tripadvisor.com" + reply.Url
-		reply.Success = true
-	}
-
-	if reply.Success {
-		_, err := db.Exec("UPDATE reviews SET accessCount = accessCount + 1 WHERE id = (?)", request.Id)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		if len(request.Profile) > 0 {
-			result, err := db.Exec("INSERT INTO history(date, reviewId) VALUES(NOW(), ?)", request.Id)
-			if err != nil {
-				log.Fatal(err)
-			}
-
-			insertId, err := result.LastInsertId()
-			if err != nil {
-				log.Fatal(err)
-			}
-
-			for id, value := range request.Profile {
-				if _, err := db.Exec("INSERT INTO historyGroups(categoryId, categoryValue, historyId) VALUES(?, ?, ?)", id, value, insertId); err != nil {
-					log.Fatal(err)
-				}
-			}
-		}
-	}
-
-	js, err := json.Marshal(reply)
+	reviewsResult, err := db.Exec("UPDATE reviews SET accessCount = accessCount + 1 WHERE id = (?)", request.Id)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	rw.Header().Set("Content-Type", "application/json")
-	rw.Write(js)
+	rowsAffected, err := reviewsResult.RowsAffected()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if rowsAffected == 0 || len(request.Profile) == 0 {
+		return
+	}
+
+	historyResult, err := db.Exec("INSERT INTO history(date, reviewId) VALUES(NOW(), ?)", request.Id)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	insertId, err := historyResult.LastInsertId()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for id, value := range request.Profile {
+		if _, err := db.Exec("INSERT INTO historyGroups(categoryId, categoryValue, historyId) VALUES(?, ?, ?)", id, value, insertId); err != nil {
+			log.Fatal(err)
+		}
+	}
 }
 
 func staticPath() (string, error) {
