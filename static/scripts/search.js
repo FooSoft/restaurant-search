@@ -116,7 +116,7 @@
     }
 
     function saveSnapshot(results) {
-        window.history.pushState(results);
+        window.history.pushState(results, null, null);
     }
 
     function outputSnapshot(results, omitValues) {
