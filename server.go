@@ -83,6 +83,7 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 			Name:           value.name,
 			Url:            value.url,
 			Score:          value.score,
+			Compatibility:  value.compatibility,
 			DistanceToUser: value.distanceToUser,
 			DistanceToStn:  value.distanceToStn,
 			ClosestStn:     value.closestStn,

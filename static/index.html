@@ -100,8 +100,9 @@
                                 <th>Distance to user</th>
                                 <th>Closest station</th>
                                 <th>Distance to station</th>
-                                <th>Access count</th>
+                                <th>Compatibility</th>
                                 <th>Score</th>
+                                <th>Access count</th>
                             </tr>
                         </thead>
                         {{#each records}}
@@ -110,8 +111,9 @@
                                 <td>{{#prettyFloat 2}}{{distanceToUser}}{{/prettyFloat}} km</td>
                                 <td>{{closestStn}}</td>
                                 <td>{{distanceToStn}} m</td>
-                                <td>{{accessCount}}</td>
+                                <td>{{#prettyFloat 4}}{{compatibility}}{{/prettyFloat}}</td>
                                 <td>{{#prettyFloat 4}}{{score}}{{/prettyFloat}}</td>
+                                <td>{{accessCount}}</td>
                             </tr>
                         {{/each}}
                         </table>

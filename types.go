@@ -59,6 +59,7 @@ type jsonProjection struct {
 type jsonRecord struct {
 	AccessCount    int     `json:"accessCount"`
 	ClosestStn     string  `json:"closestStn"`
+	Compatibility  float64 `json:"compatibility"`
 	DistanceToStn  float64 `json:"distanceToStn"`
 	DistanceToUser float64 `json:"distanceToUser"`
 	Id             int     `json:"id"`
