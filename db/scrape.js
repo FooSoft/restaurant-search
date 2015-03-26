@@ -96,10 +96,6 @@ function reviewScraped(err, resp, html) {
         }
     };
 
-    if (data.rating.food < 0) {
-        console.assert(blah);
-    }
-
     this.callback(data);
 }
 
@@ -153,6 +149,8 @@ function main() {
         '/Restaurants-g298173-Yokohama_Kanagawa_Prefecture_Kanto.html',
         '/Restaurants-g1021277-Fujisawa_Kanagawa_Prefecture_Kanto.html',
         '/Restaurants-g1021279-Chigasaki_Kanagawa_Prefecture_Kanto.html',
+        '/Restaurants-g298172-Kawasaki_Kanagawa_Prefecture_Kanto.html',
+        '/Restaurants-g1066854-Shinagawa_Tokyo_Tokyo_Prefecture_Kanto.html',
         '/Restaurants-g298184-Tokyo_Tokyo_Prefecture_Kanto.html'
     ];
     var databasePath = 'data.json';
