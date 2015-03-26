@@ -4,7 +4,7 @@ This work-in-progress represents a prototype semantic search application that I'
 thesis at [Keio University](http://www.sfc.keio.ac.jp/). You can get a better understanding of the goals of this system
 by referring to the [overview](overview/) presentation. The prototype is open-source and those who are interested are
 encouraged to [clone the project](https://github.com/FooSoft/search) and tinker with it. You may also access a [live
-snapshot](http://foosoft.net:3000/) of the prototype on my server.
+snapshot](http://foosoft.net:8080/) of the prototype on my server.
 
 This installation guide is designed with [Ubuntu](http://www.ubuntu.com/)-based distributions in mind (I'm using [Linux
 Mint](http://www.linuxmint.com/) for development), but I expect it to be trivial to get this application running on
@@ -15,15 +15,19 @@ other flavors of Linux. If you run into any problems, let me know.
 Execute the command `apt-get install package_name` to install the packages listed below (must be root).
 
 *   `mysql-server`
-*   `nodejs`
 *   `nodejs-legacy`
+*   `nodejs`
 *   `npm`
+
+In addition to these packages, you will need to have a recent version of the [Go](https://golang.org/project/) compiler
+installed on your system to build and execute the server code. The easiest way to get the latest version is to use the
+[godeb](https://github.com/niemeyer/godeb) tool to install it for you. After downloading the appropriate binary package,
+execute the `./godeb install` command to do this.
 
 ## Global Node.js Dependencies
 
 Execute the command `npm install -g package_name` to install the packages listed below (must be root).
 
-*   `gulp`
 *   `bower`
 
 ## Database Initialization
@@ -35,7 +39,7 @@ Execute the command `npm install -g package_name` to install the packages listed
 
 ## Client and Server Initialization
 
-1.  From the application base directory execute the command `npm install`.
-2.  Still in the same directory, execute the command `gulp install`.
-3.  Execute the command `gulp` to start the application HTTP server (default port is 3000).
-4.  You should now be able to access the web application at [localhost:3000](http://localhost:3000).
+1.  From the `static` directory, execute the command `bower install`.
+2.  From the base directory, build the server with the command `go build`.
+3.  From the base directory, launch the server by launching the `server` executable.
+4.  You should now be able to access the web application at [localhost:8080](http://localhost:8080).
