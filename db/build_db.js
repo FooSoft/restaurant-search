@@ -83,7 +83,7 @@ for (var i = 0, count = categories.length; i < count; ++i) {
 //
 
 conn.query('DROP TABLE IF EXISTS history');
-conn.query('CREATE TABLE history(date DATETIME NOT NULL, reviewId INT NOT NULL, id INT NOT NULL AUTO_INCREMENT PRIMARY KEY)');
+conn.query('CREATE TABLE history(date DATETIME NOT NULL, reviewId INT NOT NULL, id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, FOREIGN KEY(reviewId) REFERENCES reviews(id))');
 
 
 //
@@ -91,7 +91,7 @@ conn.query('CREATE TABLE history(date DATETIME NOT NULL, reviewId INT NOT NULL, 
 //
 
 conn.query('DROP TABLE IF EXISTS historyGroups');
-conn.query('CREATE TABLE historyGroups(categoryId INT NOT NULL, categoryValue FLOAT NOT NULL, historyId INT NOT NULL)');
+conn.query('CREATE TABLE historyGroups(categoryId INT NOT NULL, categoryValue FLOAT NOT NULL, historyId INT NOT NULL, FOREIGN KEY(historyId) REFERENCES history(id))');
 
 
 //

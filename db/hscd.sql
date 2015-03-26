@@ -50,7 +50,9 @@ CREATE TABLE `history` (
   `date` datetime NOT NULL,
   `reviewId` int(11) NOT NULL,
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `reviewId` (`reviewId`),
+  CONSTRAINT `history_ibfk_1` FOREIGN KEY (`reviewId`) REFERENCES `reviews` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -73,7 +75,9 @@ DROP TABLE IF EXISTS `historyGroups`;
 CREATE TABLE `historyGroups` (
   `categoryId` int(11) NOT NULL,
   `categoryValue` float NOT NULL,
-  `historyId` int(11) NOT NULL
+  `historyId` int(11) NOT NULL,
+  KEY `historyId` (`historyId`),
+  CONSTRAINT `historyGroups_ibfk_1` FOREIGN KEY (`historyId`) REFERENCES `history` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -129,4 +133,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-03-17 18:39:51
+-- Dump completed on 2015-03-26 13:31:52
