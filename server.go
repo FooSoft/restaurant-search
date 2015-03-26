@@ -25,6 +25,7 @@ package main
 import (
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"log"
 	"net/http"
@@ -238,6 +239,19 @@ func accessReview(rw http.ResponseWriter, req *http.Request) {
 	}
 }
 
+func clearHistory(rw http.ResponseWriter, req *http.Request) {
+	if _, err := db.Exec("DELETE FROM history"); err != nil {
+		log.Fatal(err)
+	}
+
+	if _, err := db.Exec("DELETE FROM historyGroups"); err != nil {
+		log.Fatal(err)
+	}
+
+	rw.Header().Set("Content-Type", "text/plain")
+	fmt.Fprint(rw, "History tables cleared")
+}
+
 func staticPath() (string, error) {
 	if len(os.Args) > 1 {
 		return os.Args[1], nil
@@ -263,6 +277,7 @@ func main() {
 	http.HandleFunc("/learn", addCategory)
 	http.HandleFunc("/forget", removeCategory)
 	http.HandleFunc("/access", accessReview)
+	http.HandleFunc("/clear", clearHistory)
 	http.Handle("/", http.FileServer(http.Dir(dir)))
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
