@@ -60,7 +60,7 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 		column := jsonColumn{Value: value, Steps: request.HintSteps}
 
 		hints := project(
-			foundEntries,
+			entries,
 			features,
 			name,
 			request.MinScore,
