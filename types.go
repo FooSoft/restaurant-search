@@ -22,6 +22,8 @@
 
 package main
 
+import "sort"
+
 type featureMap map[string]float64
 
 type jsonAccessRequest struct {
@@ -35,13 +37,15 @@ type jsonGeoData struct {
 }
 
 type jsonQueryRequest struct {
-	Features    featureMap   `json:"features"`
-	Geo         *jsonGeoData `json:"geo"`
-	HintSteps   int          `json:"hintSteps"`
-	MaxResults  int          `json:"maxResults"`
-	MinScore    float64      `json:"minScore"`
-	Profile     featureMap   `json:"profile"`
-	WalkingDist float64      `json:"walkingDist"`
+	Features      featureMap   `json:"features"`
+	Geo           *jsonGeoData `json:"geo"`
+	HintSteps     int          `json:"hintSteps"`
+	MaxResults    int          `json:"maxResults"`
+	MinScore      float64      `json:"minScore"`
+	Profile       featureMap   `json:"profile"`
+	SortAscending bool         `json:"SortAscending"`
+	SortKey       string       `json:"sortKey"`
+	WalkingDist   float64      `json:"walkingDist"`
 }
 
 type jsonColumn struct {
@@ -130,14 +134,46 @@ type record struct {
 
 type records []record
 
-func (slice records) Len() int {
-	return len(slice)
+type recordSorter struct {
+	ascending bool
+	entries   records
+	key       string
 }
 
-func (slice records) Less(i, j int) bool {
-	return slice[i].score > slice[j].score
+func (sorter recordSorter) sort() {
+	if sorter.ascending {
+		sort.Sort(sorter)
+	} else {
+		sort.Sort(sort.Reverse(sorter))
+	}
 }
 
-func (slice records) Swap(i, j int) {
-	slice[i], slice[j] = slice[j], slice[i]
+func (sorter recordSorter) Len() int {
+	return len(sorter.entries)
+}
+
+func (sorter recordSorter) Less(i, j int) bool {
+	entry1 := sorter.entries[i]
+	entry2 := sorter.entries[j]
+
+	switch sorter.key {
+	case "accessCount":
+		return entry1.accessCount < entry2.accessCount
+	case "closestStn":
+		return entry1.closestStn < entry2.closestStn
+	case "compatibility":
+		return entry1.compatibility < entry2.compatibility
+	case "distanceToStn":
+		return entry1.distanceToStn < entry2.distanceToStn
+	case "distanceToUser":
+		return entry1.distanceToUser < entry2.distanceToUser
+	case "name":
+		return entry1.name < entry2.name
+	default:
+		return entry1.score < entry2.score
+	}
+}
+
+func (sorter recordSorter) Swap(i, j int) {
+	sorter.entries[i], sorter.entries[j] = sorter.entries[j], sorter.entries[i]
 }

@@ -50,7 +50,10 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 
 	entries := getRecords(queryContext{geo, request.Profile, request.WalkingDist})
 	features := fixFeatures(request.Features)
+
 	foundEntries := findRecords(entries, features, request.MinScore)
+	sorter := recordSorter{entries: foundEntries, key: request.SortKey, ascending: request.SortAscending}
+	sorter.sort()
 
 	response := jsonQueryResponse{
 		Count:   len(foundEntries),

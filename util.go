@@ -26,7 +26,6 @@ import (
 	"github.com/kellydunn/golang-geo"
 	"log"
 	"math"
-	"sort"
 	"strconv"
 )
 
@@ -97,7 +96,6 @@ func findRecords(entries records, features featureMap, minScore float64) records
 		foundEntries = append(foundEntries, entry)
 	})
 
-	sort.Sort(foundEntries)
 	return foundEntries
 }
 
