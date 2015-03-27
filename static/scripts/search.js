@@ -157,6 +157,15 @@
         $('#records').empty();
         $('#records').append(template({records: results.records}));
 
+        $('span.sort-icon').css('visibility', 'hidden');
+        var currentColumn = $('span.sort-icon[data-sort="' + _ctx.sortKey + '"]').css('visibility', 'visible');
+        if (_ctx.sortAsc) {
+            currentColumn.removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+        }
+        else {
+            currentColumn.removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+        }
+
         if (results.records.length === 0) {
             $('#resultPanel').slideUp();
         }
