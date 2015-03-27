@@ -37,15 +37,15 @@ type jsonGeoData struct {
 }
 
 type jsonQueryRequest struct {
-	Features      featureMap   `json:"features"`
-	Geo           *jsonGeoData `json:"geo"`
-	HintSteps     int          `json:"hintSteps"`
-	MaxResults    int          `json:"maxResults"`
-	MinScore      float64      `json:"minScore"`
-	Profile       featureMap   `json:"profile"`
-	SortAscending bool         `json:"SortAscending"`
-	SortKey       string       `json:"sortKey"`
-	WalkingDist   float64      `json:"walkingDist"`
+	Features    featureMap   `json:"features"`
+	Geo         *jsonGeoData `json:"geo"`
+	HintSteps   int          `json:"hintSteps"`
+	MaxResults  int          `json:"maxResults"`
+	MinScore    float64      `json:"minScore"`
+	Profile     featureMap   `json:"profile"`
+	SortAsc     bool         `json:"sortAsc"`
+	SortKey     string       `json:"sortKey"`
+	WalkingDist float64      `json:"walkingDist"`
 }
 
 type jsonColumn struct {

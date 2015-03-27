@@ -35,7 +35,12 @@
     }
 
     function onReady(geo) {
-        _ctx = {geo: geo, query: {}};
+        _ctx = {
+            sortKey: 'score',
+            sortAsc: false,
+            query:   {},
+            geo:     geo
+        };
 
         Handlebars.registerHelper('prettyFloat', function(precision, options) {
             return parseFloat(options.fn(this)).toFixed(precision);
@@ -55,12 +60,25 @@
             onSearch();
         };
 
+        window.sortReviewsBy = function(sortKey) {
+            if (sortKey === _ctx.sortKey) {
+                _ctx.sortAsc = !_ctx.sortAsc;
+            }
+            else {
+                _ctx.sortKey = sortKey;
+            }
+
+            onSearch();
+        };
+
         onSearch();
     }
 
     function onSearch() {
         _ctx.query = {
             features:    _ctx.query.features || {},
+            sortKey:     _ctx.sortKey,
+            sortAsc:     _ctx.sortAsc,
             profile:     getProfile(),
             walkingDist: parseFloat($('#walkingDist').val()),
             minScore:    parseFloat($('#minScore').val()),

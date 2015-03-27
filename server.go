@@ -52,7 +52,7 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 	features := fixFeatures(request.Features)
 
 	foundEntries := findRecords(entries, features, request.MinScore)
-	sorter := recordSorter{entries: foundEntries, key: request.SortKey, ascending: request.SortAscending}
+	sorter := recordSorter{entries: foundEntries, key: request.SortKey, ascending: request.SortAsc}
 	sorter.sort()
 
 	response := jsonQueryResponse{
