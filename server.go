@@ -243,11 +243,11 @@ func accessReview(rw http.ResponseWriter, req *http.Request) {
 }
 
 func clearHistory(rw http.ResponseWriter, req *http.Request) {
-	if _, err := db.Exec("DELETE FROM history"); err != nil {
+	if _, err := db.Exec("DELETE FROM historyGroups"); err != nil {
 		log.Fatal(err)
 	}
 
-	if _, err := db.Exec("DELETE FROM historyGroups"); err != nil {
+	if _, err := db.Exec("DELETE FROM history"); err != nil {
 		log.Fatal(err)
 	}
 
