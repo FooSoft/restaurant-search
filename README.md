@@ -1,4 +1,4 @@
-# Reactive Search
+# Reactive Search #
 
 This work-in-progress represents a prototype semantic search application that I'm developing as part of my master's
 thesis at [Keio University](http://www.sfc.keio.ac.jp/). You can get a better understanding of the goals of this system
@@ -10,7 +10,7 @@ This installation guide is designed with [Ubuntu](http://www.ubuntu.com/)-based 
 Mint](http://www.linuxmint.com/) for development), but I expect it to be trivial to get this application running on
 other flavors of Linux. If you run into any problems, let me know.
 
-## System Dependencies
+## System Dependencies ##
 
 Execute the command `apt-get install package_name` to install the packages listed below (must be root).
 
@@ -22,22 +22,25 @@ Execute the command `apt-get install package_name` to install the packages liste
 In addition to these packages, you will need to have a recent version of the [Go](https://golang.org/project/) compiler
 installed on your system to build and execute the server code. The easiest way to get the latest version is to use the
 [godeb](https://github.com/niemeyer/godeb) tool to install it for you. After downloading the appropriate binary package,
-execute the `./godeb install` command to do this.
+execute the `./godeb install` command to do this. Once you have the Go environment configured on your computer, you can
+install this package by executing the following command:
 
-## Global Node.js Dependencies
+`go get github.com/FooSoft/search`
+
+## Global Node.js Dependencies ##
 
 Execute the command `npm install -g package_name` to install the packages listed below (must be root).
 
 *   `bower`
 
-## Database Initialization
+## Database Initialization ##
 
 1.  Execute `./db/init.sh` to create the required database and associated user. You will be prompted for the mysql root
     password; if you do not have one configured you may proceed by inputting an empty string.
 2.  Load the initial data tables by running `./db/load.sh`. You may perform this step again at a later time if you wish
     to reset the contents of the database to their original state.
 
-## Client and Server Initialization
+## Client and Server Initialization ##
 
 1.  From the `static` directory, execute the command `bower install`.
 2.  From the base directory, build the server with the command `go build`.
