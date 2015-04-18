@@ -161,26 +161,23 @@
         function updateDensity() {
             var fill = _backdropColor;
             if (_data.hints.length > 0) {
-                fill = _canvas.gradient(decimateHints());
+                fill = _canvas.gradient(blendHints());
             }
 
             _elements.density.attr({fill: fill});
         }
 
-        function decimateHints() {
+        function blendHints() {
             var colorStops = 'l(0,0,0,1)';
 
-            var groups = groupHints();
-            for (var i = 0, count = groups.length; i < count; ++i) {
-                var groupSize = groups[i];
-
+            for (var i = 0, count = _data.hints.length; i < count; ++i) {
                 var colorPercent = 0;
                 if (_scale.length() > 0) {
-                    colorPercent = Math.max(0, groupSize - _scale.min) / _scale.length();
+                    colorPercent = Math.max(0, _data.hints[i].rating - _scale.min) / _scale.length();
                 }
 
                 var colorByte = 0xff - Math.min(0xff, Math.round(0xff * colorPercent));
-                var colorObj  = tinycolor({ r: colorByte, g: colorByte, b: colorByte });
+                var colorObj  = tinycolor({r: colorByte, g: colorByte, b: colorByte});
                 var colorStr  = colorObj.toHexString();
 
                 colorStops += colorStr;
@@ -190,31 +187,6 @@
             }
 
             return colorStops;
-        }
-
-        function groupHints() {
-            var hintGroups = [];
-
-            var stepCount = _data.hints.length;
-            if (stepCount > 0) {
-                var stepSize = _range.length() / stepCount;
-                for (var i = 0; i < stepCount; ++i) {
-                    var stepMax = _range.max - stepSize * i;
-                    var stepMin = stepMax - stepSize;
-
-                    var hintValue = 0;
-                    for (var j = 0, count = _data.hints.length; j < count; ++j) {
-                        var hint = _data.hints[j];
-                        if (hint.sample > stepMin && hint.sample <= stepMax) {
-                            hintValue += hint.rating;
-                        }
-                    }
-
-                    hintGroups.push(hintValue);
-                }
-            }
-
-            return hintGroups;
         }
 
         function updateValue(value) {
