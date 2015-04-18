@@ -95,7 +95,6 @@
         var _onValueChanged = params.onValueChanged;
         var _range          = params.range;
         var _scale          = params.scale;
-        var _steps          = params.steps;
         var _elements       = {};
 
         function createShapes() {
@@ -194,22 +193,25 @@
         }
 
         function groupHints() {
-            var stepSize = _range.length() / _steps;
-
             var hintGroups = [];
-            for (var i = 0; i < _steps; ++i) {
-                var stepMax = _range.max - stepSize * i;
-                var stepMin = stepMax - stepSize;
 
-                var hintValue = 0;
-                for (var j = 0, count = _data.hints.length; j < count; ++j) {
-                    var hint = _data.hints[j];
-                    if (hint.sample > stepMin && hint.sample <= stepMax) {
-                        hintValue += hint.rating;
+            var stepCount = _data.hints.length;
+            if (stepCount > 0) {
+                var stepSize = _range.length() / stepCount;
+                for (var i = 0; i < stepCount; ++i) {
+                    var stepMax = _range.max - stepSize * i;
+                    var stepMin = stepMax - stepSize;
+
+                    var hintValue = 0;
+                    for (var j = 0, count = _data.hints.length; j < count; ++j) {
+                        var hint = _data.hints[j];
+                        if (hint.sample > stepMin && hint.sample <= stepMax) {
+                            hintValue += hint.rating;
+                        }
                     }
-                }
 
-                hintGroups.push(hintValue);
+                    hintGroups.push(hintValue);
+                }
             }
 
             return hintGroups;
@@ -308,7 +310,6 @@
         var _columns        = {};
         var _data           = {};
         var _range          = new Range(-1.0, 1.0);
-        var _steps          = params.steps || 20;
         var _useLocalScale  = params.useLocalScale || false;
         var _displayType    = params.displayType || 'density';
         var _onValueChanged = params.onValueChanged;
@@ -370,7 +371,6 @@
                 else {
                     _columns[name] = new Column({
                         onValueChanged: _onValueChanged,
-                        steps:          _steps,
                         range:          _range,
                         canvas:         _canvas,
                         data:           columnData,

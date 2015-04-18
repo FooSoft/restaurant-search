@@ -97,7 +97,6 @@
             if (!_.has(_ctx, 'grapher')) {
                 _ctx.grapher = new grapher.Grapher({
                     canvas:         new Snap('#svg'),
-                    steps:          _ctx.query.hintSteps,
                     onValueChanged: onAdjust,
                     displayType:    $('#displayType').val(),
                     useLocalScale:  $('#useLocalScale').is(':checked')
