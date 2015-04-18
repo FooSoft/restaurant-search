@@ -185,17 +185,9 @@ func removeCategory(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	result, err := db.Exec("DELETE FROM categories WHERE id = (?)", request.Id)
-	if err != nil {
-		log.Fatal(err)
-	}
+	_, err := db.Exec("DELETE FROM categories WHERE id = (?)", request.Id)
 
-	affectedRows, err := result.RowsAffected()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	js, err := json.Marshal(jsonRemoveCategoryResponse{affectedRows > 0})
+	js, err := json.Marshal(jsonRemoveCategoryResponse{err == nil})
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -236,6 +228,17 @@ func accessReview(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	for id, value := range request.Profile {
+		catRow := db.QueryRow("SELECT EXISTS(SELECT NULL FROM categories WHERE id = ?)", id)
+
+		var catExists int
+		if err := catRow.Scan(&catExists); err != nil {
+			log.Fatal(err)
+		}
+
+		if catExists == 0 {
+			continue
+		}
+
 		if _, err := db.Exec("INSERT INTO historyGroups(categoryId, categoryValue, historyId) VALUES(?, ?, ?)", id, value, insertId); err != nil {
 			log.Fatal(err)
 		}

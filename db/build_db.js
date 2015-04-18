@@ -91,7 +91,7 @@ conn.query('CREATE TABLE history(date DATETIME NOT NULL, reviewId INT NOT NULL, 
 //
 
 conn.query('DROP TABLE IF EXISTS historyGroups');
-conn.query('CREATE TABLE historyGroups(categoryId INT NOT NULL, categoryValue FLOAT NOT NULL, historyId INT NOT NULL, FOREIGN KEY(historyId) REFERENCES history(id))');
+conn.query('CREATE TABLE historyGroups(categoryId INT NOT NULL, categoryValue FLOAT NOT NULL, historyId INT NOT NULL, FOREIGN KEY(historyId) REFERENCES history(id), FOREIGN KEY(categoryId) REFERENCES categories(id))');
 
 
 //

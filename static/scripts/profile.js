@@ -57,6 +57,9 @@
                     $(this).remove();
                 });
             }
+            else {
+                alert('Category could not be deleted because it is referenced by user access history.');
+            }
         }, 'json');
     }
 
@@ -69,9 +72,7 @@
         });
 
         $('#categories button').unbind().click(function() {
-            if (confirm('Are you sure you want to delete this category?')) {
-                removeCategory(parseInt($(this).attr('data-categoryId')));
-            }
+            removeCategory(parseInt($(this).attr('data-categoryId')));
         });
     }
 
