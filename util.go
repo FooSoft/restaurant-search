@@ -107,8 +107,10 @@ func project(entries records, features featureMap, featureName string, minScore 
 
 	var projection []queryProjection
 	stepRange(-1.0, 1.0, steps, func(sample float64) {
-		sampleFeatures[featureName] = sample
+		sample, sampleFeatures[featureName] = sampleFeatures[featureName], sample
 		compatibility, count := statRecords(entries, sampleFeatures, minScore)
+		sample, sampleFeatures[featureName] = sampleFeatures[featureName], sample
+
 		projection = append(projection, queryProjection{compatibility, count, sample})
 	})
 
