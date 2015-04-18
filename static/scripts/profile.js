@@ -70,7 +70,7 @@
 
         $('#categories button').unbind().click(function() {
             if (confirm('Are you sure you want to delete this category?')) {
-                removeCategory($(this).attr('data-categoryId'));
+                removeCategory(parseInt($(this).attr('data-categoryId')));
             }
         });
     }
