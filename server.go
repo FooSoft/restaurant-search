@@ -61,14 +61,14 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 		Records: make([]jsonRecord, 0)}
 
 	for name, value := range features {
-		column := jsonColumn{Value: value, Steps: request.HintSteps}
+		column := jsonColumn{Value: value, Steps: request.Resolution}
 
 		hints := project(
 			entries,
 			features,
 			name,
 			request.MinScore,
-			request.HintSteps)
+			request.Resolution)
 
 		for _, hint := range hints {
 			jsonHint := jsonProjection{hint.compatibility, hint.count, hint.sample}

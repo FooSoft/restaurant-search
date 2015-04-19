@@ -46,7 +46,7 @@
             return parseFloat(options.fn(this)).toFixed(precision);
         });
 
-        $('#minScore,#hintSteps,#walkingDist,#maxResults').change(onSearch);
+        $('#minScore,#resolution,#walkingDist,#maxResults').change(onSearch);
         $('#profileDlg').on('hidden.bs.modal', onSearch);
         $('#resetStorage').click(function() {
             if (confirm('Are you sure you want to reset your profile?')) {
@@ -82,7 +82,7 @@
             profile:     getProfile(),
             walkingDist: parseFloat($('#walkingDist').val()),
             minScore:    parseFloat($('#minScore').val()),
-            hintSteps:   parseInt($('#hintSteps').val()),
+            resolution:  parseInt($('#resolution').val()),
             maxResults:  parseInt($('#maxResults').val())
         };
 
