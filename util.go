@@ -31,12 +31,12 @@ import (
 
 func fixFeatures(features featureMap) featureMap {
 	fixedFeatures := featureMap{
-		"nearby":       0.0,
-		"accessible":   0.0,
-		"delicious":    0.0,
-		"accomodating": 0.0,
-		"affordable":   0.0,
-		"atmospheric":  0.0}
+		"nearby":        0.0,
+		"accessible":    0.0,
+		"delicious":     0.0,
+		"accommodating": 0.0,
+		"affordable":    0.0,
+		"atmospheric":   0.0}
 
 	for name, _ := range fixedFeatures {
 		value, _ := features[name]
@@ -207,7 +207,7 @@ func computeRecordPopularity(entries records, context queryContext) {
 }
 
 func getRecords(context queryContext) records {
-	recordRows, err := db.Query("SELECT name, url, delicious, accomodating, affordable, atmospheric, latitude, longitude, distanceToStn, closestStn, accessCount, id FROM reviews")
+	recordRows, err := db.Query("SELECT name, url, delicious, accommodating, affordable, atmospheric, latitude, longitude, distanceToStn, closestStn, accessCount, id FROM reviews")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -216,14 +216,14 @@ func getRecords(context queryContext) records {
 	var entries []record
 	for recordRows.Next() {
 		var name, url, closestStn string
-		var delicious, accomodating, affordable, atmospheric, latitude, longitude, distanceToStn float64
+		var delicious, accommodating, affordable, atmospheric, latitude, longitude, distanceToStn float64
 		var accessCount, id int
 
 		recordRows.Scan(
 			&name,
 			&url,
 			&delicious,
-			&accomodating,
+			&accommodating,
 			&affordable,
 			&atmospheric,
 			&latitude,
@@ -243,10 +243,10 @@ func getRecords(context queryContext) records {
 			id:            id}
 
 		entry.features = featureMap{
-			"delicious":    delicious,
-			"accomodating": accomodating,
-			"affordable":   affordable,
-			"atmospheric":  atmospheric}
+			"delicious":     delicious,
+			"accommodating": accommodating,
+			"affordable":    affordable,
+			"atmospheric":   atmospheric}
 
 		entries = append(entries, entry)
 	}

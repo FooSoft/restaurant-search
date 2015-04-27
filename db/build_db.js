@@ -40,11 +40,11 @@ conn.query('USE hscd');
 //
 
 conn.query('DROP TABLE IF EXISTS reviews');
-conn.query('CREATE TABLE reviews(name VARCHAR(100) NOT NULL, url VARCHAR(200) NOT NULL, delicious FLOAT NOT NULL, accomodating FLOAT NOT NULL, affordable FLOAT NOT NULL, atmospheric FLOAT NOT NULL, latitude FLOAT NOT NULL, longitude FLOAT NOT NULL, distanceToStn FLOAT NOT NULL, closestStn VARCHAR(100) NOT NULL, accessCount INT NOT NULL, id INT NOT NULL AUTO_INCREMENT PRIMARY KEY) DEFAULT CHARACTER SET utf8');
+conn.query('CREATE TABLE reviews(name VARCHAR(100) NOT NULL, url VARCHAR(200) NOT NULL, delicious FLOAT NOT NULL, accommodating FLOAT NOT NULL, affordable FLOAT NOT NULL, atmospheric FLOAT NOT NULL, latitude FLOAT NOT NULL, longitude FLOAT NOT NULL, distanceToStn FLOAT NOT NULL, closestStn VARCHAR(100) NOT NULL, accessCount INT NOT NULL, id INT NOT NULL AUTO_INCREMENT PRIMARY KEY) DEFAULT CHARACTER SET utf8');
 
 for (var i = 0, count = data.length; i < count; ++i) {
     var record = data[i];
-    conn.query('INSERT INTO reviews(name, url, delicious, accomodating, affordable, atmospheric, latitude, longitude, distanceToStn, closestStn, accessCount) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
+    conn.query('INSERT INTO reviews(name, url, delicious, accommodating, affordable, atmospheric, latitude, longitude, distanceToStn, closestStn, accessCount) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
         record.name,
         record.relativeUrl,
         record.rating.food,
