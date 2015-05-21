@@ -1,10 +1,9 @@
 # Reactive Search #
 
 This work-in-progress represents a prototype semantic search application that I'm developing as part of my master's
-thesis at [Keio University](http://www.sfc.keio.ac.jp/). You can get a better understanding of the goals of this system
-by referring to the [overview](http://foosoft.net/dl/search/) presentation. The prototype is open-source and those who
-are interested are encouraged to [clone the project](https://github.com/FooSoft/search) and tinker with it. You may also
-access a [live snapshot](http://foosoft.net:8080/) of the prototype on my server.
+thesis at [Keio University](http://www.sfc.keio.ac.jp/). The prototype is open-source and those who are interested are
+encouraged to [clone the project](https://github.com/FooSoft/search) and tinker with it. You may also access a [live
+snapshot](http://foosoft.net:8080/) of the prototype on my server.
 
 This installation guide is designed with [Ubuntu](http://www.ubuntu.com/)-based distributions in mind (I'm using [Linux
 Mint](http://www.linuxmint.com/) for development), but I expect it to be trivial to get this application running on
