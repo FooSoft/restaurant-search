@@ -2,7 +2,7 @@
 
 This work-in-progress represents a prototype semantic search application that I'm developing as part of my master's
 thesis at [Keio University](http://www.sfc.keio.ac.jp/). You can get a better understanding of the goals of this system
--by referring to the [overview](https://github.com/FooSoft/search-slides/archive/master.zip) presentation. The prototype
+by referring to the [overview](https://github.com/FooSoft/search-slides/archive/master.zip) presentation. The prototype
 is open-source and those who are interested are encouraged to [clone the project](https://github.com/FooSoft/search) and
 tinker with it. You may also access a [live snapshot](http://foosoft.net:8080/) of the prototype on my server.
 
