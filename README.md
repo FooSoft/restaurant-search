@@ -1,4 +1,4 @@
-# Reactive Search #
+# Restaurant Search with Predictive Multispace Queries #
 
 This work-in-progress represents a prototype semantic search application that I'm developing as part of my master's
 thesis at [Keio University](http://www.sfc.keio.ac.jp/). You can get a better understanding of the goals of this system
