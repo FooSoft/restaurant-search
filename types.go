@@ -140,23 +140,23 @@ type recordSorter struct {
 	key       string
 }
 
-func (sorter recordSorter) sort() {
-	if sorter.ascending {
-		sort.Sort(sorter)
+func (s recordSorter) sort() {
+	if s.ascending {
+		sort.Sort(s)
 	} else {
-		sort.Sort(sort.Reverse(sorter))
+		sort.Sort(sort.Reverse(s))
 	}
 }
 
-func (sorter recordSorter) Len() int {
-	return len(sorter.entries)
+func (s recordSorter) Len() int {
+	return len(s.entries)
 }
 
-func (sorter recordSorter) Less(i, j int) bool {
-	entry1 := sorter.entries[i]
-	entry2 := sorter.entries[j]
+func (s recordSorter) Less(i, j int) bool {
+	entry1 := s.entries[i]
+	entry2 := s.entries[j]
 
-	switch sorter.key {
+	switch s.key {
 	case "accessCount":
 		return entry1.accessCount < entry2.accessCount
 	case "closestStn":
@@ -174,6 +174,6 @@ func (sorter recordSorter) Less(i, j int) bool {
 	}
 }
 
-func (sorter recordSorter) Swap(i, j int) {
-	sorter.entries[i], sorter.entries[j] = sorter.entries[j], sorter.entries[i]
+func (s recordSorter) Swap(i, j int) {
+	s.entries[i], s.entries[j] = s.entries[j], s.entries[i]
 }

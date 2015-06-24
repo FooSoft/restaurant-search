@@ -23,10 +23,11 @@
 package main
 
 import (
-	"github.com/kellydunn/golang-geo"
 	"log"
 	"math"
 	"strconv"
+
+	"github.com/kellydunn/golang-geo"
 )
 
 func fixFeatures(features featureMap) featureMap {

@@ -25,13 +25,13 @@ package main
 import (
 	"database/sql"
 	"encoding/json"
+	"flag"
 	"fmt"
-	_ "github.com/go-sql-driver/mysql"
 	"log"
 	"net/http"
-	"os"
-	"path/filepath"
 	"strings"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 var db *sql.DB
@@ -258,21 +258,14 @@ func clearHistory(rw http.ResponseWriter, req *http.Request) {
 	fmt.Fprint(rw, "History tables cleared")
 }
 
-func staticPath() (string, error) {
-	if len(os.Args) > 1 {
-		return os.Args[1], nil
-	}
-
-	return filepath.Abs(filepath.Join(filepath.Dir(os.Args[0]), "static"))
-}
-
 func main() {
-	dir, err := staticPath()
-	if err != nil {
-		log.Fatal(err)
-	}
+	staticDir := flag.String("static", "static", "path to static files")
+	portNum := flag.Int("port", 8080, "port to serve content on")
+	dataSrc := flag.String("data", "hscd@/hscd", "data source for database")
+	flag.Parse()
 
-	db, err = sql.Open("mysql", "hscd@/hscd")
+	var err error
+	db, err = sql.Open("mysql", *dataSrc)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -284,7 +277,7 @@ func main() {
 	http.HandleFunc("/forget", removeCategory)
 	http.HandleFunc("/access", accessReview)
 	http.HandleFunc("/clear", clearHistory)
-	http.Handle("/", http.FileServer(http.Dir(dir)))
+	http.Handle("/", http.FileServer(http.Dir(*staticDir)))
 
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", *portNum), nil))
 }
