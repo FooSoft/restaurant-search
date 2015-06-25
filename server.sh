@@ -1,2 +1,2 @@
 #!/bin/sh
-go run *.go static
+go run *.go -port 8181
