@@ -28,6 +28,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"math"
 	"net/http"
 	"strings"
 
@@ -57,6 +58,7 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 
 	response := jsonQueryResponse{
 		Count:   len(foundEntries),
+		Ranges:  make(map[string]jsonRange),
 		Columns: make(map[string]jsonColumn),
 		Records: make([]jsonRecord, 0)}
 
@@ -78,21 +80,34 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 		response.Columns[name] = column
 	}
 
-	for index, value := range foundEntries {
+	for index, record := range foundEntries {
+		for feature, value := range record.features {
+			rng, ok := response.Ranges[feature]
+			if ok {
+				rng.Max = math.Max(rng.Max, value)
+				rng.Min = math.Min(rng.Min, value)
+			} else {
+				rng.Max = value
+				rng.Min = value
+			}
+
+			response.Ranges[feature] = rng
+		}
+
 		if index >= request.MaxResults {
 			break
 		}
 
 		item := jsonRecord{
-			Name:           value.name,
-			Url:            value.url,
-			Score:          value.score,
-			Compatibility:  value.compatibility,
-			DistanceToUser: value.distanceToUser,
-			DistanceToStn:  value.distanceToStn,
-			ClosestStn:     value.closestStn,
-			AccessCount:    value.accessCount,
-			Id:             value.id}
+			Name:           record.name,
+			Url:            record.url,
+			Score:          record.score,
+			Compatibility:  record.compatibility,
+			DistanceToUser: record.distanceToUser,
+			DistanceToStn:  record.distanceToStn,
+			ClosestStn:     record.closestStn,
+			AccessCount:    record.accessCount,
+			Id:             record.id}
 
 		response.Records = append(response.Records, item)
 	}

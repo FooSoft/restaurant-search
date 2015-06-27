@@ -72,9 +72,15 @@ type jsonRecord struct {
 	Url            string  `json:"url"`
 }
 
+type jsonRange struct {
+	Min float64 `json:"min"`
+	Max float64 `json:"max"`
+}
+
 type jsonQueryResponse struct {
 	Columns map[string]jsonColumn `json:"columns"`
 	Count   int                   `json:"count"`
+	Ranges  map[string]jsonRange  `json:"ranges"`
 	Records []jsonRecord          `json:"records"`
 }
 
