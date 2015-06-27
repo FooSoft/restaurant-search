@@ -76,6 +76,7 @@
         var _fillColorPos   = '#cc0000';
         var _panelColor     = '#babdb6';
         var _tickColor      = '#888a85';
+        var _bracketBgColor = '#ffffff';
 
         var _densitySize    = 10;
         var _desatOffset    = -0.3;
@@ -83,7 +84,8 @@
         var _padding        = 5;
         var _panelSize      = 20;
         var _tickSize       = 5;
-        var _bracketSize    = 20;
+        var _bracketSize    = 10;
+        var _anchorSize     = 3;
         var _width          = 120;
         var _easeTime       = 400;
 
@@ -207,36 +209,31 @@
         }
 
         function updateBracket() {
-            var vis    = _data.bracket.min <= _data.bracket.max ? 'visible' : 'hidden';
+            var visibility = _data.bracket.min <= _data.bracket.max ? 'visible' : 'hidden';
 
-            var minY   = valueToIndicator(_data.bracket.min);
-            var maxY   = valueToIndicator(_data.bracket.max);
-            var height = maxY - minY;
+            var yMin  = valueToIndicator(_data.bracket.min);
+            var yMax  = valueToIndicator(_data.bracket.max);
+            var ySize = yMax - yMin;
 
-            var leftX  = _width - _bracketSize;
-            var midX   = _width - _bracketSize / 2;
-            var rightX = _width;
+            var xMin = _width - _bracketSize;
+            var xMax = _width;
 
             var path =
-                    'M' + leftX + ',' + minY +
-                    'Q' + rightX + ' ' + minY + ',' + rightX + ' ' + (minY + height * 0.1) +
-                    'v' + (height * 0.4) +
-                    // 'A' + (_bracketSize / 2) + ' ' + (_bracketSize / 2) + ' ' + 0 + ' ' + 0 + ' ' + 0 + ' ' + rightX + ' ' + (minY + maxY) / 2 +
-                    'v' + (height * 0.4) +
-                    'Q' + (rightX) + ' ' + maxY + ',' + leftX + ' ' + (maxY);
-
-            console.log(path);
+                'M' + xMin + ',' + yMin +
+                'Q' + xMax + ' ' + yMin + ',' + xMax + ' ' + (yMin + ySize * 0.025) +
+                'v' + ySize * 0.95 +
+                'Q' + xMax + ' ' + yMax + ',' + xMin + ' ' + yMax;
 
             if (_.has(_elements, 'bracketPath')) {
                 _elements.bracketPath.attr({
-                    visibility: vis,
+                    visibility: visibility,
                     path:       path
                 });
             }
             else {
                 _elements.bracketPath = _canvas.path(path).attr({
-                    visibility:  vis,
-                    fill:        '#ffffff',
+                    visibility:  visibility,
+                    fill:        _bracketBgColor,
                     strokeWidth: 1,
                     stroke:      '#000000'
                 });
@@ -244,35 +241,35 @@
 
             if (_.has(_elements, 'bracketMin')) {
                 _elements.bracketMin.attr({
-                    visibility: vis,
-                    cy:         minY
+                    visibility: visibility,
+                    cy:         yMin
                 });
             }
             else {
                 _elements.bracketMin = _canvas.circle(
-                    _width - _bracketSize / 2,
-                    minY,
-                    3
+                    _width - _bracketSize,
+                    yMin,
+                    _anchorSize
                 ).attr({
-                    visibility: vis,
-                    fill:       '#0000ff'
+                    visibility: visibility,
+                    fill:       _fillColorNeg
                 });
             }
 
             if (_.has(_elements, 'bracketMax')) {
                 _elements.bracketMax.attr({
-                    visibility: vis,
-                    cy:         maxY
+                    visibility: visibility,
+                    cy:         yMax
                 });
             }
             else {
                 _elements.bracketMax = _canvas.circle(
-                    _width - _bracketSize / 2,
-                    maxY,
-                    3
+                    _width - _bracketSize,
+                    yMax,
+                    _anchorSize
                 ).attr({
-                    visibility: vis,
-                    fill:       '#ff0000'
+                    visibility: visibility,
+                    fill:       _fillColorPos
                 });
             }
         }
