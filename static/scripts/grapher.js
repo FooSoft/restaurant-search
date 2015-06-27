@@ -165,6 +165,7 @@
                 _elements.backdrop,
                 _elements.indicator,
                 _elements.density,
+                _elements.bracketPath,
                 _elements.bracketMin,
                 _elements.bracketMax,
                 _elements.panel,
@@ -206,9 +207,33 @@
         }
 
         function updateBracket() {
-            var vis  = _data.bracket.min < _data.bracket.max ? 'visible' : 'hidden';
-            var minY = valueToIndicator(_data.bracket.min);
-            var maxY = valueToIndicator(_data.bracket.max);
+            var vis    = _data.bracket.min <= _data.bracket.max ? 'visible' : 'hidden';
+            var minY   = valueToIndicator(_data.bracket.min);
+            var maxY   = valueToIndicator(_data.bracket.max);
+            var leftX  = _width - _bracketSize;
+            var midX   = _width - _bracketSize / 2;
+            var rightX = _width;
+
+            var path =
+                    'M' + leftX + ',' + minY +
+                    'H' + midX +
+                    'V' + maxY +
+                    'H' + leftX;
+
+            if (_.has(_elements, 'bracketPath')) {
+                _elements.bracketPath.attr({
+                    visibility: vis,
+                    path:       path
+                });
+            }
+            else {
+                _elements.bracketPath = _canvas.path(path).attr({
+                    visibility:  vis,
+                    fill:        '#ffffff',
+                    strokeWidth: 1,
+                    stroke:      '#000000'
+                });
+            }
 
             if (_.has(_elements, 'bracketMin')) {
                 _elements.bracketMin.attr({
@@ -220,7 +245,7 @@
                 _elements.bracketMin = _canvas.circle(
                     _width - _bracketSize / 2,
                     minY,
-                    5
+                    3
                 ).attr({
                     visibility: vis,
                     fill:       '#0000ff'
@@ -237,7 +262,7 @@
                 _elements.bracketMax = _canvas.circle(
                     _width - _bracketSize / 2,
                     maxY,
-                    5
+                    3
                 ).attr({
                     visibility: vis,
                     fill:       '#ff0000'
