@@ -83,7 +83,7 @@
         var _padding        = 5;
         var _panelSize      = 20;
         var _tickSize       = 5;
-        var _bracketSize    = 10;
+        var _bracketSize    = 20;
         var _width          = 120;
         var _easeTime       = 400;
 
@@ -154,7 +154,7 @@
                 _elements.tick = _canvas.line(
                     0,
                     origin,
-                    _width - _densitySize,
+                    _width - _densitySize - _bracketSize,
                     origin
                 ).attr({
                     stroke: _tickColor
@@ -197,7 +197,7 @@
                 _elements.indicator = _canvas.rect(
                     _tickSize,
                     range.min,
-                    _width - (_densitySize + _tickSize),
+                    _width - (_densitySize + _tickSize + _bracketSize),
                     (range.max - range.min)
                 ).attr({
                     cursor: 'crosshair',
@@ -208,17 +208,24 @@
 
         function updateBracket() {
             var vis    = _data.bracket.min <= _data.bracket.max ? 'visible' : 'hidden';
+
             var minY   = valueToIndicator(_data.bracket.min);
             var maxY   = valueToIndicator(_data.bracket.max);
+            var height = maxY - minY;
+
             var leftX  = _width - _bracketSize;
             var midX   = _width - _bracketSize / 2;
             var rightX = _width;
 
             var path =
                     'M' + leftX + ',' + minY +
-                    'H' + midX +
-                    'V' + maxY +
-                    'H' + leftX;
+                    'Q' + rightX + ' ' + minY + ',' + rightX + ' ' + (minY + height * 0.1) +
+                    'v' + (height * 0.4) +
+                    // 'A' + (_bracketSize / 2) + ' ' + (_bracketSize / 2) + ' ' + 0 + ' ' + 0 + ' ' + 0 + ' ' + rightX + ' ' + (minY + maxY) / 2 +
+                    'v' + (height * 0.4) +
+                    'Q' + (rightX) + ' ' + maxY + ',' + leftX + ' ' + (maxY);
+
+            console.log(path);
 
             if (_.has(_elements, 'bracketPath')) {
                 _elements.bracketPath.attr({
