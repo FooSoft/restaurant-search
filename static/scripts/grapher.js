@@ -96,6 +96,7 @@
         var _onValueChanged = params.onValueChanged;
         var _range          = params.range;
         var _scale          = params.scale;
+        var _bracket        = params.bracket;
         var _elements       = {};
 
         function createShapes() {
@@ -119,16 +120,6 @@
                 _height - _panelSize
             ).attr({
                 stroke: _borderColor
-            });
-
-            // bracket
-            _elements.bracket = _canvas.rect(
-                _width - _bracketSize,
-                0,
-                _bracketSize,
-                _height - _panelSize
-            ).attr({
-                fill: '#ff0000'
             });
 
             // panel
@@ -163,6 +154,26 @@
                 fill: computeIndicatorColor(_data.value)
             }).click(clicked);
 
+            console.log(_data);
+
+            // bracketMin
+            _elements.bracketMin = _canvas.circle(
+                _width - _bracketSize / 2,
+                valueToIndicator(_data.bracket.min),
+                5
+            ).attr({
+                fill: '#0000ff'
+            });
+
+            // bracketMax
+            _elements.bracketMax = _canvas.circle(
+                _width - _bracketSize / 2,
+                valueToIndicator(_data.bracket.max),
+                5
+            ).attr({
+                fill: '#ff0000'
+            });
+
             // tick
             if (_range.contains(0.0)) {
                 var origin = valueToIndicator(0.0);
@@ -180,7 +191,8 @@
                 _elements.backdrop,
                 _elements.indicator,
                 _elements.density,
-                _elements.bracket,
+                _elements.bracketMin,
+                _elements.bracketMax,
                 _elements.panel,
                 _elements.tick,
                 _elements.label
@@ -202,6 +214,16 @@
             });
 
             _valueAnimated = value;
+        }
+
+        function updateBracket() {
+            _elements.bracketMin.attr({
+                y: _data.bracket.min
+            });
+
+            _elements.bracketMax.attr({
+                y: _data.bracket.max
+            });
         }
 
         function updateDensity() {
@@ -312,6 +334,10 @@
             if (_.has(data, 'hints')) {
                 _data.hints = data.hints;
                 updateDensity();
+            }
+            if (_.has(data, 'bracket')) {
+                _data.bracket = data.bracket;
+                updateBracket();
             }
         };
 

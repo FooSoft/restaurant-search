@@ -58,12 +58,14 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 
 	response := jsonQueryResponse{
 		Count:   len(foundEntries),
-		Ranges:  make(map[string]jsonRange),
 		Columns: make(map[string]jsonColumn),
 		Records: make([]jsonRecord, 0)}
 
 	for name, value := range features {
-		column := jsonColumn{Value: value, Steps: request.Resolution}
+		column := jsonColumn{
+			Bracket: jsonBracket{Max: -1, Min: 1},
+			Value:   value,
+			Steps:   request.Resolution}
 
 		hints := project(
 			entries,
@@ -77,23 +79,17 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 			column.Hints = append(column.Hints, jsonHint)
 		}
 
+		for _, record := range foundEntries {
+			if feature, ok := record.features[name]; ok {
+				column.Bracket.Max = math.Max(column.Bracket.Max, feature)
+				column.Bracket.Min = math.Min(column.Bracket.Min, feature)
+			}
+		}
+
 		response.Columns[name] = column
 	}
 
 	for index, record := range foundEntries {
-		for feature, value := range record.features {
-			rng, ok := response.Ranges[feature]
-			if ok {
-				rng.Max = math.Max(rng.Max, value)
-				rng.Min = math.Min(rng.Min, value)
-			} else {
-				rng.Max = value
-				rng.Min = value
-			}
-
-			response.Ranges[feature] = rng
-		}
-
 		if index >= request.MaxResults {
 			break
 		}

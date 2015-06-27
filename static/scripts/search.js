@@ -119,8 +119,9 @@
                     var column = results.columns[feature];
                     _ctx.query.features[feature] = column.value;
                     columns[feature] = {
-                        value: column.value,
-                        hints: column.hints
+                        value:   column.value,
+                        hints:   column.hints,
+                        bracket: column.bracket
                     };
                 }
 

@@ -49,9 +49,10 @@ type jsonQueryRequest struct {
 }
 
 type jsonColumn struct {
-	Hints []jsonProjection `json:"hints"`
-	Steps int              `json:"steps"`
-	Value float64          `json:"value"`
+	Bracket jsonBracket      `json:"bracket"`
+	Hints   []jsonProjection `json:"hints"`
+	Steps   int              `json:"steps"`
+	Value   float64          `json:"value"`
 }
 
 type jsonProjection struct {
@@ -72,7 +73,7 @@ type jsonRecord struct {
 	Url            string  `json:"url"`
 }
 
-type jsonRange struct {
+type jsonBracket struct {
 	Min float64 `json:"min"`
 	Max float64 `json:"max"`
 }
@@ -80,7 +81,6 @@ type jsonRange struct {
 type jsonQueryResponse struct {
 	Columns map[string]jsonColumn `json:"columns"`
 	Count   int                   `json:"count"`
-	Ranges  map[string]jsonRange  `json:"ranges"`
 	Records []jsonRecord          `json:"records"`
 }
 
