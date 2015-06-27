@@ -83,7 +83,8 @@
         var _padding        = 5;
         var _panelSize      = 20;
         var _tickSize       = 5;
-        var _width          = 100;
+        var _bracketSize    = 10;
+        var _width          = 120;
         var _easeTime       = 400;
 
         var _animation      = null;
@@ -100,41 +101,86 @@
         function createShapes() {
             // backdrop
             _elements.backdrop = _canvas.rect(
-                _tickSize, 0, _width - (_densitySize + _tickSize), _height - _panelSize
-            ).attr({cursor: 'crosshair', stroke: _borderColor, fill: _backdropColor}).click(clicked);
+                _tickSize,
+                0,
+                _width - (_bracketSize + _densitySize + _tickSize),
+                _height - _panelSize
+            ).attr({
+                cursor: 'crosshair',
+                stroke: _borderColor,
+                fill: _backdropColor
+            }).click(clicked);
 
             // density
             _elements.density = _canvas.rect(
-                _width - _densitySize, 0, _densitySize, _height - _panelSize
-            ).attr({stroke: _borderColor});
+                _width - (_densitySize + _bracketSize),
+                0,
+                _densitySize,
+                _height - _panelSize
+            ).attr({
+                stroke: _borderColor
+            });
+
+            // bracket
+            _elements.bracket = _canvas.rect(
+                _width - _bracketSize,
+                0,
+                _bracketSize,
+                _height - _panelSize
+            ).attr({
+                fill: '#ff0000'
+            });
 
             // panel
-            _elements.panel = _canvas.rect( _tickSize,
-                _height - _panelSize, _width - _tickSize, _panelSize
-            ).attr({fill: _panelColor});
+            _elements.panel = _canvas.rect(
+                _tickSize,
+                _height - _panelSize,
+                _width - _tickSize,
+                _panelSize
+            ).attr({
+                fill: _panelColor
+            });
 
             // label
             _elements.label = _canvas.text(
-                _tickSize + (_width - _tickSize) / 2, _height - _panelSize / 2, _name
-            ).attr({'dominant-baseline': 'middle', 'text-anchor': 'middle'});
+                _tickSize + (_width - _tickSize) / 2,
+                _height - _panelSize / 2,
+                _name
+            ).attr({
+                'dominant-baseline': 'middle',
+                'text-anchor': 'middle'
+            });
 
             // indicator
             var range = computeIndicatorRange(_data.value);
             _elements.indicator = _canvas.rect(
-                _tickSize, range.min, _width - (_densitySize + _tickSize), (range.max - range.min)
-            ).attr({cursor: 'crosshair', fill: computeIndicatorColor(_data.value)}).click(clicked);
+                _tickSize,
+                range.min,
+                _width - (_densitySize + _tickSize),
+                (range.max - range.min)
+            ).attr({
+                cursor: 'crosshair',
+                fill: computeIndicatorColor(_data.value)
+            }).click(clicked);
 
             // tick
             if (_range.contains(0.0)) {
                 var origin = valueToIndicator(0.0);
-                _elements.tick = _canvas.line(0, origin, _width - _densitySize, origin
-                ).attr({stroke: _tickColor});
+                _elements.tick = _canvas.line(
+                    0,
+                    origin,
+                    _width - _densitySize,
+                    origin
+                ).attr({
+                    stroke: _tickColor
+                });
             }
 
             _elements.group = _canvas.group(
                 _elements.backdrop,
                 _elements.indicator,
                 _elements.density,
+                _elements.bracket,
                 _elements.panel,
                 _elements.tick,
                 _elements.label
