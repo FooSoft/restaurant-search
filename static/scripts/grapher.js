@@ -142,37 +142,11 @@
                 'text-anchor': 'middle'
             });
 
-            // indicator
-            var range = computeIndicatorRange(_data.value);
-            _elements.indicator = _canvas.rect(
-                _tickSize,
-                range.min,
-                _width - (_densitySize + _tickSize),
-                (range.max - range.min)
-            ).attr({
-                cursor: 'crosshair',
-                fill: computeIndicatorColor(_data.value)
-            }).click(clicked);
+            // indiciator
+            updateIndicator(_data.value);
 
-            console.log(_data);
-
-            // bracketMin
-            _elements.bracketMin = _canvas.circle(
-                _width - _bracketSize / 2,
-                valueToIndicator(_data.bracket.min),
-                5
-            ).attr({
-                fill: '#0000ff'
-            });
-
-            // bracketMax
-            _elements.bracketMax = _canvas.circle(
-                _width - _bracketSize / 2,
-                valueToIndicator(_data.bracket.max),
-                5
-            ).attr({
-                fill: '#ff0000'
-            });
+            // bracket
+            updateBracket();
 
             // tick
             if (_range.contains(0.0)) {
@@ -207,23 +181,68 @@
 
         function updateIndicator(value) {
             var range = computeIndicatorRange(value);
-            _elements.indicator.attr({
-                y:      range.min,
-                height: range.max - range.min,
-                fill:   computeIndicatorColor(value)
-            });
+            var fill  = computeIndicatorColor(value);
 
-            _valueAnimated = value;
+            if (_.has(_elements, 'indicator')) {
+                _elements.indicator.attr({
+                    y:      range.min,
+                    height: range.max - range.min,
+                    fill:   fill
+                });
+
+                _valueAnimated = value;
+            }
+            else {
+                _elements.indicator = _canvas.rect(
+                    _tickSize,
+                    range.min,
+                    _width - (_densitySize + _tickSize),
+                    (range.max - range.min)
+                ).attr({
+                    cursor: 'crosshair',
+                    fill:   fill
+                }).click(clicked);
+            }
         }
 
         function updateBracket() {
-            _elements.bracketMin.attr({
-                y: _data.bracket.min
-            });
+            var vis  = _data.bracket.min < _data.bracket.max ? 'visible' : 'hidden';
+            var minY = valueToIndicator(_data.bracket.min);
+            var maxY = valueToIndicator(_data.bracket.max);
 
-            _elements.bracketMax.attr({
-                y: _data.bracket.max
-            });
+            if (_.has(_elements, 'bracketMin')) {
+                _elements.bracketMin.attr({
+                    visibility: vis,
+                    cy:         minY
+                });
+            }
+            else {
+                _elements.bracketMin = _canvas.circle(
+                    _width - _bracketSize / 2,
+                    minY,
+                    5
+                ).attr({
+                    visibility: vis,
+                    fill:       '#0000ff'
+                });
+            }
+
+            if (_.has(_elements, 'bracketMax')) {
+                _elements.bracketMax.attr({
+                    visibility: vis,
+                    cy:         maxY
+                });
+            }
+            else {
+                _elements.bracketMax = _canvas.circle(
+                    _width - _bracketSize / 2,
+                    maxY,
+                    5
+                ).attr({
+                    visibility: vis,
+                    fill:       '#ff0000'
+                });
+            }
         }
 
         function updateDensity() {
