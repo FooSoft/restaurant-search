@@ -80,8 +80,8 @@ type jsonBracket struct {
 }
 
 type jsonNamedBracket struct {
-	Bracket string `json:"bracket"`
-	Name    string `json:"name"`
+	Bracket jsonBracket `json:"bracket"`
+	Name    string      `json:"name"`
 }
 
 type jsonQueryResponse struct {
@@ -129,6 +129,12 @@ type queryProjection struct {
 type geoData struct {
 	latitude  float64
 	longitude float64
+}
+
+type namedBracket struct {
+	name string
+	min  float64
+	max  float64
 }
 
 type record struct {
