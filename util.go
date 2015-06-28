@@ -135,7 +135,6 @@ func calibrateMinScore(entries records, features featureMap, bracket namedBracke
 		}
 	}
 
-	log.Printf("bestScoreRank: %f; bestMinScore: %f", bestScoreRank, bestMinScore)
 	return bestMinScore
 }
 
