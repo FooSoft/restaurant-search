@@ -101,7 +101,42 @@ func findRecords(entries records, features featureMap, minScore float64) records
 }
 
 func calibrateMinScore(entries records, features featureMap, bracket namedBracket) float64 {
-	return 2
+	bestScoreRank := -math.MaxFloat64
+	var bestMinScore float64
+
+	for minScore := float64(-len(features)); minScore <= float64(len(features)); minScore += 0.1 {
+		var scoreRank float64
+
+		for _, entry := range entries {
+			value, ok := entry.features[bracket.name]
+			if !ok {
+				continue
+			}
+
+			score := innerProduct(features, entry.features)
+			if score < minScore {
+				continue
+			}
+
+			if score > minScore {
+				if value >= bracket.min && value <= bracket.max {
+					dist := math.Abs(value - features[bracket.name])
+					scoreRank += 1 / (dist * dist)
+				} else {
+					dist := math.Min(math.Abs(value-bracket.min), math.Abs(value-bracket.max))
+					scoreRank -= 1 / (dist * dist)
+				}
+			}
+		}
+
+		if scoreRank > bestScoreRank {
+			bestScoreRank = scoreRank
+			bestMinScore = minScore
+		}
+	}
+
+	log.Printf("bestScoreRank: %f; bestMinScore: %f", bestScoreRank, bestMinScore)
+	return bestMinScore
 }
 
 func project(entries records, features featureMap, featureName string, minScore float64, steps int) []queryProjection {
