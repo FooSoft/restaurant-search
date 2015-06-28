@@ -70,25 +70,25 @@
     //
 
     function Column(params) {
-        var _backdropColor  = '#eeeeec';
         var _borderColor    = '#d3d7cf';
+        var _bracketColorBg = '#ffffff';
+        var _bracketColorFg = '#555753';
+        var _bracketColorPt = '#2e3436';
+        var _fillColorBg    = '#eeeeec';
         var _fillColorNeg   = '#3465a4';
         var _fillColorPos   = '#cc0000';
         var _panelColor     = '#d3d7cf';
         var _tickColor      = '#d3d7cf';
-        var _bracketBgColor = '#ffffff';
-        var _bracketFgColor = '#555753';
-        var _bracketPtColor = '#2e3436';
 
+        var _anchorSize     = 2;
+        var _bracketSize    = 10;
         var _densitySize    = 10;
         var _desatOffset    = -0.3;
+        var _easeTime       = 400;
         var _height         = 500;
         var _padding        = 10;
         var _panelSize      = 20;
-        var _bracketSize    = 10;
-        var _anchorSize     = 2;
         var _width          = 120;
-        var _easeTime       = 400;
 
         var _animation      = null;
         var _canvas         = params.canvas;
@@ -103,8 +103,8 @@
         var _elements       = {};
 
         function createShapes() {
-            // backdrop
-            _elements.backdrop = _canvas.rect(
+            // indicatorBg
+            _elements.indicatorBg = _canvas.rect(
                 _densitySize,
                 0,
                 _width - (_bracketSize + _densitySize),
@@ -112,7 +112,7 @@
             ).attr({
                 cursor: 'crosshair',
                 stroke: _borderColor,
-                fill: _backdropColor
+                fill:   _fillColorBg
             }).click(clicked);
 
             // density
@@ -142,7 +142,7 @@
                 _name
             ).attr({
                 'dominant-baseline': 'middle',
-                'text-anchor': 'middle'
+                'text-anchor':       'middle'
             });
 
             // indiciator
@@ -165,9 +165,10 @@
             }
 
             _elements.group = _canvas.group(
-                _elements.backdrop,
+                _elements.indicatorBg,
                 _elements.indicator,
                 _elements.density,
+                _elements.bracketBg,
                 _elements.bracketPath,
                 _elements.bracketMin,
                 _elements.bracketMax,
@@ -225,6 +226,18 @@
                 'v' + ySize * 0.95 +
                 'Q' + xMax + ' ' + yMax + ',' + xMin + ' ' + yMax;
 
+            if (!_.has(_elements, 'bracketBg')) {
+                _elements.bracketBg = _canvas.rect(
+                    _width - _bracketSize,
+                    0,
+                    _bracketSize,
+                    _height - _panelSize
+                ).attr({
+                    fill:   _bracketColorBg,
+                    cursor: 'ns-resize'
+                });
+            }
+
             if (_.has(_elements, 'bracketPath')) {
                 _elements.bracketPath.attr({
                     visibility: visibility,
@@ -234,9 +247,10 @@
             else {
                 _elements.bracketPath = _canvas.path(path).attr({
                     visibility:         visibility,
-                    fill:               _bracketBgColor,
+                    fill:               _bracketColorBg,
                     strokeWidth:        1,
-                    stroke:             _bracketFgColor,
+                    stroke:             _bracketColorFg,
+                    cursor:             'ns-resize',
                     'stroke-dasharray': '5, 1'
                 });
             }
@@ -254,7 +268,7 @@
                     _anchorSize
                 ).attr({
                     visibility: visibility,
-                    fill:       _bracketPtColor
+                    fill:       _bracketColorPt
                 });
             }
 
@@ -271,13 +285,13 @@
                     _anchorSize
                 ).attr({
                     visibility: visibility,
-                    fill:       _bracketPtColor
+                    fill:       _bracketColorPt
                 });
             }
         }
 
         function updateDensity() {
-            var fill = _backdropColor;
+            var fill = _fillColorBg;
             if (_data.hints.length > 0) {
                 fill = _canvas.gradient(blendHints());
             }
@@ -358,13 +372,13 @@
         }
 
         function valueToIndicator(scalar) {
-            var box    = _elements.backdrop.getBBox();
+            var box    = _elements.indicatorBg.getBBox();
             var offset = _range.offset(scalar);
             return box.y + box.height * (1.0 - offset);
         }
 
         function indicatorToValue(scalar) {
-            var box   = _elements.backdrop.getBBox();
+            var box   = _elements.indicatorBg.getBBox();
             var range = new Range(box.y, box.y + box.height);
             return -_range.project(range.offset(scalar));
         }
