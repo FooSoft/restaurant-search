@@ -71,21 +71,22 @@
 
     function Column(params) {
         var _backdropColor  = '#eeeeec';
-        var _borderColor    = '#babdb6';
+        var _borderColor    = '#d3d7cf';
         var _fillColorNeg   = '#3465a4';
         var _fillColorPos   = '#cc0000';
-        var _panelColor     = '#babdb6';
-        var _tickColor      = '#888a85';
+        var _panelColor     = '#d3d7cf';
+        var _tickColor      = '#d3d7cf';
         var _bracketBgColor = '#ffffff';
+        var _bracketFgColor = '#555753';
+        var _bracketPtColor = '#2e3436';
 
         var _densitySize    = 10;
         var _desatOffset    = -0.3;
         var _height         = 500;
-        var _padding        = 5;
+        var _padding        = 10;
         var _panelSize      = 20;
-        var _tickSize       = 5;
         var _bracketSize    = 10;
-        var _anchorSize     = 3;
+        var _anchorSize     = 2;
         var _width          = 120;
         var _easeTime       = 400;
 
@@ -104,9 +105,9 @@
         function createShapes() {
             // backdrop
             _elements.backdrop = _canvas.rect(
-                _tickSize,
+                _densitySize,
                 0,
-                _width - (_bracketSize + _densitySize + _tickSize),
+                _width - (_bracketSize + _densitySize),
                 _height - _panelSize
             ).attr({
                 cursor: 'crosshair',
@@ -116,7 +117,7 @@
 
             // density
             _elements.density = _canvas.rect(
-                _width - (_densitySize + _bracketSize),
+                0,
                 0,
                 _densitySize,
                 _height - _panelSize
@@ -126,9 +127,9 @@
 
             // panel
             _elements.panel = _canvas.rect(
-                _tickSize,
+                0,
                 _height - _panelSize,
-                _width - _tickSize,
+                _width - _bracketSize,
                 _panelSize
             ).attr({
                 fill: _panelColor
@@ -136,7 +137,7 @@
 
             // label
             _elements.label = _canvas.text(
-                _tickSize + (_width - _tickSize) / 2,
+                _width / 2,
                 _height - _panelSize / 2,
                 _name
             ).attr({
@@ -154,7 +155,7 @@
             if (_range.contains(0.0)) {
                 var origin = valueToIndicator(0.0);
                 _elements.tick = _canvas.line(
-                    0,
+                    _densitySize,
                     origin,
                     _width - _densitySize - _bracketSize,
                     origin
@@ -197,9 +198,9 @@
             }
             else {
                 _elements.indicator = _canvas.rect(
-                    _tickSize,
+                    _densitySize,
                     range.min,
-                    _width - (_densitySize + _tickSize + _bracketSize),
+                    _width - (_densitySize + _bracketSize),
                     (range.max - range.min)
                 ).attr({
                     cursor: 'crosshair',
@@ -232,10 +233,11 @@
             }
             else {
                 _elements.bracketPath = _canvas.path(path).attr({
-                    visibility:  visibility,
-                    fill:        _bracketBgColor,
-                    strokeWidth: 1,
-                    stroke:      '#000000'
+                    visibility:         visibility,
+                    fill:               _bracketBgColor,
+                    strokeWidth:        1,
+                    stroke:             _bracketFgColor,
+                    'stroke-dasharray': '5, 1'
                 });
             }
 
@@ -252,7 +254,7 @@
                     _anchorSize
                 ).attr({
                     visibility: visibility,
-                    fill:       _fillColorNeg
+                    fill:       _bracketPtColor
                 });
             }
 
@@ -269,7 +271,7 @@
                     _anchorSize
                 ).attr({
                     visibility: visibility,
-                    fill:       _fillColorPos
+                    fill:       _bracketPtColor
                 });
             }
         }
