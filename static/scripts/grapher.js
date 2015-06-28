@@ -99,7 +99,7 @@
         var _name           = params.name;
         var _valueTrans     = params.data.value;
         var _bracketTrans   = params.data.bracket;
-        var _onValueChanged = params.onValueChanged;
+        var _onStateChanged = params.onStateChanged;
         var _range          = params.range;
         var _scale          = params.scale;
         var _elements       = {};
@@ -324,13 +324,25 @@
             return colorStops;
         }
 
-        function updateValue(value, bracket) {
-            _data.value       = _range.clamp(value);
-            _data.bracket.max = _range.clamp(bracket.max);
-            _data.bracket.min = _range.clamp(bracket.min);
+        function updateState(value, bracket) {
+            var updateBracket = bracket !== null;
+            var updateValue   = value !== null;
 
-            if (_onValueChanged) {
-                _onValueChanged(_name, _data.value, _data.bracket);
+            if (updateBracket) {
+                _data.bracket.max = _range.clamp(bracket.max);
+                _data.bracket.min = _range.clamp(bracket.min);
+            }
+
+            if (updateValue) {
+                _data.value = _range.clamp(value);
+            }
+
+            if (_onStateChanged) {
+                _onStateChanged(
+                    _name,
+                    updateValue ? _data.value : null,
+                    updateBracket ? _data.bracket : null
+                );
             }
 
             animateIndicator(_valueTrans, _data.value);
@@ -431,7 +443,7 @@
         function indicatorClick(event, x, y) {
             var rect = _canvas.node.getBoundingClientRect();
 
-            updateValue(indicatorToValue(y - rect.top), _data.bracket);
+            updateState(indicatorToValue(y - rect.top), null);
         }
 
         function bracketClick(event, x, y) {
@@ -442,7 +454,7 @@
             dist     = Math.min(dist, Math.abs(_range.max - mid));
             dist     = Math.min(dist, Math.abs(_range.min - mid));
 
-            updateValue(_data.value, {max: mid + dist, min: mid - dist});
+            updateState(_data.value, {max: mid + dist, min: mid - dist});
         }
 
         this.update = function(data, scale) {
@@ -477,7 +489,7 @@
         var _range          = new Range(-1.0, 1.0);
         var _useLocalScale  = params.useLocalScale || false;
         var _displayType    = params.displayType || 'density';
-        var _onValueChanged = params.onValueChanged;
+        var _onStateChanged = params.onStateChanged;
 
         function processHintParameters(columns) {
             var displayTypes = {compatibility: 'compatibility', density: 'count'};
@@ -535,7 +547,7 @@
                 }
                 else {
                     _columns[name] = new Column({
-                        onValueChanged: _onValueChanged,
+                        onStateChanged: _onStateChanged,
                         range:          _range,
                         canvas:         _canvas,
                         data:           columnData,

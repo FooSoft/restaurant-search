@@ -57,9 +57,10 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 	sorter.sort()
 
 	response := jsonQueryResponse{
-		Count:   len(foundEntries),
-		Columns: make(map[string]jsonColumn),
-		Records: make([]jsonRecord, 0)}
+		Count:    len(foundEntries),
+		Columns:  make(map[string]jsonColumn),
+		MinScore: request.MinScore,
+		Records:  make([]jsonRecord, 0)}
 
 	for name, value := range features {
 		column := jsonColumn{

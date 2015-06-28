@@ -25,8 +25,9 @@
 
     var _ctx = {};
 
-    function onAdjust(name, value, bracket) {
+    function onStateChanged(name, value, bracket) {
         _ctx.query.features[name] = value;
+        _ctx.query.bracket        = bracket === null ? null : {name: name, bracket: bracket};
 
         $.post('/query', JSON.stringify(_ctx.query), function(results) {
             saveSnapshot(results);
@@ -77,6 +78,7 @@
     function onSearch() {
         _ctx.query = {
             features:    _ctx.query.features || {},
+            bracket:     null,
             sortKey:     _ctx.sortKey,
             sortAsc:     _ctx.sortAsc,
             profile:     getProfile(),
@@ -97,7 +99,7 @@
             if (!_.has(_ctx, 'grapher')) {
                 _ctx.grapher = new grapher.Grapher({
                     canvas:         new Snap('#svg'),
-                    onValueChanged: onAdjust,
+                    onStateChanged: onStateChanged,
                     displayType:    $('#displayType').val(),
                     useLocalScale:  $('#useLocalScale').is(':checked')
                 });
@@ -138,6 +140,9 @@
     }
 
     function outputSnapshot(results, omitValues) {
+        _ctx.query.minScore = results.minScore;
+        $('#minScore').val(results.minScore);
+
         var columns = {};
         for (var name in results.columns) {
             var column = results.columns[name];

@@ -37,15 +37,16 @@ type jsonGeoData struct {
 }
 
 type jsonQueryRequest struct {
-	Features    featureMap   `json:"features"`
-	Geo         *jsonGeoData `json:"geo"`
-	MaxResults  int          `json:"maxResults"`
-	MinScore    float64      `json:"minScore"`
-	Profile     featureMap   `json:"profile"`
-	Resolution  int          `json:"resolution"`
-	SortAsc     bool         `json:"sortAsc"`
-	SortKey     string       `json:"sortKey"`
-	WalkingDist float64      `json:"walkingDist"`
+	Bracket     *jsonNamedBracket `json:"bracket"`
+	Features    featureMap        `json:"features"`
+	Geo         *jsonGeoData      `json:"geo"`
+	MaxResults  int               `json:"maxResults"`
+	MinScore    float64           `json:"minScore"`
+	Profile     featureMap        `json:"profile"`
+	Resolution  int               `json:"resolution"`
+	SortAsc     bool              `json:"sortAsc"`
+	SortKey     string            `json:"sortKey"`
+	WalkingDist float64           `json:"walkingDist"`
 }
 
 type jsonColumn struct {
@@ -78,10 +79,16 @@ type jsonBracket struct {
 	Max float64 `json:"max"`
 }
 
+type jsonNamedBracket struct {
+	Bracket string `json:"bracket"`
+	Name    string `json:"name"`
+}
+
 type jsonQueryResponse struct {
-	Columns map[string]jsonColumn `json:"columns"`
-	Count   int                   `json:"count"`
-	Records []jsonRecord          `json:"records"`
+	Columns  map[string]jsonColumn `json:"columns"`
+	Count    int                   `json:"count"`
+	MinScore float64               `json:"minScore"`
+	Records  []jsonRecord          `json:"records"`
 }
 
 type jsonCategory struct {
