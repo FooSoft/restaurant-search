@@ -32,6 +32,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/GaryBoone/GoStats/stats"
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -90,11 +91,23 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 			column.Hints = append(column.Hints, jsonHint)
 		}
 
+		var d stats.Stats
 		for _, record := range foundEntries {
 			if feature, ok := record.features[name]; ok {
-				column.Bracket.Max = math.Max(column.Bracket.Max, feature)
-				column.Bracket.Min = math.Min(column.Bracket.Min, feature)
+				d.Update(feature)
 			}
+		}
+
+		if d.Count() > 0 {
+			var dev float64
+			if d.Count() > 1 {
+				dev = d.SampleStandardDeviation() * 3
+			}
+
+			mean := d.Mean()
+
+			column.Bracket.Max = math.Min(mean+dev, d.Max())
+			column.Bracket.Min = math.Max(mean-dev, d.Min())
 		}
 
 		response.Columns[name] = column
