@@ -52,14 +52,24 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 	entries := getRecords(queryContext{geo, request.Profile, request.WalkingDist})
 	features := fixFeatures(request.Features)
 
-	foundEntries := findRecords(entries, features, request.MinScore)
+	minScore := request.MinScore
+	if request.Bracket != nil {
+		bracket := namedBracket{
+			request.Bracket.Name,
+			request.Bracket.Min,
+			request.Bracket.Max}
+
+		minScore = calibrateMinScore(entries, features, bracket)
+	}
+
+	foundEntries := findRecords(entries, features, minScore)
 	sorter := recordSorter{entries: foundEntries, key: request.SortKey, ascending: request.SortAsc}
 	sorter.sort()
 
 	response := jsonQueryResponse{
 		Count:    len(foundEntries),
 		Columns:  make(map[string]jsonColumn),
-		MinScore: request.MinScore,
+		MinScore: minScore,
 		Records:  make([]jsonRecord, 0)}
 
 	for name, value := range features {
@@ -72,7 +82,7 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 			entries,
 			features,
 			name,
-			request.MinScore,
+			minScore,
 			request.Resolution)
 
 		for _, hint := range hints {

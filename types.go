@@ -80,8 +80,8 @@ type jsonBracket struct {
 }
 
 type jsonNamedBracket struct {
-	Bracket jsonBracket `json:"bracket"`
-	Name    string      `json:"name"`
+	jsonBracket
+	Name string `json:"name"`
 }
 
 type jsonQueryResponse struct {

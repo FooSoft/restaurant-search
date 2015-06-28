@@ -100,6 +100,10 @@ func findRecords(entries records, features featureMap, minScore float64) records
 	return foundEntries
 }
 
+func calibrateMinScore(entries records, features featureMap, bracket namedBracket) float64 {
+	return 2
+}
+
 func project(entries records, features featureMap, featureName string, minScore float64, steps int) []queryProjection {
 	sampleFeatures := make(featureMap)
 	for key, value := range features {

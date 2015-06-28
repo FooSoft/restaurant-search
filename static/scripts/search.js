@@ -27,7 +27,16 @@
 
     function onStateChanged(name, value, bracket) {
         _ctx.query.features[name] = value;
-        _ctx.query.bracket        = bracket === null ? null : {name: name, bracket: bracket};
+        if (bracket === null) {
+            _ctx.query.bracket = null;
+        }
+        else {
+            _ctx.query.bracket = {
+                name: name,
+                min:  bracket.min,
+                max:  bracket.max
+            };
+        }
 
         $.post('/query', JSON.stringify(_ctx.query), function(results) {
             saveSnapshot(results);
