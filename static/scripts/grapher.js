@@ -91,16 +91,17 @@
         var _tickSize       = 5;
         var _width          = 120;
 
-        var _animation      = null;
+        var _indicatorAnim  = null;
+        var _bracketAnim    = null;
         var _canvas         = params.canvas;
         var _data           = params.data;
         var _index          = params.index;
         var _name           = params.name;
-        var _valueAnimated  = params.data.value;
+        var _valueTrans     = params.data.value;
+        var _bracketTrans   = params.data.bracket;
         var _onValueChanged = params.onValueChanged;
         var _range          = params.range;
         var _scale          = params.scale;
-        var _bracket        = params.bracket;
         var _elements       = {};
 
         function createShapes() {
@@ -161,7 +162,7 @@
             updateIndicator(_data.value);
 
             // bracket
-            updateBracket();
+            updateBracket(_data.bracket);
 
             // tick
             if (_range.contains(0.0)) {
@@ -207,7 +208,7 @@
                     fill:   fill
                 });
 
-                _valueAnimated = value;
+                _valueTrans = value;
             }
             else {
                 _elements.indicator = _canvas.rect(
@@ -222,11 +223,11 @@
             }
         }
 
-        function updateBracket() {
-            var visibility = _data.bracket.min <= _data.bracket.max ? 'visible' : 'hidden';
+        function updateBracket(bracket) {
+            var visibility = bracket.min <= bracket.max ? 'visible' : 'hidden';
 
-            var yMin  = valueToBracket(_data.bracket.min);
-            var yMax  = valueToBracket(_data.bracket.max);
+            var yMin  = valueToBracket(bracket.min);
+            var yMax  = valueToBracket(bracket.max);
             var ySize = yMax - yMin;
 
             var xMin = _width - _bracketSize;
@@ -243,6 +244,8 @@
                     visibility: visibility,
                     path:       path
                 });
+
+                _bracketTrans = bracket;
             }
             else {
                 _elements.bracketPath = _canvas.path(path).attr({
@@ -330,7 +333,7 @@
                 _onValueChanged(_name, _data.value, _data.bracket);
             }
 
-            animateIndicator(_valueAnimated, _data.value);
+            animateIndicator(_valueTrans, _data.value);
         }
 
         function animateIndicator(valueOld, valueNew) {
@@ -338,11 +341,11 @@
                 return;
             }
 
-            if (_animation !== null) {
-                _animation.stop();
+            if (_indicatorAnim !== null) {
+                _indicatorAnim.stop();
             }
 
-            _animation = Snap.animate(
+            _indicatorAnim = Snap.animate(
                 valueOld,
                 valueNew,
                 function(value) {
@@ -351,7 +354,30 @@
                 _easeTime,
                 mina.easeinout,
                 function() {
-                    _animation = null;
+                    _indicatorAnim = null;
+                }
+            );
+        }
+
+        function animateBracket(bracketOld, bracketNew) {
+            if (bracketOld.min === bracketNew.min && bracketOld.max === bracketNew.max) {
+                return;
+            }
+
+            if (_bracketAnim !== null) {
+                _bracketAnim.stop();
+            }
+
+            _bracketAnim = Snap.animate(
+                [bracketOld.min, bracketOld.max],
+                [bracketNew.min, bracketNew.max],
+                function(bracket) {
+                    updateBracket({min: bracket[0], max: bracket[1]});
+                },
+                _easeTime,
+                mina.easeinout,
+                function() {
+                    _bracketAnim = null;
                 }
             );
         }
@@ -424,7 +450,7 @@
 
             if (_.has(data, 'value')) {
                 _data.value = data.value;
-                animateIndicator(_valueAnimated, _data.value);
+                animateIndicator(_valueTrans, _data.value);
             }
             if (_.has(data, 'hints')) {
                 _data.hints = data.hints;
@@ -432,7 +458,7 @@
             }
             if (_.has(data, 'bracket')) {
                 _data.bracket = data.bracket;
-                updateBracket();
+                animateBracket(_bracketTrans, _data.bracket);
             }
         };
 
