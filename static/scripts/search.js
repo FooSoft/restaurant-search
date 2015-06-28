@@ -25,7 +25,7 @@
 
     var _ctx = {};
 
-    function onAdjust(name, value) {
+    function onAdjust(name, value, bracket) {
         _ctx.query.features[name] = value;
 
         $.post('/query', JSON.stringify(_ctx.query), function(results) {

@@ -88,6 +88,7 @@
         var _height         = 500;
         var _padding        = 10;
         var _panelSize      = 20;
+        var _tickSize       = 5;
         var _width          = 120;
 
         var _animation      = null;
@@ -137,7 +138,7 @@
 
             // label
             _elements.label = _canvas.text(
-                _width / 2,
+                (_width - _bracketSize) / 2,
                 _height - _panelSize / 2,
                 _name
             ).attr({
@@ -168,7 +169,7 @@
                 _elements.tick = _canvas.line(
                     _densitySize,
                     origin,
-                    _width - _densitySize - _bracketSize,
+                    _width - _bracketSize + _tickSize,
                     origin
                 ).attr({
                     stroke: _tickColor
@@ -320,10 +321,13 @@
             return colorStops;
         }
 
-        function updateValue(value) {
-            _data.value = _range.clamp(value);
+        function updateValue(value, bracket) {
+            _data.value       = _range.clamp(value);
+            _data.bracket.max = _range.clamp(bracket.max);
+            _data.bracket.min = _range.clamp(bracket.min);
+
             if (_onValueChanged) {
-                _onValueChanged(_name, _data.value);
+                _onValueChanged(_name, _data.value, _data.bracket);
             }
 
             animateIndicator(_valueAnimated, _data.value);
@@ -400,16 +404,19 @@
 
         function indicatorClick(event, x, y) {
             var rect = _canvas.node.getBoundingClientRect();
-            var val  = indicatorToValue(y - rect.top);
-            updateValue(val);
+
+            updateValue(indicatorToValue(y - rect.top), _data.bracket);
         }
 
         function bracketClick(event, x, y) {
             var mid  = (_data.bracket.min + _data.bracket.max) / 2;
             var rect = _canvas.node.getBoundingClientRect();
-            var val  = bracketToValue(y - rect.top);
 
-            alert('Clicked');
+            var dist = Math.abs(mid - bracketToValue(y - rect.top));
+            dist     = Math.min(dist, Math.abs(_range.max - mid));
+            dist     = Math.min(dist, Math.abs(_range.min - mid));
+
+            updateValue(_data.value, {max: mid + dist, min: mid - dist});
         }
 
         this.update = function(data, scale) {
