@@ -113,7 +113,7 @@
                 cursor: 'crosshair',
                 stroke: _borderColor,
                 fill:   _fillColorBg
-            }).click(clicked);
+            }).click(indicatorClick);
 
             // density
             _elements.density = _canvas.rect(
@@ -144,6 +144,17 @@
                 'dominant-baseline': 'middle',
                 'text-anchor':       'middle'
             });
+
+            // bracketBg
+            _elements.bracketBg = _canvas.rect(
+                _width - _bracketSize,
+                0,
+                _bracketSize,
+                _height - _panelSize
+            ).attr({
+                fill:   _bracketColorBg,
+                cursor: 'ns-resize'
+            }).click(bracketClick);
 
             // indiciator
             updateIndicator(_data.value);
@@ -206,15 +217,15 @@
                 ).attr({
                     cursor: 'crosshair',
                     fill:   fill
-                }).click(clicked);
+                }).click(indicatorClick);
             }
         }
 
         function updateBracket() {
             var visibility = _data.bracket.min <= _data.bracket.max ? 'visible' : 'hidden';
 
-            var yMin  = valueToIndicator(_data.bracket.min);
-            var yMax  = valueToIndicator(_data.bracket.max);
+            var yMin  = valueToBracket(_data.bracket.min);
+            var yMax  = valueToBracket(_data.bracket.max);
             var ySize = yMax - yMin;
 
             var xMin = _width - _bracketSize;
@@ -225,18 +236,6 @@
                 'Q' + xMax + ' ' + yMin + ',' + xMax + ' ' + (yMin + ySize * 0.025) +
                 'v' + ySize * 0.95 +
                 'Q' + xMax + ' ' + yMax + ',' + xMin + ' ' + yMax;
-
-            if (!_.has(_elements, 'bracketBg')) {
-                _elements.bracketBg = _canvas.rect(
-                    _width - _bracketSize,
-                    0,
-                    _bracketSize,
-                    _height - _panelSize
-                ).attr({
-                    fill:   _bracketColorBg,
-                    cursor: 'ns-resize'
-                });
-            }
 
             if (_.has(_elements, 'bracketPath')) {
                 _elements.bracketPath.attr({
@@ -252,7 +251,7 @@
                     stroke:             _bracketColorFg,
                     cursor:             'ns-resize',
                     'stroke-dasharray': '5, 1'
-                });
+                }).click(bracketClick);
             }
 
             if (_.has(_elements, 'bracketMin')) {
@@ -371,21 +370,46 @@
             return new Range(valueToIndicator(0.0), valueToIndicator(value));
         }
 
-        function valueToIndicator(scalar) {
-            var box    = _elements.indicatorBg.getBBox();
+        function valueToControl(control, scalar) {
+            var box    = control.getBBox();
             var offset = _range.offset(scalar);
             return box.y + box.height * (1.0 - offset);
         }
 
-        function indicatorToValue(scalar) {
-            var box   = _elements.indicatorBg.getBBox();
+        function controlToValue(control, scalar) {
+            var box   = control.getBBox();
             var range = new Range(box.y, box.y + box.height);
             return -_range.project(range.offset(scalar));
         }
 
-        function clicked(event, x, y) {
+        function valueToIndicator(scalar) {
+            return valueToControl(_elements.indicatorBg, scalar);
+        }
+
+        function indicatorToValue(scalar) {
+            return controlToValue(_elements.indicatorBg, scalar);
+        }
+
+        function valueToBracket(scalar) {
+            return valueToControl(_elements.bracketBg, scalar);
+        }
+
+        function bracketToValue(scalar) {
+            return controlToValue(_elements.bracketBg, scalar);
+        }
+
+        function indicatorClick(event, x, y) {
             var rect = _canvas.node.getBoundingClientRect();
-            updateValue(indicatorToValue(y - rect.top));
+            var val  = indicatorToValue(y - rect.top);
+            updateValue(val);
+        }
+
+        function bracketClick(event, x, y) {
+            var mid  = (_data.bracket.min + _data.bracket.max) / 2;
+            var rect = _canvas.node.getBoundingClientRect();
+            var val  = bracketToValue(y - rect.top);
+
+            alert('Clicked');
         }
 
         this.update = function(data, scale) {
