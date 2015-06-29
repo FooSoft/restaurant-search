@@ -52,38 +52,33 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 
 	entries := getRecords(queryContext{geo, request.Profile, request.WalkingDist})
 	features := fixFeatures(request.Features)
+	modes := fixModes(request.Modes)
 
-	minScore := request.MinScore
-	if request.Bracket != nil {
-		bracket := namedBracket{
-			request.Bracket.Name,
-			request.Bracket.Min,
-			request.Bracket.Max}
-
-		minScore = calibrateMinScore(entries, features, bracket)
-	}
-
-	foundEntries := findRecords(entries, features, minScore)
+	foundEntries := findRecords(entries, features, modes, request.MinScore)
 	sorter := recordSorter{entries: foundEntries, key: request.SortKey, ascending: request.SortAsc}
 	sorter.sort()
 
 	response := jsonQueryResponse{
 		Count:    len(foundEntries),
 		Columns:  make(map[string]jsonColumn),
-		MinScore: minScore,
+		MinScore: request.MinScore,
 		Records:  make([]jsonRecord, 0)}
 
 	for name, value := range features {
+		mode, _ := modes[name]
+
 		column := jsonColumn{
 			Bracket: jsonBracket{Max: -1, Min: 1},
+			Mode:    mode.String(),
 			Value:   value,
 			Steps:   request.Resolution}
 
 		hints := project(
 			entries,
 			features,
+			modes,
 			name,
-			minScore,
+			request.MinScore,
 			request.Resolution)
 
 		for _, hint := range hints {

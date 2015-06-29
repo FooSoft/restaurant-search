@@ -47,6 +47,16 @@ func fixFeatures(features featureMap) featureMap {
 	return fixedFeatures
 }
 
+func fixModes(modes map[string]string) modeMap {
+	result := make(modeMap)
+
+	for name, value := range modes {
+		result[name] = strToModeType(value)
+	}
+
+	return result
+}
+
 func innerProduct(features1 featureMap, features2 featureMap) float64 {
 	var result float64
 	for key, value1 := range features1 {
@@ -57,19 +67,35 @@ func innerProduct(features1 featureMap, features2 featureMap) float64 {
 	return result
 }
 
-func walkMatches(entries records, features featureMap, minScore float64, callback func(record, float64)) {
+func compare(features1 featureMap, features2 featureMap, modes modeMap) float64 {
+	var result float64
+	for key, value1 := range features1 {
+		value2, _ := features2[key]
+
+		switch mode, _ := modes[key]; mode {
+		case ModeTypeDist:
+			result += 1 - math.Abs(value1-value2)/2
+		default:
+			result += value1 * value2
+		}
+	}
+
+	return result
+}
+
+func walkMatches(entries records, features featureMap, modes modeMap, minScore float64, callback func(record, float64)) {
 	for _, entry := range entries {
-		if score := innerProduct(features, entry.features); score >= minScore {
+		if score := compare(features, entry.features, modes); score >= minScore {
 			callback(entry, score)
 		}
 	}
 }
 
-func statRecords(entries records, features featureMap, minScore float64) (float64, int) {
+func statRecords(entries records, features featureMap, modes modeMap, minScore float64) (float64, int) {
 	var compatibility float64
 	var count int
 
-	walkMatches(entries, features, minScore, func(entry record, score float64) {
+	walkMatches(entries, features, modes, minScore, func(entry record, score float64) {
 		compatibility += entry.compatibility
 		count++
 	})
@@ -89,10 +115,10 @@ func stepRange(min, max float64, steps int, callback func(float64)) {
 	}
 }
 
-func findRecords(entries records, features featureMap, minScore float64) records {
+func findRecords(entries records, features featureMap, modes modeMap, minScore float64) records {
 	var foundEntries records
 
-	walkMatches(entries, features, minScore, func(entry record, score float64) {
+	walkMatches(entries, features, modes, minScore, func(entry record, score float64) {
 		entry.score = score
 		foundEntries = append(foundEntries, entry)
 	})
@@ -100,45 +126,7 @@ func findRecords(entries records, features featureMap, minScore float64) records
 	return foundEntries
 }
 
-func calibrateMinScore(entries records, features featureMap, bracket namedBracket) float64 {
-	bestScoreRank := -math.MaxFloat64
-	var bestMinScore float64
-
-	for minScore := float64(-len(features)); minScore <= float64(len(features)); minScore += 0.1 {
-		var scoreRank float64
-
-		for _, entry := range entries {
-			value, ok := entry.features[bracket.name]
-			if !ok {
-				continue
-			}
-
-			score := innerProduct(features, entry.features)
-			if score < minScore {
-				continue
-			}
-
-			if score > minScore {
-				if value >= bracket.min && value <= bracket.max {
-					dist := math.Abs(value - features[bracket.name])
-					scoreRank += 1 / (dist * dist)
-				} else {
-					dist := math.Min(math.Abs(value-bracket.min), math.Abs(value-bracket.max))
-					scoreRank -= 1 / (dist * dist)
-				}
-			}
-		}
-
-		if scoreRank > bestScoreRank {
-			bestScoreRank = scoreRank
-			bestMinScore = minScore
-		}
-	}
-
-	return bestMinScore
-}
-
-func project(entries records, features featureMap, featureName string, minScore float64, steps int) []queryProjection {
+func project(entries records, features featureMap, modes modeMap, featureName string, minScore float64, steps int) []queryProjection {
 	sampleFeatures := make(featureMap)
 	for key, value := range features {
 		sampleFeatures[key] = value
@@ -147,7 +135,7 @@ func project(entries records, features featureMap, featureName string, minScore 
 	var projection []queryProjection
 	stepRange(-1.0, 1.0, steps, func(sample float64) {
 		sample, sampleFeatures[featureName] = sampleFeatures[featureName], sample
-		compatibility, count := statRecords(entries, sampleFeatures, minScore)
+		compatibility, count := statRecords(entries, sampleFeatures, modes, minScore)
 		sample, sampleFeatures[featureName] = sampleFeatures[featureName], sample
 
 		projection = append(projection, queryProjection{compatibility, count, sample})

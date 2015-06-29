@@ -88,7 +88,7 @@
         var _height         = 500;
         var _padding        = 10;
         var _panelSize      = 20;
-        var _buttonSize     = 20;
+        var _modeSize       = 20;
         var _tickSize       = 5;
         var _width          = 120;
 
@@ -111,7 +111,7 @@
                 _densitySize,
                 0,
                 _width - (_bracketSize + _densitySize),
-                _height - (_panelSize + _buttonSize)
+                _height - (_panelSize + _modeSize)
             ).attr({
                 cursor: 'crosshair',
                 stroke: _borderColor,
@@ -123,7 +123,7 @@
                 0,
                 0,
                 _densitySize,
-                _height - (_panelSize + _buttonSize)
+                _height - (_panelSize + _modeSize)
             ).attr({
                 stroke: _borderColor
             });
@@ -131,7 +131,7 @@
             // panel
             _elements.panel = _canvas.rect(
                 0,
-                _height - (_panelSize + _buttonSize),
+                _height - (_panelSize + _modeSize),
                 _width - _bracketSize,
                 _panelSize
             ).attr({
@@ -141,7 +141,7 @@
             // label
             _elements.label = _canvas.text(
                 (_width - _bracketSize) / 2,
-                _height - (_panelSize / 2 + _buttonSize),
+                _height - (_panelSize / 2 + _modeSize),
                 _name
             ).attr({
                 'dominant-baseline': 'middle',
@@ -153,10 +153,10 @@
                 _width - _bracketSize,
                 0,
                 _bracketSize,
-                _height - (_panelSize + _buttonSize)
+                _height - (_panelSize + _modeSize)
             ).attr({
                 fill: _bracketColorBg
-            }).click(bracketClick);
+            });
 
             // indiciator
             updateIndicator(_data.value);
@@ -191,7 +191,7 @@
                 _elements.panel,
                 _elements.tick,
                 _elements.label,
-                _elements.button
+                _elements.mode
             );
 
             _elements.group.transform(
@@ -258,7 +258,7 @@
                     strokeWidth:        1,
                     stroke:             _bracketColorFg,
                     'stroke-dasharray': '5, 1'
-                }).click(bracketClick);
+                });
             }
 
             if (_.has(_elements, 'bracketMin')) {
@@ -297,19 +297,19 @@
         }
 
         function updateMode() {
-            if (_.has(_elements, 'button')) {
+            if (_.has(_elements, 'mode')) {
 
 
             }
             else {
-                _elements.button = _canvas.text(
+                _elements.mode = _canvas.text(
                     (_width - _bracketSize) / 2,
-                    _height - _buttonSize / 2,
-                    ''
+                    _height - _modeSize / 2,
+                    'x'
                 ).attr({
                     'dominant-baseline': 'middle',
                     'text-anchor':       'middle'
-                });
+                }).click(modeClick);
             }
         }
 
@@ -344,25 +344,12 @@
             return colorStops;
         }
 
-        function updateState(value, bracket) {
-            var updateBracket = bracket !== null;
-            var updateValue   = value !== null;
-
-            if (updateBracket) {
-                _data.bracket.max = _range.clamp(bracket.max);
-                _data.bracket.min = _range.clamp(bracket.min);
-            }
-
-            if (updateValue) {
-                _data.value = _range.clamp(value);
-            }
+        function updateState(value, mode) {
+            _data.value = _range.clamp(value);
+            _data.mode  = mode;
 
             if (_onStateChanged) {
-                _onStateChanged(
-                    _name,
-                    updateValue ? _data.value : null,
-                    updateBracket ? _data.bracket : null
-                );
+                _onStateChanged(_name, _data.value, _data.mode);
             }
 
             animateIndicator(_valueTrans, _data.value);
@@ -462,19 +449,11 @@
 
         function indicatorClick(event, x, y) {
             var rect = _canvas.node.getBoundingClientRect();
-
-            updateState(indicatorToValue(y - rect.top), null);
+            updateState(indicatorToValue(y - rect.top), _data.mode);
         }
 
-        function bracketClick(event, x, y) {
-            var mid  = (_data.bracket.min + _data.bracket.max) / 2;
-            var rect = _canvas.node.getBoundingClientRect();
-
-            var dist = Math.abs(mid - bracketToValue(y - rect.top));
-            dist     = Math.min(dist, Math.abs(_range.max - mid));
-            dist     = Math.min(dist, Math.abs(_range.min - mid));
-
-            updateState(_data.value, {max: mid + dist, min: mid - dist});
+        function modeClick(event, x, y) {
+            alert('mode clicked');
         }
 
         this.update = function(data, scale) {
@@ -491,6 +470,10 @@
             if (_.has(data, 'bracket')) {
                 _data.bracket = data.bracket;
                 animateBracket(_bracketTrans, _data.bracket);
+            }
+            if (_.has(data, 'mode')) {
+                _data.mode = data.mode;
+                updateMode();
             }
         };
 

@@ -24,7 +24,16 @@ package main
 
 import "sort"
 
+type modeType int
+
+const (
+	ModeTypeNone modeType = iota
+	ModeTypeProduct
+	ModeTypeDist
+)
+
 type featureMap map[string]float64
+type modeMap map[string]modeType
 
 type jsonAccessRequest struct {
 	Id      int        `json:"id"`
@@ -37,11 +46,11 @@ type jsonGeoData struct {
 }
 
 type jsonQueryRequest struct {
-	Bracket     *jsonNamedBracket `json:"bracket"`
 	Features    featureMap        `json:"features"`
 	Geo         *jsonGeoData      `json:"geo"`
 	MaxResults  int               `json:"maxResults"`
 	MinScore    float64           `json:"minScore"`
+	Modes       map[string]string `json:"modeMap"`
 	Profile     featureMap        `json:"profile"`
 	Resolution  int               `json:"resolution"`
 	SortAsc     bool              `json:"sortAsc"`
@@ -52,6 +61,7 @@ type jsonQueryRequest struct {
 type jsonColumn struct {
 	Bracket jsonBracket      `json:"bracket"`
 	Hints   []jsonProjection `json:"hints"`
+	Mode    string           `json:"mode"`
 	Steps   int              `json:"steps"`
 	Value   float64          `json:"value"`
 }
@@ -77,11 +87,6 @@ type jsonRecord struct {
 type jsonBracket struct {
 	Min float64 `json:"min"`
 	Max float64 `json:"max"`
-}
-
-type jsonNamedBracket struct {
-	jsonBracket
-	Name string `json:"name"`
 }
 
 type jsonQueryResponse struct {
@@ -129,12 +134,6 @@ type queryProjection struct {
 type geoData struct {
 	latitude  float64
 	longitude float64
-}
-
-type namedBracket struct {
-	name string
-	min  float64
-	max  float64
 }
 
 type record struct {
@@ -195,4 +194,26 @@ func (s recordSorter) Less(i, j int) bool {
 
 func (s recordSorter) Swap(i, j int) {
 	s.entries[i], s.entries[j] = s.entries[j], s.entries[i]
+}
+
+func (m modeType) String() string {
+	switch m {
+	case ModeTypeProduct:
+		return "prod"
+	case ModeTypeDist:
+		return "dist"
+	default:
+		return "invalid"
+	}
+}
+
+func strToModeType(mode string) modeType {
+	switch mode {
+	case "prod":
+		return ModeTypeProduct
+	case "dist":
+		return ModeTypeDist
+	default:
+		return ModeTypeNone
+	}
 }

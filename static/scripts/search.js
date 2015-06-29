@@ -25,18 +25,9 @@
 
     var _ctx = {};
 
-    function onStateChanged(name, value, bracket) {
+    function onStateChanged(name, value, mode) {
         _ctx.query.features[name] = value;
-        if (bracket === null) {
-            _ctx.query.bracket = null;
-        }
-        else {
-            _ctx.query.bracket = {
-                name: name,
-                min:  bracket.min,
-                max:  bracket.max
-            };
-        }
+        _ctx.query.modes[name]    = mode;
 
         $.post('/query', JSON.stringify(_ctx.query), function(results) {
             saveSnapshot(results);
@@ -87,7 +78,7 @@
     function onSearch() {
         _ctx.query = {
             features:    _ctx.query.features || {},
-            bracket:     null,
+            modes:       _ctx.query.modes || {},
             sortKey:     _ctx.sortKey,
             sortAsc:     _ctx.sortAsc,
             profile:     getProfile(),
@@ -132,7 +123,8 @@
                     columns[feature] = {
                         value:   column.value,
                         hints:   column.hints,
-                        bracket: column.bracket
+                        bracket: column.bracket,
+                        mode:    column.mode
                     };
                 }
 
