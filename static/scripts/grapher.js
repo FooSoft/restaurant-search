@@ -70,15 +70,16 @@
     //
 
     function Column(params) {
-        var _borderColor    = '#d3d7cf';
+        var _borderColor    = '#babdb6';
         var _bracketColorBg = '#ffffff';
         var _bracketColorFg = '#555753';
         var _bracketColorPt = '#2e3436';
         var _fillColorBg    = '#eeeeec';
         var _fillColorNeg   = '#3465a4';
         var _fillColorPos   = '#cc0000';
+        var _modeColor      = '#555753';
         var _panelColor     = '#d3d7cf';
-        var _tickColor      = '#d3d7cf';
+        var _tickColor      = '#babdb6';
 
         var _anchorSize     = 2;
         var _bracketSize    = 10;
@@ -312,7 +313,8 @@
                 ).attr({
                     'dominant-baseline': 'middle',
                     'text-anchor':       'middle',
-                    cursor:              'hand'
+                    cursor:              'hand',
+                    'fill':              _modeColor
                 }).click(modeClick);
             }
         }
