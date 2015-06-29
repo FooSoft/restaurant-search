@@ -29,7 +29,7 @@ type modeType int
 const (
 	ModeTypeNone modeType = iota
 	ModeTypeProduct
-	ModeTypeDist
+	ModeTypeDistance
 )
 
 type featureMap map[string]float64
@@ -199,9 +199,9 @@ func (s recordSorter) Swap(i, j int) {
 func (m modeType) String() string {
 	switch m {
 	case ModeTypeProduct:
-		return "prod"
-	case ModeTypeDist:
-		return "dist"
+		return "product"
+	case ModeTypeDistance:
+		return "distance"
 	default:
 		return "invalid"
 	}
@@ -209,10 +209,10 @@ func (m modeType) String() string {
 
 func strToModeType(mode string) modeType {
 	switch mode {
-	case "prod":
+	case "product":
 		return ModeTypeProduct
-	case "dist":
-		return ModeTypeDist
+	case "distance":
+		return ModeTypeDistance
 	default:
 		return ModeTypeNone
 	}

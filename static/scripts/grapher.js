@@ -87,10 +87,9 @@
         var _easeTime       = 400;
         var _height         = 500;
         var _padding        = 10;
-        var _panelSize      = 20;
-        var _modeSize       = 20;
+        var _panelSize      = 40;
         var _tickSize       = 5;
-        var _width          = 120;
+        var _width          = 125;
 
         var _indicatorAnim  = null;
         var _bracketAnim    = null;
@@ -111,7 +110,7 @@
                 _densitySize,
                 0,
                 _width - (_bracketSize + _densitySize),
-                _height - (_panelSize + _modeSize)
+                _height - _panelSize
             ).attr({
                 cursor: 'crosshair',
                 stroke: _borderColor,
@@ -123,7 +122,7 @@
                 0,
                 0,
                 _densitySize,
-                _height - (_panelSize + _modeSize)
+                _height - _panelSize
             ).attr({
                 stroke: _borderColor
             });
@@ -131,7 +130,7 @@
             // panel
             _elements.panel = _canvas.rect(
                 0,
-                _height - (_panelSize + _modeSize),
+                _height - _panelSize,
                 _width - _bracketSize,
                 _panelSize
             ).attr({
@@ -141,11 +140,12 @@
             // label
             _elements.label = _canvas.text(
                 (_width - _bracketSize) / 2,
-                _height - (_panelSize / 2 + _modeSize),
+                _height - _panelSize * 3 / 4,
                 _name
             ).attr({
                 'dominant-baseline': 'middle',
-                'text-anchor':       'middle'
+                'text-anchor':       'middle',
+                'font-weight':       'bold'
             });
 
             // bracketBg
@@ -153,7 +153,7 @@
                 _width - _bracketSize,
                 0,
                 _bracketSize,
-                _height - (_panelSize + _modeSize)
+                _height - _panelSize
             ).attr({
                 fill: _bracketColorBg
             });
@@ -297,19 +297,22 @@
         }
 
         function updateMode() {
+            var modeText = '( ' + _data.mode + ' )';
+
             if (_.has(_elements, 'mode')) {
                 _elements.mode.attr({
-                    text: _data.mode
+                    text: modeText
                 });
             }
             else {
                 _elements.mode = _canvas.text(
                     (_width - _bracketSize) / 2,
-                    _height - _modeSize / 2,
-                    _data.mode
+                    _height - _panelSize / 4,
+                    modeText
                 ).attr({
                     'dominant-baseline': 'middle',
-                    'text-anchor':       'middle'
+                    'text-anchor':       'middle',
+                    cursor:              'hand'
                 }).click(modeClick);
             }
         }
@@ -454,7 +457,7 @@
         }
 
         function modeClick(event, x, y) {
-            var mode = _data.mode === 'prod' ? 'dist' : 'prod';
+            var mode = _data.mode === 'product' ? 'distance' : 'product';
             updateState(_data.value, mode);
         }
 
