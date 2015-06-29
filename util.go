@@ -195,7 +195,7 @@ func computeRecordGeo(entries records, context queryContext) {
 	}
 }
 
-func computeRecordPopularity(entries records, context queryContext) {
+func computeRecordCompat(entries records, context queryContext) {
 	for index := range entries {
 		entry := &entries[index]
 
@@ -296,7 +296,7 @@ func getRecords(context queryContext) records {
 		log.Fatal(err)
 	}
 
-	computeRecordPopularity(entries, context)
+	computeRecordCompat(entries, context)
 	computeRecordGeo(entries, context)
 
 	return entries
