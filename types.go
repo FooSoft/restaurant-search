@@ -50,7 +50,7 @@ type jsonQueryRequest struct {
 	Geo         *jsonGeoData      `json:"geo"`
 	MaxResults  int               `json:"maxResults"`
 	MinScore    float64           `json:"minScore"`
-	Modes       map[string]string `json:"modeMap"`
+	Modes       map[string]string `json:"modes"`
 	Profile     featureMap        `json:"profile"`
 	Resolution  int               `json:"resolution"`
 	SortAsc     bool              `json:"sortAsc"`

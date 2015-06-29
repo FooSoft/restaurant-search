@@ -454,7 +454,8 @@
         }
 
         function modeClick(event, x, y) {
-            alert('mode clicked');
+            var mode = _data.mode === 'prod' ? 'dist' : 'prod';
+            updateState(_data.value, mode);
         }
 
         this.update = function(data, scale) {

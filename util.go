@@ -82,7 +82,7 @@ func compare(features1 featureMap, features2 featureMap, modes modeMap) float64 
 
 		switch mode, _ := modes[key]; mode {
 		case ModeTypeDist:
-			result += 1 - math.Abs(value1-value2)/2
+			result += 1 - math.Abs(value1-value2)
 		default:
 			result += value1 * value2
 		}
