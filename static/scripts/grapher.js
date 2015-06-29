@@ -88,6 +88,7 @@
         var _height         = 500;
         var _padding        = 10;
         var _panelSize      = 20;
+        var _buttonSize     = 20;
         var _tickSize       = 5;
         var _width          = 120;
 
@@ -110,7 +111,7 @@
                 _densitySize,
                 0,
                 _width - (_bracketSize + _densitySize),
-                _height - _panelSize
+                _height - (_panelSize + _buttonSize)
             ).attr({
                 cursor: 'crosshair',
                 stroke: _borderColor,
@@ -122,7 +123,7 @@
                 0,
                 0,
                 _densitySize,
-                _height - _panelSize
+                _height - (_panelSize + _buttonSize)
             ).attr({
                 stroke: _borderColor
             });
@@ -130,7 +131,7 @@
             // panel
             _elements.panel = _canvas.rect(
                 0,
-                _height - _panelSize,
+                _height - (_panelSize + _buttonSize),
                 _width - _bracketSize,
                 _panelSize
             ).attr({
@@ -140,7 +141,7 @@
             // label
             _elements.label = _canvas.text(
                 (_width - _bracketSize) / 2,
-                _height - _panelSize / 2,
+                _height - (_panelSize / 2 + _buttonSize),
                 _name
             ).attr({
                 'dominant-baseline': 'middle',
@@ -152,10 +153,9 @@
                 _width - _bracketSize,
                 0,
                 _bracketSize,
-                _height - _panelSize
+                _height - (_panelSize + _buttonSize)
             ).attr({
-                fill:   _bracketColorBg,
-                cursor: 'ns-resize'
+                fill: _bracketColorBg
             }).click(bracketClick);
 
             // indiciator
@@ -163,6 +163,9 @@
 
             // bracket
             updateBracket(_data.bracket);
+
+            // mode
+            updateMode();
 
             // tick
             if (_range.contains(0.0)) {
@@ -187,7 +190,8 @@
                 _elements.bracketMax,
                 _elements.panel,
                 _elements.tick,
-                _elements.label
+                _elements.label,
+                _elements.button
             );
 
             _elements.group.transform(
@@ -253,7 +257,6 @@
                     fill:               _bracketColorBg,
                     strokeWidth:        1,
                     stroke:             _bracketColorFg,
-                    cursor:             'ns-resize',
                     'stroke-dasharray': '5, 1'
                 }).click(bracketClick);
             }
@@ -289,6 +292,23 @@
                 ).attr({
                     visibility: visibility,
                     fill:       _bracketColorPt
+                });
+            }
+        }
+
+        function updateMode() {
+            if (_.has(_elements, 'button')) {
+
+
+            }
+            else {
+                _elements.button = _canvas.text(
+                    (_width - _bracketSize) / 2,
+                    _height - _buttonSize / 2,
+                    ''
+                ).attr({
+                    'dominant-baseline': 'middle',
+                    'text-anchor':       'middle'
                 });
             }
         }
