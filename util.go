@@ -40,8 +40,9 @@ func fixFeatures(features featureMap) featureMap {
 		"atmospheric":   0.0}
 
 	for name := range fixedFeatures {
-		value, _ := features[name]
-		fixedFeatures[name] = value
+		if value, ok := features[name]; ok {
+			fixedFeatures[name] = value
+		}
 	}
 
 	return fixedFeatures
@@ -49,42 +50,48 @@ func fixFeatures(features featureMap) featureMap {
 
 func fixModes(modes map[string]string) modeMap {
 	fixedModes := modeMap{
-		"nearby":        ModeTypeProduct,
-		"accessible":    ModeTypeProduct,
-		"delicious":     ModeTypeProduct,
-		"accommodating": ModeTypeProduct,
-		"affordable":    ModeTypeProduct,
-		"atmospheric":   ModeTypeProduct}
+		"nearby":        modeTypeProd,
+		"accessible":    modeTypeProd,
+		"delicious":     modeTypeProd,
+		"accommodating": modeTypeProd,
+		"affordable":    modeTypeProd,
+		"atmospheric":   modeTypeProd}
 
 	for name := range fixedModes {
 		if value, ok := modes[name]; ok {
-			fixedModes[name] = strToModeType(value)
+			if mode, err := parseModeType(value); err == nil {
+				fixedModes[name] = mode
+			}
 		}
 	}
 
 	return fixedModes
 }
 
-func innerProduct(features1 featureMap, features2 featureMap) float64 {
-	var result float64
+func distance(features1 featureMap, features2 featureMap) float64 {
+	var sum float64
+
 	for key, value1 := range features1 {
 		value2, _ := features2[key]
-		result += value1 * value2
+		sum += math.Pow(value1-value2, 2)
 	}
 
-	return result
+	return math.Sqrt(sum)
 }
 
 func compare(features1 featureMap, features2 featureMap, modes modeMap) float64 {
 	var result float64
+
 	for key, value1 := range features1 {
 		value2, _ := features2[key]
 
 		switch mode, _ := modes[key]; mode {
-		case ModeTypeDistance:
+		case modeTypeDist:
 			result += 1 - math.Abs(value1-value2)
-		default:
+		case modeTypeProd:
 			result += value1 * value2
+		default:
+			log.Fatal("unsupported compare mode")
 		}
 	}
 
@@ -228,7 +235,7 @@ func computeRecordPopularity(entries records, context queryContext) {
 				log.Fatal(err)
 			}
 
-			groupSum += innerProduct(recordProfile, context.profile)
+			groupSum += distance(recordProfile, context.profile)
 			groupCount++
 		}
 		if err := historyRows.Err(); err != nil {

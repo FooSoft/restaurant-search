@@ -22,18 +22,20 @@
 
 package main
 
-import "sort"
-
-type modeType int
-
-const (
-	ModeTypeNone modeType = iota
-	ModeTypeProduct
-	ModeTypeDistance
+import (
+	"errors"
+	"sort"
 )
 
 type featureMap map[string]float64
 type modeMap map[string]modeType
+type records []record
+type modeType int
+
+const (
+	modeTypeProd = iota + 1
+	modeTypeDist
+)
 
 type jsonAccessRequest struct {
 	Id      int        `json:"id"`
@@ -150,8 +152,6 @@ type record struct {
 	url            string
 }
 
-type records []record
-
 type recordSorter struct {
 	ascending bool
 	entries   records
@@ -198,22 +198,22 @@ func (s recordSorter) Swap(i, j int) {
 
 func (m modeType) String() string {
 	switch m {
-	case ModeTypeProduct:
+	case modeTypeProd:
 		return "product"
-	case ModeTypeDistance:
+	case modeTypeDist:
 		return "distance"
 	default:
-		return "invalid"
+		return ""
 	}
 }
 
-func strToModeType(mode string) modeType {
+func parseModeType(mode string) (modeType, error) {
 	switch mode {
 	case "product":
-		return ModeTypeProduct
+		return modeTypeProd, nil
 	case "distance":
-		return ModeTypeDistance
+		return modeTypeDist, nil
 	default:
-		return ModeTypeNone
+		return 0, errors.New("invalid mode type")
 	}
 }

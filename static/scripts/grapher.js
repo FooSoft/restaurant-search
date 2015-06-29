@@ -92,18 +92,18 @@
         var _tickSize       = 5;
         var _width          = 125;
 
-        var _indicatorAnim  = null;
-        var _bracketAnim    = null;
-        var _canvas         = params.canvas;
-        var _data           = params.data;
-        var _index          = params.index;
-        var _name           = params.name;
-        var _valueTrans     = params.data.value;
-        var _bracketTrans   = params.data.bracket;
-        var _onStateChanged = params.onStateChanged;
-        var _range          = params.range;
-        var _scale          = params.scale;
-        var _elements       = {};
+        var _indicatorAnim = null;
+        var _bracketAnim   = null;
+        var _canvas        = params.canvas;
+        var _data          = params.data;
+        var _index         = params.index;
+        var _name          = params.name;
+        var _valueTrans    = params.data.value;
+        var _bracketTrans  = params.data.bracket;
+        var _stateChanged  = params.stateChanged;
+        var _range         = params.range;
+        var _scale         = params.scale;
+        var _elements      = {};
 
         function createShapes() {
             // indicatorBg
@@ -298,23 +298,25 @@
         }
 
         function updateMode() {
-            var modeText = '( ' + _data.mode + ' )';
+            var modes = {'product': 'importance', 'distance': 'similarity'};
+            var mode  = modes[_data.mode];
 
             if (_.has(_elements, 'mode')) {
                 _elements.mode.attr({
-                    text: modeText
+                    text: mode
                 });
             }
             else {
                 _elements.mode = _canvas.text(
                     (_width - _bracketSize) / 2,
                     _height - _panelSize / 4,
-                    modeText
+                    mode
                 ).attr({
                     'dominant-baseline': 'middle',
                     'text-anchor':       'middle',
-                    cursor:              'hand',
-                    'fill':              _modeColor
+                    'text-decoration':   'underline',
+                    'fill':              _modeColor,
+                    cursor:              'hand'
                 }).click(modeClick);
             }
         }
@@ -354,8 +356,8 @@
             _data.value = _range.clamp(value);
             _data.mode  = mode;
 
-            if (_onStateChanged) {
-                _onStateChanged(_name, _data.value, _data.mode);
+            if (_stateChanged) {
+                _stateChanged(_name, _data.value, _data.mode);
             }
 
             animateIndicator(_valueTrans, _data.value);
@@ -493,13 +495,13 @@
     //
 
     grapher.Grapher = function(params) {
-        var _canvas         = params.canvas;
-        var _columns        = {};
-        var _data           = {};
-        var _range          = new Range(-1.0, 1.0);
-        var _useLocalScale  = params.useLocalScale || false;
-        var _displayType    = params.displayType || 'density';
-        var _onStateChanged = params.onStateChanged;
+        var _canvas        = params.canvas;
+        var _columns       = {};
+        var _data          = {};
+        var _range         = new Range(-1.0, 1.0);
+        var _useLocalScale = params.useLocalScale || false;
+        var _displayType   = params.displayType || 'density';
+        var _stateChanged  = params.stateChanged;
 
         function processHintParameters(columns) {
             var displayTypes = {compatibility: 'compatibility', density: 'count'};
@@ -557,13 +559,13 @@
                 }
                 else {
                     _columns[name] = new Column({
-                        onStateChanged: _onStateChanged,
-                        range:          _range,
-                        canvas:         _canvas,
-                        data:           columnData,
-                        name:           name,
-                        scale:          scale,
-                        index:          index++,
+                        stateChanged: _stateChanged,
+                        range:        _range,
+                        canvas:       _canvas,
+                        data:         columnData,
+                        name:         name,
+                        scale:        scale,
+                        index:        index++,
                     });
                 }
             }

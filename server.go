@@ -59,8 +59,8 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 	sorter.sort()
 
 	response := jsonQueryResponse{
-		Count:    len(foundEntries),
 		Columns:  make(map[string]jsonColumn),
+		Count:    len(foundEntries),
 		MinScore: request.MinScore,
 		Records:  make([]jsonRecord, 0)}
 
@@ -68,10 +68,10 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 		mode, _ := modes[name]
 
 		column := jsonColumn{
-			Bracket: jsonBracket{Max: -1, Min: 1},
+			Bracket: jsonBracket{Max: -1.0, Min: 1.0},
 			Mode:    mode.String(),
-			Value:   value,
-			Steps:   request.Resolution}
+			Steps:   request.Resolution,
+			Value:   value}
 
 		hints := project(
 			entries,
@@ -216,7 +216,6 @@ func removeCategory(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	_, err := db.Exec("DELETE FROM categories WHERE id = (?)", request.Id)
-
 	js, err := json.Marshal(jsonRemoveCategoryResponse{err == nil})
 	if err != nil {
 		log.Fatal(err)
@@ -295,8 +294,7 @@ func main() {
 	flag.Parse()
 
 	var err error
-	db, err = sql.Open("mysql", *dataSrc)
-	if err != nil {
+	if db, err = sql.Open("mysql", *dataSrc); err != nil {
 		log.Fatal(err)
 	}
 	defer db.Close()

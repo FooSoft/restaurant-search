@@ -25,7 +25,7 @@
 
     var _ctx = {};
 
-    function onStateChanged(name, value, mode) {
+    function stateChanged(name, value, mode) {
         _ctx.query.features[name] = value;
         _ctx.query.modes[name]    = mode;
 
@@ -35,7 +35,7 @@
         }, 'json');
     }
 
-    function onReady(geo) {
+    function ready(geo) {
         _ctx = {
             sortKey: 'score',
             sortAsc: false,
@@ -98,10 +98,10 @@
         $.post('/query', JSON.stringify(_ctx.query), function(results) {
             if (!_.has(_ctx, 'grapher')) {
                 _ctx.grapher = new grapher.Grapher({
-                    canvas:         new Snap('#svg'),
-                    onStateChanged: onStateChanged,
-                    displayType:    $('#displayType').val(),
-                    useLocalScale:  $('#useLocalScale').is(':checked')
+                    canvas:        new Snap('#svg'),
+                    stateChanged:  stateChanged,
+                    displayType:   $('#displayType').val(),
+                    useLocalScale: $('#useLocalScale').is(':checked')
                 });
 
                 $('#useLocalScale').click(function() {
@@ -200,13 +200,13 @@
         ready: function() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
-                    function(geo) { onReady(geo); },
-                    function(err) { onReady(null); },
+                    function(geo) { ready(geo); },
+                    function(err) { ready(null); },
                     { enableHighAccuracy: true }
                 );
             }
             else {
-                onReady(null);
+                ready(null);
             }
         }
     });
