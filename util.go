@@ -57,8 +57,9 @@ func fixModes(modes map[string]string) modeMap {
 		"atmospheric":   ModeTypeProduct}
 
 	for name := range fixedModes {
-		value, _ := modes[name]
-		fixedModes[name] = strToModeType(value)
+		if value, ok := modes[name]; ok {
+			fixedModes[name] = strToModeType(value)
+		}
 	}
 
 	return fixedModes
