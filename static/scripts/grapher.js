@@ -298,14 +298,15 @@
 
         function updateMode() {
             if (_.has(_elements, 'mode')) {
-
-
+                _elements.mode.attr({
+                    text: _data.mode
+                });
             }
             else {
                 _elements.mode = _canvas.text(
                     (_width - _bracketSize) / 2,
                     _height - _modeSize / 2,
-                    'x'
+                    _data.mode
                 ).attr({
                     'dominant-baseline': 'middle',
                     'text-anchor':       'middle'

@@ -39,7 +39,7 @@ func fixFeatures(features featureMap) featureMap {
 		"affordable":    0.0,
 		"atmospheric":   0.0}
 
-	for name, _ := range fixedFeatures {
+	for name := range fixedFeatures {
 		value, _ := features[name]
 		fixedFeatures[name] = value
 	}
@@ -48,13 +48,20 @@ func fixFeatures(features featureMap) featureMap {
 }
 
 func fixModes(modes map[string]string) modeMap {
-	result := make(modeMap)
+	fixedModes := modeMap{
+		"nearby":        ModeTypeProduct,
+		"accessible":    ModeTypeProduct,
+		"delicious":     ModeTypeProduct,
+		"accommodating": ModeTypeProduct,
+		"affordable":    ModeTypeProduct,
+		"atmospheric":   ModeTypeProduct}
 
-	for name, value := range modes {
-		result[name] = strToModeType(value)
+	for name := range fixedModes {
+		value, _ := modes[name]
+		fixedModes[name] = strToModeType(value)
 	}
 
-	return result
+	return fixedModes
 }
 
 func innerProduct(features1 featureMap, features2 featureMap) float64 {
