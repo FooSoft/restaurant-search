@@ -69,14 +69,14 @@ func fixModes(modes map[string]string) modeMap {
 }
 
 func distance(features1 featureMap, features2 featureMap) float64 {
-	var sum float64
+	var result float64
 
 	for key, value1 := range features1 {
 		value2, _ := features2[key]
-		sum += math.Pow(value1-value2, 2)
+		result += 1 - math.Abs(value1-value2)
 	}
 
-	return math.Sqrt(sum)
+	return result
 }
 
 func compare(features1 featureMap, features2 featureMap, modes modeMap) float64 {
