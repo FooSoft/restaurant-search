@@ -89,7 +89,7 @@
         var _height         = 500;
         var _padding        = 10;
         var _panelSize      = 40;
-        var _tickSize       = 5;
+        var _tickSize       = 8;
         var _width          = 125;
 
         var _indicatorAnim = null;
@@ -168,20 +168,8 @@
             // mode
             updateMode();
 
-            // tick
-            if (_range.contains(0.0)) {
-                var origin = valueToIndicator(0.0);
-                _elements.tick = _canvas.line(
-                    _densitySize,
-                    origin,
-                    _width - _bracketSize + _tickSize,
-                    origin
-                ).attr({
-                    stroke: _tickColor
-                });
-            }
-
-            _elements.group = _canvas.group(
+            // group elements
+            var group = [
                 _elements.indicatorBg,
                 _elements.indicator,
                 _elements.density,
@@ -190,11 +178,37 @@
                 _elements.bracketMin,
                 _elements.bracketMax,
                 _elements.panel,
-                _elements.tick,
                 _elements.label,
                 _elements.mode
-            );
+            ];
 
+            // tickLine
+            if (_range.contains(0.0)) {
+                var origin = valueToIndicator(0.0);
+                var right  = _width - _bracketSize;
+
+                _elements.tickLine = _canvas.line(
+                    _densitySize,
+                    origin,
+                    right,
+                    origin
+                ).attr({
+                    stroke: _tickColor
+                });
+
+                _elements.tickTri = _canvas.polygon([
+                    right, origin,
+                    right + _tickSize, origin - _tickSize / 2,
+                    right + _tickSize, origin + _tickSize / 2
+                ]).attr({
+                    stroke: _tickColor,
+                    fill:   _tickColor
+                });
+
+                group.push(_elements.tickLine, _elements.tickTri);
+            }
+
+            _elements.group = _canvas.group.apply(_canvas, group);
             _elements.group.transform(
                 Snap.format('t{x},{y}', {x: _index * (_width + _padding), y: 0})
             );
