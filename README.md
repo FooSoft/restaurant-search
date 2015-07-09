@@ -1,4 +1,4 @@
-# Restaurant Search with Predictive Multispace Queries #
+# Restaurant Search #
 
 This work-in-progress represents a prototype semantic search application that I'm developing as part of my master's
 thesis at [Keio University](http://www.sfc.keio.ac.jp/). You can get a better understanding of the goals of this system
@@ -10,39 +10,55 @@ This installation guide is designed with [Ubuntu](http://www.ubuntu.com/)-based 
 Mint](http://www.linuxmint.com/) for development), but I expect it to be trivial to get this application running on
 other flavors of Linux. If you run into any problems, let me know.
 
-## System Dependencies ##
 
-Execute the command `apt-get install package_name` to install the packages listed below (must be root).
+## Installation ##
 
-*   `mysql-server`
-*   `nodejs-legacy`
-*   `nodejs`
-*   `npm`
+1.  Install the system dependencies:
 
-In addition to these packages, you will need to have a recent version of the [Go](https://golang.org/project/) compiler
-installed on your system to build and execute the server code. The easiest way to get the latest version is to use the
-[godeb](https://github.com/niemeyer/godeb) tool to install it for you. After downloading the appropriate binary package,
-execute the `./godeb install` command to do this. Once you have the Go environment configured on your computer, you can
-install this package by executing the following command:
+    ```
+    # apt-get install mysql-server nodejs-legacy nodejs npm
+    ```
 
-`go get github.com/FooSoft/search`
+2.  Install the Node dependencies:
 
-## Global Node.js Dependencies ##
+    ```
+    # npm install -g bower
+    ```
 
-Execute the command `npm install -g package_name` to install the packages listed below (must be root).
+3.  Install the Go tool chain:
 
-*   `bower`
+    ```
+    $ wget https://godeb.s3.amazonaws.com/godeb-amd64.tar.gz
+    $ tar xzvf godeb-amd64.tar.gz
+    # ./godeb install
+    ```
 
-## Database Initialization ##
+4.  Set the `GOPATH` environment variable (read the docs).
 
-1.  Execute `./db/init.sh` to create the required database and associated user. You will be prompted for the mysql root
-    password; if you do not have one configured you may proceed by inputting an empty string.
-2.  Load the initial data tables by running `./db/load.sh`. You may perform this step again at a later time if you wish
-    to reset the contents of the database to their original state.
+5.  Install the search application:
 
-## Client and Server Initialization ##
+    ```
+    $ go get github.com/FooSoft/search
+    ```
 
-1.  From the `static` directory, execute the command `bower install`.
-2.  From the base directory, build the server with the command `go build`.
-3.  From the base directory, launch the server by launching the `server` executable.
-4.  You should now be able to access the web application at [localhost:8080](http://localhost:8080).
+6.  Initialize the database (from the `search/db` directory):
+
+    ```
+    $ ./init.sh
+    $ ./load.sh
+    ```
+
+7.  Install the client libraries (from the `search/static` directory):
+
+    ```
+    $ bower install
+    ```
+
+8.  Build and start the server (from the `search` directory):
+
+    ```
+    $ go build
+    $ ./server
+    ```
+
+9.  Access the web application at `localhost:8080`.
