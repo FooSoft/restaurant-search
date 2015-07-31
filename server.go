@@ -32,6 +32,7 @@ import (
 	"net/http"
 	"runtime"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/GaryBoone/GoStats/stats"
@@ -40,15 +41,14 @@ import (
 
 var db *sql.DB
 
-func prepareColumn(request jsonQueryRequest, entries, foundEntries records, features featureMap, modes modeMap, name string, value float64, columns chan jsonColumn) {
+func prepareColumn(request jsonQueryRequest, entries, foundEntries records, features featureMap, modes modeMap, name string, column *jsonColumn, wg *sync.WaitGroup) {
 	mode := modes[name]
 
-	column := jsonColumn{
+	*column = jsonColumn{
 		Bracket: jsonBracket{Max: -1.0, Min: 1.0},
 		Mode:    mode.String(),
 		Steps:   request.Resolution,
-		Value:   value,
-		name:    name}
+		Value:   features[name]}
 
 	hints := project(
 		entries,
@@ -82,7 +82,7 @@ func prepareColumn(request jsonQueryRequest, entries, foundEntries records, feat
 		column.Bracket.Min = math.Max(mean-dev, d.Min())
 	}
 
-	columns <- column
+	wg.Done()
 }
 
 func executeQuery(rw http.ResponseWriter, req *http.Request) {
@@ -108,19 +108,18 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 	sorter.sort()
 
 	response := jsonQueryResponse{
-		Columns:  make(map[string]jsonColumn),
+		Columns:  make(map[string]*jsonColumn),
 		Count:    len(foundEntries),
 		MinScore: request.MinScore,
 		Records:  make([]jsonRecord, 0)}
 
-	columns := make(chan jsonColumn, len(features))
-	for name, value := range features {
-		go prepareColumn(request, entries, foundEntries, features, modes, name, value, columns)
-	}
+	var wg sync.WaitGroup
+	wg.Add(len(features))
 
-	for i := 0; i < len(features); i++ {
-		column := <-columns
-		response.Columns[column.name] = column
+	for name := range features {
+		column := &jsonColumn{}
+		prepareColumn(request, entries, foundEntries, features, modes, name, column, &wg)
+		response.Columns[name] = column
 	}
 
 	for index, record := range foundEntries {
