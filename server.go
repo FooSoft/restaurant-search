@@ -30,9 +30,13 @@ import (
 	"log"
 	"math"
 	"net/http"
+	"os"
+	"os/signal"
 	"runtime"
+	"runtime/pprof"
 	"strings"
 	"sync"
+	"syscall"
 	"time"
 
 	"github.com/GaryBoone/GoStats/stats"
@@ -309,6 +313,7 @@ func main() {
 	staticDir := flag.String("static", "static", "path to static files")
 	portNum := flag.Int("port", 8080, "port to serve content on")
 	dataSrc := flag.String("data", "hscd@/hscd", "data source for database")
+	profile := flag.String("profile", "", "write cpu profile to file")
 	flag.Parse()
 
 	var err error
@@ -316,6 +321,25 @@ func main() {
 		log.Fatal(err)
 	}
 	defer db.Close()
+
+	if *profile != "" {
+		f, err := os.Create(*profile)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		pprof.StartCPUProfile(f)
+
+		c := make(chan os.Signal, 1)
+		signal.Notify(c, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+		go func() {
+			<-c
+			log.Print("interrupted")
+			pprof.StopCPUProfile()
+			os.Exit(1)
+		}()
+	}
 
 	http.HandleFunc("/query", executeQuery)
 	http.HandleFunc("/categories", getCategories)
