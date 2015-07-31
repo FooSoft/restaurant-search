@@ -322,6 +322,8 @@ func main() {
 	}
 	defer db.Close()
 
+	db.SetMaxIdleConns(256)
+
 	if *profile != "" {
 		f, err := os.Create(*profile)
 		if err != nil {
