@@ -158,6 +158,7 @@
             searchResultCnt += ' of ' + results.count;
         }
         $('#resultCount').text(searchResultCnt);
+        $('#elapsedTime').text(Math.round(results.elapsedTime / 1000000) + ' ms');
 
         var template = Handlebars.compile($('#template').html());
         $('#records').empty();

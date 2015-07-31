@@ -93,10 +93,11 @@ type jsonBracket struct {
 }
 
 type jsonQueryResponse struct {
-	Columns  map[string]jsonColumn `json:"columns"`
-	Count    int                   `json:"count"`
-	MinScore float64               `json:"minScore"`
-	Records  []jsonRecord          `json:"records"`
+	Columns     map[string]jsonColumn `json:"columns"`
+	Count       int                   `json:"count"`
+	MinScore    float64               `json:"minScore"`
+	Records     []jsonRecord          `json:"records"`
+	ElapsedTime int64                 `json:"elapsedTime"`
 }
 
 type jsonCategory struct {

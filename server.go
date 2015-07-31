@@ -32,6 +32,7 @@ import (
 	"net/http"
 	"runtime"
 	"strings"
+	"time"
 
 	"github.com/GaryBoone/GoStats/stats"
 	_ "github.com/go-sql-driver/mysql"
@@ -85,6 +86,8 @@ func prepareColumn(request jsonQueryRequest, entries, foundEntries records, feat
 }
 
 func executeQuery(rw http.ResponseWriter, req *http.Request) {
+	startTime := time.Now()
+
 	var request jsonQueryRequest
 	if err := json.NewDecoder(req.Body).Decode(&request); err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
@@ -138,6 +141,8 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 
 		response.Records = append(response.Records, item)
 	}
+
+	response.ElapsedTime = time.Since(startTime).Nanoseconds()
 
 	js, err := json.Marshal(response)
 	if err != nil {
