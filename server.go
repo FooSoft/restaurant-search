@@ -30,6 +30,7 @@ import (
 	"log"
 	"math"
 	"net/http"
+	"runtime"
 	"strings"
 
 	"github.com/GaryBoone/GoStats/stats"
@@ -37,6 +38,51 @@ import (
 )
 
 var db *sql.DB
+
+func prepareColumn(request jsonQueryRequest, entries, foundEntries records, features featureMap, modes modeMap, name string, value float64, columns chan jsonColumn) {
+	mode := modes[name]
+
+	column := jsonColumn{
+		Bracket: jsonBracket{Max: -1.0, Min: 1.0},
+		Mode:    mode.String(),
+		Steps:   request.Resolution,
+		Value:   value,
+		name:    name}
+
+	hints := project(
+		entries,
+		features,
+		modes,
+		name,
+		request.MinScore,
+		request.Resolution)
+
+	for _, hint := range hints {
+		jsonHint := jsonProjection{hint.compatibility, hint.count, hint.sample}
+		column.Hints = append(column.Hints, jsonHint)
+	}
+
+	var d stats.Stats
+	for _, record := range foundEntries {
+		if feature, ok := record.features[name]; ok {
+			d.Update(feature)
+		}
+	}
+
+	if d.Count() > 0 {
+		var dev float64
+		if d.Count() > 1 {
+			dev = d.SampleStandardDeviation() * 3
+		}
+
+		mean := d.Mean()
+
+		column.Bracket.Max = math.Min(mean+dev, d.Max())
+		column.Bracket.Min = math.Max(mean-dev, d.Min())
+	}
+
+	columns <- column
+}
 
 func executeQuery(rw http.ResponseWriter, req *http.Request) {
 	var request jsonQueryRequest
@@ -64,48 +110,14 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 		MinScore: request.MinScore,
 		Records:  make([]jsonRecord, 0)}
 
+	columns := make(chan jsonColumn, len(features))
 	for name, value := range features {
-		mode, _ := modes[name]
+		go prepareColumn(request, entries, foundEntries, features, modes, name, value, columns)
+	}
 
-		column := jsonColumn{
-			Bracket: jsonBracket{Max: -1.0, Min: 1.0},
-			Mode:    mode.String(),
-			Steps:   request.Resolution,
-			Value:   value}
-
-		hints := project(
-			entries,
-			features,
-			modes,
-			name,
-			request.MinScore,
-			request.Resolution)
-
-		for _, hint := range hints {
-			jsonHint := jsonProjection{hint.compatibility, hint.count, hint.sample}
-			column.Hints = append(column.Hints, jsonHint)
-		}
-
-		var d stats.Stats
-		for _, record := range foundEntries {
-			if feature, ok := record.features[name]; ok {
-				d.Update(feature)
-			}
-		}
-
-		if d.Count() > 0 {
-			var dev float64
-			if d.Count() > 1 {
-				dev = d.SampleStandardDeviation() * 3
-			}
-
-			mean := d.Mean()
-
-			column.Bracket.Max = math.Min(mean+dev, d.Max())
-			column.Bracket.Min = math.Max(mean-dev, d.Min())
-		}
-
-		response.Columns[name] = column
+	for i := 0; i < len(features); i++ {
+		column := <-columns
+		response.Columns[column.name] = column
 	}
 
 	for index, record := range foundEntries {
@@ -288,6 +300,8 @@ func clearHistory(rw http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
+	runtime.GOMAXPROCS(runtime.NumCPU())
+
 	staticDir := flag.String("static", "static", "path to static files")
 	portNum := flag.Int("port", 8080, "port to serve content on")
 	dataSrc := flag.String("data", "hscd@/hscd", "data source for database")

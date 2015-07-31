@@ -66,6 +66,7 @@ type jsonColumn struct {
 	Mode    string           `json:"mode"`
 	Steps   int              `json:"steps"`
 	Value   float64          `json:"value"`
+	name    string
 }
 
 type jsonProjection struct {
