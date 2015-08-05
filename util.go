@@ -69,7 +69,7 @@ func fixModes(modes map[string]string) modeMap {
 	return fixedModes
 }
 
-func distance(features1 featureMap, features2 featureMap) float64 {
+func similarity(features1 featureMap, features2 featureMap) float64 {
 	var result float64
 
 	for key, value1 := range features1 {
@@ -233,7 +233,7 @@ func computeRecordCompat(entry *record, context queryContext, wg *sync.WaitGroup
 			log.Fatal(err)
 		}
 
-		groupSum += distance(recordProfile, context.profile)
+		groupSum += similarity(recordProfile, context.profile)
 		groupCount++
 	}
 	if err := historyRows.Err(); err != nil {
