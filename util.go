@@ -73,8 +73,9 @@ func similarity(features1 featureMap, features2 featureMap) float64 {
 	var result float64
 
 	for key, value1 := range features1 {
-		value2, _ := features2[key]
-		result += 1 - math.Abs(value1-value2)
+		if value2, ok := features2[key]; ok {
+			result += value1 * value2
+		}
 	}
 
 	return result
