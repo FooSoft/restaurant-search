@@ -53,11 +53,14 @@ type tabelogReview struct {
 }
 
 func dumpReviews(filename string, in chan tabelogReview, out chan error) {
+	count := 1
+
 	var reviews []tabelogReview
 	for {
 		if review, ok := <-in; ok {
-			log.Println(review.Name)
+			log.Printf("%d\t%s", count, review.Name)
 			reviews = append(reviews, review)
+			count++
 		} else {
 			break
 		}
@@ -77,7 +80,6 @@ func scrapeReview(url string, out chan tabelogReview, wg *sync.WaitGroup) {
 
 	doc, err := goquery.NewDocument(url)
 	if err != nil {
-		log.Print(err)
 		return
 	}
 
@@ -111,21 +113,22 @@ func scrapeReview(url string, out chan tabelogReview, wg *sync.WaitGroup) {
 	out <- review
 }
 
-func scrapeIndex(url string, out chan tabelogReview, wg *sync.WaitGroup) {
-	defer wg.Done()
-
+func scrapeIndex(url string, out chan tabelogReview) error {
 	doc, err := goquery.NewDocument(url)
 	if err != nil {
-		log.Print(err)
-		return
+		return err
 	}
 
+	var wg sync.WaitGroup
 	doc.Find("div.list-rst__header > p > a").Each(func(index int, sel *goquery.Selection) {
 		if href, ok := sel.Attr("href"); ok {
 			wg.Add(1)
-			go scrapeReview(href, out, wg)
+			go scrapeReview(href, out, &wg)
 		}
 	})
+
+	wg.Wait()
+	return nil
 }
 
 func scrapeTabelog(filename, url string) error {
@@ -136,18 +139,16 @@ func scrapeTabelog(filename, url string) error {
 	t := template.New("tabelog")
 	t.Parse(url)
 
-	var wg sync.WaitGroup
-	for i := 1; i <= 1; i++ {
+	for i := 1; i <= 2; i++ {
 		var url bytes.Buffer
 		if err := t.Execute(&url, tabelogParams{i}); err != nil {
-			log.Fatal(err)
+			return err
 		}
 
-		wg.Add(1)
-		go scrapeIndex(string(url.Bytes()), out, &wg)
+		if err := scrapeIndex(string(url.Bytes()), out); err != nil {
+			return err
+		}
 	}
-
-	wg.Wait()
 
 	close(out)
 	return <-in
