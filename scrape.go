@@ -22,6 +22,13 @@
 
 package main
 
+import "log"
+
 func main() {
-	scrapeTabelog()
+	urlFormat := "http://tabelog.com/en/rstLst/{{.Page}}/?lat=35.465808055555996&lon=139.61964361111&zoom=16&RdoCosTp=2&LstCos=0&LstCosT=11&LstSitu=0&LstRev=0&LstReserve=0&ChkParking=0&LstSmoking=0"
+	tabelogReviews := "tabelog.json"
+
+	if err := scrapeTabelog(tabelogReviews, urlFormat); err != nil {
+		log.Fatal(err)
+	}
 }
