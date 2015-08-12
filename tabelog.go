@@ -24,49 +24,31 @@ package main
 
 import (
 	"bytes"
-	"errors"
+	"encoding/json"
+	"io/ioutil"
 	"log"
-	"regexp"
 	"strconv"
 	"strings"
-	"sync"
 	"text/template"
 
 	"github.com/PuerkitoBio/goquery"
 )
 
-const (
-	tabelogTemplate = "http://tabelog.com/en/rstLst/{{.Page}}/?lat=35.465808055555996&lon=139.61964361111&zoom=16&RdoCosTp=2&LstCos=0&LstCosT=11&LstSitu=0&LstRev=0&LstReserve=0&ChkParking=0&LstSmoking=0"
-)
+const ()
 
 type tabelogParams struct {
 	Page int
 }
 
 type tabelogReview struct {
-	name       string
-	address    string
-	dishes     float64
-	service    float64
-	atmosphere float64
-	cost       float64
-	drinks     float64
-	url        string
-}
-
-func parseCounts(doc *goquery.Document) (from, to, total int64, err error) {
-	t := doc.Find("#js-item-count-downside").Text()
-
-	r := regexp.MustCompile(`(\d+)\D*(\d+)\D*(\d+)`)
-	if c := r.FindStringSubmatch(t); c != nil {
-		from, _ = strconv.ParseInt(c[1], 10, 8)
-		to, _ = strconv.ParseInt(c[2], 10, 8)
-		total, _ = strconv.ParseInt(c[3], 10, 8)
-	} else {
-		err = errors.New("failed to parse counts")
-	}
-
-	return
+	Name       string
+	Address    string
+	Dishes     float64
+	Service    float64
+	Atmosphere float64
+	Cost       float64
+	Drinks     float64
+	Url        string
 }
 
 func scrapeReview(url string, out chan tabelogReview) {
@@ -78,23 +60,23 @@ func scrapeReview(url string, out chan tabelogReview) {
 
 	var r tabelogReview
 
-	r.url = url
-	r.name = doc.Find("body > article > header > div.rd-header.l-container > div > div.rd-header__headline > h2 > a").Text()
-	r.address = strings.TrimSpace(doc.Find("#anchor-rd-detail > section > table > tbody > tr > td > p.rd-detail-info__rst-address").First().Text())
+	r.Url = url
+	r.Name = doc.Find("body > article > header > div.rd-header.l-container > div > div.rd-header__headline > h2 > a").Text()
+	r.Address = strings.TrimSpace(doc.Find("#anchor-rd-detail > section > table > tbody > tr > td > p.rd-detail-info__rst-address > span").Text())
 
-	if r.dishes, err = strconv.ParseFloat(doc.Find("#js-rating-detail > dd:nth-child(2)").Text(), 8); err != nil {
+	if r.Dishes, err = strconv.ParseFloat(doc.Find("#js-rating-detail > dd:nth-child(2)").Text(), 8); err != nil {
 		return
 	}
-	if r.service, err = strconv.ParseFloat(doc.Find("#js-rating-detail > dd:nth-child(4)").Text(), 8); err != nil {
+	if r.Service, err = strconv.ParseFloat(doc.Find("#js-rating-detail > dd:nth-child(4)").Text(), 8); err != nil {
 		return
 	}
-	if r.atmosphere, err = strconv.ParseFloat(doc.Find("#js-rating-detail > dd:nth-child(6)").Text(), 8); err != nil {
+	if r.Atmosphere, err = strconv.ParseFloat(doc.Find("#js-rating-detail > dd:nth-child(6)").Text(), 8); err != nil {
 		return
 	}
-	if r.cost, err = strconv.ParseFloat(doc.Find("#js-rating-detail > dd:nth-child(8)").Text(), 8); err != nil {
+	if r.Cost, err = strconv.ParseFloat(doc.Find("#js-rating-detail > dd:nth-child(8)").Text(), 8); err != nil {
 		return
 	}
-	if r.drinks, err = strconv.ParseFloat(doc.Find("#js-rating-detail > dd:nth-child(10)").Text(), 8); err != nil {
+	if r.Drinks, err = strconv.ParseFloat(doc.Find("#js-rating-detail > dd:nth-child(10)").Text(), 8); err != nil {
 		return
 	}
 
@@ -116,28 +98,35 @@ func scrapeIndex(url string, out chan tabelogReview) error {
 	return nil
 }
 
-func dumpReviews(c chan tabelogReview, cond *sync.Cond) {
+func dumpReviews(filename string, in chan tabelogReview, out chan error) {
+	var reviews []tabelogReview
 	for {
-		review, ok := <-c
-		if !ok {
+		if review, ok := <-in; ok {
+			log.Println(review.Name)
+			reviews = append(reviews, review)
+		} else {
 			break
 		}
-
-		log.Print(review)
 	}
 
-	cond.Signal()
+	js, err := json.MarshalIndent(reviews, "", "    ")
+	if err != nil {
+		out <- err
+		return
+	}
+
+	out <- ioutil.WriteFile(filename, js, 0644)
 }
 
-func scrapeTabelog() error {
-	var cond sync.Cond
+func scrapeTabelog(filename, url string) error {
 	out := make(chan tabelogReview)
-	go dumpReviews(out, &cond)
+	in := make(chan error)
+	go dumpReviews(filename, out, in)
 
 	t := template.New("tabelog")
-	t.Parse(tabelogTemplate)
+	t.Parse(url)
 
-	for i := 1; i <= 60; i++ {
+	for i := 1; i <= 2; i++ {
 		var url bytes.Buffer
 		if err := t.Execute(&url, tabelogParams{i}); err != nil {
 			log.Fatal(err)
@@ -149,7 +138,5 @@ func scrapeTabelog() error {
 	}
 
 	close(out)
-	cond.Wait()
-
-	return nil
+	return <-in
 }
