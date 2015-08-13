@@ -23,57 +23,75 @@
 package main
 
 import (
-	"bytes"
-	"crypto/md5"
-	"fmt"
+	"encoding/json"
 	"io/ioutil"
-	"net/http"
 	"os"
-	"path"
+	"sync"
 
-	"github.com/PuerkitoBio/goquery"
+	"github.com/kellydunn/golang-geo"
 )
 
-type webCache struct {
-	cacheDir string
+type geoCoord struct {
+	Latitude  float64
+	Longitude float64
 }
 
-func newWebCache(cacheDir string) (*webCache, error) {
-	if err := os.MkdirAll(cacheDir, 0755); err != nil {
+type geoCache struct {
+	cacheFile    string
+	addressCache map[string]geoCoord
+	geocoder     geo.GoogleGeocoder
+	mutex        sync.Mutex
+}
+
+func newGeoCache(cacheFile string) (*geoCache, error) {
+	cache := &geoCache{
+		cacheFile:    cacheFile,
+		addressCache: make(map[string]geoCoord)}
+
+	if err := cache.load(); err != nil {
 		return nil, err
 	}
 
-	return &webCache{cacheDir: cacheDir}, nil
+	return cache, nil
 }
 
-func (c *webCache) urlToLocal(url string) string {
-	hash := md5.New()
-	hash.Write([]byte(url))
-	return path.Join(c.cacheDir, fmt.Sprintf("%x.html", hash.Sum(nil)))
-}
-
-func (c *webCache) load(url string) (*goquery.Document, error) {
-	localPath := c.urlToLocal(url)
-
-	if file, err := os.Open(localPath); err == nil {
-		defer file.Close()
-		return goquery.NewDocumentFromReader(file)
-	} else {
-		res, err := http.Get(url)
-		if err != nil {
-			return nil, err
-		}
-		defer res.Body.Close()
-
-		var buff bytes.Buffer
-		if _, err := buff.ReadFrom(res.Body); err != nil {
-			return nil, err
-		}
-
-		if err := ioutil.WriteFile(localPath, buff.Bytes(), 0644); err != nil {
-			return nil, err
-		}
-
-		return goquery.NewDocumentFromReader(&buff)
+func (c *geoCache) load() error {
+	file, err := os.Open(c.cacheFile)
+	if os.IsNotExist(err) {
+		return nil
 	}
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	return json.NewDecoder(file).Decode(&c.addressCache)
+}
+
+func (c *geoCache) save() error {
+	js, err := json.MarshalIndent(c.addressCache, "", "    ")
+	if err != nil {
+		return err
+	}
+
+	return ioutil.WriteFile(c.cacheFile, js, 0644)
+}
+
+func (c *geoCache) decode(address string) (geoCoord, error) {
+	if coord, ok := c.addressCache[address]; ok {
+		return coord, nil
+	}
+
+	point, err := c.geocoder.Geocode(address)
+	if err != nil {
+		return geoCoord{}, err
+	}
+
+	coord := geoCoord{point.Lat(), point.Lng()}
+
+	c.mutex.Lock()
+	c.addressCache[address] = coord
+	c.mutex.Unlock()
+
+	return coord, nil
 }

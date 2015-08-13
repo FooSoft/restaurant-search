@@ -41,15 +41,18 @@ type tabelogParams struct {
 }
 
 type tabelogReview struct {
-	Name       string
-	Address    string
+	Name    string
+	Address string
+	Url     string
+
 	Dishes     float64
 	Service    float64
 	Atmosphere float64
 	Cost       float64
 	Drinks     float64
-	Url        string
-	Raw        string
+
+	Latitude  float64
+	Longitude float64
 }
 
 func makeAbsUrl(base, ref string) string {
@@ -91,10 +94,10 @@ func dumpReviews(filename string, rc chan tabelogReview, wg *sync.WaitGroup) {
 	}
 }
 
-func scrapeReview(url string, rc chan tabelogReview, wg *sync.WaitGroup, wc *webCache) {
+func scrapeReview(url string, rc chan tabelogReview, wg *sync.WaitGroup, wc *webCache, gc *geoCache) {
 	defer wg.Done()
 
-	doc, err := wc.fetchUrl(url)
+	doc, err := wc.load(url)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -126,11 +129,19 @@ func scrapeReview(url string, rc chan tabelogReview, wg *sync.WaitGroup, wc *web
 		return
 	}
 
+	coord, err := gc.decode(review.Address)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	review.Latitude = coord.Latitude
+	review.Longitude = coord.Longitude
+
 	rc <- review
 }
 
-func scrapeIndex(url string, out chan tabelogReview, wc *webCache) {
-	doc, err := wc.fetchUrl(url)
+func scrapeIndex(url string, out chan tabelogReview, wc *webCache, gc *geoCache) {
+	doc, err := wc.load(url)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -139,18 +150,23 @@ func scrapeIndex(url string, out chan tabelogReview, wc *webCache) {
 	doc.Find("div.list-rst__header > p > a").Each(func(index int, sel *goquery.Selection) {
 		if href, ok := sel.Attr("href"); ok {
 			wg.Add(1)
-			go scrapeReview(makeAbsUrl(url, href), out, &wg, wc)
+			go scrapeReview(makeAbsUrl(url, href), out, &wg, wc, gc)
 		}
 	})
 	wg.Wait()
 
-	if href, ok := doc.Find("a.c-pagination__target--next").Attr("href"); ok {
-		scrapeIndex(makeAbsUrl(url, href), out, wc)
-	}
+	// if href, ok := doc.Find("a.c-pagination__target--next").Attr("href"); ok {
+	// 	scrapeIndex(makeAbsUrl(url, href), out, wc, gc)
+	// }
 }
 
-func scrapeTabelog(url, jsonFile, cacheDir string) {
-	wc, err := newWebCache(cacheDir)
+func scrapeTabelog(url, resultFile, webCacheDir, geoCacheFile string) {
+	wc, err := newWebCache(webCacheDir)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	gc, err := newGeoCache(geoCacheFile)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -158,9 +174,13 @@ func scrapeTabelog(url, jsonFile, cacheDir string) {
 	var wg sync.WaitGroup
 	wg.Add(1)
 	rc := make(chan tabelogReview)
-	go dumpReviews(jsonFile, rc, &wg)
+	go dumpReviews(resultFile, rc, &wg)
 
-	scrapeIndex(url, rc, wc)
+	scrapeIndex(url, rc, wc, gc)
+
+	if err := gc.save(); err != nil {
+		log.Fatal(err)
+	}
 
 	close(rc)
 	wg.Wait()

@@ -23,5 +23,5 @@
 package main
 
 func main() {
-	scrapeTabelog("http://tabelog.com/en/kanagawa/rstLst/1/", "data/tabelog.json", "webcache")
+	scrapeTabelog("http://tabelog.com/en/kanagawa/rstLst/1/", "data/tabelog.json", "cache/webcache", "cache/geocache.json")
 }
