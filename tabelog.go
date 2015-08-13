@@ -66,8 +66,8 @@ func makeAbsUrl(base, ref string) string {
 	return b.ResolveReference(r).String()
 }
 
-func dumpReviews(filename string, rc chan tabelogReview, cond *sync.Cond) {
-	defer cond.Signal()
+func dumpReviews(filename string, rc chan tabelogReview, wg *sync.WaitGroup) {
+	defer wg.Done()
 
 	count := 1
 	var reviews []tabelogReview
@@ -155,12 +155,13 @@ func scrapeTabelog(url, jsonFile, cacheDir string) {
 		log.Fatal(err)
 	}
 
-	var cond sync.Cond
+	var wg sync.WaitGroup
+	wg.Add(1)
 	rc := make(chan tabelogReview)
-	go dumpReviews(jsonFile, rc, &cond)
+	go dumpReviews(jsonFile, rc, &wg)
 
 	scrapeIndex(url, rc, wc)
 
 	close(rc)
-	cond.Wait()
+	wg.Wait()
 }
