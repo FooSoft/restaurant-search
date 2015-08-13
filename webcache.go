@@ -49,7 +49,7 @@ func newWebCache(baseDir string) (*webCache, error) {
 func (c *webCache) urlToLocal(url string) string {
 	hash := md5.New()
 	hash.Write([]byte(url))
-	return path.Join(c.baseDir, fmt.Sprintf("%x", hash.Sum(nil)))
+	return path.Join(c.baseDir, fmt.Sprintf("%x.html", hash.Sum(nil)))
 }
 
 func (c *webCache) fetchUrl(url string) (*goquery.Document, error) {
