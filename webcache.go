@@ -35,21 +35,21 @@ import (
 )
 
 type webCache struct {
-	baseDir string
+	cacheDir string
 }
 
-func newWebCache(baseDir string) (*webCache, error) {
-	if err := os.MkdirAll(baseDir, 0755); err != nil {
+func newWebCache(cacheDir string) (*webCache, error) {
+	if err := os.MkdirAll(cacheDir, 0755); err != nil {
 		return nil, err
 	}
 
-	return &webCache{baseDir: baseDir}, nil
+	return &webCache{cacheDir: cacheDir}, nil
 }
 
 func (c *webCache) urlToLocal(url string) string {
 	hash := md5.New()
 	hash.Write([]byte(url))
-	return path.Join(c.baseDir, fmt.Sprintf("%x.html", hash.Sum(nil)))
+	return path.Join(c.cacheDir, fmt.Sprintf("%x.html", hash.Sum(nil)))
 }
 
 func (c *webCache) fetchUrl(url string) (*goquery.Document, error) {
