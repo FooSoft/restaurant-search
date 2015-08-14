@@ -94,7 +94,7 @@ func decodeReviews(in chan tabelogReview, out chan tabelogReview, wg *sync.WaitG
 
 	for {
 		if review, ok := <-in; ok {
-			log.Print("decoding %s", review.Name)
+			log.Printf("decoding %s", review.Name)
 
 			coord, err := gc.decode(review.Address)
 			if err != nil {
@@ -107,6 +107,7 @@ func decodeReviews(in chan tabelogReview, out chan tabelogReview, wg *sync.WaitG
 			out <- review
 		} else {
 			close(out)
+			return
 		}
 	}
 }
@@ -185,6 +186,7 @@ func scrapeTabelog(url, resultFile, webCacheDir, geoCacheFile string) {
 
 	var wg sync.WaitGroup
 	wg.Add(2)
+
 	go decodeReviews(scrapeChan, decodeChan, &wg, gc)
 	go dumpReviews(resultFile, decodeChan, &wg)
 

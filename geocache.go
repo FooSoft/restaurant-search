@@ -26,6 +26,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"os"
+	"time"
 
 	"github.com/kellydunn/golang-geo"
 )
@@ -38,13 +39,16 @@ type geoCoord struct {
 type geoCache struct {
 	filename string
 	data     map[string]geoCoord
+	ticker   *time.Ticker
 	coder    geo.GoogleGeocoder
 }
 
 func newGeoCache(filename string) (*geoCache, error) {
 	cache := &geoCache{
 		filename: filename,
-		data:     make(map[string]geoCoord)}
+		data:     make(map[string]geoCoord),
+		ticker:   time.NewTicker(time.Millisecond * 200),
+	}
 
 	if err := cache.load(); err != nil {
 		return nil, err
@@ -79,6 +83,8 @@ func (c *geoCache) decode(address string) (geoCoord, error) {
 	if coord, ok := c.data[address]; ok {
 		return coord, nil
 	}
+
+	<-c.ticker.C
 
 	point, err := c.coder.Geocode(address)
 	if err != nil {
