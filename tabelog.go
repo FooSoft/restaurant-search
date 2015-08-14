@@ -53,21 +53,21 @@ type tabelogReview struct {
 	Longitude float64
 }
 
-func makeAbsUrl(base, ref string) string {
+func makeAbsUrl(base, ref string) (string, error) {
 	b, err := url.Parse(base)
 	if err != nil {
-		log.Fatal(err)
+		return "", err
 	}
 
 	r, err := url.Parse(ref)
 	if err != nil {
-		log.Fatal(err)
+		return "", err
 	}
 
-	return b.ResolveReference(r).String()
+	return b.ResolveReference(r).String(), nil
 }
 
-func dumpReviews(filename string, in chan tabelogReview) {
+func dumpReviews(filename string, in chan tabelogReview) error {
 	var reviews []tabelogReview
 	for {
 		if review, ok := <-in; ok {
@@ -79,28 +79,27 @@ func dumpReviews(filename string, in chan tabelogReview) {
 
 	js, err := json.MarshalIndent(reviews, "", "    ")
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	if err := ioutil.WriteFile(filename, js, 0644); err != nil {
-		log.Fatal(err)
+		return err
 	}
+
+	return nil
 }
 
 func decodeReviews(in chan tabelogReview, out chan tabelogReview, gc *geoCache) {
 	for {
 		if review, ok := <-in; ok {
-			log.Printf("decoding address for %s", review.Name)
-
 			coord, err := gc.decode(review.Address)
-			if err != nil {
-				log.Fatal(err)
+			if err == nil {
+				review.Latitude = coord.Latitude
+				review.Longitude = coord.Longitude
+				out <- review
+			} else {
+				log.Printf("failed to decode address for %s (%v)", review.Url, err)
 			}
-
-			review.Latitude = coord.Latitude
-			review.Longitude = coord.Longitude
-
-			out <- review
 		} else {
 			close(out)
 			return
@@ -109,12 +108,12 @@ func decodeReviews(in chan tabelogReview, out chan tabelogReview, gc *geoCache) 
 }
 
 func scrapeReview(url string, out chan tabelogReview, wc *webCache, wg *sync.WaitGroup) {
-	log.Printf("scraping review: %s", url)
 	defer wg.Done()
 
 	doc, err := wc.load(url)
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("failed to scrape review at %s (%v)", url, err)
+		return
 	}
 
 	addresses := doc.Find("p.rd-detail-info__rst-address")
@@ -148,55 +147,61 @@ func scrapeReview(url string, out chan tabelogReview, wc *webCache, wg *sync.Wai
 }
 
 func scrapeIndex(url string, out chan tabelogReview, wc *webCache, wg *sync.WaitGroup) {
-	log.Printf("scraping index: %s", url)
-	defer wg.Done()
-
 	doc, err := wc.load(url)
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("failed to scrape index at %s (%v)", url, err)
+		return
 	}
 
 	doc.Find("div.list-rst__header > p > a").Each(func(index int, sel *goquery.Selection) {
 		if href, ok := sel.Attr("href"); ok {
 			wg.Add(1)
-			go scrapeReview(makeAbsUrl(url, href), out, wc, wg)
+
+			absUrl, err := makeAbsUrl(url, href)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			go scrapeReview(absUrl, out, wc, wg)
 		}
 	})
 
 	if href, ok := doc.Find("a.c-pagination__target--next").Attr("href"); ok {
-		wg.Add(1)
-		scrapeIndex(makeAbsUrl(url, href), out, wc, wg)
+		absUrl, err := makeAbsUrl(url, href)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		scrapeIndex(absUrl, out, wc, wg)
 	}
 }
 
-func scrapeReviews(url, webCacheDir string, out chan tabelogReview) {
-	wc, err := newWebCache(webCacheDir)
-	if err != nil {
-		log.Fatal(err)
-	}
-
+func scrapeReviews(url string, out chan tabelogReview, wc *webCache) error {
 	var wg sync.WaitGroup
-	wg.Add(1)
 	scrapeIndex(url, out, wc, &wg)
 	wg.Wait()
 
 	close(out)
+	return nil
 }
 
-func scrapeTabelog(url, resultFile, webCacheDir, geoCacheFile string) {
+func scrapeTabelog(url, resultFile, webCacheDir, geoCacheFile string) error {
+	wc, err := newWebCache(webCacheDir)
+	if err != nil {
+		return err
+	}
+
 	gc, err := newGeoCache(geoCacheFile)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	scrapeChan := make(chan tabelogReview, 2000)
 	decodeChan := make(chan tabelogReview, 2000)
 
 	go decodeReviews(scrapeChan, decodeChan, gc)
-	scrapeReviews(url, webCacheDir, scrapeChan)
+	scrapeReviews(url, scrapeChan, wc)
 	dumpReviews(resultFile, decodeChan)
 
-	if err := gc.save(); err != nil {
-		log.Fatal(err)
-	}
+	return gc.save()
 }
