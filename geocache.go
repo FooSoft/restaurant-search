@@ -27,6 +27,7 @@ import (
 	"io/ioutil"
 	"os"
 	"sync"
+	"time"
 
 	"github.com/kellydunn/golang-geo"
 )
@@ -37,16 +38,16 @@ type geoCoord struct {
 }
 
 type geoCache struct {
-	cacheFile    string
-	addressCache map[string]geoCoord
-	geocoder     geo.GoogleGeocoder
-	mutex        sync.Mutex
+	filename string
+	data     map[string]geoCoord
+	mutex    sync.Mutex
+	coder    geo.GoogleGeocoder
 }
 
-func newGeoCache(cacheFile string) (*geoCache, error) {
+func newGeoCache(filename string) (*geoCache, error) {
 	cache := &geoCache{
-		cacheFile:    cacheFile,
-		addressCache: make(map[string]geoCoord)}
+		filename: filename,
+		data:     make(map[string]geoCoord)}
 
 	if err := cache.load(); err != nil {
 		return nil, err
@@ -56,7 +57,7 @@ func newGeoCache(cacheFile string) (*geoCache, error) {
 }
 
 func (c *geoCache) load() error {
-	file, err := os.Open(c.cacheFile)
+	file, err := os.Open(c.filename)
 	if os.IsNotExist(err) {
 		return nil
 	}
@@ -65,24 +66,24 @@ func (c *geoCache) load() error {
 	}
 	defer file.Close()
 
-	return json.NewDecoder(file).Decode(&c.addressCache)
+	return json.NewDecoder(file).Decode(&c.data)
 }
 
 func (c *geoCache) save() error {
-	js, err := json.MarshalIndent(c.addressCache, "", "    ")
+	js, err := json.MarshalIndent(c.data, "", "    ")
 	if err != nil {
 		return err
 	}
 
-	return ioutil.WriteFile(c.cacheFile, js, 0644)
+	return ioutil.WriteFile(c.filename, js, 0644)
 }
 
 func (c *geoCache) decode(address string) (geoCoord, error) {
-	if coord, ok := c.addressCache[address]; ok {
+	if coord, ok := c.data[address]; ok {
 		return coord, nil
 	}
 
-	point, err := c.geocoder.Geocode(address)
+	point, err := c.coder.Geocode(address)
 	if err != nil {
 		return geoCoord{}, err
 	}
@@ -90,8 +91,9 @@ func (c *geoCache) decode(address string) (geoCoord, error) {
 	coord := geoCoord{point.Lat(), point.Lng()}
 
 	c.mutex.Lock()
-	c.addressCache[address] = coord
+	c.data[address] = coord
 	c.mutex.Unlock()
 
+	time.Sleep(200 * time.Millisecond)
 	return coord, nil
 }

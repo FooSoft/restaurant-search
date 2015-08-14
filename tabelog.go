@@ -131,7 +131,12 @@ func scrapeReview(url string, rc chan tabelogReview, wg *sync.WaitGroup, wc *web
 
 	coord, err := gc.decode(review.Address)
 	if err != nil {
-		log.Fatal(err)
+		switch err.Error() {
+		case "ZERO_RESULTS":
+			return
+		default:
+			log.Fatal(err)
+		}
 	}
 
 	review.Latitude = coord.Latitude
@@ -155,9 +160,9 @@ func scrapeIndex(url string, out chan tabelogReview, wc *webCache, gc *geoCache)
 	})
 	wg.Wait()
 
-	// if href, ok := doc.Find("a.c-pagination__target--next").Attr("href"); ok {
-	// 	scrapeIndex(makeAbsUrl(url, href), out, wc, gc)
-	// }
+	if href, ok := doc.Find("a.c-pagination__target--next").Attr("href"); ok {
+		scrapeIndex(makeAbsUrl(url, href), out, wc, gc)
+	}
 }
 
 func scrapeTabelog(url, resultFile, webCacheDir, geoCacheFile string) {
