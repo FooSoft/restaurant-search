@@ -30,12 +30,14 @@ import (
 	"net/http"
 	"os"
 	"path"
+	"time"
 
 	"github.com/PuerkitoBio/goquery"
 )
 
 type webCache struct {
 	directory string
+	ticker    *time.Ticker
 }
 
 func newWebCache(directory string) (*webCache, error) {
@@ -43,7 +45,12 @@ func newWebCache(directory string) (*webCache, error) {
 		return nil, err
 	}
 
-	return &webCache{directory: directory}, nil
+	cache := &webCache{
+		directory: directory,
+		ticker:    time.NewTicker(time.Millisecond * 100),
+	}
+
+	return cache, nil
 }
 
 func (c *webCache) urlToLocal(url string) string {
@@ -59,6 +66,8 @@ func (c *webCache) load(url string) (*goquery.Document, error) {
 		defer file.Close()
 		return goquery.NewDocumentFromReader(file)
 	}
+
+	<-c.ticker.C
 
 	res, err := http.Get(url)
 	if err != nil {
