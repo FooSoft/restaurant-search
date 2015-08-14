@@ -20,7 +20,7 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package main
+package web
 
 import (
 	"bytes"
@@ -35,17 +35,17 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-type webCache struct {
+type Cache struct {
 	directory string
 	ticker    *time.Ticker
 }
 
-func newWebCache(directory string) (*webCache, error) {
+func NewCache(directory string) (*Cache, error) {
 	if err := os.MkdirAll(directory, 0755); err != nil {
 		return nil, err
 	}
 
-	cache := &webCache{
+	cache := &Cache{
 		directory: directory,
 		ticker:    time.NewTicker(time.Millisecond * 100),
 	}
@@ -53,13 +53,13 @@ func newWebCache(directory string) (*webCache, error) {
 	return cache, nil
 }
 
-func (c *webCache) urlToLocal(url string) string {
+func (c *Cache) urlToLocal(url string) string {
 	hash := md5.New()
 	hash.Write([]byte(url))
 	return path.Join(c.directory, fmt.Sprintf("%x.html", hash.Sum(nil)))
 }
 
-func (c *webCache) load(url string) (*goquery.Document, error) {
+func (c *Cache) Load(url string) (*goquery.Document, error) {
 	localPath := c.urlToLocal(url)
 
 	if file, err := os.Open(localPath); err == nil {

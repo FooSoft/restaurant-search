@@ -20,7 +20,7 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package main
+package geo
 
 import (
 	"encoding/json"
@@ -31,22 +31,22 @@ import (
 	"github.com/kellydunn/golang-geo"
 )
 
-type geoCoord struct {
+type Coord struct {
 	Latitude  float64
 	Longitude float64
 }
 
-type geoCache struct {
+type Cache struct {
 	filename string
-	data     map[string]geoCoord
+	data     map[string]Coord
 	ticker   *time.Ticker
 	coder    geo.GoogleGeocoder
 }
 
-func newGeoCache(filename string) (*geoCache, error) {
-	cache := &geoCache{
+func NewCache(filename string) (*Cache, error) {
+	cache := &Cache{
 		filename: filename,
-		data:     make(map[string]geoCoord),
+		data:     make(map[string]Coord),
 		ticker:   time.NewTicker(time.Millisecond * 200),
 	}
 
@@ -57,7 +57,7 @@ func newGeoCache(filename string) (*geoCache, error) {
 	return cache, nil
 }
 
-func (c *geoCache) load() error {
+func (c *Cache) load() error {
 	file, err := os.Open(c.filename)
 	if os.IsNotExist(err) {
 		return nil
@@ -70,7 +70,7 @@ func (c *geoCache) load() error {
 	return json.NewDecoder(file).Decode(&c.data)
 }
 
-func (c *geoCache) save() error {
+func (c *Cache) Save() error {
 	js, err := json.MarshalIndent(c.data, "", "    ")
 	if err != nil {
 		return err
@@ -79,7 +79,7 @@ func (c *geoCache) save() error {
 	return ioutil.WriteFile(c.filename, js, 0644)
 }
 
-func (c *geoCache) decode(address string) (geoCoord, error) {
+func (c *Cache) Decode(address string) (Coord, error) {
 	if coord, ok := c.data[address]; ok {
 		return coord, nil
 	}
@@ -88,10 +88,10 @@ func (c *geoCache) decode(address string) (geoCoord, error) {
 
 	point, err := c.coder.Geocode(address)
 	if err != nil {
-		return geoCoord{}, err
+		return Coord{}, err
 	}
 
-	coord := geoCoord{point.Lat(), point.Lng()}
+	coord := Coord{point.Lat(), point.Lng()}
 	c.data[address] = coord
 	return coord, nil
 }
