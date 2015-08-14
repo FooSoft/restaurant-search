@@ -26,8 +26,6 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"os"
-	"sync"
-	"time"
 
 	"github.com/kellydunn/golang-geo"
 )
@@ -40,7 +38,6 @@ type geoCoord struct {
 type geoCache struct {
 	filename string
 	data     map[string]geoCoord
-	mutex    sync.Mutex
 	coder    geo.GoogleGeocoder
 }
 
@@ -89,11 +86,6 @@ func (c *geoCache) decode(address string) (geoCoord, error) {
 	}
 
 	coord := geoCoord{point.Lat(), point.Lng()}
-
-	c.mutex.Lock()
 	c.data[address] = coord
-	c.mutex.Unlock()
-
-	time.Sleep(200 * time.Millisecond)
 	return coord, nil
 }

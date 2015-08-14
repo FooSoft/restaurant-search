@@ -35,21 +35,21 @@ import (
 )
 
 type webCache struct {
-	cacheDir string
+	directory string
 }
 
-func newWebCache(cacheDir string) (*webCache, error) {
-	if err := os.MkdirAll(cacheDir, 0755); err != nil {
+func newWebCache(directory string) (*webCache, error) {
+	if err := os.MkdirAll(directory, 0755); err != nil {
 		return nil, err
 	}
 
-	return &webCache{cacheDir: cacheDir}, nil
+	return &webCache{directory: directory}, nil
 }
 
 func (c *webCache) urlToLocal(url string) string {
 	hash := md5.New()
 	hash.Write([]byte(url))
-	return path.Join(c.cacheDir, fmt.Sprintf("%x.html", hash.Sum(nil)))
+	return path.Join(c.directory, fmt.Sprintf("%x.html", hash.Sum(nil)))
 }
 
 func (c *webCache) load(url string) (*goquery.Document, error) {
@@ -58,22 +58,22 @@ func (c *webCache) load(url string) (*goquery.Document, error) {
 	if file, err := os.Open(localPath); err == nil {
 		defer file.Close()
 		return goquery.NewDocumentFromReader(file)
-	} else {
-		res, err := http.Get(url)
-		if err != nil {
-			return nil, err
-		}
-		defer res.Body.Close()
-
-		var buff bytes.Buffer
-		if _, err := buff.ReadFrom(res.Body); err != nil {
-			return nil, err
-		}
-
-		if err := ioutil.WriteFile(localPath, buff.Bytes(), 0644); err != nil {
-			return nil, err
-		}
-
-		return goquery.NewDocumentFromReader(&buff)
 	}
+
+	res, err := http.Get(url)
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+
+	var buff bytes.Buffer
+	if _, err := buff.ReadFrom(res.Body); err != nil {
+		return nil, err
+	}
+
+	if err := ioutil.WriteFile(localPath, buff.Bytes(), 0644); err != nil {
+		return nil, err
+	}
+
+	return goquery.NewDocumentFromReader(&buff)
 }
