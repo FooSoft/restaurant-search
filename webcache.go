@@ -20,78 +20,69 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package geo
+package main
 
 import (
-	"encoding/json"
+	"bytes"
+	"crypto/md5"
+	"fmt"
 	"io/ioutil"
+	"net/http"
 	"os"
+	"path"
 	"time"
 
-	"github.com/kellydunn/golang-geo"
+	"github.com/PuerkitoBio/goquery"
 )
 
-type Coord struct {
-	Latitude  float64
-	Longitude float64
+type webCache struct {
+	directory string
+	ticker    *time.Ticker
 }
 
-type Cache struct {
-	filename string
-	data     map[string]Coord
-	ticker   *time.Ticker
-	coder    geo.GoogleGeocoder
-}
-
-func NewCache(filename string) (*Cache, error) {
-	cache := &Cache{
-		filename: filename,
-		data:     make(map[string]Coord),
-		ticker:   time.NewTicker(time.Millisecond * 200),
+func newWebCache(directory string) (*webCache, error) {
+	if err := os.MkdirAll(directory, 0755); err != nil {
+		return nil, err
 	}
 
-	if err := cache.load(); err != nil {
-		return nil, err
+	cache := &webCache{
+		directory: directory,
+		ticker:    time.NewTicker(time.Millisecond * 100),
 	}
 
 	return cache, nil
 }
 
-func (c *Cache) load() error {
-	file, err := os.Open(c.filename)
-	if os.IsNotExist(err) {
-		return nil
-	}
-	if err != nil {
-		return err
-	}
-	defer file.Close()
-
-	return json.NewDecoder(file).Decode(&c.data)
+func (c *webCache) urlToLocal(url string) string {
+	hash := md5.New()
+	hash.Write([]byte(url))
+	return path.Join(c.directory, fmt.Sprintf("%x.html", hash.Sum(nil)))
 }
 
-func (c *Cache) Save() error {
-	js, err := json.MarshalIndent(c.data, "", "    ")
-	if err != nil {
-		return err
-	}
+func (c *webCache) load(url string) (*goquery.Document, error) {
+	localPath := c.urlToLocal(url)
 
-	return ioutil.WriteFile(c.filename, js, 0644)
-}
-
-func (c *Cache) Decode(address string) (Coord, error) {
-	if coord, ok := c.data[address]; ok {
-		return coord, nil
+	if file, err := os.Open(localPath); err == nil {
+		defer file.Close()
+		return goquery.NewDocumentFromReader(file)
 	}
 
 	<-c.ticker.C
 
-	point, err := c.coder.Geocode(address)
+	res, err := http.Get(url)
 	if err != nil {
-		return Coord{}, err
+		return nil, err
+	}
+	defer res.Body.Close()
+
+	var buff bytes.Buffer
+	if _, err := buff.ReadFrom(res.Body); err != nil {
+		return nil, err
 	}
 
-	coord := Coord{point.Lat(), point.Lng()}
-	c.data[address] = coord
-	return coord, nil
+	if err := ioutil.WriteFile(localPath, buff.Bytes(), 0644); err != nil {
+		return nil, err
+	}
+
+	return goquery.NewDocumentFromReader(&buff)
 }

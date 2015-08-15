@@ -20,69 +20,78 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package web
+package main
 
 import (
-	"bytes"
-	"crypto/md5"
-	"fmt"
+	"encoding/json"
 	"io/ioutil"
-	"net/http"
 	"os"
-	"path"
 	"time"
 
-	"github.com/PuerkitoBio/goquery"
+	"github.com/kellydunn/golang-geo"
 )
 
-type Cache struct {
-	directory string
-	ticker    *time.Ticker
+type geoPos struct {
+	Latitude  float64
+	Longitude float64
 }
 
-func NewCache(directory string) (*Cache, error) {
-	if err := os.MkdirAll(directory, 0755); err != nil {
-		return nil, err
+type geoCache struct {
+	filename string
+	data     map[string]geoPos
+	ticker   *time.Ticker
+	coder    geo.GoogleGeocoder
+}
+
+func newGeoCache(filename string) (*geoCache, error) {
+	cache := &geoCache{
+		filename: filename,
+		data:     make(map[string]geoPos),
+		ticker:   time.NewTicker(time.Millisecond * 200),
 	}
 
-	cache := &Cache{
-		directory: directory,
-		ticker:    time.NewTicker(time.Millisecond * 100),
+	if err := cache.load(); err != nil {
+		return nil, err
 	}
 
 	return cache, nil
 }
 
-func (c *Cache) urlToLocal(url string) string {
-	hash := md5.New()
-	hash.Write([]byte(url))
-	return path.Join(c.directory, fmt.Sprintf("%x.html", hash.Sum(nil)))
+func (c *geoCache) load() error {
+	file, err := os.Open(c.filename)
+	if os.IsNotExist(err) {
+		return nil
+	}
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	return json.NewDecoder(file).Decode(&c.data)
 }
 
-func (c *Cache) Load(url string) (*goquery.Document, error) {
-	localPath := c.urlToLocal(url)
+func (c *geoCache) save() error {
+	js, err := json.MarshalIndent(c.data, "", "    ")
+	if err != nil {
+		return err
+	}
 
-	if file, err := os.Open(localPath); err == nil {
-		defer file.Close()
-		return goquery.NewDocumentFromReader(file)
+	return ioutil.WriteFile(c.filename, js, 0644)
+}
+
+func (c *geoCache) decode(address string) (geoPos, error) {
+	if pos, ok := c.data[address]; ok {
+		return pos, nil
 	}
 
 	<-c.ticker.C
 
-	res, err := http.Get(url)
+	point, err := c.coder.Geocode(address)
 	if err != nil {
-		return nil, err
-	}
-	defer res.Body.Close()
-
-	var buff bytes.Buffer
-	if _, err := buff.ReadFrom(res.Body); err != nil {
-		return nil, err
+		return geoPos{}, err
 	}
 
-	if err := ioutil.WriteFile(localPath, buff.Bytes(), 0644); err != nil {
-		return nil, err
-	}
-
-	return goquery.NewDocumentFromReader(&buff)
+	pos := geoPos{point.Lat(), point.Lng()}
+	c.data[address] = pos
+	return pos, nil
 }

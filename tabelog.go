@@ -31,8 +31,6 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/FooSoft/scrape/geo"
-	"github.com/FooSoft/scrape/web"
 	"github.com/PuerkitoBio/goquery"
 )
 
@@ -91,13 +89,13 @@ func dumpReviews(filename string, in chan tabelogReview) error {
 	return nil
 }
 
-func decodeReviews(in chan tabelogReview, out chan tabelogReview, gc *geo.Cache) {
+func decodeReviews(in chan tabelogReview, out chan tabelogReview, gc *geoCache) {
 	for {
 		if review, ok := <-in; ok {
-			coord, err := gc.Decode(review.Address)
+			pos, err := gc.decode(review.Address)
 			if err == nil {
-				review.Latitude = coord.Latitude
-				review.Longitude = coord.Longitude
+				review.Latitude = pos.Latitude
+				review.Longitude = pos.Longitude
 				out <- review
 			} else {
 				log.Printf("failed to decode address for %s (%v)", review.Url, err)
@@ -109,10 +107,10 @@ func decodeReviews(in chan tabelogReview, out chan tabelogReview, gc *geo.Cache)
 	}
 }
 
-func scrapeReview(url string, out chan tabelogReview, wc *web.Cache, wg *sync.WaitGroup) {
+func scrapeReview(url string, out chan tabelogReview, wc *webCache, wg *sync.WaitGroup) {
 	defer wg.Done()
 
-	doc, err := wc.Load(url)
+	doc, err := wc.load(url)
 	if err != nil {
 		log.Printf("failed to scrape review at %s (%v)", url, err)
 		return
@@ -148,8 +146,8 @@ func scrapeReview(url string, out chan tabelogReview, wc *web.Cache, wg *sync.Wa
 	out <- review
 }
 
-func scrapeIndex(url string, out chan tabelogReview, wc *web.Cache, wg *sync.WaitGroup) {
-	doc, err := wc.Load(url)
+func scrapeIndex(url string, out chan tabelogReview, wc *webCache, wg *sync.WaitGroup) {
+	doc, err := wc.load(url)
 	if err != nil {
 		log.Printf("failed to scrape index at %s (%v)", url, err)
 		return
@@ -178,7 +176,7 @@ func scrapeIndex(url string, out chan tabelogReview, wc *web.Cache, wg *sync.Wai
 	}
 }
 
-func scrapeReviews(url string, out chan tabelogReview, wc *web.Cache) error {
+func scrapeReviews(url string, out chan tabelogReview, wc *webCache) error {
 	var wg sync.WaitGroup
 	scrapeIndex(url, out, wc, &wg)
 	wg.Wait()
@@ -188,12 +186,12 @@ func scrapeReviews(url string, out chan tabelogReview, wc *web.Cache) error {
 }
 
 func scrapeTabelog(url, resultFile, webCacheDir, geoCacheFile string) error {
-	wc, err := web.NewCache(webCacheDir)
+	wc, err := newWebCache(webCacheDir)
 	if err != nil {
 		return err
 	}
 
-	gc, err := geo.NewCache(geoCacheFile)
+	gc, err := newGeoCache(geoCacheFile)
 	if err != nil {
 		return err
 	}
@@ -205,5 +203,5 @@ func scrapeTabelog(url, resultFile, webCacheDir, geoCacheFile string) error {
 	scrapeReviews(url, scrapeChan, wc)
 	dumpReviews(resultFile, decodeChan)
 
-	return gc.Save()
+	return gc.save()
 }
