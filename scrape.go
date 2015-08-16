@@ -22,17 +22,5 @@
 
 package main
 
-import "log"
-
 func main() {
-	err := scrapeTabelog(
-		"http://tabelog.com/en/kanagawa/rstLst/1/",
-		"data/tabelog.json",
-		"cache/webcache",
-		"cache/geocache.json",
-	)
-
-	if err != nil {
-		log.Fatal(err)
-	}
 }
