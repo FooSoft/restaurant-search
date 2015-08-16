@@ -51,9 +51,7 @@ func (tabelog) index(doc *goquery.Document) (string, []string) {
 func (tabelog) profile(doc *goquery.Document) *review {
 	var r review
 
-	r.url = doc.Url.String()
 	r.name = doc.Find("a.rd-header__rst-name-main").Text()
-
 	if addresses := doc.Find("p.rd-detail-info__rst-address"); addresses.Length() == 2 {
 		r.address = strings.TrimSpace(addresses.First().Text())
 	} else {
@@ -61,6 +59,8 @@ func (tabelog) profile(doc *goquery.Document) *review {
 	}
 
 	var err error
+
+	r.features = make(map[string]float64)
 	if r.features["dishes"], err = strconv.ParseFloat(doc.Find("#js-rating-detail > dd:nth-child(2)").Text(), 8); err != nil {
 		return nil
 	}

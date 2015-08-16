@@ -46,7 +46,7 @@ type profiler interface {
 	profile(doc *goquery.Document) *review
 }
 
-func makeAbsUrl(base, ref string) (string, error) {
+func makeAbsUrl(ref, base string) (string, error) {
 	b, err := url.Parse(base)
 	if err != nil {
 		return "", err
@@ -85,13 +85,12 @@ func scrapeReview(url string, out chan review, cache *webCache, group *sync.Wait
 	if err != nil {
 		log.Printf("failed to scrape review at %s (%v)", url, err)
 	} else if r := prof.profile(doc); r != nil {
+		r.url = url
 		out <- *r
 	}
 }
 
 func scrapeIndex(indexUrl string, out chan review, cache *webCache, prof profiler) {
-	var group sync.WaitGroup
-
 	doc, err := cache.load(indexUrl)
 	if err != nil {
 		log.Printf("failed to scrape index at %s (%v)", indexUrl, err)
@@ -103,6 +102,7 @@ func scrapeIndex(indexUrl string, out chan review, cache *webCache, prof profile
 		log.Fatal(err)
 	}
 
+	var group sync.WaitGroup
 	for _, reviewUrl := range reviewUrls {
 		absUrl, err := makeAbsUrl(reviewUrl, indexUrl)
 		if err != nil {
@@ -112,7 +112,6 @@ func scrapeIndex(indexUrl string, out chan review, cache *webCache, prof profile
 		group.Add(1)
 		go scrapeReview(absUrl, out, cache, &group, prof)
 	}
-
 	group.Wait()
 
 	if nextIndexUrl == "" {
