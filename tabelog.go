@@ -32,7 +32,7 @@ import (
 type tabelog struct {
 }
 
-func (t *tabelog) index(doc *goquery.Document) (string, []string) {
+func (tabelog) index(doc *goquery.Document) (string, []string) {
 	var reviewUrls []string
 	doc.Find("div.list-rst__header > p > a").Each(func(index int, sel *goquery.Selection) {
 		if href, ok := sel.Attr("href"); ok {
@@ -48,7 +48,7 @@ func (t *tabelog) index(doc *goquery.Document) (string, []string) {
 	return nextIndexUrl, reviewUrls
 }
 
-func (t *tabelog) profile(doc *goquery.Document) *review {
+func (tabelog) profile(doc *goquery.Document) *review {
 	var r review
 
 	r.url = doc.Url.String()

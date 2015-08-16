@@ -22,5 +22,20 @@
 
 package main
 
+import "log"
+
 func main() {
+	gc, err := newGeoCache("cache/geocache.json")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer gc.save()
+
+	wc, err := newWebCache("cache/webcache")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	t := tabelog{}
+	scrape("http://tabelog.com/en/kanagawa/rstLst/1/", wc, gc, t)
 }
