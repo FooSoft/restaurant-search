@@ -1,15 +1,19 @@
 {
-    "1 Nisshincho Kawasaki-ku Kawasaki Kanagawa": {
-        "Latitude": 35.5287061,
-        "Longitude": 139.6954574
-    },
     "1-1 Akebonocho Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.4419997,
         "Longitude": 139.6302873
     },
+    "1-1 Fukutomicho Nakadori Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4456881,
+        "Longitude": 139.6323925
+    },
     "1-1 Futago Takatsu-ku Kawasaki Kanagawa": {
         "Latitude": 35.6077601,
         "Longitude": 139.6203264
+    },
+    "1-1 Hakkeijima Kanazawa-ku Yokohama Kanagawa": {
+        "Latitude": 35.3360588,
+        "Longitude": 139.6446064
     },
     "1-1 Hanasakicho Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.4474129,
@@ -23,6 +27,10 @@
         "Latitude": 35.3304767,
         "Longitude": 139.4060859
     },
+    "1-1 Takaracho Hiratsuka Kanagawa": {
+        "Latitude": 35.328175,
+        "Longitude": 139.350146
+    },
     "1-1-1 Hironodai Zama Kanagawa": {
         "Latitude": 35.5069534,
         "Longitude": 139.4126971
@@ -35,29 +43,21 @@
         "Latitude": 35.4674661,
         "Longitude": 139.6211927
     },
+    "1-1-14 Isago Kawasaki-ku Kawasaki Kanagawa": {
+        "Latitude": 35.5312613,
+        "Longitude": 139.7012623
+    },
     "1-1-15 Kugenumatachibana Fujisawa Kanagawa": {
         "Latitude": 35.3364539,
         "Longitude": 139.486003
-    },
-    "1-1-2 Kitasaiwai Nishi-ku Yokohama Kanagawa": {
-        "Latitude": 35.46764940000001,
-        "Longitude": 139.6222259
     },
     "1-1-2 Shinko Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.4526178,
         "Longitude": 139.6428859
     },
-    "1-1-2 Utsukushigaoka Aoba-ku Yokohama Kanagawa": {
-        "Latitude": 35.5810998,
-        "Longitude": 139.556524
-    },
-    "1-1-3 Mizonokuchi Takatsu-ku Kawasaki Kanagawa": {
-        "Latitude": 35.5988984,
-        "Longitude": 139.6116289
-    },
-    "1-1-3 Nakagawachuo Tsuzuki-ku Yokohama Kanagawa": {
-        "Latitude": 35.5535078,
-        "Longitude": 139.5780432
+    "1-1-2 Tsurumichuo Tsurumi-ku Yokohama Kanagawa": {
+        "Latitude": 35.5079843,
+        "Longitude": 139.6768013
     },
     "1-1-3 Sagamihara Chuo-ku Sagamihara Kanagawa": {
         "Latitude": 35.5811327,
@@ -78,6 +78,10 @@
     "1-1-5 Nakagawachuo Tsuzuki-ku Yokohama Kanagawa": {
         "Latitude": 35.5537217,
         "Longitude": 139.5790431
+    },
+    "1-1-67 Sakuragicho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4497142,
+        "Longitude": 139.6310632
     },
     "1-1-7 Sakaecho Odawara Kanagawa": {
         "Latitude": 35.2556178,
@@ -103,13 +107,17 @@
         "Latitude": 35.25584,
         "Longitude": 139.1555818
     },
+    "1-10 Aioicho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4461686,
+        "Longitude": 139.6395254
+    },
     "1-10 Kinkocho Kanagawa-ku Yokohama Kanagawa": {
         "Latitude": 35.4665051,
         "Longitude": 139.6266506
     },
-    "1-10-1 Utsukushigaoka Aoba-ku Yokohama Kanagawa": {
-        "Latitude": 35.5783765,
-        "Longitude": 139.5557025
+    "1-10-1 Sakaecho Odawara Kanagawa": {
+        "Latitude": 35.2529848,
+        "Longitude": 139.1571151
     },
     "1-10-12 Okano Nishi-ku Yokohama Kanagawa": {
         "Latitude": 35.4626611,
@@ -123,33 +131,21 @@
         "Latitude": 35.5787848,
         "Longitude": 139.5557608
     },
-    "1-10-15 Miyamaedaira Miyamae-ku Kawasaki Kanagawa": {
-        "Latitude": 35.5847533,
-        "Longitude": 139.5826164
+    "1-10-16 Minamisaiwai Nishi-ku Yokohama Kanagawa": {
+        "Latitude": 35.4653969,
+        "Longitude": 139.6197651
     },
-    "1-10-2 Ofuna Kamakura Kanagawa": {
-        "Latitude": 35.3517308,
-        "Longitude": 139.5317931
-    },
-    "1-10-3 Isago Kawasaki-ku Kawasaki Kanagawa": {
-        "Latitude": 35.5309502,
-        "Longitude": 139.7025233
-    },
-    "1-10-4 Sakaecho Odawara Kanagawa": {
-        "Latitude": 35.2529237,
-        "Longitude": 139.1573457
+    "1-10-7 Higashiikuta Tama-ku Kawasaki Kanagawa": {
+        "Latitude": 35.6142291,
+        "Longitude": 139.5659493
     },
     "1-10-7 Ofuna Kamakura Kanagawa": {
         "Latitude": 35.3525854,
         "Longitude": 139.532088
     },
-    "1-10-8 Utsukushigaoka Aoba-ku Yokohama Kanagawa": {
-        "Latitude": 35.5787459,
-        "Longitude": 139.5549804
-    },
-    "1-11 Aioicho Naka-ku Yokohama Kanagawa": {
-        "Latitude": 35.44607420000001,
-        "Longitude": 139.6396809
+    "1-101-1 Sakuragicho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4508125,
+        "Longitude": 139.6326979
     },
     "1-11 Nisshincho Kawasaki-ku Kawasaki Kanagawa": {
         "Latitude": 35.5294171,
@@ -159,13 +155,17 @@
         "Latitude": 35.5371948,
         "Longitude": 139.6333405
     },
-    "1-11-22 Mizonokuchi Takatsu-ku Kawasaki Kanagawa": {
-        "Latitude": 35.6003232,
-        "Longitude": 139.6117899
+    "1-11-12 Minamirinkan Yamato Kanagawa": {
+        "Latitude": 35.4939609,
+        "Longitude": 139.4462947
     },
-    "1-11-23 Mizonokuchi Takatsu-ku Kawasaki Kanagawa": {
-        "Latitude": 35.600376,
-        "Longitude": 139.6116705
+    "1-11-2 Kamiookanishi Konan-ku Yokohama Kanagawa": {
+        "Latitude": 35.4107258,
+        "Longitude": 139.5963327
+    },
+    "1-11-20 Ofuna Kamakura Kanagawa": {
+        "Latitude": 35.3518438,
+        "Longitude": 139.5316603
     },
     "1-11-23 Ofuna Kamakura Kanagawa": {
         "Latitude": 35.3521521,
@@ -183,21 +183,13 @@
         "Latitude": 35.5780876,
         "Longitude": 139.5729399
     },
-    "1-12-10 Mizonokuchi Takatsu-ku Kawasaki Kanagawa": {
-        "Latitude": 35.6004982,
-        "Longitude": 139.6126398
+    "1-11-9 Kamiookanishi Konan-ku Yokohama Kanagawa": {
+        "Latitude": 35.4110869,
+        "Longitude": 139.5964438
     },
     "1-12-14 Mizonokuchi Takatsu-ku Kawasaki Kanagawa": {
         "Latitude": 35.6003954,
         "Longitude": 139.6131064
-    },
-    "1-12-15 Mizonokuchi Takatsu-ku Kawasaki Kanagawa": {
-        "Latitude": 35.6003649,
-        "Longitude": 139.6132314
-    },
-    "1-12-15 Okano Nishi-ku Yokohama Kanagawa": {
-        "Latitude": 35.4631194,
-        "Longitude": 139.6157935
     },
     "1-12-17 Katasekaigan Fujisawa Kanagawa": {
         "Latitude": 35.3076231,
@@ -215,10 +207,6 @@
         "Latitude": 35.5790403,
         "Longitude": 139.5548192
     },
-    "1-12-4 Katasekaigan Fujisawa Kanagawa": {
-        "Latitude": 35.3078398,
-        "Longitude": 139.4858724
-    },
     "1-12-5 Mizonokuchi Takatsu-ku Kawasaki Kanagawa": {
         "Latitude": 35.6005732,
         "Longitude": 139.6121676
@@ -227,33 +215,21 @@
         "Latitude": 35.3079037,
         "Longitude": 139.4861613
     },
-    "1-13-1 Sugita Isogo-ku Yokohama Kanagawa": {
-        "Latitude": 35.3845241,
-        "Longitude": 139.6182861
+    "1-12-8 Minamisaiwai Nishi-ku Yokohama Kanagawa": {
+        "Latitude": 35.4646358,
+        "Longitude": 139.619518
     },
-    "1-13-10 Minamisaiwai Nishi-ku Yokohama Kanagawa": {
-        "Latitude": 35.4651997,
-        "Longitude": 139.6191458
+    "1-13-1 Mizonokuchi Takatsu-ku Kawasaki Kanagawa": {
+        "Latitude": 35.5998899,
+        "Longitude": 139.6131675
     },
-    "1-13-17 Miyagawacho Naka-ku Yokohama Kanagawa": {
-        "Latitude": 35.4463686,
-        "Longitude": 139.6294372
+    "1-13-15 Minamisaiwai Nishi-ku Yokohama Kanagawa": {
+        "Latitude": 35.4652052,
+        "Longitude": 139.6194207
     },
     "1-13-3 Sugita Isogo-ku Yokohama Kanagawa": {
         "Latitude": 35.3839901,
         "Longitude": 139.616572
-    },
-    "1-14 Ishikawacho Naka-ku Yokohama Kanagawa": {
-        "Latitude": 35.4385917,
-        "Longitude": 139.6451087
-    },
-    "1-14 Minaminakadori Naka-ku Yokohama Kanagawa": {
-        "Latitude": 35.4473518,
-        "Longitude": 139.6401392
-    },
-    "1-14-1 Higashiikuta Tama-ku Kawasaki Kanagawa": {
-        "Latitude": 35.6135403,
-        "Longitude": 139.5660105
     },
     "1-14-13 Shonandai Fujisawa Kanagawa": {
         "Latitude": 35.39519050000001,
@@ -263,10 +239,6 @@
         "Latitude": 35.4101398,
         "Longitude": 139.5958578
     },
-    "1-14-37 Kamiookanishi Konan-ku Yokohama Kanagawa": {
-        "Latitude": 35.4097371,
-        "Longitude": 139.5955828
-    },
     "1-14-55 Sakaecho Odawara Kanagawa": {
         "Latitude": 35.2544041,
         "Longitude": 139.1577761
@@ -275,17 +247,29 @@
         "Latitude": 35.4097148,
         "Longitude": 139.5958217
     },
+    "1-15 Ishikawacho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4388306,
+        "Longitude": 139.6452698
+    },
+    "1-15-1 Aobadai Aoba-ku Yokohama Kanagawa": {
+        "Latitude": 35.5459936,
+        "Longitude": 139.5170872
+    },
     "1-15-1 Kamiookanishi Konan-ku Yokohama Kanagawa": {
         "Latitude": 35.4088483,
         "Longitude": 139.5953328
     },
-    "1-15-8 Mizonokuchi Takatsu-ku Kawasaki Kanagawa": {
-        "Latitude": 35.6006815,
-        "Longitude": 139.6137396
+    "1-15-4 Shinjo Nakahara-ku Kawasaki Kanagawa": {
+        "Latitude": 35.5841283,
+        "Longitude": 139.6313554
     },
-    "1-17-1 Azaminominami Aoba-ku Yokohama Kanagawa": {
-        "Latitude": 35.564334,
-        "Longitude": 139.5538145
+    "1-16-18 Ofuna Kamakura Kanagawa": {
+        "Latitude": 35.3512856,
+        "Longitude": 139.5318936
+    },
+    "1-16-25 Kamiookanishi Konan-ku Yokohama Kanagawa": {
+        "Latitude": 35.4080428,
+        "Longitude": 139.59558
     },
     "1-17-1 Manpukuji Asao-ku Kawasaki Kanagawa": {
         "Latitude": 35.604455,
@@ -303,10 +287,6 @@
         "Latitude": 35.33732880000001,
         "Longitude": 139.4862918
     },
-    "1-17-2 Kugenumatachibana Fujisawa Kanagawa": {
-        "Latitude": 35.3371261,
-        "Longitude": 139.4864724
-    },
     "1-17-26 Kamiookanishi Konan-ku Yokohama Kanagawa": {
         "Latitude": 35.4084927,
         "Longitude": 139.5948634
@@ -315,21 +295,21 @@
         "Latitude": 35.4383529,
         "Longitude": 139.644881
     },
-    "1-18-3 Okurayama Kohoku-ku Yokohama Kanagawa": {
-        "Latitude": 35.5214714,
-        "Longitude": 139.6300357
-    },
     "1-18-5 Kamiookanishi Konan-ku Yokohama Kanagawa": {
         "Latitude": 35.4072873,
         "Longitude": 139.5949495
+    },
+    "1-18-7 Mizonokuchi Takatsu-ku Kawasaki Kanagawa": {
+        "Latitude": 35.6009494,
+        "Longitude": 139.6146302
     },
     "1-19-17 Hiyoshihoncho Kohoku-ku Yokohama Kanagawa": {
         "Latitude": 35.5534141,
         "Longitude": 139.6453667
     },
-    "1-19-6 Tsurumichuo Tsurumi-ku Yokohama Kanagawa": {
-        "Latitude": 35.5096563,
-        "Longitude": 139.6780345
+    "1-19-20 Ofuna Kamakura Kanagawa": {
+        "Latitude": 35.3514383,
+        "Longitude": 139.5321797
     },
     "1-2 Tokiwacho Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.4448854,
@@ -339,9 +319,9 @@
         "Latitude": 35.2777858,
         "Longitude": 139.6747862
     },
-    "1-2-1 Minamisaiwai Nishi-ku Yokohama Kanagawa": {
-        "Latitude": 35.4673383,
-        "Longitude": 139.6228064
+    "1-2 Yoshihamacho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4396,
+        "Longitude": 139.6433865
     },
     "1-2-1 Okurayama Kohoku-ku Yokohama Kanagawa": {
         "Latitude": 35.5214158,
@@ -355,6 +335,10 @@
         "Latitude": 35.3182283,
         "Longitude": 139.5509975
     },
+    "1-2-18 Shichirigahama Kamakura Kanagawa": {
+        "Latitude": 35.305904,
+        "Longitude": 139.5097758
+    },
     "1-2-18 Shichirigahamahigashi Kamakura Kanagawa": {
         "Latitude": 35.3065761,
         "Longitude": 139.5151948
@@ -362,6 +346,10 @@
     "1-2-2 Hisamoto Takatsu-ku Kawasaki Kanagawa": {
         "Latitude": 35.598729,
         "Longitude": 139.6094986
+    },
+    "1-2-23 Nakamachidai Tsuzuki-ku Yokohama Kanagawa": {
+        "Latitude": 35.5350191,
+        "Longitude": 139.5895371
     },
     "1-2-3 Deiki Kanazawa-ku Yokohama Kanagawa": {
         "Latitude": 35.3415469,
@@ -375,21 +363,29 @@
         "Latitude": 35.2551429,
         "Longitude": 139.1570178
     },
+    "1-2-9 Hakusan Midori-ku Yokohama Kanagawa": {
+        "Latitude": 35.5094769,
+        "Longitude": 139.562337
+    },
     "1-2-9 Minamisaiwai Nishi-ku Yokohama Kanagawa": {
         "Latitude": 35.4674466,
         "Longitude": 139.6227009
     },
-    "1-2-9 Tsunashimanishi Kohoku-ku Yokohama Kanagawa": {
-        "Latitude": 35.5379502,
-        "Longitude": 139.6354986
+    "1-20-1 Kamiasao Asao-ku Kawasaki Kanagawa": {
+        "Latitude": 35.6037968,
+        "Longitude": 139.5080938
     },
     "1-20-14 Ofuna Kamakura Kanagawa": {
         "Latitude": 35.3518522,
         "Longitude": 139.5327602
     },
-    "1-20-18 Nakagawa Tsuzuki-ku Yokohama Kanagawa": {
-        "Latitude": 35.5641174,
-        "Longitude": 139.5699408
+    "1-20-6 Ofuna Kamakura Kanagawa": {
+        "Latitude": 35.3517966,
+        "Longitude": 139.5325325
+    },
+    "1-20-8 Hiyoshihoncho Kohoku-ku Yokohama Kanagawa": {
+        "Latitude": 35.5533335,
+        "Longitude": 139.6455611
     },
     "1-21 Ishikawacho Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.4380057,
@@ -403,14 +399,6 @@
         "Latitude": 35.3522493,
         "Longitude": 139.5328241
     },
-    "1-22-29 Ofuna Kamakura Kanagawa": {
-        "Latitude": 35.3524465,
-        "Longitude": 139.5321936
-    },
-    "1-22-6 Mizonokuchi Takatsu-ku Kawasaki Kanagawa": {
-        "Latitude": 35.5993928,
-        "Longitude": 139.6168366
-    },
     "1-23 Sueyoshicho Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.4416664,
         "Longitude": 139.6274652
@@ -422,14 +410,6 @@
     "1-23-7 Asahicho Atsugi Kanagawa": {
         "Latitude": 35.4366299,
         "Longitude": 139.3642498
-    },
-    "1-23-7 Ofuna Kamakura Kanagawa": {
-        "Latitude": 35.3529492,
-        "Longitude": 139.5327297
-    },
-    "1-24-10 Ofuna Kamakura Kanagawa": {
-        "Latitude": 35.3533798,
-        "Longitude": 139.5330074
     },
     "1-24-15 Asahicho Atsugi Kanagawa": {
         "Latitude": 35.4379436,
@@ -443,17 +423,9 @@
         "Latitude": 35.5526003,
         "Longitude": 139.6452556
     },
-    "1-25-1 Nakagawachuo Tsuzuki-ku Yokohama Kanagawa": {
-        "Latitude": 35.5516442,
-        "Longitude": 139.579457
-    },
     "1-25-18 Ofuna Kamakura Kanagawa": {
         "Latitude": 35.3536631,
         "Longitude": 139.5332491
-    },
-    "1-25-23 Ofuna Kamakura Kanagawa": {
-        "Latitude": 35.3538158,
-        "Longitude": 139.5327769
     },
     "1-25-35 Ofuna Kamakura Kanagawa": {
         "Latitude": 35.3536853,
@@ -471,13 +443,25 @@
         "Latitude": 35.5081315,
         "Longitude": 139.6788956
     },
+    "1-3-1 Minamisaiwai Nishi-ku Yokohama Kanagawa": {
+        "Latitude": 35.4673383,
+        "Longitude": 139.6220148
+    },
     "1-3-12 Kugenumaishigami Fujisawa Kanagawa": {
         "Latitude": 35.3366651,
         "Longitude": 139.488675
     },
-    "1-3-22 Edanishi Aoba-ku Yokohama Kanagawa": {
-        "Latitude": 35.5556182,
-        "Longitude": 139.5479846
+    "1-3-15 Kaizuka Kawasaki-ku Kawasaki Kanagawa": {
+        "Latitude": 35.5256093,
+        "Longitude": 139.701418
+    },
+    "1-3-16 Kugenumatachibana Fujisawa Kanagawa": {
+        "Latitude": 35.3358262,
+        "Longitude": 139.4853503
+    },
+    "1-3-17 Hiyoshihoncho Kohoku-ku Yokohama Kanagawa": {
+        "Latitude": 35.5541667,
+        "Longitude": 139.6457389
     },
     "1-3-3 Kugenumaishigami Fujisawa Kanagawa": {
         "Latitude": 35.3370123,
@@ -491,21 +475,13 @@
         "Latitude": 35.2649924,
         "Longitude": 139.1830447
     },
-    "1-3-50 Nishisakawa Odawara Kanagawa": {
-        "Latitude": 35.2658673,
-        "Longitude": 139.1817781
-    },
     "1-3-7 Isago Kawasaki-ku Kawasaki Kanagawa": {
         "Latitude": 35.5320001,
         "Longitude": 139.7005735
     },
-    "1-30-1 Nakagawachuo Tsuzuki-ku Yokohama Kanagawa": {
-        "Latitude": 35.5549493,
-        "Longitude": 139.5793264
-    },
-    "1-30-31 Kizuki Nakahara-ku Kawasaki Kanagawa": {
-        "Latitude": 35.5653064,
-        "Longitude": 139.6517158
+    "1-3-9 Hiranuma Nishi-ku Yokohama Kanagawa": {
+        "Latitude": 35.4602114,
+        "Longitude": 139.620718
     },
     "1-31 Motomachi Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.4410859,
@@ -515,13 +491,25 @@
         "Latitude": 35.5070567,
         "Longitude": 139.6767847
     },
+    "1-32-1 Takatahigashi Kohoku-ku Yokohama Kanagawa": {
+        "Latitude": 35.5470569,
+        "Longitude": 139.6239827
+    },
     "1-32-23 Aobadai Aoba-ku Yokohama Kanagawa": {
         "Latitude": 35.5500849,
         "Longitude": 139.5191453
     },
-    "1-33-31 Nakamachidai Tsuzuki-ku Yokohama Kanagawa": {
-        "Latitude": 35.5372633,
-        "Longitude": 139.5901481
+    "1-33 Hinodecho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.444791,
+        "Longitude": 139.6265235
+    },
+    "1-35-25 Nakatahigashi Izumi-ku Yokohama Kanagawa": {
+        "Latitude": 35.4094415,
+        "Longitude": 139.5136588
+    },
+    "1-3570-3 Iriya Zama Kanagawa": {
+        "Latitude": 35.4846267,
+        "Longitude": 139.3962048
     },
     "1-36 Hanasakicho Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.4493321,
@@ -539,21 +527,17 @@
         "Latitude": 35.5553132,
         "Longitude": 139.5805957
     },
-    "1-4 Onocho Kanagawa-ku Yokohama Kanagawa": {
-        "Latitude": 35.4669606,
-        "Longitude": 139.6284893
-    },
     "1-4 Shinmeicho Saiwai-ku Kawasaki Kanagawa": {
         "Latitude": 35.5388907,
         "Longitude": 139.6913741
     },
+    "1-4 Wakamatsucho Yokosuka Kanagawa": {
+        "Latitude": 35.2798108,
+        "Longitude": 139.6707922
+    },
     "1-4-1 Chuo Ebina Kanagawa": {
         "Latitude": 35.4519951,
         "Longitude": 139.3935612
-    },
-    "1-4-1 Kamiasao Asao-ku Kawasaki Kanagawa": {
-        "Latitude": 35.6031776,
-        "Longitude": 139.5093382
     },
     "1-4-1 Kitasaiwai Nishi-ku Yokohama Kanagawa": {
         "Latitude": 35.4672994,
@@ -591,6 +575,14 @@
         "Latitude": 35.3364846,
         "Longitude": 139.4887777
     },
+    "1-4-6 Utsukushigaoka Aoba-ku Yokohama Kanagawa": {
+        "Latitude": 35.5821578,
+        "Longitude": 139.5528831
+    },
+    "1-4-7 Isezakicho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4443883,
+        "Longitude": 139.6329981
+    },
     "1-4-9 Shinyokohama Kohoku-ku Yokohama Kanagawa": {
         "Latitude": 35.5038811,
         "Longitude": 139.6125908
@@ -598,6 +590,10 @@
     "1-403 Kosugimachi Nakahara-ku Kawasaki Kanagawa": {
         "Latitude": 35.5771209,
         "Longitude": 139.6587727
+    },
+    "1-45-86 Futamatagawa Asahi-ku Yokohama Kanagawa": {
+        "Latitude": 35.4653042,
+        "Longitude": 139.5308184
     },
     "1-48 Hanasakicho Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.4496765,
@@ -607,17 +603,13 @@
         "Latitude": 35.4107213,
         "Longitude": 139.5958623
     },
-    "1-5 Odakicho Yokosuka Kanagawa": {
-        "Latitude": 35.2825078,
-        "Longitude": 139.6683092
+    "1-5 Wakamatsucho Yokosuka Kanagawa": {
+        "Latitude": 35.2792441,
+        "Longitude": 139.6708672
     },
     "1-5-1 Minamisaiwai Nishi-ku Yokohama Kanagawa": {
         "Latitude": 35.4644335,
         "Longitude": 139.6198982
-    },
-    "1-5-10 Shichirigahama Kamakura Kanagawa": {
-        "Latitude": 35.3061734,
-        "Longitude": 139.5074288
     },
     "1-5-16 Sakaecho Odawara Kanagawa": {
         "Latitude": 35.2540764,
@@ -627,29 +619,25 @@
         "Latitude": 35.570336,
         "Longitude": 139.5542726
     },
-    "1-5-21 Komachi Kamakura Kanagawa": {
-        "Latitude": 35.3193421,
-        "Longitude": 139.5518947
-    },
     "1-5-27 Minamisaiwai Nishi-ku Yokohama Kanagawa": {
         "Latitude": 35.4644359,
         "Longitude": 139.6199068
-    },
-    "1-5-29 Minamisaiwai Nishi-ku Yokohama Kanagawa": {
-        "Latitude": 35.4643109,
-        "Longitude": 139.6197874
-    },
-    "1-5-4 Kawanakajima Kawasaki-ku Kawasaki Kanagawa": {
-        "Latitude": 35.5329111,
-        "Longitude": 139.7247408
     },
     "1-5-4 Kitasaiwai Nishi-ku Yokohama Kanagawa": {
         "Latitude": 35.4670828,
         "Longitude": 139.6188124
     },
+    "1-5-8 Tsurumichuo Tsurumi-ku Yokohama Kanagawa": {
+        "Latitude": 35.5085426,
+        "Longitude": 139.6780207
+    },
     "1-5-9 Shimokodanaka Nakahara-ku Kawasaki Kanagawa": {
         "Latitude": 35.5810148,
         "Longitude": 139.639652
+    },
+    "1-526 Kosugimachi Nakahara-ku Kawasaki Kanagawa": {
+        "Latitude": 35.5787012,
+        "Longitude": 139.658842
     },
     "1-526-6 Kosugimachi Nakahara-ku Kawasaki Kanagawa": {
         "Latitude": 35.5787179,
@@ -658,6 +646,10 @@
     "1-6-1 Kamiookanishi Konan-ku Yokohama Kanagawa": {
         "Latitude": 35.4072739,
         "Longitude": 139.5961112
+    },
+    "1-6-17 Hinominami Konan-ku Yokohama Kanagawa": {
+        "Latitude": 35.380857,
+        "Longitude": 139.5778179
     },
     "1-6-19 Komachi Kamakura Kanagawa": {
         "Latitude": 35.3194949,
@@ -671,9 +663,21 @@
         "Latitude": 35.3001708,
         "Longitude": 139.4820311
     },
+    "1-6-22 Zaimokuza Kamakura Kanagawa": {
+        "Latitude": 35.3118013,
+        "Longitude": 139.5506946
+    },
+    "1-6-27 Zushi Zushi Kanagawa": {
+        "Latitude": 35.296167,
+        "Longitude": 139.578684
+    },
     "1-6-3 Kamiasao Asao-ku Kawasaki Kanagawa": {
         "Latitude": 35.6019444,
         "Longitude": 139.5097021
+    },
+    "1-6-5 Isezakicho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4440522,
+        "Longitude": 139.6326148
     },
     "1-68-2 Futamatagawa Asahi-ku Yokohama Kanagawa": {
         "Latitude": 35.467229,
@@ -687,14 +691,6 @@
         "Latitude": 35.4407665,
         "Longitude": 139.6312761
     },
-    "1-7-1 Kugenumaishigami Fujisawa Kanagawa": {
-        "Latitude": 35.3361179,
-        "Longitude": 139.4888083
-    },
-    "1-7-11 Nakakaigan Chigasaki Kanagawa": {
-        "Latitude": 35.3244077,
-        "Longitude": 139.4022364
-    },
     "1-7-11 Nakamachidai Tsuzuki-ku Yokohama Kanagawa": {
         "Latitude": 35.5356301,
         "Longitude": 139.589776
@@ -707,6 +703,30 @@
         "Latitude": 35.5088759,
         "Longitude": 139.6775679
     },
+    "1-7-12 Minamirinkan Yamato Kanagawa": {
+        "Latitude": 35.4951939,
+        "Longitude": 139.4474501
+    },
+    "1-7-12 Tsuruyacho Kanagawa-ku Yokohama Kanagawa": {
+        "Latitude": 35.4693464,
+        "Longitude": 139.6235063
+    },
+    "1-7-2 Honcho Kawasaki-ku Kawasaki Kanagawa": {
+        "Latitude": 35.532886,
+        "Longitude": 139.7022344
+    },
+    "1-7-2 Wakamatsucho Yokosuka Kanagawa": {
+        "Latitude": 35.279158,
+        "Longitude": 139.6712449
+    },
+    "1-7-21 Shinyamashita Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4413636,
+        "Longitude": 139.6541524
+    },
+    "1-7-24 Yamatohigashi Yamato Kanagawa": {
+        "Latitude": 35.4702028,
+        "Longitude": 139.4630505
+    },
     "1-7-4 Ikegamishincho Kawasaki-ku Kawasaki Kanagawa": {
         "Latitude": 35.5230568,
         "Longitude": 139.729363
@@ -714,6 +734,10 @@
     "1-748-1 Saiwaicho Saiwai-ku Kawasaki Kanagawa": {
         "Latitude": 35.5351691,
         "Longitude": 139.698668
+    },
+    "1-772-5 Shinmarukohigashi Nakahara-ku Kawasaki Kanagawa": {
+        "Latitude": 35.5806009,
+        "Longitude": 139.6622498
     },
     "1-8 Beniyacho Hiratsuka Kanagawa": {
         "Latitude": 35.3287416,
@@ -727,17 +751,17 @@
         "Latitude": 35.4536087,
         "Longitude": 139.3926584
     },
-    "1-8-1 Suwa Takatsu-ku Kawasaki Kanagawa": {
-        "Latitude": 35.6063639,
-        "Longitude": 139.6230854
+    "1-8-15 Tsurumichuo Tsurumi-ku Yokohama Kanagawa": {
+        "Latitude": 35.5087203,
+        "Longitude": 139.6772068
+    },
+    "1-8-19 Minamirinkan Yamato Kanagawa": {
+        "Latitude": 35.4955022,
+        "Longitude": 139.4471807
     },
     "1-8-3 Ofuna Kamakura Kanagawa": {
         "Latitude": 35.3534964,
         "Longitude": 139.5321075
-    },
-    "1-8-5 Tsurumichuo Tsurumi-ku Yokohama Kanagawa": {
-        "Latitude": 35.5088536,
-        "Longitude": 139.6768374
     },
     "1-8-6 Kitasaiwai Nishi-ku Yokohama Kanagawa": {
         "Latitude": 35.4659551,
@@ -759,21 +783,17 @@
         "Latitude": 35.4100343,
         "Longitude": 139.5972576
     },
-    "1-9-7 Honcho Kawasaki-ku Kawasaki Kanagawa": {
-        "Latitude": 35.5330777,
-        "Longitude": 139.7037759
+    "1-9-8 Tsurumichuo Tsurumi-ku Yokohama Kanagawa": {
+        "Latitude": 35.5096674,
+        "Longitude": 139.6770818
     },
-    "1-98 Hinodecho Naka-ku Yokohama Kanagawa": {
-        "Latitude": 35.4445438,
-        "Longitude": 139.6269346
+    "1-983-1 Shinmarukohigashi Nakahara-ku Kawasaki Kanagawa": {
+        "Latitude": 35.5792928,
+        "Longitude": 139.6620972
     },
-    "1-983-6 Shinmarukohigashi Nakahara-ku Kawasaki Kanagawa": {
-        "Latitude": 35.5792984,
-        "Longitude": 139.662
-    },
-    "10 Yoshidamachi Naka-ku Yokohama Kanagawa": {
-        "Latitude": 35.4460353,
-        "Longitude": 139.6331397
+    "10 Ekimae Honcho Kawasaki-ku Kawasaki Kanagawa": {
+        "Latitude": 35.53203060000001,
+        "Longitude": 139.6991986
     },
     "10-3 Ekimae Honcho Kawasaki-ku Kawasaki Kanagawa": {
         "Latitude": 35.53203060000001,
@@ -787,19 +807,23 @@
         "Latitude": 35.4766983,
         "Longitude": 139.6087108
     },
+    "1006-1-105 Fujisawa Fujisawa Kanagawa": {
+        "Latitude": 35.3421948,
+        "Longitude": 139.4831893
+    },
+    "101番地11 Honmuracho Asahi-ku Yokohama Kanagawa": {
+        "Latitude": 35.4651931,
+        "Longitude": 139.5322238
+    },
     "1029 Aiko Atsugi Kanagawa": {
         "Latitude": 35.4226862,
         "Longitude": 139.3419537
     },
-    "1045-6 Oiso Oiso Naka-gun Kanagawa": {
-        "Latitude": 35.3105132,
-        "Longitude": 139.3162688
+    "103 Yamashitacho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4423219,
+        "Longitude": 139.6481528
     },
     "106 Yamashitacho Naka-ku Yokohama Kanagawa": {
-        "Latitude": 35.4418469,
-        "Longitude": 139.6483389
-    },
-    "106-1 Yamashitacho Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.4418469,
         "Longitude": 139.6483389
     },
@@ -807,13 +831,21 @@
         "Latitude": 35.3991681,
         "Longitude": 139.5333157
     },
-    "11 Nihonodori Naka-ku Yokohama Kanagawa": {
-        "Latitude": 35.4462658,
-        "Longitude": 139.6428529
+    "11-1 Ekimae Honcho Kawasaki-ku Kawasaki Kanagawa": {
+        "Latitude": 35.5316973,
+        "Longitude": 139.6990792
+    },
+    "11-2 Onarimachi Kamakura Kanagawa": {
+        "Latitude": 35.3188783,
+        "Longitude": 139.5496671
     },
     "11-5 Chigasakichuo Tsuzuki-ku Yokohama Kanagawa": {
         "Latitude": 35.5415844,
         "Longitude": 139.5747022
+    },
+    "118-12 Totsukacho Totsuka-ku Yokohama Kanagawa": {
+        "Latitude": 35.3982182,
+        "Longitude": 139.5321936
     },
     "12-1 Ekimae Honcho Kawasaki-ku Kawasaki Kanagawa": {
         "Latitude": 35.53198620000001,
@@ -831,31 +863,27 @@
         "Latitude": 35.44447160000001,
         "Longitude": 139.6503553
     },
-    "12-2 Yoshidamachi Naka-ku Yokohama Kanagawa": {
-        "Latitude": 35.44646300000001,
-        "Longitude": 139.6325536
-    },
-    "1291-6 Kamigocho Sakae-ku Yokohama Kanagawa": {
-        "Latitude": 35.3547351,
-        "Longitude": 139.5800983
+    "12-15 Chigasakichuo Tsuzuki-ku Yokohama Kanagawa": {
+        "Latitude": 35.5420649,
+        "Longitude": 139.5745105
     },
     "1297 Ninotaira Hakone Ashigarashimo-gun Kanagawa": {
         "Latitude": 35.2416651,
         "Longitude": 139.0432767
     },
-    "13-9 Kugenumahanazawacho Fujisawa Kanagawa": {
-        "Latitude": 35.3379759,
-        "Longitude": 139.4838337
-    },
-    "1300-64 Gora Hakone Ashigarashimo-gun Kanagawa": {
-        "Latitude": 35.2495031,
-        "Longitude": 139.0449265
-    },
     "131-12 Yamashitacho Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.44195800000001,
         "Longitude": 139.6459557
     },
-    "138-24 Yamashitacho Naka-ku Yokohama Kanagawa": {
+    "134 Yamashitacho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.44213300000001,
+        "Longitude": 139.6470417
+    },
+    "137 Yamashitacho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4425663,
+        "Longitude": 139.6461168
+    },
+    "138 Yamashitacho Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.4425774,
         "Longitude": 139.6458973
     },
@@ -863,13 +891,21 @@
         "Latitude": 35.4425468,
         "Longitude": 139.6455251
     },
-    "139-1 Yamashitacho Naka-ku Yokohama Kanagawa": {
-        "Latitude": 35.442744,
-        "Longitude": 139.6454918
+    "14-3 Beniyacho Hiratsuka Kanagawa": {
+        "Latitude": 35.32785,
+        "Longitude": 139.3474129
     },
-    "14-1 Beniyacho Hiratsuka Kanagawa": {
-        "Latitude": 35.3278778,
-        "Longitude": 139.3475657
+    "144 Yamashitacho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4430134,
+        "Longitude": 139.6446946
+    },
+    "144-48 Shimohirama Saiwai-ku Kawasaki Kanagawa": {
+        "Latitude": 35.5511086,
+        "Longitude": 139.6767806
+    },
+    "146 Yamashitacho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4429218,
+        "Longitude": 139.6453862
     },
     "146-5 Yamashitacho Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.4432051,
@@ -879,17 +915,9 @@
         "Latitude": 35.4429773,
         "Longitude": 139.6455946
     },
-    "147-1 Yamashitacho Naka-ku Yokohama Kanagawa": {
-        "Latitude": 35.4429773,
-        "Longitude": 139.6455946
-    },
-    "15 Yamashitacho Naka-ku Yokohama Kanagawa": {
-        "Latitude": 35.4439383,
-        "Longitude": 139.6509414
-    },
-    "15-15-1 Minamifujisawa Fujisawa Kanagawa": {
-        "Latitude": 35.3362401,
-        "Longitude": 139.4921552
+    "15-12 Yanagishimakaigan Chigasaki Kanagawa": {
+        "Latitude": 35.3171883,
+        "Longitude": 139.3833048
     },
     "15-4 Beniyacho Hiratsuka Kanagawa": {
         "Latitude": 35.3282167,
@@ -903,25 +931,21 @@
         "Latitude": 35.4435356,
         "Longitude": 139.6454279
     },
-    "151 Yamashitacho Naka-ku Yokohama Kanagawa": {
-        "Latitude": 35.4435023,
-        "Longitude": 139.6451362
-    },
     "151-13 Yamashitacho Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.4435023,
         "Longitude": 139.6451362
     },
-    "1514-1 Shimokuzawa Midori-ku Sagamihara Kanagawa": {
-        "Latitude": 35.5751938,
-        "Longitude": 139.3381685
+    "153 Yamashitacho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4433967,
+        "Longitude": 139.6444363
+    },
+    "154 Yamashitacho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4432912,
+        "Longitude": 139.6441391
     },
     "16-1 Totsukacho Totsuka-ku Yokohama Kanagawa": {
         "Latitude": 35.4015872,
         "Longitude": 139.5332269
-    },
-    "16-22 Seto Kanazawa-ku Yokohama Kanagawa": {
-        "Latitude": 35.3303982,
-        "Longitude": 139.6205308
     },
     "1627-1 Nippacho Kohoku-ku Yokohama Kanagawa": {
         "Latitude": 35.527826,
@@ -935,13 +959,13 @@
         "Latitude": 35.4436911,
         "Longitude": 139.6470778
     },
+    "166 Yamashitacho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4418247,
+        "Longitude": 139.6449697
+    },
     "1747 Shimonumabe Nakahara-ku Kawasaki Kanagawa": {
         "Latitude": 35.5736077,
         "Longitude": 139.6677777
-    },
-    "18-1 Toyookacho Tsurumi-ku Yokohama Kanagawa": {
-        "Latitude": 35.5091258,
-        "Longitude": 139.6761041
     },
     "18-14 Matsugaecho Minami-ku Sagamihara Kanagawa": {
         "Latitude": 35.5157065,
@@ -955,7 +979,15 @@
         "Latitude": 35.4431606,
         "Longitude": 139.6470833
     },
+    "188 Yamashitacho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4427885,
+        "Longitude": 139.6473583
+    },
     "189 Yamashitacho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.442644,
+        "Longitude": 139.6468862
+    },
+    "189-9 Yamashitacho Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.442644,
         "Longitude": 139.6468862
     },
@@ -967,11 +999,19 @@
         "Latitude": 35.4426024,
         "Longitude": 139.6464862
     },
+    "191 Yamashitacho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4433217,
+        "Longitude": 139.6463001
+    },
+    "191-10 Yamashitacho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4429551,
+        "Longitude": 139.6464278
+    },
     "191-13 Yamashitacho Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.4433217,
         "Longitude": 139.6463001
     },
-    "191-24 Yamashitacho Naka-ku Yokohama Kanagawa": {
+    "191-4 Yamashitacho Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.4433217,
         "Longitude": 139.6463001
     },
@@ -979,17 +1019,9 @@
         "Latitude": 35.4433273,
         "Longitude": 139.6467417
     },
-    "1954-1 Nanasawa Atsugi Kanagawa": {
-        "Latitude": 35.4516954,
-        "Longitude": 139.2924169
-    },
-    "1丁目13-3 Sugita Isogo-ku Yokohama Kanagawa": {
-        "Latitude": 35.3839901,
-        "Longitude": 139.616572
-    },
-    "1番地 Nisshincho Kawasaki-ku Kawasaki Kanagawa": {
-        "Latitude": 35.5287061,
-        "Longitude": 139.6954574
+    "1丁目1-13 Isago Kawasaki-ku Kawasaki Kanagawa": {
+        "Latitude": 35.5311002,
+        "Longitude": 139.7009151
     },
     "2-1 Ekimae Honcho Kawasaki-ku Kawasaki Kanagawa": {
         "Latitude": 35.5295726,
@@ -1007,14 +1039,6 @@
         "Latitude": 35.5421329,
         "Longitude": 139.5160153
     },
-    "2-1-1 Azamino Aoba-ku Yokohama Kanagawa": {
-        "Latitude": 35.5685334,
-        "Longitude": 139.5535005
-    },
-    "2-1-1 Nakacho Atsugi Kanagawa": {
-        "Latitude": 35.4390074,
-        "Longitude": 139.3635443
-    },
     "2-1-10 Chuo Yamato Kanagawa": {
         "Latitude": 35.470211,
         "Longitude": 139.4595424
@@ -1027,10 +1051,6 @@
         "Latitude": 35.4498843,
         "Longitude": 139.3922668
     },
-    "2-1-16 Yamatohigashi Yamato Kanagawa": {
-        "Latitude": 35.4712053,
-        "Longitude": 139.4612561
-    },
     "2-1-19 Shinyokohama Kohoku-ku Yokohama Kanagawa": {
         "Latitude": 35.5070947,
         "Longitude": 139.6164486
@@ -1039,17 +1059,13 @@
         "Latitude": 35.3384815,
         "Longitude": 139.4888944
     },
-    "2-1-2 Mizonokuchi Takatsu-ku Kawasaki Kanagawa": {
-        "Latitude": 35.6018817,
-        "Longitude": 139.611603
-    },
-    "2-1-20 Sakaecho Odawara Kanagawa": {
-        "Latitude": 35.2557262,
-        "Longitude": 139.1573677
-    },
     "2-1-22 Minamisaiwai Nishi-ku Yokohama Kanagawa": {
         "Latitude": 35.4637193,
         "Longitude": 139.6189292
+    },
+    "2-1-23 Kamiookanishi Konan-ku Yokohama Kanagawa": {
+        "Latitude": 35.4069069,
+        "Longitude": 139.5957411
     },
     "2-1-23 Nakatehara Kohoku-ku Yokohama Kanagawa": {
         "Latitude": 35.4955824,
@@ -1058,10 +1074,6 @@
     "2-1-29 Sakaecho Odawara Kanagawa": {
         "Latitude": 35.2555984,
         "Longitude": 139.1572233
-    },
-    "2-1-3 Fukaminishi Yamato Kanagawa": {
-        "Latitude": 35.4751933,
-        "Longitude": 139.4622808
     },
     "2-1-3 Minamisaiwai Nishi-ku Yokohama Kanagawa": {
         "Latitude": 35.4633328,
@@ -1083,9 +1095,25 @@
         "Latitude": 35.6075165,
         "Longitude": 139.622466
     },
+    "2-1-4 Shinko Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4544482,
+        "Longitude": 139.6362086
+    },
     "2-1-8 Suge Tama-ku Kawasaki Kanagawa": {
         "Latitude": 35.6338506,
         "Longitude": 139.5334123
+    },
+    "2-10 Odakicho Yokosuka Kanagawa": {
+        "Latitude": 35.2808246,
+        "Longitude": 139.6706478
+    },
+    "2-10 Tokiwacho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4453798,
+        "Longitude": 139.6380727
+    },
+    "2-10-1 Inukura Miyamae-ku Kawasaki Kanagawa": {
+        "Latitude": 35.5827894,
+        "Longitude": 139.5648015
     },
     "2-10-10 Komachi Kamakura Kanagawa": {
         "Latitude": 35.3200976,
@@ -1095,10 +1123,6 @@
         "Latitude": 35.4621695,
         "Longitude": 139.6222177
     },
-    "2-10-28 Takashima Nishi-ku Yokohama Kanagawa": {
-        "Latitude": 35.4625139,
-        "Longitude": 139.6224983
-    },
     "2-10-5 Minamisaiwai Nishi-ku Yokohama Kanagawa": {
         "Latitude": 35.4629166,
         "Longitude": 139.6171016
@@ -1106,10 +1130,6 @@
     "2-10-7 Isago Kawasaki-ku Kawasaki Kanagawa": {
         "Latitude": 35.5296726,
         "Longitude": 139.7011818
-    },
-    "2-100-45 Shinyokohama Kohoku-ku Yokohama Kanagawa": {
-        "Latitude": 35.5077891,
-        "Longitude": 139.6172846
     },
     "2-101-1 Nogecho Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.4485018,
@@ -1119,17 +1139,21 @@
         "Latitude": 35.5876222,
         "Longitude": 139.6287971
     },
-    "2-11-18 Kizuki Nakahara-ku Kawasaki Kanagawa": {
-        "Latitude": 35.5629873,
-        "Longitude": 139.6548961
+    "2-11-16 Minamirinkan Yamato Kanagawa": {
+        "Latitude": 35.4957383,
+        "Longitude": 139.4464446
     },
-    "2-11-20 Isago Kawasaki-ku Kawasaki Kanagawa": {
-        "Latitude": 35.5299087,
-        "Longitude": 139.7017457
+    "2-11-19 Azaminominami Aoba-ku Yokohama Kanagawa": {
+        "Latitude": 35.5646145,
+        "Longitude": 139.5531784
     },
     "2-11-23 Aobadai Aoba-ku Yokohama Kanagawa": {
         "Latitude": 35.547024,
         "Longitude": 139.5168094
+    },
+    "2-11-28 Aobadai Aoba-ku Yokohama Kanagawa": {
+        "Latitude": 35.5461352,
+        "Longitude": 139.5167345
     },
     "2-11-31 Kamishinjo Nakahara-ku Kawasaki Kanagawa": {
         "Latitude": 35.5872611,
@@ -1147,17 +1171,9 @@
         "Latitude": 35.442357,
         "Longitude": 139.3650137
     },
-    "2-12-1 Shimosakunobe Takatsu-ku Kawasaki Kanagawa": {
-        "Latitude": 35.5986308,
-        "Longitude": 139.6080483
-    },
-    "2-12-10 Minamisaiwai Nishi-ku Yokohama Kanagawa": {
-        "Latitude": 35.463486,
-        "Longitude": 139.6161795
-    },
-    "2-12-8 Nishikurihara Zama Kanagawa": {
-        "Latitude": 35.4722982,
-        "Longitude": 139.4112233
+    "2-13-1 Shinyokohama Kohoku-ku Yokohama Kanagawa": {
+        "Latitude": 35.5094325,
+        "Longitude": 139.6133555
     },
     "2-13-11 Tsuruyacho Kanagawa-ku Yokohama Kanagawa": {
         "Latitude": 35.4685104,
@@ -1171,9 +1187,25 @@
         "Latitude": 35.5783249,
         "Longitude": 139.3689489
     },
-    "2-14 Asahigaoka Chigasaki Kanagawa": {
-        "Latitude": 35.3331023,
-        "Longitude": 139.4227181
+    "2-13-3 Tsuruyacho Kanagawa-ku Yokohama Kanagawa": {
+        "Latitude": 35.4685382,
+        "Longitude": 139.6232036
+    },
+    "2-13-4 Kitasaiwai Nishi-ku Yokohama Kanagawa": {
+        "Latitude": 35.464983,
+        "Longitude": 139.6140742
+    },
+    "2-14-1 Komaoka Tsurumi-ku Yokohama Kanagawa": {
+        "Latitude": 35.5310677,
+        "Longitude": 139.6479755
+    },
+    "2-14-1 Minamisaiwai Nishi-ku Yokohama Kanagawa": {
+        "Latitude": 35.4640304,
+        "Longitude": 139.6177293
+    },
+    "2-14-12 Utsukushigaoka Aoba-ku Yokohama Kanagawa": {
+        "Latitude": 35.5790208,
+        "Longitude": 139.5595383
     },
     "2-14-24 Shinyokohama Kohoku-ku Yokohama Kanagawa": {
         "Latitude": 35.5098111,
@@ -1207,10 +1239,6 @@
         "Latitude": 35.5793486,
         "Longitude": 139.5584772
     },
-    "2-16 Odakicho Yokosuka Kanagawa": {
-        "Latitude": 35.281569,
-        "Longitude": 139.6698201
-    },
     "2-16-1 Takashima Nishi-ku Yokohama Kanagawa": {
         "Latitude": 35.4652635,
         "Longitude": 139.6228481
@@ -1223,21 +1251,9 @@
         "Latitude": 35.468316,
         "Longitude": 139.6229925
     },
-    "2-16-3 Mizonokuchi Takatsu-ku Kawasaki Kanagawa": {
-        "Latitude": 35.6020285,
-        "Longitude": 139.611451
-    },
-    "2-16-4 Minamisaiwai Nishi-ku Yokohama Kanagawa": {
-        "Latitude": 35.4635092,
-        "Longitude": 139.6162135
-    },
     "2-16-5 Katasekaigan Fujisawa Kanagawa": {
         "Latitude": 35.3086867,
         "Longitude": 139.4826505
-    },
-    "2-17-1 Minamisaiwai Nishi-ku Yokohama Kanagawa": {
-        "Latitude": 35.4640692,
-        "Longitude": 139.6166267
     },
     "2-17-1 Tsuruyacho Kanagawa-ku Yokohama Kanagawa": {
         "Latitude": 35.4682215,
@@ -1247,6 +1263,14 @@
         "Latitude": 35.4637304,
         "Longitude": 139.6160934
     },
+    "2-18-1 Takashima Nishi-ku Yokohama Kanagawa": {
+        "Latitude": 35.4655663,
+        "Longitude": 139.6253063
+    },
+    "2-19 Tsuruyacho Kanagawa-ku Yokohama Kanagawa": {
+        "Latitude": 35.4691409,
+        "Longitude": 139.6221981
+    },
     "2-19-12 Takashima Nishi-ku Yokohama Kanagawa": {
         "Latitude": 35.4647358,
         "Longitude": 139.6245619
@@ -1255,9 +1279,9 @@
         "Latitude": 35.5810622,
         "Longitude": 139.5585021
     },
-    "2-19-3 Utsukushigaoka Aoba-ku Yokohama Kanagawa": {
-        "Latitude": 35.5810289,
-        "Longitude": 139.5587965
+    "2-2 Toyookacho Tsurumi-ku Yokohama Kanagawa": {
+        "Latitude": 35.5089092,
+        "Longitude": 139.6755847
     },
     "2-2-1 Kitasaiwai Nishi-ku Yokohama Kanagawa": {
         "Latitude": 35.465844,
@@ -1279,6 +1303,10 @@
         "Latitude": 35.5649745,
         "Longitude": 139.3702437
     },
+    "2-2-14 Sugita Isogo-ku Yokohama Kanagawa": {
+        "Latitude": 35.3826604,
+        "Longitude": 139.6153115
+    },
     "2-2-17 Shimosakunobe Takatsu-ku Kawasaki Kanagawa": {
         "Latitude": 35.599715,
         "Longitude": 139.6087236
@@ -1286,6 +1314,10 @@
     "2-2-2 Shonandai Fujisawa Kanagawa": {
         "Latitude": 35.39620620000001,
         "Longitude": 139.4665423
+    },
+    "2-2-39 Suge Tama-ku Kawasaki Kanagawa": {
+        "Latitude": 35.633484,
+        "Longitude": 139.5345483
     },
     "2-2-4 Komachi Kamakura Kanagawa": {
         "Latitude": 35.3204864,
@@ -1307,9 +1339,13 @@
         "Latitude": 35.5359866,
         "Longitude": 139.6330961
     },
-    "2-20-42 Ofuna Kamakura Kanagawa": {
-        "Latitude": 35.3536158,
-        "Longitude": 139.536235
+    "2-20-1 Tsuruyacho Kanagawa-ku Yokohama Kanagawa": {
+        "Latitude": 35.4695408,
+        "Longitude": 139.6221925
+    },
+    "2-20-15 Utsukushigaoka Aoba-ku Yokohama Kanagawa": {
+        "Latitude": 35.5798374,
+        "Longitude": 139.5588716
     },
     "2-21-2 Utsukushigaoka Aoba-ku Yokohama Kanagawa": {
         "Latitude": 35.5799096,
@@ -1323,17 +1359,25 @@
         "Latitude": 35.582637,
         "Longitude": 139.5569494
     },
-    "2-23-4 Miyagawacho Naka-ku Yokohama Kanagawa": {
-        "Latitude": 35.4469546,
-        "Longitude": 139.6292483
+    "2-23-4 Tsurugamine Asahi-ku Yokohama Kanagawa": {
+        "Latitude": 35.4756002,
+        "Longitude": 139.5485916
     },
-    "2-23-8 Tsuruyacho Kanagawa-ku Yokohama Kanagawa": {
-        "Latitude": 35.4688492,
-        "Longitude": 139.6214509
+    "2-25-1 Katahira Asao-ku Kawasaki Kanagawa": {
+        "Latitude": 35.59388879999999,
+        "Longitude": 139.4986834
+    },
+    "2-27-6 Mizonokuchi Takatsu-ku Kawasaki Kanagawa": {
+        "Latitude": 35.6013647,
+        "Longitude": 139.6095762
     },
     "2-28 Bentendori Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.4476518,
         "Longitude": 139.6391392
+    },
+    "2-28 Miyagawacho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4468574,
+        "Longitude": 139.629826
     },
     "2-28-16 Mizonokuchi Takatsu-ku Kawasaki Kanagawa": {
         "Latitude": 35.6015591,
@@ -1343,6 +1387,10 @@
         "Latitude": 35.4464991,
         "Longitude": 139.6387226
     },
+    "2-3 Toyookacho Tsurumi-ku Yokohama Kanagawa": {
+        "Latitude": 35.5089009,
+        "Longitude": 139.6749931
+    },
     "2-3-1 Horaicho Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.4433467,
         "Longitude": 139.634748
@@ -1350,10 +1398,6 @@
     "2-3-10 Shinyokohama Kohoku-ku Yokohama Kanagawa": {
         "Latitude": 35.5083391,
         "Longitude": 139.615121
-    },
-    "2-3-11 Minamisaiwai Nishi-ku Yokohama Kanagawa": {
-        "Latitude": 35.4626555,
-        "Longitude": 139.6179543
     },
     "2-3-11 Shinyokohama Kohoku-ku Yokohama Kanagawa": {
         "Latitude": 35.5082474,
@@ -1363,6 +1407,10 @@
         "Latitude": 35.5301114,
         "Longitude": 139.7000708
     },
+    "2-3-14 Sakaecho Odawara Kanagawa": {
+        "Latitude": 35.257426,
+        "Longitude": 139.157362
+    },
     "2-3-16 Isago Kawasaki-ku Kawasaki Kanagawa": {
         "Latitude": 35.5296448,
         "Longitude": 139.6999847
@@ -1370,6 +1418,14 @@
     "2-3-19 Isago Kawasaki-ku Kawasaki Kanagawa": {
         "Latitude": 35.5300031,
         "Longitude": 139.7002402
+    },
+    "2-3-2 Minatomirai Nishi-ku Yokohama Kanagawa": {
+        "Latitude": 35.4574484,
+        "Longitude": 139.6348484
+    },
+    "2-3-2 Suge Tama-ku Kawasaki Kanagawa": {
+        "Latitude": 35.6329313,
+        "Longitude": 139.5343651
     },
     "2-3-35 Kizuki Nakahara-ku Kawasaki Kanagawa": {
         "Latitude": 35.5648842,
@@ -1403,21 +1459,13 @@
         "Latitude": 35.4548565,
         "Longitude": 139.6037146
     },
-    "2-4 Kugenumahanazawacho Fujisawa Kanagawa": {
-        "Latitude": 35.3373455,
-        "Longitude": 139.4853808
-    },
-    "2-4 Wakamatsucho Yokosuka Kanagawa": {
-        "Latitude": 35.2796691,
-        "Longitude": 139.6698284
+    "2-4 Motomachi Chigasaki Kanagawa": {
+        "Latitude": 35.3312961,
+        "Longitude": 139.4065052
     },
     "2-4-1 Katsuradai Aoba-ku Yokohama Kanagawa": {
         "Latitude": 35.5463523,
         "Longitude": 139.5000683
-    },
-    "2-4-1 Shinjo Nakahara-ku Kawasaki Kanagawa": {
-        "Latitude": 35.5836867,
-        "Longitude": 139.6313971
     },
     "2-4-10 Shinishikawa Aoba-ku Yokohama Kanagawa": {
         "Latitude": 35.5754047,
@@ -1431,29 +1479,25 @@
         "Latitude": 35.5301725,
         "Longitude": 139.7007596
     },
+    "2-4-18 Chuo Yamato Kanagawa": {
+        "Latitude": 35.4706554,
+        "Longitude": 139.4603534
+    },
     "2-4-18 Isago Kawasaki-ku Kawasaki Kanagawa": {
         "Latitude": 35.5301614,
         "Longitude": 139.7005458
-    },
-    "2-4-19 Isago Kawasaki-ku Kawasaki Kanagawa": {
-        "Latitude": 35.5302392,
-        "Longitude": 139.7004291
     },
     "2-4-5 Chuo Ebina Kanagawa": {
         "Latitude": 35.45122569999999,
         "Longitude": 139.3929112
     },
-    "2-5-1 Minamisaiwai Nishi-ku Yokohama Kanagawa": {
-        "Latitude": 35.4636956,
-        "Longitude": 139.6184641
+    "2-4-6 Shinyokohama Kohoku-ku Yokohama Kanagawa": {
+        "Latitude": 35.5085779,
+        "Longitude": 139.615407
     },
     "2-5-10 Shinyokohama Kohoku-ku Yokohama Kanagawa": {
         "Latitude": 35.5098417,
         "Longitude": 139.6156764
-    },
-    "2-5-10 Takashima Nishi-ku Yokohama Kanagawa": {
-        "Latitude": 35.46177790000001,
-        "Longitude": 139.6226816
     },
     "2-5-11 Shonandai Fujisawa Kanagawa": {
         "Latitude": 35.3962264,
@@ -1463,9 +1507,9 @@
         "Latitude": 35.4439439,
         "Longitude": 139.6341203
     },
-    "2-5-13 Shinyokohama Kohoku-ku Yokohama Kanagawa": {
-        "Latitude": 35.5088453,
-        "Longitude": 139.6151081
+    "2-5-14 Kizuki Nakahara-ku Kawasaki Kanagawa": {
+        "Latitude": 35.5646287,
+        "Longitude": 139.6548794
     },
     "2-5-16 Shinyokohama Kohoku-ku Yokohama Kanagawa": {
         "Latitude": 35.5092029,
@@ -1475,9 +1519,9 @@
         "Latitude": 35.3205269,
         "Longitude": 139.47026
     },
-    "2-5-2 Kitasaiwai Nishi-ku Yokohama Kanagawa": {
-        "Latitude": 35.4670659,
-        "Longitude": 139.6176475
+    "2-5-21 Kitasaiwai Nishi-ku Yokohama Kanagawa": {
+        "Latitude": 35.4671244,
+        "Longitude": 139.6176292
     },
     "2-5-25 Fujigaoka Aoba-ku Yokohama Kanagawa": {
         "Latitude": 35.5438919,
@@ -1495,6 +1539,10 @@
         "Latitude": 35.5842312,
         "Longitude": 139.5824664
     },
+    "2-5-8 Suehirocho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.44376889999999,
+        "Longitude": 139.6326982
+    },
     "2-50 Aioicho Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.4464769,
         "Longitude": 139.6383115
@@ -1502,6 +1550,10 @@
     "2-52 Aioicho Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.4465075,
         "Longitude": 139.6380699
+    },
+    "2-59 Hanasakicho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4494932,
+        "Longitude": 139.6295287
     },
     "2-59 Nogecho Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.4476545,
@@ -1511,33 +1563,13 @@
         "Latitude": 35.5289338,
         "Longitude": 139.7004514
     },
-    "2-6-11 Minamisaiwai Nishi-ku Yokohama Kanagawa": {
-        "Latitude": 35.4634082,
-        "Longitude": 139.6181932
-    },
     "2-6-15 Shinyokohama Kohoku-ku Yokohama Kanagawa": {
         "Latitude": 35.5086418,
         "Longitude": 139.6148265
     },
-    "2-6-17 Shinyokohama Kohoku-ku Yokohama Kanagawa": {
-        "Latitude": 35.5085307,
-        "Longitude": 139.6147765
-    },
     "2-6-2 Minamisaiwai Nishi-ku Yokohama Kanagawa": {
         "Latitude": 35.463711,
         "Longitude": 139.6184653
-    },
-    "2-6-21 Ofuna Kamakura Kanagawa": {
-        "Latitude": 35.3522104,
-        "Longitude": 139.5357934
-    },
-    "2-6-3 Nishikanagawa Kanagawa-ku Yokohama Kanagawa": {
-        "Latitude": 35.484989,
-        "Longitude": 139.6279059
-    },
-    "2-6-32 Takashima Nishi-ku Yokohama Kanagawa": {
-        "Latitude": 35.4618112,
-        "Longitude": 139.6232871
     },
     "2-6-7 Minamisaiwai Nishi-ku Yokohama Kanagawa": {
         "Latitude": 35.4633138,
@@ -1546,6 +1578,10 @@
     "2-6-8 Isago Kawasaki-ku Kawasaki Kanagawa": {
         "Latitude": 35.5289783,
         "Longitude": 139.7001653
+    },
+    "2-60 Hanasakicho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4495654,
+        "Longitude": 139.6296093
     },
     "2-62 Hanasakicho Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.4496404,
@@ -1559,17 +1595,13 @@
         "Latitude": 35.4377196,
         "Longitude": 139.6419728
     },
-    "2-7-11 Mizonokuchi Takatsu-ku Kawasaki Kanagawa": {
-        "Latitude": 35.6001732,
-        "Longitude": 139.6098318
-    },
-    "2-7-14 Nakacho Atsugi Kanagawa": {
-        "Latitude": 35.44167650000001,
-        "Longitude": 139.3636499
-    },
     "2-7-15 Mizonokuchi Takatsu-ku Kawasaki Kanagawa": {
         "Latitude": 35.6002815,
         "Longitude": 139.6096513
+    },
+    "2-7-18 Mizonokuchi Takatsu-ku Kawasaki Kanagawa": {
+        "Latitude": 35.6003537,
+        "Longitude": 139.6098207
     },
     "2-7-2 Sakaecho Odawara Kanagawa": {
         "Latitude": 35.2557827,
@@ -1579,6 +1611,10 @@
         "Latitude": 35.6002315,
         "Longitude": 139.6064961
     },
+    "2-7-34 Yamatohigashi Yamato Kanagawa": {
+        "Latitude": 35.4728688,
+        "Longitude": 139.4601227
+    },
     "2-7-6 Isago Kawasaki-ku Kawasaki Kanagawa": {
         "Latitude": 35.5284589,
         "Longitude": 139.7006264
@@ -1587,9 +1623,17 @@
         "Latitude": 35.4635478,
         "Longitude": 139.617538
     },
-    "2-74-1 Nogecho Naka-ku Yokohama Kanagawa": {
-        "Latitude": 35.4485018,
-        "Longitude": 139.6299675
+    "2-7-9 Isago Kawasaki-ku Kawasaki Kanagawa": {
+        "Latitude": 35.5286255,
+        "Longitude": 139.700668
+    },
+    "2-71-3 Hanasakicho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4496626,
+        "Longitude": 139.6286871
+    },
+    "2-75-2 Nogecho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4485936,
+        "Longitude": 139.6299277
     },
     "2-8-11 Kizuki Nakahara-ku Kawasaki Kanagawa": {
         "Latitude": 35.5644815,
@@ -1603,25 +1647,37 @@
         "Latitude": 35.5954752,
         "Longitude": 139.3410204
     },
-    "2-8-21 Minamisaiwai Nishi-ku Yokohama Kanagawa": {
-        "Latitude": 35.4640804,
-        "Longitude": 139.6181931
+    "2-8-20 Aobadai Aoba-ku Yokohama Kanagawa": {
+        "Latitude": 35.5436547,
+        "Longitude": 139.5149402
+    },
+    "2-8-23 Komachi Kamakura Kanagawa": {
+        "Latitude": 35.3217419,
+        "Longitude": 139.5528642
     },
     "2-8-3 Tsukimino Yamato Kanagawa": {
         "Latitude": 35.5062639,
         "Longitude": 139.4626653
     },
-    "2-81 Nogecho Naka-ku Yokohama Kanagawa": {
-        "Latitude": 35.4478906,
-        "Longitude": 139.6290177
+    "2-8-5 Minamisaiwai Nishi-ku Yokohama Kanagawa": {
+        "Latitude": 35.4639384,
+        "Longitude": 139.6172591
     },
-    "2-81-36 Ishikawacho Naka-ku Yokohama Kanagawa": {
-        "Latitude": 35.437553,
-        "Longitude": 139.6430728
+    "2-8-8 Sakaecho Odawara Kanagawa": {
+        "Latitude": 35.2552762,
+        "Longitude": 139.1581871
     },
-    "2-9 Izumicho Atsugi Kanagawa": {
-        "Latitude": 35.4396351,
-        "Longitude": 139.3652164
+    "2-88 Motomachi Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4404415,
+        "Longitude": 139.648875
+    },
+    "2-9 Higashidacho Kawasaki-ku Kawasaki Kanagawa": {
+        "Latitude": 35.5279506,
+        "Longitude": 139.7018374
+    },
+    "2-9 Minatocho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4443772,
+        "Longitude": 139.6363757
     },
     "2-9 Ogawacho Kawasaki-ku Kawasaki Kanagawa": {
         "Latitude": 35.5281673,
@@ -1635,17 +1691,9 @@
         "Latitude": 35.4633527,
         "Longitude": 139.6178932
     },
-    "2-9-22 Tsuruyacho Kanagawa-ku Yokohama Kanagawa": {
-        "Latitude": 35.4697575,
-        "Longitude": 139.6213898
-    },
     "2-9-50 Chuo Ebina Kanagawa": {
         "Latitude": 35.4502509,
         "Longitude": 139.3954138
-    },
-    "2-9-9 Minamisaiwai Nishi-ku Yokohama Kanagawa": {
-        "Latitude": 35.4632249,
-        "Longitude": 139.6175766
     },
     "2-90 Nogecho Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.44865170000001,
@@ -1675,21 +1723,25 @@
         "Latitude": 35.4430412,
         "Longitude": 139.6436002
     },
-    "202-8 Yamashitacho Naka-ku Yokohama Kanagawa": {
-        "Latitude": 35.4430412,
-        "Longitude": 139.6436002
+    "207 Yamashitacho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4429412,
+        "Longitude": 139.6421309
     },
     "207-5 Hassemachi Irie Miura Kanagawa": {
         "Latitude": 35.1864006,
         "Longitude": 139.6284601
     },
-    "2072 Ikonobecho Tsuzuki-ku Yokohama Kanagawa": {
-        "Latitude": 35.5273695,
-        "Longitude": 139.5714417
+    "2137 Noborito Tama-ku Kawasaki Kanagawa": {
+        "Latitude": 35.6179673,
+        "Longitude": 139.5657574
     },
-    "216-5 Yamashitacho Naka-ku Yokohama Kanagawa": {
-        "Latitude": 35.4425246,
-        "Longitude": 139.6438364
+    "214-1 Shimohirama Saiwai-ku Kawasaki Kanagawa": {
+        "Latitude": 35.5503419,
+        "Longitude": 139.6805331
+    },
+    "218 Yamashitacho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4427385,
+        "Longitude": 139.6439808
     },
     "22-1 Minamifujisawa Fujisawa Kanagawa": {
         "Latitude": 35.3382926,
@@ -1699,29 +1751,25 @@
         "Latitude": 35.4422219,
         "Longitude": 139.6439864
     },
-    "224 Miyanoshita Hakone Ashigarashimo-gun Kanagawa": {
-        "Latitude": 35.2453902,
-        "Longitude": 139.0587889
+    "221 Yamashitacho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.441983,
+        "Longitude": 139.6439669
     },
     "23-10 Minamifujisawa Fujisawa Kanagawa": {
         "Latitude": 35.3380176,
         "Longitude": 139.4863641
     },
-    "23-3 Minamifujisawa Fujisawa Kanagawa": {
-        "Latitude": 35.3376816,
-        "Longitude": 139.4863391
-    },
-    "23-4 Minamifujisawa Fujisawa Kanagawa": {
-        "Latitude": 35.3375816,
-        "Longitude": 139.4862974
+    "23-2 Minamifujisawa Fujisawa Kanagawa": {
+        "Latitude": 35.337926,
+        "Longitude": 139.4864724
     },
     "25 Kamonomiya Odawara Kanagawa": {
         "Latitude": 35.276352,
         "Longitude": 139.1793332
     },
-    "254 Yamashitacho Naka-ku Yokohama Kanagawa": {
-        "Latitude": 35.4420997,
-        "Longitude": 139.6409032
+    "26-1 Ekimae Honcho Kawasaki-ku Kawasaki Kanagawa": {
+        "Latitude": 35.5309169,
+        "Longitude": 139.697646
     },
     "26-2 Ekimae Honcho Kawasaki-ku Kawasaki Kanagawa": {
         "Latitude": 35.5302226,
@@ -1739,33 +1787,17 @@
         "Latitude": 35.3748917,
         "Longitude": 139.6102816
     },
-    "2丁目6-28 Komachi Kamakura Kanagawa": {
-        "Latitude": 35.3223612,
-        "Longitude": 139.5520031
-    },
-    "3-1 Fukutomicho Nishidori Naka-ku Yokohama Kanagawa": {
-        "Latitude": 35.4460214,
-        "Longitude": 139.6309982
-    },
     "3-1 Misumicho Chigasaki Kanagawa": {
         "Latitude": 35.332547,
         "Longitude": 139.428279
     },
+    "3-1 Shinsugitacho Isogo-ku Yokohama Kanagawa": {
+        "Latitude": 35.385588,
+        "Longitude": 139.6200442
+    },
     "3-1-1 Yamatohigashi Yamato Kanagawa": {
         "Latitude": 35.4711859,
         "Longitude": 139.462331
-    },
-    "3-1-18 Yamatohigashi Yamato Kanagawa": {
-        "Latitude": 35.4712415,
-        "Longitude": 139.4625921
-    },
-    "3-1-2 Shinyokohama Kohoku-ku Yokohama Kanagawa": {
-        "Latitude": 35.5113638,
-        "Longitude": 139.6215451
-    },
-    "3-1-22 Nakacho Atsugi Kanagawa": {
-        "Latitude": 35.4397128,
-        "Longitude": 139.3629777
     },
     "3-1-23 Nakacho Atsugi Kanagawa": {
         "Latitude": 35.4394934,
@@ -1775,13 +1807,13 @@
         "Latitude": 35.3747105,
         "Longitude": 139.5775402
     },
+    "3-10 Kosugimachi Nakahara-ku Kawasaki Kanagawa": {
+        "Latitude": 35.5737993,
+        "Longitude": 139.6565704
+    },
     "3-10 Sakuranamiki Tsuzuki-ku Yokohama Kanagawa": {
         "Latitude": 35.5360436,
         "Longitude": 139.5780076
-    },
-    "3-10-47 Nakakaigan Chigasaki Kanagawa": {
-        "Latitude": 35.3188332,
-        "Longitude": 139.4013118
     },
     "3-10-8 Fujigaoka Fujisawa Kanagawa": {
         "Latitude": 35.3487581,
@@ -1791,9 +1823,17 @@
         "Latitude": 35.4424163,
         "Longitude": 139.6297567
     },
+    "3-107 Isezakicho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4419747,
+        "Longitude": 139.6296706
+    },
     "3-107-12 Isezakicho Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.4418775,
         "Longitude": 139.6298595
+    },
+    "3-11-2 Fukuura Kanazawa-ku Yokohama Kanagawa": {
+        "Latitude": 35.340861,
+        "Longitude": 139.6457368
     },
     "3-11-9 Sagamiono Minami-ku Sagamihara Kanagawa": {
         "Latitude": 35.53207200000001,
@@ -1811,6 +1851,18 @@
         "Latitude": 35.5849827,
         "Longitude": 139.6302862
     },
+    "3-133-13 Nogecho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4485017,
+        "Longitude": 139.6282455
+    },
+    "3-14 Minatocho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4449493,
+        "Longitude": 139.6355757
+    },
+    "3-14-14 Nakacho Atsugi Kanagawa": {
+        "Latitude": 35.4423513,
+        "Longitude": 139.3610029
+    },
     "3-141-6 Motomachi Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.4397499,
         "Longitude": 139.6479335
@@ -1818,10 +1870,6 @@
     "3-15-10 Sagamiono Minami-ku Sagamihara Kanagawa": {
         "Latitude": 35.5328468,
         "Longitude": 139.4360387
-    },
-    "3-15-17 Hashimoto Midori-ku Sagamihara Kanagawa": {
-        "Latitude": 35.5946057,
-        "Longitude": 139.3472671
     },
     "3-16-1 Saginuma Miyamae-ku Kawasaki Kanagawa": {
         "Latitude": 35.5784848,
@@ -1831,13 +1879,37 @@
         "Latitude": 35.5112221,
         "Longitude": 139.6183094
     },
+    "3-17-3 Hashimoto Midori-ku Sagamihara Kanagawa": {
+        "Latitude": 35.5951806,
+        "Longitude": 139.3466699
+    },
     "3-18-1 Shinyokohama Kohoku-ku Yokohama Kanagawa": {
         "Latitude": 35.5099695,
         "Longitude": 139.6167041
     },
+    "3-2-1 Hayabuchi Tsuzuki-ku Yokohama Kanagawa": {
+        "Latitude": 35.5486284,
+        "Longitude": 139.6024657
+    },
+    "3-2-14 Okurayama Kohoku-ku Yokohama Kanagawa": {
+        "Latitude": 35.521663,
+        "Longitude": 139.6283581
+    },
     "3-2-2 Miharucho Yokosuka Kanagawa": {
         "Latitude": 35.2658893,
         "Longitude": 139.6888569
+    },
+    "3-2-27 Hamatake Chigasaki Kanagawa": {
+        "Latitude": 35.3358971,
+        "Longitude": 139.4430256
+    },
+    "3-2-28 Chuo Ebina Kanagawa": {
+        "Latitude": 35.45010360000001,
+        "Longitude": 139.3904308
+    },
+    "3-2-38 Chuo Ebina Kanagawa": {
+        "Latitude": 35.4498148,
+        "Longitude": 139.3902086
     },
     "3-2-48 Chuo Ebina Kanagawa": {
         "Latitude": 35.4510007,
@@ -1855,10 +1927,6 @@
         "Latitude": 35.37976829999999,
         "Longitude": 139.5787929
     },
-    "3-25 Chigasakichuo Tsuzuki-ku Yokohama Kanagawa": {
-        "Latitude": 35.5447285,
-        "Longitude": 139.5745799
-    },
     "3-28-1 Hashimoto Midori-ku Sagamihara Kanagawa": {
         "Latitude": 35.5948391,
         "Longitude": 139.3462838
@@ -1866,10 +1934,6 @@
     "3-28-13 Shimonagaya Konan-ku Yokohama Kanagawa": {
         "Latitude": 35.4078842,
         "Longitude": 139.5642913
-    },
-    "3-29 Masagocho Naka-ku Yokohama Kanagawa": {
-        "Latitude": 35.445066,
-        "Longitude": 139.6362229
     },
     "3-29 Sumiyoshicho Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.44652970000001,
@@ -1887,13 +1951,13 @@
         "Latitude": 35.530539,
         "Longitude": 139.4352027
     },
+    "3-3-8 Saginuma Miyamae-ku Kawasaki Kanagawa": {
+        "Latitude": 35.5803762,
+        "Longitude": 139.5717482
+    },
     "3-30-2 Masagocho Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.4451021,
         "Longitude": 139.6361368
-    },
-    "3-31 Masagocho Naka-ku Yokohama Kanagawa": {
-        "Latitude": 35.4452298,
-        "Longitude": 139.6360868
     },
     "3-32 Masagocho Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.4452882,
@@ -1911,10 +1975,6 @@
         "Latitude": 35.447799,
         "Longitude": 139.638667
     },
-    "3-39 Bentendori Naka-ku Yokohama Kanagawa": {
-        "Latitude": 35.4479545,
-        "Longitude": 139.6383809
-    },
     "3-4 Minamifujisawa Fujisawa Kanagawa": {
         "Latitude": 35.3380538,
         "Longitude": 139.4888194
@@ -1931,6 +1991,10 @@
         "Latitude": 35.4343173,
         "Longitude": 139.6268294
     },
+    "3-43-4 Maruyamadai Konan-ku Yokohama Kanagawa": {
+        "Latitude": 35.3971412,
+        "Longitude": 139.5641331
+    },
     "3-43-4 Wakabacho Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.4412748,
         "Longitude": 139.6275875
@@ -1939,9 +2003,9 @@
         "Latitude": 35.5747186,
         "Longitude": 139.6585285
     },
-    "3-44 Onoecho Naka-ku Yokohama Kanagawa": {
-        "Latitude": 35.4453604,
-        "Longitude": 139.6362284
+    "3-430-6 Kosugimachi Nakahara-ku Kawasaki Kanagawa": {
+        "Latitude": 35.5760448,
+        "Longitude": 139.6576346
     },
     "3-472 Kosugimachi Nakahara-ku Kawasaki Kanagawa": {
         "Latitude": 35.5756545,
@@ -1962,6 +2026,10 @@
     "3-6-14 Kyowa Chuo-ku Sagamihara Kanagawa": {
         "Latitude": 35.5619099,
         "Longitude": 139.3981773
+    },
+    "3-6-15 Shinyokohama Kohoku-ku Yokohama Kanagawa": {
+        "Latitude": 35.5089029,
+        "Longitude": 139.6185039
     },
     "3-6-18 Kizuki Nakahara-ku Kawasaki Kanagawa": {
         "Latitude": 35.565573,
@@ -1987,9 +2055,9 @@
         "Latitude": 35.3726178,
         "Longitude": 139.449567
     },
-    "3-7-11 Yamatohigashi Yamato Kanagawa": {
-        "Latitude": 35.4729078,
-        "Longitude": 139.4637948
+    "3-7-7 Shinyokohama Kohoku-ku Yokohama Kanagawa": {
+        "Latitude": 35.5098584,
+        "Longitude": 139.6172345
     },
     "3-77 Miyagawacho Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.446688,
@@ -1998,6 +2066,10 @@
     "3-87 Hanasakicho Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.4509458,
         "Longitude": 139.6293398
+    },
+    "3-9 Kaigandori Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4500543,
+        "Longitude": 139.6399696
     },
     "3-95 Suehirocho Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.443505,
@@ -2011,13 +2083,17 @@
         "Latitude": 35.4989985,
         "Longitude": 139.451719
     },
+    "31-15 Hanamizudai Hiratsuka Kanagawa": {
+        "Latitude": 35.31854,
+        "Longitude": 139.338814
+    },
     "313-12 Nakazato Odawara Kanagawa": {
         "Latitude": 35.2832734,
         "Longitude": 139.1880012
     },
-    "319-18 Katsuracho Sakae-ku Yokohama Kanagawa": {
-        "Latitude": 35.3638479,
-        "Longitude": 139.5542062
+    "317-1 Daimuracho Midori-ku Yokohama Kanagawa": {
+        "Latitude": 35.5130763,
+        "Longitude": 139.5378001
     },
     "326-1 Nakayamacho Midori-ku Yokohama Kanagawa": {
         "Latitude": 35.5150316,
@@ -2043,13 +2119,17 @@
         "Latitude": 35.4431912,
         "Longitude": 139.6508192
     },
-    "38-10 Tobehoncho Nishi-ku Yokohama Kanagawa": {
-        "Latitude": 35.4580311,
-        "Longitude": 139.6222623
+    "38 Fukutomicho Higashidori Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4444332,
+        "Longitude": 139.631352
     },
     "3870-1 Fukaya Ayase Kanagawa": {
         "Latitude": 35.4371336,
         "Longitude": 139.4282702
+    },
+    "3丁目51-8 Miyamotocho Minami-ku Yokohama Kanagawa": {
+        "Latitude": 35.4300373,
+        "Longitude": 139.6095506
     },
     "4 Bukkocho Hodogaya-ku Yokohama Kanagawa": {
         "Latitude": 35.4634998,
@@ -2059,21 +2139,21 @@
         "Latitude": 35.5280451,
         "Longitude": 139.6979238
     },
-    "4-1 Yoshidamachi Naka-ku Yokohama Kanagawa": {
-        "Latitude": 35.4458242,
-        "Longitude": 139.6330258
-    },
     "4-1-1 Edahigashi Tsuzuki-ku Yokohama Kanagawa": {
         "Latitude": 35.5449669,
         "Longitude": 139.5602646
+    },
+    "4-1-22 Shonandai Fujisawa Kanagawa": {
+        "Latitude": 35.3979207,
+        "Longitude": 139.4648571
     },
     "4-1-9 Kamoi Midori-ku Yokohama Kanagawa": {
         "Latitude": 35.51026030000001,
         "Longitude": 139.5679199
     },
-    "4-10 Higashidacho Kawasaki-ku Kawasaki Kanagawa": {
-        "Latitude": 35.5293143,
-        "Longitude": 139.7023595
+    "4-10 Urashimacho Kanagawa-ku Yokohama Kanagawa": {
+        "Latitude": 35.483395,
+        "Longitude": 139.643785
     },
     "4-14-25 Chuorinkan Yamato Kanagawa": {
         "Latitude": 35.5080078,
@@ -2082,10 +2162,6 @@
     "4-14-41 Tamura Hiratsuka Kanagawa": {
         "Latitude": 35.3777947,
         "Longitude": 139.3614517
-    },
-    "4-17 Kaigandori Naka-ku Yokohama Kanagawa": {
-        "Latitude": 35.4502292,
-        "Longitude": 139.6386669
     },
     "4-17-19 Chuorinkan Yamato Kanagawa": {
         "Latitude": 35.5074245,
@@ -2099,10 +2175,6 @@
         "Latitude": 35.5700614,
         "Longitude": 139.3885335
     },
-    "4-19-1 Utsukushigaoka Aoba-ku Yokohama Kanagawa": {
-        "Latitude": 35.5810566,
-        "Longitude": 139.5519415
-    },
     "4-2-1 Kamikodanaka Nakahara-ku Kawasaki Kanagawa": {
         "Latitude": 35.5813758,
         "Longitude": 139.6409824
@@ -2111,9 +2183,9 @@
         "Latitude": 35.2804658,
         "Longitude": 139.2130345
     },
-    "4-27-6 Tsurumichuo Tsurumi-ku Yokohama Kanagawa": {
-        "Latitude": 35.5076205,
-        "Longitude": 139.679065
+    "4-24-54 Sonan Minami-ku Sagamihara Kanagawa": {
+        "Latitude": 35.5140513,
+        "Longitude": 139.4240959
     },
     "4-31-7 Kizuki Nakahara-ku Kawasaki Kanagawa": {
         "Latitude": 35.5592325,
@@ -2127,21 +2199,9 @@
         "Latitude": 35.2311295,
         "Longitude": 139.7025864
     },
-    "4-4-3 Sagamiono Minami-ku Sagamihara Kanagawa": {
-        "Latitude": 35.5332939,
-        "Longitude": 139.434636
-    },
-    "4-40 Minaminakadori Naka-ku Yokohama Kanagawa": {
-        "Latitude": 35.44886,
-        "Longitude": 139.6379337
-    },
     "4-43 Masagocho Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.4457687,
         "Longitude": 139.6350812
-    },
-    "4-45-1 Sumiyoshicho Naka-ku Yokohama Kanagawa": {
-        "Latitude": 35.4468185,
-        "Longitude": 139.6361922
     },
     "4-46 Nakasaiwaicho Saiwai-ku Kawasaki Kanagawa": {
         "Latitude": 35.53215840000001,
@@ -2155,9 +2215,9 @@
         "Latitude": 35.508616,
         "Longitude": 139.4448664
     },
-    "4-55 Otamachi Naka-ku Yokohama Kanagawa": {
-        "Latitude": 35.4479017,
-        "Longitude": 139.6365061
+    "4-52 Tokiwacho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4463769,
+        "Longitude": 139.6358089
     },
     "4-6-2 Minatomirai Nishi-ku Yokohama Kanagawa": {
         "Latitude": 35.4586949,
@@ -2171,13 +2231,25 @@
         "Latitude": 35.4477573,
         "Longitude": 139.6364561
     },
-    "4-7 Toyookacho Tsurumi-ku Yokohama Kanagawa": {
-        "Latitude": 35.5061151,
-        "Longitude": 139.675196
+    "4-69 Aioicho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4472935,
+        "Longitude": 139.6367172
+    },
+    "4-69-1 Aioicho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4474129,
+        "Longitude": 139.6365977
     },
     "4-7-19 Honkugenuma Fujisawa Kanagawa": {
         "Latitude": 35.3319344,
         "Longitude": 139.4706488
+    },
+    "4-76 Aioicho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4476268,
+        "Longitude": 139.6361117
+    },
+    "4-8 Higashidacho Kawasaki-ku Kawasaki Kanagawa": {
+        "Latitude": 35.529431,
+        "Longitude": 139.7019734
     },
     "40-67 Mihanayama Tsuzuki-ku Yokohama Kanagawa": {
         "Latitude": 35.5406229,
@@ -2187,14 +2259,6 @@
         "Latitude": 35.3987709,
         "Longitude": 139.5315325
     },
-    "4233-2 Akiya Yokosuka Kanagawa": {
-        "Latitude": 35.2452134,
-        "Longitude": 139.5946093
-    },
-    "4328 Ikonobecho Tsuzuki-ku Yokohama Kanagawa": {
-        "Latitude": 35.513907,
-        "Longitude": 139.5648173
-    },
     "47-13 Shibacho Kanazawa-ku Yokohama Kanagawa": {
         "Latitude": 35.34330509999999,
         "Longitude": 139.636621
@@ -2203,25 +2267,17 @@
         "Latitude": 35.314104,
         "Longitude": 139.1611416
     },
-    "48 Fukutomicho Nishidori Naka-ku Yokohama Kanagawa": {
-        "Latitude": 35.4454104,
-        "Longitude": 139.6305899
-    },
     "481-1 Kamikuratacho Totsuka-ku Yokohama Kanagawa": {
         "Latitude": 35.3993043,
         "Longitude": 139.536135
-    },
-    "484 Fujisawa Fujisawa Kanagawa": {
-        "Latitude": 35.3403396,
-        "Longitude": 139.4857836
     },
     "485-10 Imaiminamicho Nakahara-ku Kawasaki Kanagawa": {
         "Latitude": 35.572069,
         "Longitude": 139.6556623
     },
-    "4897 Totsukacho Totsuka-ku Yokohama Kanagawa": {
-        "Latitude": 35.4019982,
-        "Longitude": 139.5307742
+    "489-8 Kamikuratacho Totsuka-ku Yokohama Kanagawa": {
+        "Latitude": 35.3960955,
+        "Longitude": 139.5347216
     },
     "5-1 Chigasakichuo Tsuzuki-ku Yokohama Kanagawa": {
         "Latitude": 35.5444257,
@@ -2235,14 +2291,6 @@
         "Latitude": 35.5798611,
         "Longitude": 139.3593497
     },
-    "5-13 Hakuraku Kanagawa-ku Yokohama Kanagawa": {
-        "Latitude": 35.4839892,
-        "Longitude": 139.6298835
-    },
-    "5-14 Saiwaicho Chigasaki Kanagawa": {
-        "Latitude": 35.3307297,
-        "Longitude": 139.410255
-    },
     "5-15-33 Hiyoshi Kohoku-ku Yokohama Kanagawa": {
         "Latitude": 35.5462154,
         "Longitude": 139.6542661
@@ -2255,6 +2303,10 @@
         "Latitude": 35.53018369999999,
         "Longitude": 139.6990264
     },
+    "5-2-15 Utsukushigaoka Aoba-ku Yokohama Kanagawa": {
+        "Latitude": 35.5760796,
+        "Longitude": 139.5554332
+    },
     "5-2-40 Zushi Zushi Kanagawa": {
         "Latitude": 35.2957559,
         "Longitude": 139.5787785
@@ -2262,10 +2314,6 @@
     "5-209 Motomachi Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.4389945,
         "Longitude": 139.6463336
-    },
-    "5-23-16 Kotsubo Zushi Kanagawa": {
-        "Latitude": 35.2956392,
-        "Longitude": 139.5530051
     },
     "5-29-17 Shimodacho Kohoku-ku Yokohama Kanagawa": {
         "Latitude": 35.5574994,
@@ -2279,10 +2327,6 @@
         "Latitude": 35.5314196,
         "Longitude": 139.6933019
     },
-    "5-3-1 Minatomirai Nishi-ku Yokohama Kanagawa": {
-        "Latitude": 35.4615723,
-        "Longitude": 139.6319808
-    },
     "5-3-3 Higashirinkan Minami-ku Sagamihara Kanagawa": {
         "Latitude": 35.5200608,
         "Longitude": 139.4387083
@@ -2295,37 +2339,25 @@
         "Latitude": 35.4480267,
         "Longitude": 139.6350867
     },
-    "5-67 Otamachi Naka-ku Yokohama Kanagawa": {
-        "Latitude": 35.4488905,
-        "Longitude": 139.6355144
-    },
     "5-7 Higashidacho Kawasaki-ku Kawasaki Kanagawa": {
         "Latitude": 35.5295087,
         "Longitude": 139.7025706
-    },
-    "5-86 Aioicho Naka-ku Yokohama Kanagawa": {
-        "Latitude": 35.4479795,
-        "Longitude": 139.6356644
     },
     "5-9-13 Kamisueyoshi Tsurumi-ku Yokohama Kanagawa": {
         "Latitude": 35.5325451,
         "Longitude": 139.6652211
     },
-    "5-9-6 Futago Takatsu-ku Kawasaki Kanagawa": {
-        "Latitude": 35.6013814,
-        "Longitude": 139.6160282
-    },
     "5-93-1 Aioicho Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.448072,
         "Longitude": 139.6354262
     },
+    "5-96-3 Aioicho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4481712,
+        "Longitude": 139.6351173
+    },
     "51-1 Totsukacho Totsuka-ku Yokohama Kanagawa": {
         "Latitude": 35.3990737,
         "Longitude": 139.5325852
-    },
-    "5134 Oba Fujisawa Kanagawa": {
-        "Latitude": 35.3591778,
-        "Longitude": 139.4497809
     },
     "515-1 Shinanocho Totsuka-ku Yokohama Kanagawa": {
         "Latitude": 35.4282451,
@@ -2359,6 +2391,10 @@
         "Latitude": 35.4325861,
         "Longitude": 139.5576301
     },
+    "543-7 Shinanocho Totsuka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4326028,
+        "Longitude": 139.5575217
+    },
     "5434-8 Oba Fujisawa Kanagawa": {
         "Latitude": 35.3662771,
         "Longitude": 139.4529253
@@ -2366,6 +2402,10 @@
     "548-1 Shinanocho Totsuka-ku Yokohama Kanagawa": {
         "Latitude": 35.4316335,
         "Longitude": 139.5580051
+    },
+    "550-7 Shinanocho Totsuka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4313252,
+        "Longitude": 139.560416
     },
     "555 Fujisawa Fujisawa Kanagawa": {
         "Latitude": 35.3399174,
@@ -2387,10 +2427,6 @@
         "Latitude": 35.2812984,
         "Longitude": 139.1775054
     },
-    "6-1-1 Ofuna Kamakura Kanagawa": {
-        "Latitude": 35.354113,
-        "Longitude": 139.5383099
-    },
     "6-1-5 Kikuna Kohoku-ku Yokohama Kanagawa": {
         "Latitude": 35.5107585,
         "Longitude": 139.6316442
@@ -2399,9 +2435,13 @@
         "Latitude": 35.5965166,
         "Longitude": 139.3425258
     },
-    "6-22-32 Konandai Konan-ku Yokohama Kanagawa": {
-        "Latitude": 35.3663754,
-        "Longitude": 139.5863227
+    "6-15 Minamifujisawa Fujisawa Kanagawa": {
+        "Latitude": 35.3379177,
+        "Longitude": 139.4918441
+    },
+    "6-17-2 Hashimoto Midori-ku Sagamihara Kanagawa": {
+        "Latitude": 35.5969804,
+        "Longitude": 139.3435923
     },
     "6-23-8 Kamikodanaka Nakahara-ku Kawasaki Kanagawa": {
         "Latitude": 35.5808176,
@@ -2419,9 +2459,9 @@
         "Latitude": 35.6382498,
         "Longitude": 139.5239323
     },
-    "6-8 Miyamotocho Kawasaki-ku Kawasaki Kanagawa": {
-        "Latitude": 35.5308891,
-        "Longitude": 139.704076
+    "6-66-1 Sumiyoshicho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4484433,
+        "Longitude": 139.6344284
     },
     "7 Ekimae Honcho Kawasaki-ku Kawasaki Kanagawa": {
         "Latitude": 35.5305614,
@@ -2451,13 +2491,13 @@
         "Latitude": 35.5305614,
         "Longitude": 139.6996042
     },
+    "7-9 Minamifujisawa Fujisawa Kanagawa": {
+        "Latitude": 35.3372761,
+        "Longitude": 139.4904443
+    },
     "72-1 Horikawacho Saiwai-ku Kawasaki Kanagawa": {
         "Latitude": 35.5325417,
         "Longitude": 139.6967571
-    },
-    "742 Iizumi Odawara Kanagawa": {
-        "Latitude": 35.2805927,
-        "Longitude": 139.1691842
     },
     "769-2 Shinmarukomachi Nakahara-ku Kawasaki Kanagawa": {
         "Latitude": 35.5797788,
@@ -2475,6 +2515,10 @@
         "Latitude": 35.5296532,
         "Longitude": 139.7037066
     },
+    "8 Totsukacho Totsuka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4012734,
+        "Longitude": 139.5353684
+    },
     "8-19 Ekimae Honcho Kawasaki-ku Kawasaki Kanagawa": {
         "Latitude": 35.5314724,
         "Longitude": 139.7003541
@@ -2483,57 +2527,29 @@
         "Latitude": 35.2037097,
         "Longitude": 139.0230356
     },
-    "80-1 Hassemachi Irie Miura Kanagawa": {
-        "Latitude": 35.1882338,
-        "Longitude": 139.6266602
+    "817 Sengokuhara Hakone Ashigarashimo-gun Kanagawa": {
+        "Latitude": 35.2662691,
+        "Longitude": 139.0081834
     },
     "84-5 Yamashitacho Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.4429634,
         "Longitude": 139.6492054
     },
-    "8丁目125 Chojamachi Naka-ku Yokohama Kanagawa": {
-        "Latitude": 35.4437328,
-        "Longitude": 139.6294567
-    },
-    "9-18 Beniyacho Hiratsuka Kanagawa": {
-        "Latitude": 35.328736,
-        "Longitude": 139.3482961
-    },
-    "9-2 Minamifujisawa Fujisawa Kanagawa": {
-        "Latitude": 35.33752610000001,
-        "Longitude": 139.4923913
-    },
     "9-27-6 Konandai Konan-ku Yokohama Kanagawa": {
         "Latitude": 35.3699639,
         "Longitude": 139.577443
-    },
-    "90 Yamashitacho Naka-ku Yokohama Kanagawa": {
-        "Latitude": 35.4449188,
-        "Longitude": 139.6440973
     },
     "90-1 Kawakamicho Totsuka-ku Yokohama Kanagawa": {
         "Latitude": 35.4312113,
         "Longitude": 139.5556691
     },
-    "911 Shinmarukomachi Nakahara-ku Kawasaki Kanagawa": {
-        "Latitude": 35.5785651,
-        "Longitude": 139.6602863
-    },
-    "922-2 Horiuchi Hayama Miura-gun Kanagawa": {
-        "Latitude": 35.2751716,
-        "Longitude": 139.5716144
+    "915-42 Shinmarukomachi Nakahara-ku Kawasaki Kanagawa": {
+        "Latitude": 35.5781708,
+        "Longitude": 139.6605918
     },
     "940-48 Sengokuhara Hakone Ashigarashimo-gun Kanagawa": {
         "Latitude": 35.2662891,
         "Longitude": 139.0177686
-    },
-    "969 Fujisawa Fujisawa Kanagawa": {
-        "Latitude": 35.3408672,
-        "Longitude": 139.4841976
-    },
-    "97 Yamashitacho Naka-ku Yokohama Kanagawa": {
-        "Latitude": 35.4427274,
-        "Longitude": 139.6481472
     },
     "984-4 Sengokuhara Hakone Ashigarashimo-gun Kanagawa": {
         "Latitude": 35.2696857,
@@ -2551,18 +2567,6 @@
         "Latitude": 35.60373,
         "Longitude": 139.5057467
     },
-    "Daimachi Kanagawa-ku Yokohama Kanagawa": {
-        "Latitude": 35.4708101,
-        "Longitude": 139.6250367
-    },
-    "Eirakucho Minami-ku Yokohama Kanagawa": {
-        "Latitude": 35.4377752,
-        "Longitude": 139.6312846
-    },
-    "Ekimae Honcho Kawasaki-ku Kawasaki Kanagawa": {
-        "Latitude": 35.5332943,
-        "Longitude": 139.7003429
-    },
     "Fukutomicho Nishidori Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.4459242,
         "Longitude": 139.629951
@@ -2575,13 +2579,13 @@
         "Latitude": 35.3128953,
         "Longitude": 139.5350931
     },
-    "Komachi Kamakura Kanagawa": {
-        "Latitude": 35.3206892,
-        "Longitude": 139.551667
+    "Isezakicho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.441633,
+        "Longitude": 139.6287346
     },
-    "Maruyamadai Konan-ku Yokohama Kanagawa": {
-        "Latitude": 35.3980299,
-        "Longitude": 139.5673967
+    "Ishikawacho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.43808070000001,
+        "Longitude": 139.6449421
     },
     "Motohakone Hakone Ashigarashimo-gun Kanagawa": {
         "Latitude": 35.2032764,
@@ -2595,13 +2599,17 @@
         "Latitude": 35.6205085,
         "Longitude": 139.5687792
     },
+    "Nogecho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4477823,
+        "Longitude": 139.6300954
+    },
     "Seya-ku Yokohama Kanagawa": {
         "Latitude": 35.4660263,
         "Longitude": 139.4988596
     },
-    "Takashima Nishi-ku Yokohama Kanagawa": {
-        "Latitude": 35.4622889,
-        "Longitude": 139.6222899
+    "Sumiyoshicho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4455798,
+        "Longitude": 139.6384199
     },
     "Takatsu-ku Kawasaki Kanagawa": {
         "Latitude": 35.5994622,
@@ -2611,10 +2619,6 @@
         "Latitude": 35.3990653,
         "Longitude": 139.5325547
     },
-    "Utsukushigaoka Aoba-ku Yokohama-city Kanagawa": {
-        "Latitude": 35.5885554,
-        "Longitude": 139.5453666
-    },
     "Yukinoshita Kamakura Kanagawa": {
         "Latitude": 35.3230056,
         "Longitude": 139.5530086
@@ -2623,21 +2627,21 @@
         "Latitude": 35.5329594,
         "Longitude": 139.6959237
     },
-    "中原区小杉町3-1501": {
-        "Latitude": 35.5757962,
-        "Longitude": 139.6569424
-    },
     "中原区木月2-5-7": {
         "Latitude": 35.5647315,
         "Longitude": 139.6551794
     },
-    "横浜市中区山下町149": {
-        "Latitude": 35.4436523,
-        "Longitude": 139.6459251
+    "横浜ワールドポーターズ 5F": {
+        "Latitude": 35.4539404,
+        "Longitude": 139.6389925
     },
     "横浜市中区花咲町2-68-2": {
         "Latitude": 35.4501515,
         "Longitude": 139.6295926
+    },
+    "横浜市保土ヶ谷区天王町1-18-8": {
+        "Latitude": 35.4562507,
+        "Longitude": 139.6021509
     },
     "横浜市保土ヶ谷区神戸町134": {
         "Latitude": 35.4538705,
@@ -2647,13 +2651,13 @@
         "Latitude": 35.5368837,
         "Longitude": 139.635207
     },
-    "神奈川県川崎市中原区小杉町1‐522": {
-        "Latitude": 35.5794872,
-        "Longitude": 139.6597196
+    "神奈川区鶴屋町2-16-6": {
+        "Latitude": 35.4683076,
+        "Longitude": 139.6227619
     },
-    "神奈川県川崎市幸区堀川町": {
-        "Latitude": 35.5319029,
-        "Longitude": 139.6958822
+    "神奈川県大和市大和南 1-5-4": {
+        "Latitude": 35.4693464,
+        "Longitude": 139.4633043
     },
     "神奈川県横浜市中区住吉町5-64‐1": {
         "Latitude": 35.4476823,
@@ -2663,29 +2667,21 @@
         "Latitude": 35.4460409,
         "Longitude": 139.6362562
     },
-    "神奈川県横浜市中区常磐町5-62-3F": {
-        "Latitude": 35.4446993,
-        "Longitude": 139.642178
+    "神奈川県横浜市中区野毛1-27": {
+        "Latitude": 35.4477795,
+        "Longitude": 139.630612
     },
     "神奈川県横浜市旭区鶴ヶ峰2-3-1": {
         "Latitude": 35.475278,
         "Longitude": 139.5464557
     },
-    "神奈川県横浜市西区南幸": {
-        "Latitude": 35.4651997,
-        "Longitude": 139.6191458
-    },
-    "神奈川県横浜市西区南幸2-15-1": {
-        "Latitude": 35.4647525,
-        "Longitude": 139.6187736
-    },
-    "神奈川県横浜市西区高島2-7-1": {
-        "Latitude": 35.4624528,
-        "Longitude": 139.6232399
-    },
     "神奈川県横浜市都筑区茅ヶ崎中央6-1": {
         "Latitude": 35.5439813,
         "Longitude": 139.5744244
+    },
+    "神奈川県横浜市金沢区八景島": {
+        "Latitude": 35.340894,
+        "Longitude": 139.640762
     },
     "神奈川県横浜市鶴見区中央1-3-3": {
         "Latitude": 35.5082843,
