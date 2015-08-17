@@ -64,7 +64,6 @@ func (tripadvisor) review(doc *goquery.Document) (name, address string, features
 	for index, category := range []string{"food", "service", "value", "atmosphere"} {
 		alt, _ := ratings.Eq(index).Attr("alt")
 		rating := strings.Split(alt, " ")[0]
-
 		if features[category], err = strconv.ParseFloat(rating, 8); err != nil {
 			err = fmt.Errorf("invalid value for %s", category)
 			return

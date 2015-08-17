@@ -24,6 +24,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"strconv"
 	"strings"
 
@@ -60,25 +61,11 @@ func (tabelog) review(doc *goquery.Document) (name, address string, features map
 	}
 
 	features = make(map[string]float64)
-	if features["dishes"], err = strconv.ParseFloat(doc.Find("#js-rating-detail > dd:nth-child(2)").Text(), 8); err != nil {
-		err = errors.New("invalid value for dishes")
-		return
-	}
-	if features["service"], err = strconv.ParseFloat(doc.Find("#js-rating-detail > dd:nth-child(4)").Text(), 8); err != nil {
-		err = errors.New("invalid value for service")
-		return
-	}
-	if features["atmosphere"], err = strconv.ParseFloat(doc.Find("#js-rating-detail > dd:nth-child(6)").Text(), 8); err != nil {
-		err = errors.New("invalid value for atmosphere")
-		return
-	}
-	if features["cost"], err = strconv.ParseFloat(doc.Find("#js-rating-detail > dd:nth-child(8)").Text(), 8); err != nil {
-		err = errors.New("invalid value for cost")
-		return
-	}
-	if features["drinks"], err = strconv.ParseFloat(doc.Find("#js-rating-detail > dd:nth-child(10)").Text(), 8); err != nil {
-		err = errors.New("invalid value for drinks")
-		return
+	for index, category := range []string{"dishes", "service", "atmosphere", "cost", "drinks"} {
+		text := doc.Find(fmt.Sprintf("#js-rating-detail > dd:nth-child(%d)", (index+1)*2)).Text()
+		if features[category], err = strconv.ParseFloat(text, 8); err != nil {
+			err = fmt.Errorf("invalid value for %s", category)
+		}
 	}
 
 	return
