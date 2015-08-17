@@ -43,7 +43,7 @@ func main() {
 
 	tasks := []scrapeTask{
 		{"http://tabelog.com/en/kanagawa/rstLst/1/", tabelog{}},
-		// {"http://www.tripadvisor.com/Restaurants-g298173-Yokohama_Kanagawa_Prefecture_Kanto.html", tripadvisor{}},
+		{"http://www.tripadvisor.com/Restaurants-g298173-Yokohama_Kanagawa_Prefecture_Kanto.html", tripadvisor{}},
 		// {"http://www.tripadvisor.com/Restaurants-g1021277-Fujisawa_Kanagawa_Prefecture_Kanto.html", tripadvisor{}},
 		// {"http://www.tripadvisor.com/Restaurants-g1021279-Chigasaki_Kanagawa_Prefecture_Kanto.html", tripadvisor{}},
 		// {"http://www.tripadvisor.com/Restaurants-g298172-Kawasaki_Kanagawa_Prefecture_Kanto.html", tripadvisor{}},
@@ -51,15 +51,8 @@ func main() {
 		// {"http://www.tripadvisor.com/Restaurants-g298184-Tokyo_Tokyo_Prefecture_Kanto.html", tripadvisor{}},
 	}
 
-	out := make(chan restaurant)
-
 	for _, task := range tasks {
-		scrape(task.url, out, wc, gc, task.scr)
+		scrape(task.url, wc, gc, task.scr)
 	}
 
-	for {
-		if _, ok := <-out; !ok {
-			return
-		}
-	}
 }
