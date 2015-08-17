@@ -24,6 +24,11 @@ package main
 
 import "log"
 
+type scrapeTask struct {
+	url string
+	scr scraper
+}
+
 func main() {
 	gc, err := newGeoCache("cache/geocache.json")
 	if err != nil {
@@ -38,8 +43,15 @@ func main() {
 
 	t := tabelog{}
 
+	tasks := []scrapeTask{
+		{"http://tabelog.com/en/kanagawa/rstLst/1/", t},
+	}
+
 	out := make(chan restaurant)
-	scrape("http://tabelog.com/en/kanagawa/rstLst/1/", out, wc, gc, t)
+
+	for _, task := range tasks {
+		scrape(task.url, out, wc, gc, task.scr)
+	}
 
 	for {
 		if _, ok := <-out; !ok {
