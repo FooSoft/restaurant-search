@@ -30,7 +30,7 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-type review struct {
+type restaurant struct {
 	name    string
 	address string
 	url     string
@@ -41,7 +41,7 @@ type review struct {
 	longitude float64
 }
 
-type profiler interface {
+type scraper interface {
 	index(doc *goquery.Document) (string, []string)
 	review(doc *goquery.Document) (string, string, map[string]float64, error)
 }
@@ -60,16 +60,16 @@ func makeAbsUrl(ref, base string) (string, error) {
 	return b.ResolveReference(r).String(), nil
 }
 
-func decodeReviews(in chan review, out chan review, cache *geoCache) {
+func decodeReviews(in chan restaurant, out chan restaurant, gc *geoCache) {
 	for {
-		if r, ok := <-in; ok {
-			pos, err := cache.decode(r.address)
+		if res, ok := <-in; ok {
+			pos, err := gc.decode(res.address)
 			if err == nil {
-				r.latitude = pos.Latitude
-				r.longitude = pos.Longitude
-				out <- r
+				res.latitude = pos.Latitude
+				res.longitude = pos.Longitude
+				out <- res
 			} else {
-				log.Printf("failed to decode address for %s (%v)", r.url, err)
+				log.Printf("failed to decode address for %s (%v)", res.url, err)
 			}
 		} else {
 			close(out)
@@ -78,32 +78,36 @@ func decodeReviews(in chan review, out chan review, cache *geoCache) {
 	}
 }
 
-func scrapeReview(url string, out chan review, cache *webCache, group *sync.WaitGroup, prof profiler) {
+func scrapeReview(url string, out chan restaurant, wc *webCache, group *sync.WaitGroup, scr scraper) {
 	defer group.Done()
 
-	doc, err := cache.load(url)
+	doc, err := wc.load(url)
 	if err != nil {
 		log.Printf("failed to load review at %s (%v)", url, err)
 		return
 	}
 
-	name, address, features, err := prof.review(doc)
+	name, address, features, err := scr.review(doc)
 	if err != nil {
 		log.Printf("failed to scrape review at %s (%v)", url, err)
 		return
 	}
 
-	out <- review{name: name, address: address, features: features, url: url}
+	out <- restaurant{
+		name:     name,
+		address:  address,
+		features: features,
+		url:      url}
 }
 
-func scrapeIndex(indexUrl string, out chan review, cache *webCache, prof profiler) {
-	doc, err := cache.load(indexUrl)
+func scrapeIndex(indexUrl string, out chan restaurant, wc *webCache, scr scraper) {
+	doc, err := wc.load(indexUrl)
 	if err != nil {
 		log.Printf("failed to load index at %s (%v)", indexUrl, err)
 		return
 	}
 
-	nextIndexUrl, reviewUrls := prof.index(doc)
+	nextIndexUrl, reviewUrls := scr.index(doc)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -116,7 +120,7 @@ func scrapeIndex(indexUrl string, out chan review, cache *webCache, prof profile
 		}
 
 		group.Add(1)
-		go scrapeReview(absUrl, out, cache, &group, prof)
+		go scrapeReview(absUrl, out, wc, &group, scr)
 	}
 	group.Wait()
 
@@ -128,23 +132,12 @@ func scrapeIndex(indexUrl string, out chan review, cache *webCache, prof profile
 			log.Fatal(err)
 		}
 
-		scrapeIndex(absUrl, out, cache, prof)
+		scrapeIndex(absUrl, out, wc, scr)
 	}
 }
 
-func scrape(url string, wc *webCache, gc *geoCache, prof profiler) []review {
-	scrapeChan := make(chan review)
-	decodeChan := make(chan review)
-
-	go scrapeIndex(url, scrapeChan, wc, prof)
-	go decodeReviews(scrapeChan, decodeChan, gc)
-
-	var reviews []review
-	for {
-		if r, ok := <-decodeChan; ok {
-			reviews = append(reviews, r)
-		} else {
-			return reviews
-		}
-	}
+func scrape(url string, out chan restaurant, wc *webCache, gc *geoCache, scr scraper) {
+	in := make(chan restaurant)
+	go scrapeIndex(url, in, wc, scr)
+	go decodeReviews(in, out, gc)
 }

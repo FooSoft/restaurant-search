@@ -37,5 +37,13 @@ func main() {
 	}
 
 	t := tabelog{}
-	scrape("http://tabelog.com/en/kanagawa/rstLst/1/", wc, gc, t)
+
+	out := make(chan restaurant)
+	scrape("http://tabelog.com/en/kanagawa/rstLst/1/", out, wc, gc, t)
+
+	for {
+		if _, ok := <-out; !ok {
+			return
+		}
+	}
 }
