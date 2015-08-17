@@ -23,6 +23,7 @@
 package main
 
 import (
+	"errors"
 	"strconv"
 	"strings"
 
@@ -48,34 +49,37 @@ func (tabelog) index(doc *goquery.Document) (string, []string) {
 	return nextIndexUrl, reviewUrls
 }
 
-func (tabelog) review(doc *goquery.Document) *review {
-	var r review
+func (tabelog) review(doc *goquery.Document) (name, address string, features map[string]float64, err error) {
+	name = doc.Find("a.rd-header__rst-name-main").Text()
 
-	r.name = doc.Find("a.rd-header__rst-name-main").Text()
 	if addresses := doc.Find("p.rd-detail-info__rst-address"); addresses.Length() == 2 {
-		r.address = strings.TrimSpace(addresses.First().Text())
+		address = strings.TrimSpace(addresses.First().Text())
 	} else {
-		return nil
+		err = errors.New("invalid value for address")
+		return
 	}
 
-	var err error
+	features = make(map[string]float64)
+	if features["dishes"], err = strconv.ParseFloat(doc.Find("#js-rating-detail > dd:nth-child(2)").Text(), 8); err != nil {
+		err = errors.New("invalid value for dishes")
+		return
+	}
+	if features["service"], err = strconv.ParseFloat(doc.Find("#js-rating-detail > dd:nth-child(4)").Text(), 8); err != nil {
+		err = errors.New("invalid value for service")
+		return
+	}
+	if features["atmosphere"], err = strconv.ParseFloat(doc.Find("#js-rating-detail > dd:nth-child(6)").Text(), 8); err != nil {
+		err = errors.New("invalid value for atmosphere")
+		return
+	}
+	if features["cost"], err = strconv.ParseFloat(doc.Find("#js-rating-detail > dd:nth-child(8)").Text(), 8); err != nil {
+		err = errors.New("invalid value for cost")
+		return
+	}
+	if features["drinks"], err = strconv.ParseFloat(doc.Find("#js-rating-detail > dd:nth-child(10)").Text(), 8); err != nil {
+		err = errors.New("invalid value for drinks")
+		return
+	}
 
-	r.features = make(map[string]float64)
-	if r.features["dishes"], err = strconv.ParseFloat(doc.Find("#js-rating-detail > dd:nth-child(2)").Text(), 8); err != nil {
-		return nil
-	}
-	if r.features["service"], err = strconv.ParseFloat(doc.Find("#js-rating-detail > dd:nth-child(4)").Text(), 8); err != nil {
-		return nil
-	}
-	if r.features["atmosphere"], err = strconv.ParseFloat(doc.Find("#js-rating-detail > dd:nth-child(6)").Text(), 8); err != nil {
-		return nil
-	}
-	if r.features["cost"], err = strconv.ParseFloat(doc.Find("#js-rating-detail > dd:nth-child(8)").Text(), 8); err != nil {
-		return nil
-	}
-	if r.features["drinks"], err = strconv.ParseFloat(doc.Find("#js-rating-detail > dd:nth-child(10)").Text(), 8); err != nil {
-		return nil
-	}
-
-	return &r
+	return
 }
