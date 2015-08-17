@@ -43,7 +43,7 @@ func (tripadvisor) index(doc *goquery.Document) (string, []string) {
 	})
 
 	var nextIndexUrl string
-	if href, ok := doc.Find("#EATERY_LIST_CONTENTS > div.deckTools.btm > div > a").Attr("href"); ok {
+	if href, ok := doc.Find("div.deckTools.btm a.nav.next.rndBtn.rndBtnGreen.taLnk").Attr("href"); ok {
 		nextIndexUrl = href
 	}
 
