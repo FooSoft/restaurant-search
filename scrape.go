@@ -41,10 +41,14 @@ func main() {
 		log.Fatal(err)
 	}
 
-	t := tabelog{}
-
 	tasks := []scrapeTask{
-		{"http://tabelog.com/en/kanagawa/rstLst/1/", t},
+		// {"http://tabelog.com/en/kanagawa/rstLst/1/", tabelog{}},
+		{"http://www.tripadvisor.com/Restaurants-g298173-Yokohama_Kanagawa_Prefecture_Kanto.html", tripadvisor{}},
+		// {"http://www.tripadvisor.com/Restaurants-g1021277-Fujisawa_Kanagawa_Prefecture_Kanto.html", tripadvisor{}},
+		// {"http://www.tripadvisor.com/Restaurants-g1021279-Chigasaki_Kanagawa_Prefecture_Kanto.html", tripadvisor{}},
+		// {"http://www.tripadvisor.com/Restaurants-g298172-Kawasaki_Kanagawa_Prefecture_Kanto.html", tripadvisor{}},
+		// {"http://www.tripadvisor.com/Restaurants-g1066854-Shinagawa_Tokyo_Tokyo_Prefecture_Kanto.html", tripadvisor{}},
+		// {"http://www.tripadvisor.com/Restaurants-g298184-Tokyo_Tokyo_Prefecture_Kanto.html", tripadvisor{}},
 	}
 
 	out := make(chan restaurant)
