@@ -65,6 +65,7 @@ func (tabelog) review(doc *goquery.Document) (name, address string, features map
 		text := doc.Find(fmt.Sprintf("#js-rating-detail > dd:nth-child(%d)", (index+1)*2)).Text()
 		if features[category], err = strconv.ParseFloat(text, 8); err != nil {
 			err = fmt.Errorf("invalid value for %s", category)
+			return
 		}
 	}
 
