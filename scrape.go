@@ -43,16 +43,26 @@ func main() {
 
 	tasks := []scrapeTask{
 		{"http://tabelog.com/en/kanagawa/rstLst/1/", tabelog{}},
+
 		{"http://www.tripadvisor.com/Restaurants-g298173-Yokohama_Kanagawa_Prefecture_Kanto.html", tripadvisor{}},
-		// {"http://www.tripadvisor.com/Restaurants-g1021277-Fujisawa_Kanagawa_Prefecture_Kanto.html", tripadvisor{}},
-		// {"http://www.tripadvisor.com/Restaurants-g1021279-Chigasaki_Kanagawa_Prefecture_Kanto.html", tripadvisor{}},
-		// {"http://www.tripadvisor.com/Restaurants-g298172-Kawasaki_Kanagawa_Prefecture_Kanto.html", tripadvisor{}},
-		// {"http://www.tripadvisor.com/Restaurants-g1066854-Shinagawa_Tokyo_Tokyo_Prefecture_Kanto.html", tripadvisor{}},
-		// {"http://www.tripadvisor.com/Restaurants-g298184-Tokyo_Tokyo_Prefecture_Kanto.html", tripadvisor{}},
+		{"http://www.tripadvisor.com/Restaurants-g298172-Kawasaki_Kanagawa_Prefecture_Kanto.html", tripadvisor{}},
+		{"http://www.tripadvisor.com/Restaurants-g1021282-Sagamihara_Kanagawa_Prefecture_Kanto.html", tripadvisor{}},
+		{"http://www.tripadvisor.com/Restaurants-g1021277-Fujisawa_Kanagawa_Prefecture_Kanto.html", tripadvisor{}},
+		{"http://www.tripadvisor.com/Restaurants-g303156-Kamakura_Kanagawa_Prefecture_Kanto.html", tripadvisor{}},
+		{"http://www.tripadvisor.com/Restaurants-g298174-Yokosuka_Kanagawa_Prefecture_Kanto.html", tripadvisor{}},
+		{"http://www.tripadvisor.com/Restaurants-g1021278-Odawara_Kanagawa_Prefecture_Kanto.html", tripadvisor{}},
+		{"http://www.tripadvisor.com/Restaurants-g681222-Hiratsuka_Kanagawa_Prefecture_Kanto.html", tripadvisor{}},
+		{"http://www.tripadvisor.com/Restaurants-g298169-Atsugi_Kanagawa_Prefecture_Kanto.html", tripadvisor{}},
+		{"http://www.tripadvisor.com/Restaurants-g1021286-Yamato_Kanagawa_Prefecture_Kanto.html", tripadvisor{}},
+		{"http://www.tripadvisor.com/Restaurants-g1021279-Chigasaki_Kanagawa_Prefecture_Kanto.html", tripadvisor{}},
+		{"http://www.tripadvisor.com/Restaurants-g1021285-Hadano_Kanagawa_Prefecture_Kanto.html", tripadvisor{}},
 	}
 
+	count := 0
 	for _, task := range tasks {
-		scrape(task.url, wc, gc, task.scr)
+		restaraunts := scrape(task.url, wc, gc, task.scr)
+		count += len(restaraunts)
 	}
 
+	log.Print(count)
 }
