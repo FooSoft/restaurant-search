@@ -43,7 +43,7 @@ type review struct {
 
 type profiler interface {
 	index(doc *goquery.Document) (string, []string)
-	profile(doc *goquery.Document) *review
+	review(doc *goquery.Document) *review
 }
 
 func makeAbsUrl(ref, base string) (string, error) {
@@ -84,7 +84,7 @@ func scrapeReview(url string, out chan review, cache *webCache, group *sync.Wait
 	doc, err := cache.load(url)
 	if err != nil {
 		log.Printf("failed to scrape review at %s (%v)", url, err)
-	} else if r := prof.profile(doc); r != nil {
+	} else if r := prof.review(doc); r != nil {
 		r.url = url
 		out <- *r
 	}

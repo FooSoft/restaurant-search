@@ -48,7 +48,7 @@ func (tabelog) index(doc *goquery.Document) (string, []string) {
 	return nextIndexUrl, reviewUrls
 }
 
-func (tabelog) profile(doc *goquery.Document) *review {
+func (tabelog) review(doc *goquery.Document) *review {
 	var r review
 
 	r.name = doc.Find("a.rd-header__rst-name-main").Text()
