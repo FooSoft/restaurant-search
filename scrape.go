@@ -22,11 +22,45 @@
 
 package main
 
-import "log"
+import (
+	"bufio"
+	"errors"
+	"log"
+	"net/url"
+	"os"
+)
 
-type scrapeTask struct {
-	url string
-	scr scraper
+func scrapeUrls(filename string, wc *webCache, gc *geoCache) ([]restaurant, error) {
+	file, err := os.Open(filename)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+
+	var results []restaurant
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		if line := scanner.Text(); len(line) > 0 {
+			parsed, err := url.Parse(line)
+			if err != nil {
+				return nil, err
+			}
+
+			var items []restaurant
+			switch parsed.Host {
+			case "tabelog.com":
+				items = scrape(line, wc, gc, tabelog{})
+			case "www.tripadvisor.com":
+				items = scrape(line, wc, gc, tripadvisor{})
+			default:
+				return nil, errors.New("unsupported review site")
+			}
+
+			results = append(results, items...)
+		}
+	}
+
+	return results, nil
 }
 
 func main() {
@@ -41,28 +75,10 @@ func main() {
 		log.Fatal(err)
 	}
 
-	tasks := []scrapeTask{
-		{"http://tabelog.com/en/kanagawa/rstLst/1/", tabelog{}},
-
-		{"http://www.tripadvisor.com/Restaurants-g298173-Yokohama_Kanagawa_Prefecture_Kanto.html", tripadvisor{}},
-		{"http://www.tripadvisor.com/Restaurants-g298172-Kawasaki_Kanagawa_Prefecture_Kanto.html", tripadvisor{}},
-		{"http://www.tripadvisor.com/Restaurants-g1021282-Sagamihara_Kanagawa_Prefecture_Kanto.html", tripadvisor{}},
-		{"http://www.tripadvisor.com/Restaurants-g1021277-Fujisawa_Kanagawa_Prefecture_Kanto.html", tripadvisor{}},
-		{"http://www.tripadvisor.com/Restaurants-g303156-Kamakura_Kanagawa_Prefecture_Kanto.html", tripadvisor{}},
-		{"http://www.tripadvisor.com/Restaurants-g298174-Yokosuka_Kanagawa_Prefecture_Kanto.html", tripadvisor{}},
-		{"http://www.tripadvisor.com/Restaurants-g1021278-Odawara_Kanagawa_Prefecture_Kanto.html", tripadvisor{}},
-		{"http://www.tripadvisor.com/Restaurants-g681222-Hiratsuka_Kanagawa_Prefecture_Kanto.html", tripadvisor{}},
-		{"http://www.tripadvisor.com/Restaurants-g298169-Atsugi_Kanagawa_Prefecture_Kanto.html", tripadvisor{}},
-		{"http://www.tripadvisor.com/Restaurants-g1021286-Yamato_Kanagawa_Prefecture_Kanto.html", tripadvisor{}},
-		{"http://www.tripadvisor.com/Restaurants-g1021279-Chigasaki_Kanagawa_Prefecture_Kanto.html", tripadvisor{}},
-		{"http://www.tripadvisor.com/Restaurants-g1021285-Hadano_Kanagawa_Prefecture_Kanto.html", tripadvisor{}},
+	restaurants, err := scrapeUrls("urls.txt", wc, gc)
+	if err == nil {
+		log.Print(len(restaurants))
+	} else {
+		log.Fatal(err)
 	}
-
-	count := 0
-	for _, task := range tasks {
-		restaraunts := scrape(task.url, wc, gc, task.scr)
-		count += len(restaraunts)
-	}
-
-	log.Print(count)
 }
