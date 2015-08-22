@@ -25,7 +25,6 @@ package main
 import (
 	"bufio"
 	"errors"
-	"log"
 	"net/url"
 	"os"
 )
@@ -38,7 +37,8 @@ func scrapeUrls(filename string, wc *webCache, gc *geoCache) ([]restaurant, erro
 	defer file.Close()
 
 	var results []restaurant
-	scanner := bufio.NewScanner(file)
+	var scanner = bufio.NewScanner(file)
+
 	for scanner.Scan() {
 		if line := scanner.Text(); len(line) > 0 {
 			parsed, err := url.Parse(line)
@@ -63,32 +63,47 @@ func scrapeUrls(filename string, wc *webCache, gc *geoCache) ([]restaurant, erro
 	return results, nil
 }
 
-func main() {
-	gc, err := newGeoCache("cache/geocache.json")
+func scrapeData(urlsPath, geocachePath, webcachePath string) ([]restaurant, error) {
+	gc, err := newGeoCache(geocachePath)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 	defer gc.save()
 
-	wc, err := newWebCache("cache/webcache")
+	wc, err := newWebCache(webcachePath)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
-	sq, err := newStationQuery("data/stations.json")
+	restaurants, err := scrapeUrls(urlsPath, wc, gc)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
-	restaurants, err := scrapeUrls("data/urls.txt", wc, gc)
+	return restaurants, nil
+}
+
+func processData(restaurants []restaurant, stationsPath string) error {
+	sq, err := newStationQuery(stationsPath)
+	if err != nil {
+		return err
+	}
+
 	for i, _ := range restaurants {
 		r := &restaurants[i]
 		r.closestStnName, r.closestStnDist = sq.closestStation(r.latitude, r.longitude)
 	}
 
-	if err == nil {
-		log.Print(len(restaurants))
-	} else {
+	return nil
+}
+
+func main() {
+	restaraunts, err := scrapeData("data/urls.txt", "cache/geocache.json", "cache/webcache")
+	if err != nil {
+		panic(err)
+	}
+
+	if err := processData(restaraunts, "data/stations.json"); err != nil {
 		panic(err)
 	}
 }
