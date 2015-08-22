@@ -75,7 +75,17 @@ func main() {
 		panic(err)
 	}
 
+	sq, err := newStationQuery("data/stations.json")
+	if err != nil {
+		panic(err)
+	}
+
 	restaurants, err := scrapeUrls("data/urls.txt", wc, gc)
+	for i, _ := range restaurants {
+		r := &restaurants[i]
+		r.closestStnName, r.closestStnDist = sq.closestStation(r.latitude, r.longitude)
+	}
+
 	if err == nil {
 		log.Print(len(restaurants))
 	} else {

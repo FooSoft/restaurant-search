@@ -24,7 +24,10 @@ package main
 
 import (
 	"encoding/json"
+	"math"
 	"os"
+
+	"github.com/kellydunn/golang-geo"
 )
 
 type station struct {
@@ -53,6 +56,18 @@ func newStationQuery(filename string) (*stationQuery, error) {
 }
 
 func (s *stationQuery) closestStation(latitude, longitude float64) (name string, distance float64) {
+	queryPt := geo.NewPoint(latitude, longitude)
 
-	return "", 0
+	var closestStn string
+	minDist := math.MaxFloat64
+
+	for name, station := range s.stations {
+		stnPt := geo.NewPoint(station.Latitude, station.Longitude)
+		if currDist := queryPt.GreatCircleDistance(stnPt); currDist < minDist {
+			closestStn = name
+			minDist = currDist
+		}
+	}
+
+	return closestStn, minDist
 }

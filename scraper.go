@@ -39,6 +39,9 @@ type restaurant struct {
 
 	latitude  float64
 	longitude float64
+
+	closestStnName string
+	closestStnDist float64
 }
 
 type scraper interface {
