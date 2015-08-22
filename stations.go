@@ -23,62 +23,36 @@
 package main
 
 import (
-	"bufio"
-	"errors"
-	"log"
-	"net/url"
+	"encoding/json"
 	"os"
 )
 
-func scrapeUrls(filename string, wc *webCache, gc *geoCache) ([]restaurant, error) {
+type station struct {
+	Latitude  float64
+	Longitude float64
+}
+
+type stationQuery struct {
+	stations map[string]station
+}
+
+func newStationQuery(filename string) (*stationQuery, error) {
+	s := new(stationQuery)
+
 	file, err := os.Open(filename)
 	if err != nil {
 		return nil, err
 	}
 	defer file.Close()
 
-	var results []restaurant
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		if line := scanner.Text(); len(line) > 0 {
-			parsed, err := url.Parse(line)
-			if err != nil {
-				return nil, err
-			}
-
-			var items []restaurant
-			switch parsed.Host {
-			case "tabelog.com":
-				items = scrape(line, wc, gc, tabelog{})
-			case "www.tripadvisor.com":
-				items = scrape(line, wc, gc, tripadvisor{})
-			default:
-				return nil, errors.New("unsupported review site")
-			}
-
-			results = append(results, items...)
-		}
+	if err := json.NewDecoder(file).Decode(&s.stations); err != nil {
+		return nil, err
 	}
 
-	return results, nil
+	return s, nil
 }
 
-func main() {
-	gc, err := newGeoCache("cache/geocache.json")
-	if err != nil {
-		panic(err)
-	}
-	defer gc.save()
+func (s *stationQuery) closestStation(latitude, longitude float64) (name string, distance float64) {
 
-	wc, err := newWebCache("cache/webcache")
-	if err != nil {
-		panic(err)
-	}
-
-	restaurants, err := scrapeUrls("data/urls.txt", wc, gc)
-	if err == nil {
-		log.Print(len(restaurants))
-	} else {
-		panic(err)
-	}
+	return "", 0
 }
