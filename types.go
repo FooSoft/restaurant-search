@@ -29,7 +29,6 @@ import (
 
 type featureMap map[string]float64
 type modeMap map[string]modeType
-type records []record
 type modeType int
 
 const (
@@ -37,26 +36,21 @@ const (
 	modeTypeDist
 )
 
-type jsonGeoData struct {
-	Latitude  float64 `json:"latitude"`
-	Longitude float64 `json:"longitude"`
+type column struct {
+	Bracket bracket      `json:"bracket"`
+	Hints   []projection `json:"hints"`
+	Mode    string       `json:"mode"`
+	Steps   int          `json:"steps"`
+	Value   float64      `json:"value"`
 }
 
-type jsonColumn struct {
-	Bracket jsonBracket      `json:"bracket"`
-	Hints   []jsonProjection `json:"hints"`
-	Mode    string           `json:"mode"`
-	Steps   int              `json:"steps"`
-	Value   float64          `json:"value"`
-}
-
-type jsonProjection struct {
+type projection struct {
 	Compatibility float64 `json:"compatibility"`
 	Count         int     `json:"count"`
 	Sample        float64 `json:"sample"`
 }
 
-type jsonRecord struct {
+type record struct {
 	AccessCount    int     `json:"accessCount"`
 	ClosestStn     string  `json:"closestStn"`
 	Compatibility  float64 `json:"compatibility"`
@@ -66,9 +60,11 @@ type jsonRecord struct {
 	Name           string  `json:"name"`
 	Score          float64 `json:"score"`
 	Url            string  `json:"url"`
+	features       featureMap
+	geo            geoData
 }
 
-type jsonBracket struct {
+type bracket struct {
 	Min float64 `json:"min"`
 	Max float64 `json:"max"`
 }
@@ -79,34 +75,14 @@ type queryContext struct {
 	walkingDist float64
 }
 
-type queryProjection struct {
-	compatibility float64
-	count         int
-	sample        float64
-}
-
 type geoData struct {
-	latitude  float64
-	longitude float64
-}
-
-type record struct {
-	accessCount    int
-	closestStn     string
-	compatibility  float64
-	distanceToStn  float64
-	distanceToUser float64
-	features       featureMap
-	geo            geoData
-	id             int
-	name           string
-	score          float64
-	url            string
+	Latitude  float64 `json:"latitude"`
+	Longitude float64 `json:"longitude"`
 }
 
 type recordSorter struct {
 	ascending bool
-	entries   records
+	entries   []record
 	key       string
 }
 
@@ -128,19 +104,19 @@ func (s recordSorter) Less(i, j int) bool {
 
 	switch s.key {
 	case "accessCount":
-		return entry1.accessCount < entry2.accessCount
+		return entry1.AccessCount < entry2.AccessCount
 	case "closestStn":
-		return entry1.closestStn < entry2.closestStn
+		return entry1.ClosestStn < entry2.ClosestStn
 	case "compatibility":
-		return entry1.compatibility < entry2.compatibility
+		return entry1.Compatibility < entry2.Compatibility
 	case "distanceToStn":
-		return entry1.distanceToStn < entry2.distanceToStn
+		return entry1.DistanceToStn < entry2.DistanceToStn
 	case "distanceToUser":
-		return entry1.distanceToUser < entry2.distanceToUser
+		return entry1.DistanceToUser < entry2.DistanceToUser
 	case "name":
-		return entry1.name < entry2.name
+		return entry1.Name < entry2.Name
 	default:
-		return entry1.score < entry2.score
+		return entry1.Score < entry2.Score
 	}
 }
 

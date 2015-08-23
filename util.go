@@ -100,7 +100,7 @@ func compare(features1 featureMap, features2 featureMap, modes modeMap) float64 
 	return result
 }
 
-func walkMatches(entries records, features featureMap, modes modeMap, minScore float64, callback func(record, float64)) {
+func walkMatches(entries []record, features featureMap, modes modeMap, minScore float64, callback func(record, float64)) {
 	for _, entry := range entries {
 		if score := compare(features, entry.features, modes); score >= minScore {
 			callback(entry, score)
@@ -108,12 +108,12 @@ func walkMatches(entries records, features featureMap, modes modeMap, minScore f
 	}
 }
 
-func statRecords(entries records, features featureMap, modes modeMap, minScore float64) (float64, int) {
+func statRecords(entries []record, features featureMap, modes modeMap, minScore float64) (float64, int) {
 	var compatibility float64
 	var count int
 
 	walkMatches(entries, features, modes, minScore, func(entry record, score float64) {
-		compatibility += entry.compatibility
+		compatibility += entry.Compatibility
 		count++
 	})
 
@@ -132,36 +132,36 @@ func stepRange(min, max float64, steps int, callback func(float64)) {
 	}
 }
 
-func findRecords(entries records, features featureMap, modes modeMap, minScore float64) records {
-	var foundEntries records
+func findRecords(entries []record, features featureMap, modes modeMap, minScore float64) []record {
+	var matchedEntries []record
 
 	walkMatches(entries, features, modes, minScore, func(entry record, score float64) {
-		entry.score = score
-		foundEntries = append(foundEntries, entry)
+		entry.Score = score
+		matchedEntries = append(matchedEntries, entry)
 	})
 
-	return foundEntries
+	return matchedEntries
 }
 
-func project(entries records, features featureMap, modes modeMap, featureName string, minScore float64, steps int) []queryProjection {
+func project(entries []record, features featureMap, modes modeMap, featureName string, minScore float64, steps int) []projection {
 	sampleFeatures := make(featureMap)
 	for key, value := range features {
 		sampleFeatures[key] = value
 	}
 
-	var projection []queryProjection
+	var projections []projection
 	stepRange(-1.0, 1.0, steps, func(sample float64) {
 		sample, sampleFeatures[featureName] = sampleFeatures[featureName], sample
 		compatibility, count := statRecords(entries, sampleFeatures, modes, minScore)
 		sample, sampleFeatures[featureName] = sampleFeatures[featureName], sample
 
-		projection = append(projection, queryProjection{compatibility, count, sample})
+		projections = append(projections, projection{compatibility, count, sample})
 	})
 
-	return projection
+	return projections
 }
 
-func computeRecordsGeo(entries records, context queryContext) {
+func computeRecordsGeo(entries []record, context queryContext) {
 	distUserMin := math.MaxFloat64
 	distUserMax := 0.0
 
@@ -169,13 +169,13 @@ func computeRecordsGeo(entries records, context queryContext) {
 		entry := &entries[index]
 
 		if context.geo != nil {
-			userPoint := geo.NewPoint(context.geo.latitude, context.geo.longitude)
-			entryPoint := geo.NewPoint(entry.geo.latitude, context.geo.longitude)
-			entry.distanceToUser = userPoint.GreatCircleDistance(entryPoint)
+			userPoint := geo.NewPoint(context.geo.Latitude, context.geo.Longitude)
+			entryPoint := geo.NewPoint(entry.geo.Latitude, context.geo.Longitude)
+			entry.DistanceToUser = userPoint.GreatCircleDistance(entryPoint)
 		}
 
-		distUserMin = math.Min(entry.distanceToUser, distUserMin)
-		distUserMax = math.Max(entry.distanceToUser, distUserMax)
+		distUserMin = math.Min(entry.DistanceToUser, distUserMin)
+		distUserMax = math.Max(entry.DistanceToUser, distUserMax)
 	}
 
 	distUserRange := distUserMax - distUserMin
@@ -185,9 +185,9 @@ func computeRecordsGeo(entries records, context queryContext) {
 
 		var accessible, nearby float64
 		if distUserRange > 0 {
-			nearby = -((entry.distanceToUser-distUserMin)/distUserRange - 0.5) * 2.0
+			nearby = -((entry.DistanceToUser-distUserMin)/distUserRange - 0.5) * 2.0
 
-			accessible = 1.0 - (entry.distanceToStn / (context.walkingDist * 1000))
+			accessible = 1.0 - (entry.DistanceToStn / (context.walkingDist * 1000))
 			accessible = math.Max(accessible, -1.0)
 			accessible = math.Min(accessible, 1.0)
 		}
@@ -198,7 +198,7 @@ func computeRecordsGeo(entries records, context queryContext) {
 }
 
 func computeRecordCompat(entry *record, context queryContext, wg *sync.WaitGroup) {
-	historyRows, err := db.Query("SELECT id FROM history WHERE reviewId = (?)", entry.id)
+	historyRows, err := db.Query("SELECT id FROM history WHERE reviewId = (?)", entry.Id)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -242,13 +242,13 @@ func computeRecordCompat(entry *record, context queryContext, wg *sync.WaitGroup
 	}
 
 	if groupCount > 0 {
-		entry.compatibility = groupSum / float64(groupCount)
+		entry.Compatibility = groupSum / float64(groupCount)
 	}
 
 	wg.Done()
 }
 
-func computeRecordsCompat(entries records, context queryContext) {
+func computeRecordsCompat(entries []record, context queryContext) {
 	count := len(entries)
 	limit := 32
 
@@ -269,7 +269,7 @@ func computeRecordsCompat(entries records, context queryContext) {
 	}
 }
 
-func getRecords(context queryContext) records {
+func getRecords(context queryContext) []record {
 	recordRows, err := db.Query("SELECT name, url, delicious, accommodating, affordable, atmospheric, latitude, longitude, closestStnDist, closestStnName, accessCount, id FROM reviews")
 	if err != nil {
 		log.Fatal(err)
@@ -297,13 +297,13 @@ func getRecords(context queryContext) records {
 			&id)
 
 		entry := record{
-			name:          name,
-			url:           url,
-			distanceToStn: distanceToStn,
-			closestStn:    closestStn,
-			accessCount:   accessCount,
+			Name:          name,
+			Url:           url,
+			DistanceToStn: distanceToStn,
+			ClosestStn:    closestStn,
+			AccessCount:   accessCount,
 			geo:           geoData{latitude, longitude},
-			id:            id}
+			Id:            id}
 
 		entry.features = featureMap{
 			"delicious":     delicious,

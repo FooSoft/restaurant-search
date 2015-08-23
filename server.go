@@ -44,27 +44,22 @@ import (
 
 var db *sql.DB
 
-func prepareColumn(steps int, minScore float64, allEntries, matchedEntries records, features featureMap, modes modeMap, name string, column *jsonColumn, wg *sync.WaitGroup) {
+func prepareColumn(steps int, minScore float64, allEntries, matchedEntries []record, features featureMap, modes modeMap, name string, col *column, wg *sync.WaitGroup) {
 	defer wg.Done()
 
-	*column = jsonColumn{
-		Bracket: jsonBracket{Max: -1.0, Min: 1.0},
+	*col = column{
+		Bracket: bracket{Max: -1.0, Min: 1.0},
 		Mode:    modes[name].String(),
 		Steps:   steps,
 		Value:   features[name]}
 
-	hints := project(
+	col.Hints = project(
 		allEntries,
 		features,
 		modes,
 		name,
 		minScore,
 		steps)
-
-	for _, hint := range hints {
-		jsonHint := jsonProjection{hint.compatibility, hint.count, hint.sample}
-		column.Hints = append(column.Hints, jsonHint)
-	}
 
 	var d stats.Stats
 	for _, record := range matchedEntries {
@@ -81,8 +76,8 @@ func prepareColumn(steps int, minScore float64, allEntries, matchedEntries recor
 
 		mean := d.Mean()
 
-		column.Bracket.Max = math.Min(mean+dev, d.Max())
-		column.Bracket.Min = math.Max(mean-dev, d.Min())
+		col.Bracket.Max = math.Min(mean+dev, d.Max())
+		col.Bracket.Min = math.Max(mean-dev, d.Min())
 	}
 }
 
@@ -92,7 +87,7 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 	var (
 		request struct {
 			Features    featureMap        `json:"features"`
-			Geo         *jsonGeoData      `json:"geo"`
+			Geo         *geoData          `json:"geo"`
 			MaxResults  int               `json:"maxResults"`
 			MinScore    float64           `json:"minScore"`
 			Modes       map[string]string `json:"modes"`
@@ -104,11 +99,11 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 		}
 
 		response struct {
-			Columns     map[string]*jsonColumn `json:"columns"`
-			Count       int                    `json:"count"`
-			MinScore    float64                `json:"minScore"`
-			Records     []jsonRecord           `json:"records"`
-			ElapsedTime int64                  `json:"elapsedTime"`
+			Columns     map[string]*column `json:"columns"`
+			Count       int                `json:"count"`
+			MinScore    float64            `json:"minScore"`
+			Records     []record           `json:"records"`
+			ElapsedTime int64              `json:"elapsedTime"`
 		}
 	)
 
@@ -130,16 +125,16 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 	sorter := recordSorter{entries: matchedEntries, key: request.SortKey, ascending: request.SortAsc}
 	sorter.sort()
 
-	response.Columns = make(map[string]*jsonColumn)
+	response.Columns = make(map[string]*column)
 	response.Count = len(matchedEntries)
 	response.MinScore = request.MinScore
-	response.Records = make([]jsonRecord, 0)
+	response.Records = matchedEntries //[:request.MaxResults]
 
 	var wg sync.WaitGroup
 	wg.Add(len(features))
 
 	for name := range features {
-		response.Columns[name] = new(jsonColumn)
+		response.Columns[name] = new(column)
 		go prepareColumn(
 			request.Resolution,
 			request.MinScore,
@@ -153,25 +148,6 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	wg.Wait()
-
-	for index, entry := range matchedEntries {
-		if index >= request.MaxResults {
-			break
-		}
-
-		item := jsonRecord{
-			Name:           entry.name,
-			Url:            entry.url,
-			Score:          entry.score,
-			Compatibility:  entry.compatibility,
-			DistanceToUser: entry.distanceToUser,
-			DistanceToStn:  entry.distanceToStn,
-			ClosestStn:     entry.closestStn,
-			AccessCount:    entry.accessCount,
-			Id:             entry.id}
-
-		response.Records = append(response.Records, item)
-	}
 
 	response.ElapsedTime = time.Since(startTime).Nanoseconds()
 
