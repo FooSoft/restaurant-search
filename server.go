@@ -44,7 +44,7 @@ import (
 
 var db *sql.DB
 
-func prepareColumn(steps int, minScore float64, allEntries, matchedEntries []record, features featureMap, modes modeMap, name string, col *column, wg *sync.WaitGroup) {
+func prepareColumn(steps int, minScore float64, allEntries, matchedEntries []record, features map[string]float64, modes map[string]modeType, name string, col *column, wg *sync.WaitGroup) {
 	defer wg.Done()
 
 	*col = column{
@@ -86,16 +86,16 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 
 	var (
 		request struct {
-			Features    featureMap        `json:"features"`
-			Geo         *geoData          `json:"geo"`
-			MaxResults  int               `json:"maxResults"`
-			MinScore    float64           `json:"minScore"`
-			Modes       map[string]string `json:"modes"`
-			Profile     featureMap        `json:"profile"`
-			Resolution  int               `json:"resolution"`
-			SortAsc     bool              `json:"sortAsc"`
-			SortKey     string            `json:"sortKey"`
-			WalkingDist float64           `json:"walkingDist"`
+			Features    map[string]float64 `json:"features"`
+			Geo         *geoData           `json:"geo"`
+			MaxResults  int                `json:"maxResults"`
+			MinScore    float64            `json:"minScore"`
+			Modes       map[string]string  `json:"modes"`
+			Profile     map[string]float64 `json:"profile"`
+			Resolution  int                `json:"resolution"`
+			SortAsc     bool               `json:"sortAsc"`
+			SortKey     string             `json:"sortKey"`
+			WalkingDist float64            `json:"walkingDist"`
 		}
 
 		response struct {
@@ -125,14 +125,10 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 	sorter := recordSorter{entries: matchedEntries, key: request.SortKey, ascending: request.SortAsc}
 	sorter.sort()
 
-	response.Columns = make(map[string]*column)
-	response.Count = len(matchedEntries)
-	response.MinScore = request.MinScore
-	response.Records = matchedEntries //[:request.MaxResults]
-
 	var wg sync.WaitGroup
 	wg.Add(len(features))
 
+	response.Columns = make(map[string]*column)
 	for name := range features {
 		response.Columns[name] = new(column)
 		go prepareColumn(
@@ -149,7 +145,15 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 
 	wg.Wait()
 
+	response.Count = len(matchedEntries)
+	response.MinScore = request.MinScore
 	response.ElapsedTime = time.Since(startTime).Nanoseconds()
+
+	if len(matchedEntries) > request.MaxResults {
+		response.Records = matchedEntries[:request.MaxResults]
+	} else {
+		response.Records = matchedEntries
+	}
 
 	js, err := json.Marshal(response)
 	if err != nil {
@@ -279,8 +283,8 @@ func removeCategory(rw http.ResponseWriter, req *http.Request) {
 
 func accessReview(rw http.ResponseWriter, req *http.Request) {
 	var request struct {
-		Id      int        `json:"id"`
-		Profile featureMap `json:"profile"`
+		Id      int                `json:"id"`
+		Profile map[string]float64 `json:"profile"`
 	}
 
 	if err := json.NewDecoder(req.Body).Decode(&request); err != nil {

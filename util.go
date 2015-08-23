@@ -31,8 +31,8 @@ import (
 	"github.com/kellydunn/golang-geo"
 )
 
-func fixFeatures(features featureMap) featureMap {
-	fixedFeatures := featureMap{
+func fixFeatures(features map[string]float64) map[string]float64 {
+	fixedFeatures := map[string]float64{
 		"nearby":        0.0,
 		"accessible":    0.0,
 		"delicious":     0.0,
@@ -49,8 +49,8 @@ func fixFeatures(features featureMap) featureMap {
 	return fixedFeatures
 }
 
-func fixModes(modes map[string]string) modeMap {
-	fixedModes := modeMap{
+func fixModes(modes map[string]string) map[string]modeType {
+	fixedModes := map[string]modeType{
 		"nearby":        modeTypeProd,
 		"accessible":    modeTypeProd,
 		"delicious":     modeTypeProd,
@@ -69,7 +69,7 @@ func fixModes(modes map[string]string) modeMap {
 	return fixedModes
 }
 
-func similarity(features1 featureMap, features2 featureMap) float64 {
+func similarity(features1 map[string]float64, features2 map[string]float64) float64 {
 	var result float64
 
 	for key, value1 := range features1 {
@@ -81,7 +81,7 @@ func similarity(features1 featureMap, features2 featureMap) float64 {
 	return result
 }
 
-func compare(features1 featureMap, features2 featureMap, modes modeMap) float64 {
+func compare(features1 map[string]float64, features2 map[string]float64, modes map[string]modeType) float64 {
 	var result float64
 
 	for key, value1 := range features1 {
@@ -100,7 +100,7 @@ func compare(features1 featureMap, features2 featureMap, modes modeMap) float64 
 	return result
 }
 
-func walkMatches(entries []record, features featureMap, modes modeMap, minScore float64, callback func(record, float64)) {
+func walkMatches(entries []record, features map[string]float64, modes map[string]modeType, minScore float64, callback func(record, float64)) {
 	for _, entry := range entries {
 		if score := compare(features, entry.features, modes); score >= minScore {
 			callback(entry, score)
@@ -108,7 +108,7 @@ func walkMatches(entries []record, features featureMap, modes modeMap, minScore 
 	}
 }
 
-func statRecords(entries []record, features featureMap, modes modeMap, minScore float64) (float64, int) {
+func statRecords(entries []record, features map[string]float64, modes map[string]modeType, minScore float64) (float64, int) {
 	var compatibility float64
 	var count int
 
@@ -132,7 +132,7 @@ func stepRange(min, max float64, steps int, callback func(float64)) {
 	}
 }
 
-func findRecords(entries []record, features featureMap, modes modeMap, minScore float64) []record {
+func findRecords(entries []record, features map[string]float64, modes map[string]modeType, minScore float64) []record {
 	var matchedEntries []record
 
 	walkMatches(entries, features, modes, minScore, func(entry record, score float64) {
@@ -143,8 +143,8 @@ func findRecords(entries []record, features featureMap, modes modeMap, minScore 
 	return matchedEntries
 }
 
-func project(entries []record, features featureMap, modes modeMap, featureName string, minScore float64, steps int) []projection {
-	sampleFeatures := make(featureMap)
+func project(entries []record, features map[string]float64, modes map[string]modeType, featureName string, minScore float64, steps int) []projection {
+	sampleFeatures := make(map[string]float64)
 	for key, value := range features {
 		sampleFeatures[key] = value
 	}
@@ -219,7 +219,7 @@ func computeRecordCompat(entry *record, context queryContext, wg *sync.WaitGroup
 		}
 		defer groupRows.Close()
 
-		recordProfile := make(featureMap)
+		recordProfile := make(map[string]float64)
 		for groupRows.Next() {
 			var categoryId int
 			var categoryValue float64
@@ -305,7 +305,7 @@ func getRecords(context queryContext) []record {
 			geo:           geoData{latitude, longitude},
 			Id:            id}
 
-		entry.features = featureMap{
+		entry.features = map[string]float64{
 			"delicious":     delicious,
 			"accommodating": accommodating,
 			"affordable":    affordable,

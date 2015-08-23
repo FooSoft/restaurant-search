@@ -27,14 +27,17 @@ import (
 	"sort"
 )
 
-type featureMap map[string]float64
-type modeMap map[string]modeType
 type modeType int
 
 const (
-	modeTypeProd = iota + 1
+	modeTypeProd modeType = iota + 1
 	modeTypeDist
 )
+
+type bracket struct {
+	Min float64 `json:"min"`
+	Max float64 `json:"max"`
+}
 
 type column struct {
 	Bracket bracket      `json:"bracket"`
@@ -60,18 +63,13 @@ type record struct {
 	Name           string  `json:"name"`
 	Score          float64 `json:"score"`
 	Url            string  `json:"url"`
-	features       featureMap
+	features       map[string]float64
 	geo            geoData
-}
-
-type bracket struct {
-	Min float64 `json:"min"`
-	Max float64 `json:"max"`
 }
 
 type queryContext struct {
 	geo         *geoData
-	profile     featureMap
+	profile     map[string]float64
 	walkingDist float64
 }
 
