@@ -40,7 +40,7 @@ import (
 	"time"
 
 	"github.com/GaryBoone/GoStats/stats"
-	_ "github.com/go-sql-driver/mysql"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 var db *sql.DB
@@ -312,12 +312,12 @@ func main() {
 
 	staticDir := flag.String("static", "static", "path to static files")
 	portNum := flag.Int("port", 8080, "port to serve content on")
-	dataSrc := flag.String("data", "hscd@/hscd", "data source for database")
+	dataSrc := flag.String("data", "db.sqlite3", "data source for database")
 	profile := flag.String("profile", "", "write cpu profile to file")
 	flag.Parse()
 
 	var err error
-	if db, err = sql.Open("mysql", *dataSrc); err != nil {
+	if db, err = sql.Open("sqlite3", *dataSrc); err != nil {
 		log.Fatal(err)
 	}
 	defer db.Close()

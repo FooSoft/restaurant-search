@@ -270,7 +270,7 @@ func computeRecordsCompat(entries records, context queryContext) {
 }
 
 func getRecords(context queryContext) records {
-	recordRows, err := db.Query("SELECT name, url, delicious, accommodating, affordable, atmospheric, latitude, longitude, distanceToStn, closestStn, accessCount, id FROM reviews")
+	recordRows, err := db.Query("SELECT name, url, delicious, accommodating, affordable, atmospheric, latitude, longitude, closestStnDist, closestStnName, accessCount, id FROM reviews")
 	if err != nil {
 		log.Fatal(err)
 	}
