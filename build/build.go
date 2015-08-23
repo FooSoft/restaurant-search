@@ -26,14 +26,16 @@ import (
 	"bufio"
 	"database/sql"
 	"errors"
+	"flag"
+	"log"
 	"net/url"
 	"os"
 
 	_ "github.com/mattn/go-sqlite3"
 )
 
-func scrapeDataUrls(filename string, wc *webCache, gc *geoCache) ([]restaurant, error) {
-	file, err := os.Open(filename)
+func scrapeDataUrls(urlsPath string, wc *webCache, gc *geoCache) ([]restaurant, error) {
+	file, err := os.Open(urlsPath)
 	if err != nil {
 		return nil, err
 	}
@@ -211,16 +213,23 @@ func dumpData(dbPath string, restaraunts []restaurant) error {
 }
 
 func main() {
-	restaurants, err := scrapeData("data/urls.txt", "cache/geocache.json", "cache/webcache")
+	dbPath := flag.String("db", "data/db.sqlite3", "output database")
+	urlsPath := flag.String("urls", "data/urls.txt", "index URLs to scrape")
+	stationsPath := flag.String("stations", "data/stations.json", "station geolocation data")
+	geocachePath := flag.String("geocache", "cache/geocache.json", "geolocation data cache")
+	webcachePath := flag.String("webcache", "cache/webcache", "web data cache")
+	flag.Parse()
+
+	restaurants, err := scrapeData(*urlsPath, *geocachePath, *webcachePath)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
-	if err := computeStnData(restaurants, "data/stations.json"); err != nil {
-		panic(err)
+	if err := computeStnData(restaurants, *stationsPath); err != nil {
+		log.Fatal(err)
 	}
 
-	if err := dumpData("data/db.sqlite3", restaurants); err != nil {
-		panic(err)
+	if err := dumpData(*dbPath, restaurants); err != nil {
+		log.Fatal(err)
 	}
 }
