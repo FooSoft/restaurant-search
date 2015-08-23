@@ -32,7 +32,7 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-func scrapeUrls(filename string, wc *webCache, gc *geoCache) ([]restaurant, error) {
+func scrapeDataUrls(filename string, wc *webCache, gc *geoCache) ([]restaurant, error) {
 	file, err := os.Open(filename)
 	if err != nil {
 		return nil, err
@@ -78,7 +78,7 @@ func scrapeData(urlsPath, geocachePath, webcachePath string) ([]restaurant, erro
 		return nil, err
 	}
 
-	restaurants, err := scrapeUrls(urlsPath, wc, gc)
+	restaurants, err := scrapeDataUrls(urlsPath, wc, gc)
 	if err != nil {
 		return nil, err
 	}
@@ -86,7 +86,7 @@ func scrapeData(urlsPath, geocachePath, webcachePath string) ([]restaurant, erro
 	return restaurants, nil
 }
 
-func processData(restaurants []restaurant, stationsPath string) error {
+func computeStnData(restaurants []restaurant, stationsPath string) error {
 	sq, err := newStationQuery(stationsPath)
 	if err != nil {
 		return err
@@ -110,10 +110,6 @@ func dumpData(dbPath string, restaraunts []restaurant) error {
 		return err
 	}
 	defer db.Close()
-
-	//
-	// Restaurants
-	//
 
 	_, err = db.Exec(`
 		DROP TABLE IF EXISTS reviews;
@@ -170,10 +166,6 @@ func dumpData(dbPath string, restaraunts []restaurant) error {
 		}
 	}
 
-	//
-	// Categories
-	//
-
 	_, err = db.Exec(`
 		DROP TABLE IF EXISTS categories;
 		CREATE TABLE categories(
@@ -190,10 +182,6 @@ func dumpData(dbPath string, restaraunts []restaurant) error {
 		}
 	}
 
-	//
-	// History
-	//
-
 	_, err = db.Exec(`
 		DROP TABLE IF EXISTS history;
 		CREATE TABLE history(
@@ -205,10 +193,6 @@ func dumpData(dbPath string, restaraunts []restaurant) error {
 	if err != nil {
 		return err
 	}
-
-	//
-	// HistoryGroup
-	//
 
 	_, err = db.Exec(`
 		DROP TABLE IF EXISTS historyGroups;
@@ -232,7 +216,7 @@ func main() {
 		panic(err)
 	}
 
-	if err := processData(restaurants, "data/stations.json"); err != nil {
+	if err := computeStnData(restaurants, "data/stations.json"); err != nil {
 		panic(err)
 	}
 
