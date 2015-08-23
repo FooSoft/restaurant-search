@@ -312,7 +312,7 @@ func main() {
 
 	staticDir := flag.String("static", "static", "path to static files")
 	portNum := flag.Int("port", 8080, "port to serve content on")
-	dataSrc := flag.String("data", "db.sqlite3", "data source for database")
+	dataSrc := flag.String("data", "build/data/db.sqlite3", "data source for database")
 	profile := flag.String("profile", "", "write cpu profile to file")
 	flag.Parse()
 
