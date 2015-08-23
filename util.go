@@ -298,7 +298,7 @@ func getRecords(context queryContext) records {
 
 		entry := record{
 			name:          name,
-			url:           "http://www.tripadvisor.com" + url,
+			url:           url,
 			distanceToStn: distanceToStn,
 			closestStn:    closestStn,
 			accessCount:   accessCount,

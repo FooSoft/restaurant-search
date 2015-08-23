@@ -44,22 +44,22 @@ import (
 
 var db *sql.DB
 
-func prepareColumn(request jsonQueryRequest, entries, foundEntries records, features featureMap, modes modeMap, name string, column *jsonColumn, wg *sync.WaitGroup) {
-	mode := modes[name]
+func prepareColumn(steps int, minScore float64, allEntries, matchedEntries records, features featureMap, modes modeMap, name string, column *jsonColumn, wg *sync.WaitGroup) {
+	defer wg.Done()
 
 	*column = jsonColumn{
 		Bracket: jsonBracket{Max: -1.0, Min: 1.0},
-		Mode:    mode.String(),
-		Steps:   request.Resolution,
+		Mode:    modes[name].String(),
+		Steps:   steps,
 		Value:   features[name]}
 
 	hints := project(
-		entries,
+		allEntries,
 		features,
 		modes,
 		name,
-		request.MinScore,
-		request.Resolution)
+		minScore,
+		steps)
 
 	for _, hint := range hints {
 		jsonHint := jsonProjection{hint.compatibility, hint.count, hint.sample}
@@ -67,7 +67,7 @@ func prepareColumn(request jsonQueryRequest, entries, foundEntries records, feat
 	}
 
 	var d stats.Stats
-	for _, record := range foundEntries {
+	for _, record := range matchedEntries {
 		if feature, ok := record.features[name]; ok {
 			d.Update(feature)
 		}
@@ -84,14 +84,34 @@ func prepareColumn(request jsonQueryRequest, entries, foundEntries records, feat
 		column.Bracket.Max = math.Min(mean+dev, d.Max())
 		column.Bracket.Min = math.Max(mean-dev, d.Min())
 	}
-
-	wg.Done()
 }
 
 func executeQuery(rw http.ResponseWriter, req *http.Request) {
 	startTime := time.Now()
 
-	var request jsonQueryRequest
+	var (
+		request struct {
+			Features    featureMap        `json:"features"`
+			Geo         *jsonGeoData      `json:"geo"`
+			MaxResults  int               `json:"maxResults"`
+			MinScore    float64           `json:"minScore"`
+			Modes       map[string]string `json:"modes"`
+			Profile     featureMap        `json:"profile"`
+			Resolution  int               `json:"resolution"`
+			SortAsc     bool              `json:"sortAsc"`
+			SortKey     string            `json:"sortKey"`
+			WalkingDist float64           `json:"walkingDist"`
+		}
+
+		response struct {
+			Columns     map[string]*jsonColumn `json:"columns"`
+			Count       int                    `json:"count"`
+			MinScore    float64                `json:"minScore"`
+			Records     []jsonRecord           `json:"records"`
+			ElapsedTime int64                  `json:"elapsedTime"`
+		}
+	)
+
 	if err := json.NewDecoder(req.Body).Decode(&request); err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
@@ -102,44 +122,53 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 		geo = &geoData{request.Geo.Latitude, request.Geo.Longitude}
 	}
 
-	entries := getRecords(queryContext{geo, request.Profile, request.WalkingDist})
+	allEntries := getRecords(queryContext{geo, request.Profile, request.WalkingDist})
 	features := fixFeatures(request.Features)
 	modes := fixModes(request.Modes)
 
-	foundEntries := findRecords(entries, features, modes, request.MinScore)
-	sorter := recordSorter{entries: foundEntries, key: request.SortKey, ascending: request.SortAsc}
+	matchedEntries := findRecords(allEntries, features, modes, request.MinScore)
+	sorter := recordSorter{entries: matchedEntries, key: request.SortKey, ascending: request.SortAsc}
 	sorter.sort()
 
-	response := jsonQueryResponse{
-		Columns:  make(map[string]*jsonColumn),
-		Count:    len(foundEntries),
-		MinScore: request.MinScore,
-		Records:  make([]jsonRecord, 0)}
+	response.Columns = make(map[string]*jsonColumn)
+	response.Count = len(matchedEntries)
+	response.MinScore = request.MinScore
+	response.Records = make([]jsonRecord, 0)
 
 	var wg sync.WaitGroup
 	wg.Add(len(features))
 
 	for name := range features {
-		column := &jsonColumn{}
-		prepareColumn(request, entries, foundEntries, features, modes, name, column, &wg)
-		response.Columns[name] = column
+		response.Columns[name] = new(jsonColumn)
+		go prepareColumn(
+			request.Resolution,
+			request.MinScore,
+			allEntries,
+			matchedEntries,
+			features,
+			modes,
+			name,
+			response.Columns[name],
+			&wg)
 	}
 
-	for index, record := range foundEntries {
+	wg.Wait()
+
+	for index, entry := range matchedEntries {
 		if index >= request.MaxResults {
 			break
 		}
 
 		item := jsonRecord{
-			Name:           record.name,
-			Url:            record.url,
-			Score:          record.score,
-			Compatibility:  record.compatibility,
-			DistanceToUser: record.distanceToUser,
-			DistanceToStn:  record.distanceToStn,
-			ClosestStn:     record.closestStn,
-			AccessCount:    record.accessCount,
-			Id:             record.id}
+			Name:           entry.name,
+			Url:            entry.url,
+			Score:          entry.score,
+			Compatibility:  entry.compatibility,
+			DistanceToUser: entry.distanceToUser,
+			DistanceToStn:  entry.distanceToStn,
+			ClosestStn:     entry.closestStn,
+			AccessCount:    entry.accessCount,
+			Id:             entry.id}
 
 		response.Records = append(response.Records, item)
 	}
@@ -195,15 +224,17 @@ func getCategories(rw http.ResponseWriter, req *http.Request) {
 }
 
 func addCategory(rw http.ResponseWriter, req *http.Request) {
-	var request struct {
-		Description string `json:"description"`
-	}
+	var (
+		request struct {
+			Description string `json:"description"`
+		}
 
-	var response struct {
-		Description string `json:"description"`
-		Id          int    `json:"id"`
-		Success     bool   `json:"success"`
-	}
+		response struct {
+			Description string `json:"description"`
+			Id          int    `json:"id"`
+			Success     bool   `json:"success"`
+		}
+	)
 
 	if err := json.NewDecoder(req.Body).Decode(&request); err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
@@ -242,13 +273,15 @@ func addCategory(rw http.ResponseWriter, req *http.Request) {
 }
 
 func removeCategory(rw http.ResponseWriter, req *http.Request) {
-	var request struct {
-		Id int `json:"id"`
-	}
+	var (
+		request struct {
+			Id int `json:"id"`
+		}
 
-	var response struct {
-		Success bool `json:"success"`
-	}
+		response struct {
+			Success bool `json:"success"`
+		}
+	)
 
 	if err := json.NewDecoder(req.Body).Decode(&request); err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
@@ -360,7 +393,6 @@ func main() {
 
 		go func() {
 			<-c
-			log.Print("interrupted")
 			pprof.StopCPUProfile()
 			os.Exit(1)
 		}()

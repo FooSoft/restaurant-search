@@ -42,19 +42,6 @@ type jsonGeoData struct {
 	Longitude float64 `json:"longitude"`
 }
 
-type jsonQueryRequest struct {
-	Features    featureMap        `json:"features"`
-	Geo         *jsonGeoData      `json:"geo"`
-	MaxResults  int               `json:"maxResults"`
-	MinScore    float64           `json:"minScore"`
-	Modes       map[string]string `json:"modes"`
-	Profile     featureMap        `json:"profile"`
-	Resolution  int               `json:"resolution"`
-	SortAsc     bool              `json:"sortAsc"`
-	SortKey     string            `json:"sortKey"`
-	WalkingDist float64           `json:"walkingDist"`
-}
-
 type jsonColumn struct {
 	Bracket jsonBracket      `json:"bracket"`
 	Hints   []jsonProjection `json:"hints"`
@@ -84,14 +71,6 @@ type jsonRecord struct {
 type jsonBracket struct {
 	Min float64 `json:"min"`
 	Max float64 `json:"max"`
-}
-
-type jsonQueryResponse struct {
-	Columns     map[string]*jsonColumn `json:"columns"`
-	Count       int                    `json:"count"`
-	MinScore    float64                `json:"minScore"`
-	Records     []jsonRecord           `json:"records"`
-	ElapsedTime int64                  `json:"elapsedTime"`
 }
 
 type queryContext struct {
