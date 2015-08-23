@@ -213,7 +213,7 @@ func dumpData(dbPath string, restaraunts []restaurant) error {
 }
 
 func main() {
-	dbPath := flag.String("db", "data/db.sqlite3", "output database")
+	dbPath := flag.String("db", "data/db.sqlite3", "database output path")
 	urlsPath := flag.String("urls", "data/urls.txt", "index URLs to scrape")
 	stationsPath := flag.String("stations", "data/stations.json", "station geolocation data")
 	geocachePath := flag.String("geocache", "cache/geocache.json", "geolocation data cache")

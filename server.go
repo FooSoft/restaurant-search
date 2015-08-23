@@ -32,7 +32,6 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
-	"runtime"
 	"runtime/pprof"
 	"strings"
 	"sync"
@@ -163,7 +162,12 @@ func getCategories(rw http.ResponseWriter, req *http.Request) {
 	}
 	defer categoryRows.Close()
 
-	var categories []jsonCategory
+	type category struct {
+		Description string `json:"description"`
+		Id          int    `json:"id"`
+	}
+
+	var response []category
 	for categoryRows.Next() {
 		var (
 			description string
@@ -174,14 +178,14 @@ func getCategories(rw http.ResponseWriter, req *http.Request) {
 			log.Fatal(err)
 		}
 
-		categories = append(categories, jsonCategory{description, id})
+		response = append(response, category{description, id})
 	}
 
 	if err := categoryRows.Err(); err != nil {
 		log.Fatal(err)
 	}
 
-	js, err := json.Marshal(categories)
+	js, err := json.Marshal(response)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -191,15 +195,24 @@ func getCategories(rw http.ResponseWriter, req *http.Request) {
 }
 
 func addCategory(rw http.ResponseWriter, req *http.Request) {
-	var request jsonAddCategoryRequest
+	var request struct {
+		Description string `json:"description"`
+	}
+
+	var response struct {
+		Description string `json:"description"`
+		Id          int    `json:"id"`
+		Success     bool   `json:"success"`
+	}
+
 	if err := json.NewDecoder(req.Body).Decode(&request); err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	response := jsonAddCategoryResponse{Description: strings.TrimSpace(request.Description)}
+	response.Description = strings.TrimSpace(request.Description)
 
-	if len(request.Description) > 0 {
+	if len(response.Description) > 0 {
 		result, err := db.Exec("INSERT INTO categories(description) VALUES(?)", request.Description)
 		if err != nil {
 			log.Fatal(err)
@@ -229,14 +242,24 @@ func addCategory(rw http.ResponseWriter, req *http.Request) {
 }
 
 func removeCategory(rw http.ResponseWriter, req *http.Request) {
-	var request jsonRemoveCategoryRequest
+	var request struct {
+		Id int `json:"id"`
+	}
+
+	var response struct {
+		Success bool `json:"success"`
+	}
+
 	if err := json.NewDecoder(req.Body).Decode(&request); err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	_, err := db.Exec("DELETE FROM categories WHERE id = (?)", request.Id)
-	js, err := json.Marshal(jsonRemoveCategoryResponse{err == nil})
+	if _, err := db.Exec("DELETE FROM categories WHERE id = (?)", request.Id); err == nil {
+		response.Success = true
+	}
+
+	js, err := json.Marshal(response)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -246,7 +269,11 @@ func removeCategory(rw http.ResponseWriter, req *http.Request) {
 }
 
 func accessReview(rw http.ResponseWriter, req *http.Request) {
-	var request jsonAccessRequest
+	var request struct {
+		Id      int        `json:"id"`
+		Profile featureMap `json:"profile"`
+	}
+
 	if err := json.NewDecoder(req.Body).Decode(&request); err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
@@ -308,11 +335,9 @@ func clearHistory(rw http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
-	runtime.GOMAXPROCS(runtime.NumCPU())
-
-	staticDir := flag.String("static", "static", "path to static files")
+	staticDir := flag.String("static", "static", "static files path")
 	portNum := flag.Int("port", 8080, "port to serve content on")
-	dataSrc := flag.String("data", "build/data/db.sqlite3", "data source for database")
+	dataSrc := flag.String("db", "build/data/db.sqlite3", "database path")
 	profile := flag.String("profile", "", "write cpu profile to file")
 	flag.Parse()
 
@@ -321,8 +346,6 @@ func main() {
 		log.Fatal(err)
 	}
 	defer db.Close()
-
-	db.SetMaxIdleConns(256)
 
 	if *profile != "" {
 		f, err := os.Create(*profile)

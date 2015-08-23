@@ -37,11 +37,6 @@ const (
 	modeTypeDist
 )
 
-type jsonAccessRequest struct {
-	Id      int        `json:"id"`
-	Profile featureMap `json:"profile"`
-}
-
 type jsonGeoData struct {
 	Latitude  float64 `json:"latitude"`
 	Longitude float64 `json:"longitude"`
@@ -97,29 +92,6 @@ type jsonQueryResponse struct {
 	MinScore    float64                `json:"minScore"`
 	Records     []jsonRecord           `json:"records"`
 	ElapsedTime int64                  `json:"elapsedTime"`
-}
-
-type jsonCategory struct {
-	Description string `json:"description"`
-	Id          int    `json:"id"`
-}
-
-type jsonAddCategoryRequest struct {
-	Description string `json:"description"`
-}
-
-type jsonAddCategoryResponse struct {
-	Description string `json:"description"`
-	Id          int    `json:"id"`
-	Success     bool   `json:"success"`
-}
-
-type jsonRemoveCategoryRequest struct {
-	Id int `json:"id"`
-}
-
-type jsonRemoveCategoryResponse struct {
-	Success bool `json:"success"`
 }
 
 type queryContext struct {
