@@ -2011,6 +2011,10 @@
         "Latitude": 35.5295726,
         "Longitude": 139.6986515
     },
+    "2-1 Fujimicho Naka-ku Yokohama Kanagawa": {
+        "Latitude": 35.4400805,
+        "Longitude": 139.6328372
+    },
     "2-1 Higashidacho, Kawasaki-ku | 2F Matsui Bldg., Kawasaki 210-0005, Kanagawa Prefecture": {
         "Latitude": 35.5286247,
         "Longitude": 139.7023059
@@ -3007,6 +3011,10 @@
         "Latitude": 35.5301614,
         "Longitude": 139.7005458
     },
+    "2-4-19 Shinyokohama Kohoku-ku Yokohama Kanagawa": {
+        "Latitude": 35.5086251,
+        "Longitude": 139.6162458
+    },
     "2-4-3 Fujigaoka, Aoba-ku | Fujigaoka Hall B1F, Yokohama 227-0043, Kanagawa Prefecture": {
         "Latitude": 35.5443709,
         "Longitude": 139.5273234
@@ -3218,6 +3226,10 @@
     "2-7-6 Isago Kawasaki-ku Kawasaki Kanagawa": {
         "Latitude": 35.5284589,
         "Longitude": 139.7006264
+    },
+    "2-7-8 Isago Kawasaki-ku Kawasaki Kanagawa": {
+        "Latitude": 35.5285672,
+        "Longitude": 139.7006625
     },
     "2-7-8 Minamisaiwai Nishi-ku Yokohama Kanagawa": {
         "Latitude": 35.4635478,
@@ -3975,6 +3987,10 @@
         "Latitude": 35.441597,
         "Longitude": 139.6611352
     },
+    "3-4-29 Isogo Isogo-ku Yokohama Kanagawa": {
+        "Latitude": 35.4032608,
+        "Longitude": 139.6189689
+    },
     "3-4-3 Akiya, Yokosuka 240-0105, Kanagawa Prefecture": {
         "Latitude": 35.2400862,
         "Longitude": 139.5993922
@@ -4510,6 +4526,10 @@
     "4-5-9 Chuorinkan Yamato Kanagawa": {
         "Latitude": 35.508616,
         "Longitude": 139.4448664
+    },
+    "4-50-5 Nakasaiwaicho Saiwai-ku Kawasaki Kanagawa": {
+        "Latitude": 35.5317585,
+        "Longitude": 139.6926631
     },
     "4-52 Tokiwacho Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.4463769,

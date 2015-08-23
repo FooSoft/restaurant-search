@@ -140,8 +140,8 @@ func scrapeIndex(indexUrl string, out chan restaurant, wc *webCache, scr scraper
 }
 
 func scrape(url string, wc *webCache, gc *geoCache, scr scraper) []restaurant {
-	out := make(chan restaurant)
-	in := make(chan restaurant)
+	out := make(chan restaurant, 128)
+	in := make(chan restaurant, 128)
 
 	go scrapeIndex(url, in, wc, scr)
 	go decodeReviews(in, out, gc)

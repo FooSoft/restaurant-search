@@ -122,11 +122,11 @@ func dumpData(dbPath string, restaraunts []restaurant) error {
 			atmospheric FLOAT NOT NULL,
 			latitude FLOAT NOT NULL,
 			longitude FLOAT NOT NULL,
-			distanceToStn FLOAT NOT NULL,
-			closestStn VARCHAR(100) NOT NULL,
+			closestStnDist FLOAT NOT NULL,
+			closestStnName VARCHAR(100) NOT NULL,
 			accessCount INT NOT NULL,
-			id INT NOT NULL AUTO_INCREMENT PRIMARY KEY
-		) DEFAULT CHARACTER SET utf8`)
+			id INT PRIMARY KEY
+		)`)
 
 	if err != nil {
 		return err
@@ -156,7 +156,8 @@ func dumpData(dbPath string, restaraunts []restaurant) error {
 			r.longitude,
 			r.latitude,
 			r.closestStnDist,
-			r.closestStnName)
+			r.closestStnName,
+			0)
 
 		if err != nil {
 			return err
@@ -171,7 +172,7 @@ func dumpData(dbPath string, restaraunts []restaurant) error {
 		DROP TABLE IF EXISTS categories;
 		CREATE TABLE categories(
 			description VARCHAR(200) NOT NULL,
-			id INT NOT NULL AUTO_INCREMENT PRIMARY KEY))`)
+			id INT PRIMARY KEY)`)
 
 	if err != nil {
 		return err
@@ -192,7 +193,7 @@ func dumpData(dbPath string, restaraunts []restaurant) error {
 		CREATE TABLE history(
 			date DATETIME NOT NULL,
 			reviewId INT NOT NULL,
-			id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+			id INT PRIMARY KEY,
 			FOREIGN KEY(reviewId) REFERENCES reviews(id))`)
 
 	if err != nil {
