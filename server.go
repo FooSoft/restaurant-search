@@ -81,7 +81,7 @@ func prepareColumn(steps int, minScore float64, allEntries, matchedEntries []rec
 	}
 }
 
-func executeQuery(rw http.ResponseWriter, req *http.Request) {
+func handleExecuteQuery(rw http.ResponseWriter, req *http.Request) {
 	startTime := time.Now()
 
 	var (
@@ -157,17 +157,19 @@ func executeQuery(rw http.ResponseWriter, req *http.Request) {
 
 	js, err := json.Marshal(response)
 	if err != nil {
-		log.Fatal(err)
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
 	}
 
 	rw.Header().Set("Content-Type", "application/json")
 	rw.Write(js)
 }
 
-func getCategories(rw http.ResponseWriter, req *http.Request) {
+func handleGetCategories(rw http.ResponseWriter, req *http.Request) {
 	categoryRows, err := db.Query("SELECT description, id FROM categories")
 	if err != nil {
-		log.Fatal(err)
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
 	}
 	defer categoryRows.Close()
 
@@ -184,26 +186,29 @@ func getCategories(rw http.ResponseWriter, req *http.Request) {
 		)
 
 		if err := categoryRows.Scan(&description, &id); err != nil {
-			log.Fatal(err)
+			http.Error(rw, err.Error(), http.StatusInternalServerError)
+			return
 		}
 
 		response = append(response, category{description, id})
 	}
 
 	if err := categoryRows.Err(); err != nil {
-		log.Fatal(err)
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
 	}
 
 	js, err := json.Marshal(response)
 	if err != nil {
-		log.Fatal(err)
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
 	}
 
 	rw.Header().Set("Content-Type", "application/json")
 	rw.Write(js)
 }
 
-func addCategory(rw http.ResponseWriter, req *http.Request) {
+func handleAddCategory(rw http.ResponseWriter, req *http.Request) {
 	var (
 		request struct {
 			Description string `json:"description"`
@@ -226,17 +231,20 @@ func addCategory(rw http.ResponseWriter, req *http.Request) {
 	if len(response.Description) > 0 {
 		result, err := db.Exec("INSERT INTO categories(description) VALUES(?)", request.Description)
 		if err != nil {
-			log.Fatal(err)
+			http.Error(rw, err.Error(), http.StatusInternalServerError)
+			return
 		}
 
 		insertId, err := result.LastInsertId()
 		if err != nil {
-			log.Fatal(err)
+			http.Error(rw, err.Error(), http.StatusInternalServerError)
+			return
 		}
 
 		affectedRows, err := result.RowsAffected()
 		if err != nil {
-			log.Fatal(err)
+			http.Error(rw, err.Error(), http.StatusInternalServerError)
+			return
 		}
 
 		response.Success = affectedRows > 0
@@ -245,14 +253,15 @@ func addCategory(rw http.ResponseWriter, req *http.Request) {
 
 	js, err := json.Marshal(response)
 	if err != nil {
-		log.Fatal(err)
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
 	}
 
 	rw.Header().Set("Content-Type", "application/json")
 	rw.Write(js)
 }
 
-func removeCategory(rw http.ResponseWriter, req *http.Request) {
+func handleRemoveCategory(rw http.ResponseWriter, req *http.Request) {
 	var (
 		request struct {
 			Id int `json:"id"`
@@ -274,14 +283,15 @@ func removeCategory(rw http.ResponseWriter, req *http.Request) {
 
 	js, err := json.Marshal(response)
 	if err != nil {
-		log.Fatal(err)
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
 	}
 
 	rw.Header().Set("Content-Type", "application/json")
 	rw.Write(js)
 }
 
-func accessReview(rw http.ResponseWriter, req *http.Request) {
+func handleAccessReview(rw http.ResponseWriter, req *http.Request) {
 	var request struct {
 		Id      int                `json:"id"`
 		Profile map[string]float64 `json:"profile"`
@@ -294,12 +304,14 @@ func accessReview(rw http.ResponseWriter, req *http.Request) {
 
 	reviewsResult, err := db.Exec("UPDATE reviews SET accessCount = accessCount + 1 WHERE id = (?)", request.Id)
 	if err != nil {
-		log.Fatal(err)
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
 	}
 
 	rowsAffected, err := reviewsResult.RowsAffected()
 	if err != nil {
-		log.Fatal(err)
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
 	}
 
 	if rowsAffected == 0 || len(request.Profile) == 0 {
@@ -308,12 +320,14 @@ func accessReview(rw http.ResponseWriter, req *http.Request) {
 
 	historyResult, err := db.Exec("INSERT INTO history(date, reviewId) VALUES(NOW(), ?)", request.Id)
 	if err != nil {
-		log.Fatal(err)
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
 	}
 
 	insertId, err := historyResult.LastInsertId()
 	if err != nil {
-		log.Fatal(err)
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
 	}
 
 	for id, value := range request.Profile {
@@ -321,7 +335,8 @@ func accessReview(rw http.ResponseWriter, req *http.Request) {
 
 		var catExists int
 		if err := catRow.Scan(&catExists); err != nil {
-			log.Fatal(err)
+			http.Error(rw, err.Error(), http.StatusInternalServerError)
+			return
 		}
 
 		if catExists == 0 {
@@ -329,18 +344,21 @@ func accessReview(rw http.ResponseWriter, req *http.Request) {
 		}
 
 		if _, err := db.Exec("INSERT INTO historyGroups(categoryId, categoryValue, historyId) VALUES(?, ?, ?)", id, value, insertId); err != nil {
-			log.Fatal(err)
+			http.Error(rw, err.Error(), http.StatusInternalServerError)
+			return
 		}
 	}
 }
 
-func clearHistory(rw http.ResponseWriter, req *http.Request) {
+func handleClearHistory(rw http.ResponseWriter, req *http.Request) {
 	if _, err := db.Exec("DELETE FROM historyGroups"); err != nil {
-		log.Fatal(err)
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
 	}
 
 	if _, err := db.Exec("DELETE FROM history"); err != nil {
-		log.Fatal(err)
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
 	}
 
 	rw.Header().Set("Content-Type", "text/plain")
@@ -378,12 +396,12 @@ func main() {
 		}()
 	}
 
-	http.HandleFunc("/query", executeQuery)
-	http.HandleFunc("/categories", getCategories)
-	http.HandleFunc("/learn", addCategory)
-	http.HandleFunc("/forget", removeCategory)
-	http.HandleFunc("/access", accessReview)
-	http.HandleFunc("/clear", clearHistory)
+	http.HandleFunc("/query", handleExecuteQuery)
+	http.HandleFunc("/categories", handleGetCategories)
+	http.HandleFunc("/learn", handleAddCategory)
+	http.HandleFunc("/forget", handleRemoveCategory)
+	http.HandleFunc("/access", handleAccessReview)
+	http.HandleFunc("/clear", handleClearHistory)
 	http.Handle("/", http.FileServer(http.Dir(*staticDir)))
 
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", *portNum), nil))
