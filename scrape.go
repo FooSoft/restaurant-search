@@ -220,7 +220,7 @@ func main() {
 		panic(err)
 	}
 
-	if err := dumpData("db.sqlite3", restaurants); err != nil {
+	if err := dumpData("data/db.sqlite3", restaurants); err != nil {
 		panic(err)
 	}
 }
