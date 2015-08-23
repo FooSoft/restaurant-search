@@ -128,8 +128,8 @@ func dumpData(dbPath string, restaraunts []restaurant) error {
 			longitude FLOAT NOT NULL,
 			closestStnDist FLOAT NOT NULL,
 			closestStnName VARCHAR(100) NOT NULL,
-			accessCount INT NOT NULL,
-			id INT PRIMARY KEY
+			accessCount INTEGER NOT NULL,
+			id INTEGER PRIMARY KEY
 		)`)
 
 	if err != nil {
@@ -178,7 +178,7 @@ func dumpData(dbPath string, restaraunts []restaurant) error {
 		DROP TABLE IF EXISTS categories;
 		CREATE TABLE categories(
 			description VARCHAR(200) NOT NULL,
-			id INT PRIMARY KEY)`)
+			id INTEGER PRIMARY KEY)`)
 
 	if err != nil {
 		return err
@@ -198,8 +198,8 @@ func dumpData(dbPath string, restaraunts []restaurant) error {
 		DROP TABLE IF EXISTS history;
 		CREATE TABLE history(
 			date DATETIME NOT NULL,
-			reviewId INT NOT NULL,
-			id INT PRIMARY KEY,
+			reviewId INTEGER NOT NULL,
+			id INTEGER PRIMARY KEY,
 			FOREIGN KEY(reviewId) REFERENCES reviews(id))`)
 
 	if err != nil {
@@ -213,9 +213,9 @@ func dumpData(dbPath string, restaraunts []restaurant) error {
 	_, err = db.Exec(`
 		DROP TABLE IF EXISTS historyGroups;
 		CREATE TABLE historyGroups(
-			categoryId INT NOT NULL,
+			categoryId INTEGER NOT NULL,
 			categoryValue FLOAT NOT NULL,
-			historyId INT NOT NULL,
+			historyId INTEGER NOT NULL,
 			FOREIGN KEY(historyId) REFERENCES history(id),
 			FOREIGN KEY(categoryId) REFERENCES categories(id))`)
 
