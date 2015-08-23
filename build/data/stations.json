@@ -1,0 +1,1966 @@
+{
+    "Abiko": {
+        "Latitude": 35.872454,
+        "Longitude": 140.010855
+    },
+    "Ageo": {
+        "Latitude": 35.973534,
+        "Longitude": 139.588451
+    },
+    "Aihara": {
+        "Latitude": 35.606865,
+        "Longitude": 139.331682
+    },
+    "Airport Terminal 2": {
+        "Latitude": 35.773507,
+        "Longitude": 140.388305
+    },
+    "Ajiki": {
+        "Latitude": 35.835684,
+        "Longitude": 140.242068
+    },
+    "Ajiro": {
+        "Latitude": 35.043506,
+        "Longitude": 139.081551
+    },
+    "Akabane": {
+        "Latitude": 35.778051,
+        "Longitude": 139.720856
+    },
+    "Akigawa": {
+        "Latitude": 35.728064,
+        "Longitude": 139.28667
+    },
+    "Akihabara": {
+        "Latitude": 35.698683,
+        "Longitude": 139.774219
+    },
+    "Akishima": {
+        "Latitude": 35.713543,
+        "Longitude": 139.360908
+    },
+    "Anegasaki": {
+        "Latitude": 35.478519,
+        "Longitude": 140.042069
+    },
+    "Annaka": {
+        "Latitude": 36.331776,
+        "Longitude": 138.913629
+    },
+    "Anzen": {
+        "Latitude": 35.499668,
+        "Longitude": 139.700663
+    },
+    "Aohori": {
+        "Latitude": 35.33044100000001,
+        "Longitude": 139.858242
+    },
+    "Arakawaoki": {
+        "Latitude": 36.03076,
+        "Longitude": 140.166101
+    },
+    "Araki": {
+        "Latitude": 35.86236299999999,
+        "Longitude": 140.10692
+    },
+    "Asagaya": {
+        "Latitude": 35.704773,
+        "Longitude": 139.635263
+    },
+    "Asahi": {
+        "Latitude": 35.033921,
+        "Longitude": 136.658089
+    },
+    "Asakusabashi": {
+        "Latitude": 35.697467,
+        "Longitude": 139.785976
+    },
+    "Asano": {
+        "Latitude": 35.497469,
+        "Longitude": 139.696064
+    },
+    "Ashikaga": {
+        "Latitude": 36.332144,
+        "Longitude": 139.456103
+    },
+    "Atami": {
+        "Latitude": 35.103217,
+        "Longitude": 139.07776
+    },
+    "Atsugi": {
+        "Latitude": 35.443324,
+        "Longitude": 139.378426
+    },
+    "Ayase": {
+        "Latitude": 35.762214,
+        "Longitude": 139.824914
+    },
+    "Bakurochō": {
+        "Latitude": 35.693365,
+        "Longitude": 139.78238
+    },
+    "Banda": {
+        "Latitude": 35.545378,
+        "Longitude": 139.362953
+    },
+    "Akatsuka": {
+        "Latitude": 36.381897,
+        "Longitude": 140.415228
+    },
+    "Chiba": {
+        "Latitude": 35.612858,
+        "Longitude": 140.11434
+    },
+    "Bubaigawara": {
+        "Latitude": 35.668557,
+        "Longitude": 139.468721
+    },
+    "Chiba-Minato": {
+        "Latitude": 35.6072668,
+        "Longitude": 140.1062907
+    },
+    "Chigasaki": {
+        "Latitude": 35.33031,
+        "Longitude": 139.406733
+    },
+    "Chikura": {
+        "Latitude": 34.97670100000001,
+        "Longitude": 139.95468
+    },
+    "Chitose": {
+        "Latitude": 42.82844,
+        "Longitude": 141.651748
+    },
+    "Chōjamachi": {
+        "Latitude": 35.295875,
+        "Longitude": 140.385032
+    },
+    "Chōshi": {
+        "Latitude": 35.729696,
+        "Longitude": 140.82728
+    },
+    "Ebina": {
+        "Latitude": 35.454247,
+        "Longitude": 139.389353
+    },
+    "Ebisu": {
+        "Latitude": 35.64669,
+        "Longitude": 139.710106
+    },
+    "Emi": {
+        "Latitude": 35.062452,
+        "Longitude": 140.061154
+    },
+    "Enzan": {
+        "Latitude": 35.705402,
+        "Longitude": 138.734599
+    },
+    "Etchūjima": {
+        "Latitude": 35.667946,
+        "Longitude": 139.792713
+    },
+    "Fubasami": {
+        "Latitude": 36.637191,
+        "Longitude": 139.728009
+    },
+    "Fuchinobe": {
+        "Latitude": 35.568756,
+        "Longitude": 139.395058
+    },
+    "Fuchū-Hommachi": {
+        "Latitude": 35.6689735,
+        "Longitude": 139.4776614
+    },
+    "Fujino": {
+        "Latitude": 35.615832,
+        "Longitude": 139.15247
+    },
+    "Fujisawa": {
+        "Latitude": 35.337196,
+        "Longitude": 139.487292
+    },
+    "Fujishiro": {
+        "Latitude": 35.920581,
+        "Longitude": 140.118273
+    },
+    "Fukaya": {
+        "Latitude": 36.191503,
+        "Longitude": 139.281011
+    },
+    "Fukiage": {
+        "Latitude": 36.103237,
+        "Longitude": 139.45317
+    },
+    "Fukuhara": {
+        "Latitude": 36.351604,
+        "Longitude": 140.18718
+    },
+    "Fukutawara": {
+        "Latitude": 35.545831,
+        "Longitude": 140.341373
+    },
+    "Funabashi": {
+        "Latitude": 35.701735,
+        "Longitude": 139.985218
+    },
+    "Funabashi-Hōten": {
+        "Latitude": 35.6947058,
+        "Longitude": 139.982618
+    },
+    "Fusa": {
+        "Latitude": 35.849082,
+        "Longitude": 140.133091
+    },
+    "Fussa": {
+        "Latitude": 35.742356,
+        "Longitude": 139.327963
+    },
+    "Futomi": {
+        "Latitude": 35.081855,
+        "Longitude": 140.096231
+    },
+    "Futamatao": {
+        "Latitude": 35.804474,
+        "Longitude": 139.215438
+    },
+    "Gion": {
+        "Latitude": 33.594124,
+        "Longitude": 130.414614
+    },
+    "Goi": {
+        "Latitude": 35.513329,
+        "Longitude": 140.089633
+    },
+    "Gokan": {
+        "Latitude": 36.679302,
+        "Longitude": 139.000122
+    },
+    "Gotanda": {
+        "Latitude": 35.626446,
+        "Longitude": 139.723444
+    },
+    "Gumyō": {
+        "Latitude": 35.579811,
+        "Longitude": 140.396149
+    },
+    "Gunma-Fujioka": {
+        "Latitude": 36.3906675,
+        "Longitude": 139.0604061
+    },
+    "Gunma-Sōja": {
+        "Latitude": 36.3906675,
+        "Longitude": 139.0604061
+    },
+    "Gunma-Yawata": {
+        "Latitude": 36.3906675,
+        "Longitude": 139.0604061
+    },
+    "Gyōda": {
+        "Latitude": 36.11386299999999,
+        "Longitude": 139.432264
+    },
+    "Hachiōji": {
+        "Latitude": 35.655641,
+        "Longitude": 139.338968
+    },
+    "Hachiōji-Minamino": {
+        "Latitude": 35.6663394,
+        "Longitude": 139.3158056
+    },
+    "Haguro": {
+        "Latitude": 35.351335,
+        "Longitude": 136.952536
+    },
+    "Haijima": {
+        "Latitude": 35.721136,
+        "Longitude": 139.343654
+    },
+    "Hakonegasaki": {
+        "Latitude": 35.771392,
+        "Longitude": 139.346716
+    },
+    "Hamakanaya": {
+        "Latitude": 35.168112,
+        "Longitude": 139.822393
+    },
+    "Hamamatsuchō": {
+        "Latitude": 35.655646,
+        "Longitude": 139.756749
+    },
+    "Hamano": {
+        "Latitude": 35.552043,
+        "Longitude": 140.132078
+    },
+    "Hamura": {
+        "Latitude": 35.758437,
+        "Longitude": 139.315944
+    },
+    "Harajuku": {
+        "Latitude": 35.670168,
+        "Longitude": 139.702687
+    },
+    "Harataima": {
+        "Latitude": 35.529108,
+        "Longitude": 139.375242
+    },
+    "Hashimoto": {
+        "Latitude": 35.594942,
+        "Longitude": 139.34502
+    },
+    "Hatchōbori": {
+        "Latitude": 35.674617,
+        "Longitude": 139.777705
+    },
+    "Hasuda": {
+        "Latitude": 35.981361,
+        "Longitude": 139.652905
+    },
+    "Hatchōnawate": {
+        "Latitude": 35.523113,
+        "Longitude": 139.691488
+    },
+    "Hatonosu": {
+        "Latitude": 35.814932,
+        "Longitude": 139.128749
+    },
+    "Hatori": {
+        "Latitude": 36.24728899999999,
+        "Longitude": 140.286779
+    },
+    "Hatsukari": {
+        "Latitude": 35.594613,
+        "Longitude": 138.884402
+    },
+    "Hayakawa": {
+        "Latitude": 35.239083,
+        "Longitude": 139.14537
+    },
+    "Higashi-Chiba": {
+        "Latitude": 35.0985273,
+        "Longitude": 140.0426829
+    },
+    "Higashi-Nakano": {
+        "Latitude": 35.7068001,
+        "Longitude": 139.6831141
+    },
+    "Higashi-Tokorozawa": {
+        "Latitude": 35.79493,
+        "Longitude": 139.5139
+    },
+    "Higashi-Yamanashi": {
+        "Latitude": 35.7119557,
+        "Longitude": 138.6986373
+    },
+    "Higashi-Yokota": {
+        "Latitude": 33.641202,
+        "Longitude": 130.675473
+    },
+    "Higashi-Urawa": {
+        "Latitude": 35.884622,
+        "Longitude": 139.6674124
+    },
+    "Higashi-Ōmiya": {
+        "Latitude": 35.9506631,
+        "Longitude": 139.6636652
+    },
+    "Higata": {
+        "Latitude": 35.718308,
+        "Longitude": 140.602901
+    },
+    "Hinatawada": {
+        "Latitude": 35.787857,
+        "Longitude": 139.229964
+    },
+    "Hino": {
+        "Latitude": 35.679245,
+        "Longitude": 139.393998
+    },
+    "Hirai": {
+        "Latitude": 35.706434,
+        "Longitude": 139.842516
+    },
+    "Hirama": {
+        "Latitude": 35.56104,
+        "Longitude": 139.671039
+    },
+    "Hirayama": {
+        "Latitude": 35.27432599999999,
+        "Longitude": 140.064837
+    },
+    "Hitachi": {
+        "Latitude": 36.591924,
+        "Longitude": 140.661697
+    },
+    "Hiratsuka": {
+        "Latitude": 35.327911,
+        "Longitude": 139.350596
+    },
+    "Hodogaya": {
+        "Latitude": 35.446727,
+        "Longitude": 139.599624
+    },
+    "Honda": {
+        "Latitude": 35.546968,
+        "Longitude": 140.213795
+    },
+    "Hongōdai": {
+        "Latitude": 35.367436,
+        "Longitude": 139.550281
+    },
+    "Honjō": {
+        "Latitude": 36.236132,
+        "Longitude": 139.18863
+    },
+    "Honnō": {
+        "Latitude": 35.482112,
+        "Longitude": 140.307394
+    },
+    "Hota": {
+        "Latitude": 35.141044,
+        "Longitude": 139.838361
+    },
+    "Hōshakuji": {
+        "Latitude": 36.631584,
+        "Longitude": 139.979512
+    },
+    "Ichigaya": {
+        "Latitude": 35.691008,
+        "Longitude": 139.735585
+    },
+    "Ichikawa": {
+        "Latitude": 35.729277,
+        "Longitude": 139.907809
+    },
+    "Ichikawa-Shiohama": {
+        "Latitude": 35.7219115,
+        "Longitude": 139.9310099
+    },
+    "Ichikawa-Ōno": {
+        "Latitude": 35.7219115,
+        "Longitude": 139.9310099
+    },
+    "Iigura": {
+        "Latitude": 35.685716,
+        "Longitude": 140.522378
+    },
+    "Iidabashi": {
+        "Latitude": 35.702065,
+        "Longitude": 139.745015
+    },
+    "Iioka": {
+        "Latitude": 35.729314,
+        "Longitude": 140.68384
+    },
+    "Ikebukuro": {
+        "Latitude": 35.728926,
+        "Longitude": 139.71038
+    },
+    "Imaichi": {
+        "Latitude": 36.720846,
+        "Longitude": 139.68692
+    },
+    "Inada": {
+        "Latitude": 36.368564,
+        "Longitude": 140.214304
+    },
+    "Inadazutsumi": {
+        "Latitude": 35.633645,
+        "Longitude": 139.535262
+    },
+    "Inage": {
+        "Latitude": 35.637425,
+        "Longitude": 140.092404
+    },
+    "Inage-Kaigan": {
+        "Latitude": 35.62889,
+        "Longitude": 140.0723
+    },
+    "Ikusabata": {
+        "Latitude": 35.80761500000001,
+        "Longitude": 139.207734
+    },
+    "Inagi-Naganuma": {
+        "Latitude": 35.6379238,
+        "Longitude": 139.5045669
+    },
+    "Ino": {
+        "Latitude": 36.357315,
+        "Longitude": 139.022947
+    },
+    "Iriya": {
+        "Latitude": 35.720734,
+        "Longitude": 139.784542
+    },
+    "Ishibashi": {
+        "Latitude": 34.808154,
+        "Longitude": 135.445457
+    },
+    "Ishigamimae": {
+        "Latitude": 35.796733,
+        "Longitude": 139.225057
+    },
+    "Ishikawachō": {
+        "Latitude": 35.438247,
+        "Longitude": 139.643151
+    },
+    "Ishioka": {
+        "Latitude": 36.191006,
+        "Longitude": 140.279904
+    },
+    "Isobe": {
+        "Latitude": 36.298505,
+        "Longitude": 138.849503
+    },
+    "Isogo": {
+        "Latitude": 35.399881,
+        "Longitude": 139.617916
+    },
+    "Isohara": {
+        "Latitude": 36.790457,
+        "Longitude": 140.746085
+    },
+    "Itako": {
+        "Latitude": 35.936965,
+        "Longitude": 140.549484
+    },
+    "Itō": {
+        "Latitude": 34.974689,
+        "Longitude": 139.092264
+    },
+    "Iwafune": {
+        "Latitude": 36.326739,
+        "Longitude": 139.65768
+    },
+    "Iwai": {
+        "Latitude": 35.092592,
+        "Longitude": 139.849645
+    },
+    "Iwajuku": {
+        "Latitude": 36.395808,
+        "Longitude": 139.296775
+    },
+    "Iwaki": {
+        "Latitude": 37.058182,
+        "Longitude": 140.892126
+    },
+    "Iwama": {
+        "Latitude": 36.295294,
+        "Longitude": 140.27629
+    },
+    "Iwamoto": {
+        "Latitude": 36.60307,
+        "Longitude": 139.047293
+    },
+    "Iwane": {
+        "Latitude": 35.414302,
+        "Longitude": 139.93324
+    },
+    "Iwase": {
+        "Latitude": 36.359593,
+        "Longitude": 140.108255
+    },
+    "Izumi": {
+        "Latitude": 37.778537,
+        "Longitude": 140.445625
+    },
+    "Jūjō": {
+        "Latitude": 35.76026100000001,
+        "Longitude": 139.722231
+    },
+    "Jūnikyō": {
+        "Latitude": 35.917615,
+        "Longitude": 140.545765
+    },
+    "Jūō": {
+        "Latitude": 36.671385,
+        "Longitude": 140.68623
+    },
+    "Kabe": {
+        "Latitude": 35.784549,
+        "Longitude": 139.284784
+    },
+    "Kadosawabashi": {
+        "Latitude": 35.406886,
+        "Longitude": 139.380072
+    },
+    "Kagawa": {
+        "Latitude": 35.35649799999999,
+        "Longitude": 139.399758
+    },
+    "Kagohara": {
+        "Latitude": 36.174675,
+        "Longitude": 139.330516
+    },
+    "Kaihin-Makuhari": {
+        "Latitude": 35.64903,
+        "Longitude": 140.0422
+    },
+    "Kairakuen": {
+        "Latitude": 36.373135,
+        "Longitude": 140.456439
+    },
+    "Itabashi": {
+        "Latitude": 35.746044,
+        "Longitude": 139.719523
+    },
+    "Kamakura": {
+        "Latitude": 35.319031,
+        "Longitude": 139.550703
+    },
+    "Kamasusaka": {
+        "Latitude": 36.721241,
+        "Longitude": 139.950483
+    },
+    "Kamata": {
+        "Latitude": 35.562479,
+        "Longitude": 139.716051
+    },
+    "Kamatori": {
+        "Latitude": 35.56281999999999,
+        "Longitude": 140.178494
+    },
+    "Kameari": {
+        "Latitude": 35.766622,
+        "Longitude": 139.847675
+    },
+    "Kameido": {
+        "Latitude": 35.697587,
+        "Longitude": 139.826078
+    },
+    "Kami-Nakazato": {
+        "Latitude": 35.746586,
+        "Longitude": 139.746927
+    },
+    "Kamimoku": {
+        "Latitude": 36.735464,
+        "Longitude": 138.984152
+    },
+    "Kamoi": {
+        "Latitude": 35.510874,
+        "Longitude": 139.567095
+    },
+    "Kamonomiya": {
+        "Latitude": 35.27583,
+        "Longitude": 139.180211
+    },
+    "Kanamachi": {
+        "Latitude": 35.769549,
+        "Longitude": 139.870479
+    },
+    "Kanda": {
+        "Latitude": 35.69169,
+        "Longitude": 139.770883
+    },
+    "Kandatsu": {
+        "Latitude": 36.120549,
+        "Longitude": 140.24847
+    },
+    "Kaneko": {
+        "Latitude": 35.811042,
+        "Longitude": 139.328652
+    },
+    "Kannai": {
+        "Latitude": 35.443233,
+        "Longitude": 139.637134
+    },
+    "Kanuma": {
+        "Latitude": 36.570991,
+        "Longitude": 139.76285
+    },
+    "Karasuyama": {
+        "Latitude": 36.650453,
+        "Longitude": 140.154956
+    },
+    "Kasahata": {
+        "Latitude": 35.907562,
+        "Longitude": 139.406465
+    },
+    "Kasama": {
+        "Latitude": 36.373298,
+        "Longitude": 140.246051
+    },
+    "Kashima-Jingū": {
+        "Latitude": 35.97026,
+        "Longitude": 140.6262
+    },
+    "Kashimada": {
+        "Latitude": 35.551331,
+        "Longitude": 139.675131
+    },
+    "Kashiwa": {
+        "Latitude": 35.862222,
+        "Longitude": 139.971054
+    },
+    "Kasugaichō": {
+        "Latitude": 35.673502,
+        "Longitude": 138.659053
+    },
+    "Katakura": {
+        "Latitude": 35.639707,
+        "Longitude": 139.341432
+    },
+    "Kashima Soccer Stadium": {
+        "Latitude": 35.99273,
+        "Longitude": 140.636057
+    },
+    "Katori": {
+        "Latitude": 35.898006,
+        "Longitude": 140.531978
+    },
+    "Katsuta": {
+        "Latitude": 36.393693,
+        "Longitude": 140.524272
+    },
+    "Katsuura": {
+        "Latitude": 35.153077,
+        "Longitude": 140.312897
+    },
+    "Kawagoe": {
+        "Latitude": 35.906992,
+        "Longitude": 139.482894
+    },
+    "Kawaguchi": {
+        "Latitude": 35.801922,
+        "Longitude": 139.717583
+    },
+    "Kawai": {
+        "Latitude": 35.81383,
+        "Longitude": 139.164026
+    },
+    "Kawasaki": {
+        "Latitude": 35.53132799999999,
+        "Longitude": 139.696899
+    },
+    "Kawashima": {
+        "Latitude": 36.295855,
+        "Longitude": 139.915635
+    },
+    "Kemigawahama": {
+        "Latitude": 35.637027,
+        "Longitude": 140.059185
+    },
+    "Kichijōji": {
+        "Latitude": 35.702811,
+        "Longitude": 139.579804
+    },
+    "Kikuna": {
+        "Latitude": 35.509817,
+        "Longitude": 139.63135
+    },
+    "Kimitsu": {
+        "Latitude": 35.333588,
+        "Longitude": 139.895044
+    },
+    "Kinomiya": {
+        "Latitude": 35.098615,
+        "Longitude": 139.065872
+    },
+    "Kinshichō": {
+        "Latitude": 35.696437,
+        "Longitude": 139.813949
+    },
+    "Kinugasa": {
+        "Latitude": 35.25736,
+        "Longitude": 139.661348
+    },
+    "Kioroshi": {
+        "Latitude": 35.83902,
+        "Longitude": 140.148068
+    },
+    "Kiryū": {
+        "Latitude": 36.41107600000001,
+        "Longitude": 139.333037
+    },
+    "Kisarazu": {
+        "Latitude": 35.381613,
+        "Longitude": 139.926227
+    },
+    "Kita-Akabane": {
+        "Latitude": 35.778051,
+        "Longitude": 139.720856
+    },
+    "Kita-Kogane": {
+        "Latitude": 35.833422,
+        "Longitude": 139.931306
+    },
+    "Kita-Matsudo": {
+        "Latitude": 35.80493,
+        "Longitude": 139.9079
+    },
+    "Kita-Senju": {
+        "Latitude": 35.7496762,
+        "Longitude": 139.8048774
+    },
+    "Kita-Toda": {
+        "Latitude": 35.827492,
+        "Longitude": 139.660337
+    },
+    "Kitamoto": {
+        "Latitude": 36.031618,
+        "Longitude": 139.533994
+    },
+    "Kobana": {
+        "Latitude": 36.6428,
+        "Longitude": 140.116946
+    },
+    "Kobuchi": {
+        "Latitude": 35.55598800000001,
+        "Longitude": 139.419265
+    },
+    "Kodama": {
+        "Latitude": 36.192641,
+        "Longitude": 139.135828
+    },
+    "Koga": {
+        "Latitude": 36.194375,
+        "Longitude": 139.709726
+    },
+    "Koganei": {
+        "Latitude": 36.37493,
+        "Longitude": 139.842529
+    },
+    "Kobayashi": {
+        "Latitude": 35.830541,
+        "Longitude": 140.193289
+    },
+    "Kohoku": {
+        "Latitude": 35.86724299999999,
+        "Longitude": 140.077792
+    },
+    "Kokonoe": {
+        "Latitude": 34.99771399999999,
+        "Longitude": 139.911061
+    },
+    "Kokubunji": {
+        "Latitude": 35.700256,
+        "Longitude": 139.480257
+    },
+    "Kokudō": {
+        "Latitude": 35.500702,
+        "Longitude": 139.675593
+    },
+    "Komagata": {
+        "Latitude": 36.354023,
+        "Longitude": 139.139342
+    },
+    "Komagawa": {
+        "Latitude": 35.896281,
+        "Longitude": 139.337951
+    },
+    "Koiwa": {
+        "Latitude": 35.732962,
+        "Longitude": 139.881682
+    },
+    "Komagome": {
+        "Latitude": 35.736489,
+        "Longitude": 139.746875
+    },
+    "Koshigaya-Laketown": {
+        "Latitude": 35.876353,
+        "Longitude": 139.822177
+    },
+    "Kuji": {
+        "Latitude": 35.61056,
+        "Longitude": 139.592539
+    },
+    "Kozukue": {
+        "Latitude": 35.508553,
+        "Longitude": 139.600073
+    },
+    "Kumagawa": {
+        "Latitude": 35.728438,
+        "Longitude": 139.335396
+    },
+    "Kuki": {
+        "Latitude": 36.065703,
+        "Longitude": 139.677295
+    },
+    "Kunisada": {
+        "Latitude": 36.35879,
+        "Longitude": 139.24198
+    },
+    "Kumagaya": {
+        "Latitude": 36.139702,
+        "Longitude": 139.389942
+    },
+    "Kunitachi": {
+        "Latitude": 35.699002,
+        "Longitude": 139.446385
+    },
+    "Kuragano": {
+        "Latitude": 36.30028,
+        "Longitude": 139.049171
+    },
+    "Kurahashi": {
+        "Latitude": 35.73807800000001,
+        "Longitude": 140.71449
+    },
+    "Kurami": {
+        "Latitude": 35.394951,
+        "Longitude": 139.378567
+    },
+    "Kurihama": {
+        "Latitude": 35.233068,
+        "Longitude": 139.70132
+    },
+    "Kuroiso": {
+        "Latitude": 36.969995,
+        "Longitude": 140.059509
+    },
+    "Kururi": {
+        "Latitude": 35.295846,
+        "Longitude": 140.075747
+    },
+    "Kuzumi": {
+        "Latitude": 35.832382,
+        "Longitude": 140.338915
+    },
+    "Kōfu": {
+        "Latitude": 35.66716,
+        "Longitude": 138.568993
+    },
+    "Kōenji": {
+        "Latitude": 35.705385,
+        "Longitude": 139.649867
+    },
+    "Kōnandai": {
+        "Latitude": 35.37528,
+        "Longitude": 139.576712
+    },
+    "Kōnosu": {
+        "Latitude": 36.059225,
+        "Longitude": 139.509646
+    },
+    "Kōnoyama": {
+        "Latitude": 36.66647,
+        "Longitude": 140.051834
+    },
+    "Kōzu": {
+        "Latitude": 34.794218,
+        "Longitude": 135.670054
+    },
+    "Mabashi": {
+        "Latitude": 35.811602,
+        "Longitude": 139.917357
+    },
+    "Machida": {
+        "Latitude": 35.542007,
+        "Longitude": 139.445468
+    },
+    "Maebashi": {
+        "Latitude": 36.383191,
+        "Longitude": 139.073177
+    },
+    "Maebashi-Ōshima": {
+        "Latitude": 36.3894816,
+        "Longitude": 139.0634281
+    },
+    "Maihama": {
+        "Latitude": 35.63633799999999,
+        "Longitude": 139.883275
+    },
+    "Makuhari": {
+        "Latitude": 35.659386,
+        "Longitude": 140.057949
+    },
+    "Makuta": {
+        "Latitude": 35.36683,
+        "Longitude": 140.058593
+    },
+    "Manazuru": {
+        "Latitude": 35.156804,
+        "Longitude": 139.132484
+    },
+    "Mamada": {
+        "Latitude": 36.257885,
+        "Longitude": 139.760967
+    },
+    "Matoba": {
+        "Latitude": 35.917642,
+        "Longitude": 139.436073
+    },
+    "Matsudo": {
+        "Latitude": 35.784344,
+        "Longitude": 139.900666
+    },
+    "Matsugishi": {
+        "Latitude": 35.739538,
+        "Longitude": 140.79526
+    },
+    "Matsuhisa": {
+        "Latitude": 36.17293799999999,
+        "Longitude": 139.182127
+    },
+    "Matsuida": {
+        "Latitude": 36.309362,
+        "Longitude": 138.797522
+    },
+    "Matsuo": {
+        "Latitude": 35.000634,
+        "Longitude": 135.687998
+    },
+    "Kurihashi": {
+        "Latitude": 36.136798,
+        "Longitude": 139.694208
+    },
+    "Meguro": {
+        "Latitude": 35.633998,
+        "Longitude": 139.715828
+    },
+    "Mikado": {
+        "Latitude": 35.282377,
+        "Longitude": 140.391573
+    },
+    "Mikawashima": {
+        "Latitude": 35.73348500000001,
+        "Longitude": 139.776434
+    },
+    "Minakami": {
+        "Latitude": 36.778627,
+        "Longitude": 138.968806
+    },
+    "Minami-Kashiwa": {
+        "Latitude": 35.844655,
+        "Longitude": 139.9541476
+    },
+    "Minami-Nagareyama": {
+        "Latitude": 35.882972,
+        "Longitude": 139.9048537
+    },
+    "Minami-Koshigaya": {
+        "Latitude": 35.8760404,
+        "Longitude": 139.7907407
+    },
+    "Minamihara": {
+        "Latitude": 35.021073,
+        "Longitude": 139.979201
+    },
+    "Misato": {
+        "Latitude": 35.844845,
+        "Longitude": 139.886762
+    },
+    "Mitaka": {
+        "Latitude": 35.702708,
+        "Longitude": 139.560831
+    },
+    "Mitake": {
+        "Latitude": 35.801446,
+        "Longitude": 139.182898
+    },
+    "Mito": {
+        "Latitude": 36.371091,
+        "Longitude": 140.476207
+    },
+    "Miyahara": {
+        "Latitude": 35.940265,
+        "Longitude": 139.609558
+    },
+    "Miyanohira": {
+        "Latitude": 35.242124,
+        "Longitude": 139.062963
+    },
+    "Miyayama": {
+        "Latitude": 35.382283,
+        "Longitude": 139.37972
+    },
+    "Mobara": {
+        "Latitude": 35.426914,
+        "Longitude": 140.303963
+    },
+    "Monoi": {
+        "Latitude": 35.685732,
+        "Longitude": 140.200349
+    },
+    "Moro": {
+        "Latitude": 35.94041199999999,
+        "Longitude": 139.309285
+    },
+    "Motoyawata": {
+        "Latitude": 35.720837,
+        "Longitude": 139.927441
+    },
+    "Mukaigawara": {
+        "Latitude": 35.572908,
+        "Longitude": 139.667242
+    },
+    "Musashi-Koganei": {
+        "Latitude": 35.70054,
+        "Longitude": 139.5063
+    },
+    "Musashi-Kosugi": {
+        "Latitude": 35.5757406,
+        "Longitude": 139.6596644
+    },
+    "Musashi-Mizonokuchi": {
+        "Latitude": 35.600032,
+        "Longitude": 139.610626
+    },
+    "Myōkaku": {
+        "Latitude": 36.00330900000001,
+        "Longitude": 139.288789
+    },
+    "Nagata": {
+        "Latitude": 34.678747,
+        "Longitude": 135.591919
+    },
+    "Nagatsuta": {
+        "Latitude": 35.531681,
+        "Longitude": 139.494686
+    },
+    "Nagaura": {
+        "Latitude": 35.450234,
+        "Longitude": 139.995467
+    },
+    "Nakagami": {
+        "Latitude": 35.709058,
+        "Longitude": 139.375816
+    },
+    "Nakano": {
+        "Latitude": 35.706032,
+        "Longitude": 139.665652
+    },
+    "Nakanoshima": {
+        "Latitude": 34.690913,
+        "Longitude": 135.486861
+    },
+    "Nakayama": {
+        "Latitude": 35.514834,
+        "Longitude": 139.540247
+    },
+    "Nakoso": {
+        "Latitude": 36.884216,
+        "Longitude": 140.786887
+    },
+    "Namegawa": {
+        "Latitude": 35.877218,
+        "Longitude": 140.348119
+    },
+    "Namegawa Island": {
+        "Latitude": 35.118323,
+        "Longitude": 140.226973
+    },
+    "Namihana": {
+        "Latitude": 35.222674,
+        "Longitude": 140.379431
+    },
+    "Narita": {
+        "Latitude": 35.777849,
+        "Longitude": 140.314078
+    },
+    "Narita Airport": {
+        "Latitude": 35.763983,
+        "Longitude": 140.384644
+    },
+    "Naruse": {
+        "Latitude": 35.535514,
+        "Longitude": 139.472909
+    },
+    "Narutō": {
+        "Latitude": 34.17925,
+        "Longitude": 134.608536
+    },
+    "Nasu-Shiobara": {
+        "Latitude": 36.931772,
+        "Longitude": 140.020514
+    },
+    "Nebukawa": {
+        "Latitude": 35.202719,
+        "Longitude": 139.138485
+    },
+    "Negishi": {
+        "Latitude": 35.415795,
+        "Longitude": 139.635057
+    },
+    "Niihari": {
+        "Latitude": 36.32808199999999,
+        "Longitude": 140.039076
+    },
+    "Niiza": {
+        "Latitude": 35.803846,
+        "Longitude": 139.556364
+    },
+    "Nikkō": {
+        "Latitude": 36.747192,
+        "Longitude": 139.622108
+    },
+    "Ninomiya": {
+        "Latitude": 35.298775,
+        "Longitude": 139.257769
+    },
+    "Nippori": {
+        "Latitude": 35.727772,
+        "Longitude": 139.770987
+    },
+    "Nirasaki": {
+        "Latitude": 35.7104,
+        "Longitude": 138.450918
+    },
+    "Nishi-Chiba": {
+        "Latitude": 35.8445972,
+        "Longitude": 140.1756793
+    },
+    "Nishi-Funabashi": {
+        "Latitude": 35.70832,
+        "Longitude": 139.9588
+    },
+    "Nishi-Hachiōji": {
+        "Latitude": 35.65831,
+        "Longitude": 139.3131
+    },
+    "Nishi-Kunitachi": {
+        "Latitude": 35.6966721,
+        "Longitude": 139.4324693
+    },
+    "Nishi-Nasuno": {
+        "Latitude": 36.884551,
+        "Longitude": 139.986319
+    },
+    "Nishi-Urawa": {
+        "Latitude": 35.8840254,
+        "Longitude": 139.6285516
+    },
+    "Nishi-Ōi": {
+        "Latitude": 34.7414944,
+        "Longitude": 133.7994025
+    },
+    "Nishifu": {
+        "Latitude": 35.670967,
+        "Longitude": 139.457399
+    },
+    "Noborito": {
+        "Latitude": 35.620783,
+        "Longitude": 139.569912
+    },
+    "Nobukata": {
+        "Latitude": 35.95815899999999,
+        "Longitude": 140.588695
+    },
+    "Nozaki": {
+        "Latitude": 34.718693,
+        "Longitude": 135.637136
+    },
+    "Numata": {
+        "Latitude": 36.642513,
+        "Longitude": 139.035734
+    },
+    "Obitsu": {
+        "Latitude": 35.328394,
+        "Longitude": 140.059903
+    },
+    "Ochanomizu": {
+        "Latitude": 35.699855,
+        "Longitude": 139.763786
+    },
+    "Odawara": {
+        "Latitude": 35.25642,
+        "Longitude": 139.154904
+    },
+    "Nogi": {
+        "Latitude": 36.23034,
+        "Longitude": 139.734998
+    },
+    "Ogawamachi": {
+        "Latitude": 36.058902,
+        "Longitude": 139.26079
+    },
+    "Ogikubo": {
+        "Latitude": 35.704632,
+        "Longitude": 139.619981
+    },
+    "Ogitsu": {
+        "Latitude": 36.636781,
+        "Longitude": 140.675177
+    },
+    "Ogose": {
+        "Latitude": 35.962178,
+        "Longitude": 139.299335
+    },
+    "Okabe": {
+        "Latitude": 36.20587,
+        "Longitude": 139.237638
+    },
+    "Okachimachi": {
+        "Latitude": 35.707438,
+        "Longitude": 139.774632
+    },
+    "Okegawa": {
+        "Latitude": 35.998814,
+        "Longitude": 139.564013
+    },
+    "Oku": {
+        "Latitude": 35.746783,
+        "Longitude": 139.754635
+    },
+    "Okutama": {
+        "Latitude": 35.809215,
+        "Longitude": 139.096661
+    },
+    "Omata": {
+        "Latitude": 36.375191,
+        "Longitude": 139.374025
+    },
+    "Omigawa": {
+        "Latitude": 35.850105,
+        "Longitude": 140.604662
+    },
+    "Omoigawa": {
+        "Latitude": 37.043647,
+        "Longitude": 137.861327
+    },
+    "Onjuku": {
+        "Latitude": 35.188037,
+        "Longitude": 140.351976
+    },
+    "Orihara": {
+        "Latitude": 36.096304,
+        "Longitude": 139.195207
+    },
+    "Otabayashi": {
+        "Latitude": 35.746044,
+        "Longitude": 139.719523
+    },
+    "Nisshin": {
+        "Latitude": 35.931502,
+        "Longitude": 139.60625
+    },
+    "Ryōgoku": {
+        "Latitude": 35.696123,
+        "Longitude": 139.792515
+    },
+    "Niita": {
+        "Latitude": 36.657257,
+        "Longitude": 140.029645
+    },
+    "Ryūō": {
+        "Latitude": 35.668772,
+        "Longitude": 138.519745
+    },
+    "Sagamihara": {
+        "Latitude": 35.581066,
+        "Longitude": 139.371001
+    },
+    "Sagamiko": {
+        "Latitude": 35.61703,
+        "Longitude": 139.188953
+    },
+    "Saitama-Shintoshin": {
+        "Latitude": 35.89474000000001,
+        "Longitude": 139.6336
+    },
+    "Sakaori": {
+        "Latitude": 35.659423,
+        "Longitude": 138.599207
+    },
+    "Sakura": {
+        "Latitude": 35.106474,
+        "Longitude": 136.934639
+    },
+    "Sakuragichō": {
+        "Latitude": 35.450918,
+        "Longitude": 139.631073
+    },
+    "Samukawa": {
+        "Latitude": 35.367584,
+        "Longitude": 139.38748
+    },
+    "Sano": {
+        "Latitude": 36.31667400000001,
+        "Longitude": 139.579016
+    },
+    "Sanuki": {
+        "Latitude": 35.930069,
+        "Longitude": 140.138218
+    },
+    "Sanukimachi": {
+        "Latitude": 35.260582,
+        "Longitude": 139.876062
+    },
+    "Saruda": {
+        "Latitude": 35.747319,
+        "Longitude": 140.737455
+    },
+    "Saruhashi": {
+        "Latitude": 35.612766,
+        "Longitude": 138.967711
+    },
+    "Sashiōgi": {
+        "Latitude": 35.917018,
+        "Longitude": 139.565098
+    },
+    "Sawa": {
+        "Latitude": 36.43004,
+        "Longitude": 140.540199
+    },
+    "Sawai": {
+        "Latitude": 35.805787,
+        "Longitude": 139.194058
+    },
+    "Sendagaya": {
+        "Latitude": 35.68117,
+        "Longitude": 139.711444
+    },
+    "Shake": {
+        "Latitude": 35.420762,
+        "Longitude": 139.377412
+    },
+    "Shibukawa": {
+        "Latitude": 36.490693,
+        "Longitude": 139.008411
+    },
+    "Ozaku": {
+        "Latitude": 35.776304,
+        "Longitude": 139.30193
+    },
+    "Shibuya": {
+        "Latitude": 35.658517,
+        "Longitude": 139.701334
+    },
+    "Shiishiba": {
+        "Latitude": 35.765313,
+        "Longitude": 140.7588
+    },
+    "Shikishima": {
+        "Latitude": 36.538616,
+        "Longitude": 139.033991
+    },
+    "Shimbashi": {
+        "Latitude": 35.66646,
+        "Longitude": 139.7592
+    },
+    "Shimodate": {
+        "Latitude": 36.30389400000001,
+        "Longitude": 139.978332
+    },
+    "Shimogōri": {
+        "Latitude": 35.355243,
+        "Longitude": 140.055433
+    },
+    "Shimomizo": {
+        "Latitude": 35.518169,
+        "Longitude": 139.380497
+    },
+    "Sasagawa": {
+        "Latitude": 35.839758,
+        "Longitude": 140.655718
+    },
+    "Shin-Kiba": {
+        "Latitude": 35.64539,
+        "Longitude": 139.8267
+    },
+    "Sasago": {
+        "Latitude": 35.604152,
+        "Longitude": 138.827049
+    },
+    "Sawara": {
+        "Latitude": 35.894552,
+        "Longitude": 140.494055
+    },
+    "Shin-Matsudo": {
+        "Latitude": 35.8256755,
+        "Longitude": 139.9209112
+    },
+    "Shin-Urayasu": {
+        "Latitude": 35.65044,
+        "Longitude": 139.9131
+    },
+    "Shin-Yokohama": {
+        "Latitude": 35.50742,
+        "Longitude": 139.617
+    },
+    "Shinanomachi": {
+        "Latitude": 35.68009,
+        "Longitude": 139.720243
+    },
+    "Shinagawa": {
+        "Latitude": 35.630152,
+        "Longitude": 139.74044
+    },
+    "Shinmachi": {
+        "Latitude": 36.273148,
+        "Longitude": 139.10551
+    },
+    "Shiotsu": {
+        "Latitude": 35.61426,
+        "Longitude": 139.0726
+    },
+    "Shiomi": {
+        "Latitude": 35.658714,
+        "Longitude": 139.817357
+    },
+    "Shiozaki": {
+        "Latitude": 35.687725,
+        "Longitude": 138.487521
+    },
+    "Shiraoka": {
+        "Latitude": 36.017415,
+        "Longitude": 139.666793
+    },
+    "Shiromaru": {
+        "Latitude": 35.811883,
+        "Longitude": 139.114811
+    },
+    "Shishido": {
+        "Latitude": 36.344613,
+        "Longitude": 140.289351
+    },
+    "Shukugawara": {
+        "Latitude": 35.615293,
+        "Longitude": 139.579445
+    },
+    "Shōwa": {
+        "Latitude": 44.3916666,
+        "Longitude": -123.0295338
+    },
+    "Soga": {
+        "Latitude": 35.581481,
+        "Longitude": 140.131139
+    },
+    "Sugamo": {
+        "Latitude": 35.733492,
+        "Longitude": 139.739345
+    },
+    "Suidōbashi": {
+        "Latitude": 35.70203,
+        "Longitude": 139.753653
+    },
+    "Suigō": {
+        "Latitude": 35.886283,
+        "Longitude": 140.569753
+    },
+    "Suzumenomiya": {
+        "Latitude": 36.493841,
+        "Longitude": 139.876791
+    },
+    "Sōbudaishita": {
+        "Latitude": 35.493439,
+        "Longitude": 139.386453
+    },
+    "Tachikawa": {
+        "Latitude": 35.697899,
+        "Longitude": 139.413957
+    },
+    "Taitō": {
+        "Latitude": 35.319929,
+        "Longitude": 140.381065
+    },
+    "Takadanobaba": {
+        "Latitude": 35.712285,
+        "Longitude": 139.703782
+    },
+    "Takahagi": {
+        "Latitude": 36.71476699999999,
+        "Longitude": 140.716652
+    },
+    "Takahama": {
+        "Latitude": 36.141191,
+        "Longitude": 137.251445
+    },
+    "Shinjuku": {
+        "Latitude": 35.690921,
+        "Longitude": 139.700258
+    },
+    "Takasaki-Tonyamachi": {
+        "Latitude": 36.3219088,
+        "Longitude": 139.0032936
+    },
+    "Takasaki": {
+        "Latitude": 36.322356,
+        "Longitude": 139.013057
+    },
+    "Tabata": {
+        "Latitude": 35.738062,
+        "Longitude": 139.76086
+    },
+    "Taki": {
+        "Latitude": 34.516307,
+        "Longitude": 136.572785
+    },
+    "Tanshō": {
+        "Latitude": 36.216851,
+        "Longitude": 139.102259
+    },
+    "Tateyama": {
+        "Latitude": 36.58332,
+        "Longitude": 137.445218
+    },
+    "Taura": {
+        "Latitude": 35.29271,
+        "Longitude": 139.637632
+    },
+    "Takezawa": {
+        "Latitude": 36.075466,
+        "Longitude": 139.229952
+    },
+    "Tennōdai": {
+        "Latitude": 35.872539,
+        "Longitude": 140.040899
+    },
+    "Tawarada": {
+        "Latitude": 35.31454000000001,
+        "Longitude": 140.061367
+    },
+    "Toda": {
+        "Latitude": 35.817657,
+        "Longitude": 139.669592
+    },
+    "Tochigi": {
+        "Latitude": 36.37172,
+        "Longitude": 139.731076
+    },
+    "Toke": {
+        "Latitude": 35.530864,
+        "Longitude": 140.269825
+    },
+    "Tomita": {
+        "Latitude": 36.316087,
+        "Longitude": 139.528792
+    },
+    "Tokyo": {
+        "Latitude": 35.681382,
+        "Longitude": 139.766084
+    },
+    "Tomobe": {
+        "Latitude": 36.350755,
+        "Longitude": 140.306276
+    },
+    "Torisawa": {
+        "Latitude": 35.608301,
+        "Longitude": 139.003398
+    },
+    "Totsuka": {
+        "Latitude": 35.400612,
+        "Longitude": 139.534202
+    },
+    "Toro": {
+        "Latitude": 35.931825,
+        "Longitude": 139.632026
+    },
+    "Toyoda": {
+        "Latitude": 35.659502,
+        "Longitude": 139.381495
+    },
+    "Tsudanuma": {
+        "Latitude": 35.691228,
+        "Longitude": 140.020476
+    },
+    "Tsudayama": {
+        "Latitude": 35.60427,
+        "Longitude": 139.600005
+    },
+    "Tsuga": {
+        "Latitude": 35.636099,
+        "Longitude": 140.149186
+    },
+    "Tsujidō": {
+        "Latitude": 35.336847,
+        "Longitude": 139.447106
+    },
+    "Tamado": {
+        "Latitude": 36.298591,
+        "Longitude": 139.938886
+    },
+    "Tsukuda": {
+        "Latitude": 34.032458,
+        "Longitude": 133.857363
+    },
+    "Tsuruta": {
+        "Latitude": 36.53828,
+        "Longitude": 139.857791
+    },
+    "Tamachi": {
+        "Latitude": 35.645736,
+        "Longitude": 139.747575
+    },
+    "Tōgane": {
+        "Latitude": 35.560258,
+        "Longitude": 140.363595
+    },
+    "Tōkaichiba": {
+        "Latitude": 35.538909,
+        "Longitude": 138.887492
+    },
+    "Ubara": {
+        "Latitude": 35.140853,
+        "Longitude": 140.278465
+    },
+    "Uchigō": {
+        "Latitude": 37.035703,
+        "Longitude": 140.854944
+    },
+    "Tōkai": {
+        "Latitude": 36.465422,
+        "Longitude": 140.565843
+    },
+    "Uenohara": {
+        "Latitude": 35.618727,
+        "Longitude": 139.115768
+    },
+    "Ueda": {
+        "Latitude": 36.396498,
+        "Longitude": 138.249736
+    },
+    "Ujiie": {
+        "Latitude": 36.681555,
+        "Longitude": 139.962314
+    },
+    "Ukima-Funado": {
+        "Latitude": 35.791234,
+        "Longitude": 139.691391
+    },
+    "Urawa": {
+        "Latitude": 35.858482,
+        "Longitude": 139.657087
+    },
+    "Uguisudani": {
+        "Latitude": 35.720495,
+        "Longitude": 139.778837
+    },
+    "Usami": {
+        "Latitude": 35.005974,
+        "Longitude": 139.07987
+    },
+    "Ushihama": {
+        "Latitude": 35.734562,
+        "Longitude": 139.333665
+    },
+    "Tsuchiura": {
+        "Latitude": 36.078014,
+        "Longitude": 140.206025
+    },
+    "Utsunomiya": {
+        "Latitude": 36.558701,
+        "Longitude": 139.898283
+    },
+    "Ushiku": {
+        "Latitude": 35.975631,
+        "Longitude": 140.140983
+    },
+    "Wadaura": {
+        "Latitude": 35.041885,
+        "Longitude": 140.019569
+    },
+    "Yabe": {
+        "Latitude": 35.573069,
+        "Longitude": 139.386767
+    },
+    "Warabi": {
+        "Latitude": 35.828148,
+        "Longitude": 139.690443
+    },
+    "Yachimata": {
+        "Latitude": 35.663076,
+        "Longitude": 140.317657
+    },
+    "Yagawa": {
+        "Latitude": 35.684962,
+        "Longitude": 139.432123
+    },
+    "Yagihara": {
+        "Latitude": 36.463596,
+        "Longitude": 139.019097
+    },
+    "Yaho": {
+        "Latitude": 35.681424,
+        "Longitude": 139.446591
+    },
+    "Yaita": {
+        "Latitude": 36.806853,
+        "Longitude": 139.932945
+    },
+    "Yamamae": {
+        "Latitude": 36.34730500000001,
+        "Longitude": 139.411156
+    },
+    "Yamanashishi": {
+        "Latitude": 35.685064,
+        "Longitude": 138.683184
+    },
+    "Yamate": {
+        "Latitude": 35.427249,
+        "Longitude": 139.646206
+    },
+    "Yakō": {
+        "Latitude": 35.538933,
+        "Longitude": 139.680422
+    },
+    "Yanokuchi": {
+        "Latitude": 35.641674,
+        "Longitude": 139.520457
+    },
+    "Ueno": {
+        "Latitude": 35.713768,
+        "Longitude": 139.777254
+    },
+    "Yatsumi": {
+        "Latitude": 35.403752,
+        "Longitude": 140.345572
+    },
+    "Yawatajuku": {
+        "Latitude": 35.536347,
+        "Longitude": 140.120077
+    },
+    "Yamato": {
+        "Latitude": 35.4697,
+        "Longitude": 139.461406
+    },
+    "Uchihara": {
+        "Latitude": 36.370584,
+        "Longitude": 140.353256
+    },
+    "Yokohama": {
+        "Latitude": 35.466188,
+        "Longitude": 139.622715
+    },
+    "Yokosuka": {
+        "Latitude": 35.284119,
+        "Longitude": 139.655899
+    },
+    "Yokota": {
+        "Latitude": 35.386087,
+        "Longitude": 140.020304
+    },
+    "Yono": {
+        "Latitude": 35.884393,
+        "Longitude": 139.639085
+    },
+    "Yorii": {
+        "Latitude": 36.117885,
+        "Longitude": 139.194506
+    },
+    "Yoshikawa": {
+        "Latitude": 35.876548,
+        "Longitude": 139.843742
+    },
+    "Yotsukaidō": {
+        "Latitude": 35.662998,
+        "Longitude": 140.165595
+    },
+    "Yotsuya": {
+        "Latitude": 35.686014,
+        "Longitude": 139.730667
+    },
+    "Yoyogi": {
+        "Latitude": 35.683061,
+        "Longitude": 139.702042
+    },
+    "Yugawara": {
+        "Latitude": 35.145944,
+        "Longitude": 139.10219
+    },
+    "Yumoto": {
+        "Latitude": 37.006478,
+        "Longitude": 140.849957
+    },
+    "Yōkaichiba": {
+        "Latitude": 35.699279,
+        "Longitude": 140.552133
+    },
+    "Yōdo": {
+        "Latitude": 34.90681900000001,
+        "Longitude": 135.721457
+    },
+    "Yōkōdai": {
+        "Latitude": 35.378713,
+        "Longitude": 139.596505
+    },
+    "Yūki": {
+        "Latitude": 33.776015,
+        "Longitude": 134.591829
+    },
+    "Yūrakuchō": {
+        "Latitude": 35.675069,
+        "Longitude": 139.763328
+    },
+    "Zushi": {
+        "Latitude": 35.297522,
+        "Longitude": 139.579545
+    },
+    "Ōami": {
+        "Latitude": 35.522766,
+        "Longitude": 140.310799
+    },
+    "Ōfuna": {
+        "Latitude": 35.353435,
+        "Longitude": 139.531124
+    },
+    "Ōgane": {
+        "Latitude": 36.656425,
+        "Longitude": 140.095695
+    },
+    "Ōgimachi": {
+        "Latitude": 34.703809,
+        "Longitude": 135.5108
+    },
+    "Ōguchi": {
+        "Latitude": 35.492164,
+        "Longitude": 139.646157
+    },
+    "Yokokawa": {
+        "Latitude": 36.33594799999999,
+        "Longitude": 138.737915
+    },
+    "Ōhara": {
+        "Latitude": 35.250972,
+        "Longitude": 140.390844
+    },
+    "Ōkawa": {
+        "Latitude": 35.495555,
+        "Longitude": 139.711082
+    },
+    "Ōimachi": {
+        "Latitude": 35.606249,
+        "Longitude": 139.734855
+    },
+    "Ōkubo": {
+        "Latitude": 35.700722,
+        "Longitude": 139.697358
+    },
+    "Ōmika": {
+        "Latitude": 36.51306,
+        "Longitude": 140.619782
+    },
+    "Ōhirashita": {
+        "Latitude": 36.344312,
+        "Longitude": 139.69757
+    },
+    "Ōmori": {
+        "Latitude": 35.588442,
+        "Longitude": 139.727929
+    },
+    "Ōme": {
+        "Latitude": 64.5099347,
+        "Longitude": -165.4435152
+    },
+    "Ōnuki": {
+        "Latitude": 35.291036,
+        "Longitude": 139.85563
+    },
+    "Ōmiya": {
+        "Latitude": 35.906295,
+        "Longitude": 139.623999
+    },
+    "Ōsaki": {
+        "Latitude": 35.6197,
+        "Longitude": 139.728553
+    },
+    "Ōtsuka": {
+        "Latitude": 35.731401,
+        "Longitude": 139.728662
+    },
+    "Ōtsukō": {
+        "Latitude": 36.846521,
+        "Longitude": 140.778229
+    },
+    "Ōtsuki": {
+        "Latitude": 35.612949,
+        "Longitude": 138.942191
+    },
+    "Ōji": {
+        "Latitude": 35.752474,
+        "Longitude": 139.738139
+    },
+    "Ōiso": {
+        "Latitude": 35.311221,
+        "Longitude": 139.313508
+    }
+}
