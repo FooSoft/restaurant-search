@@ -109,8 +109,10 @@ func walkMatches(entries []record, features map[string]float64, modes map[string
 }
 
 func statRecords(entries []record, features map[string]float64, modes map[string]modeType, minScore float64) (float64, int) {
-	var compatibility float64
-	var count int
+	var (
+		compatibility float64
+		count         int
+	)
 
 	walkMatches(entries, features, modes, minScore, func(entry record, score float64) {
 		compatibility += entry.Compatibility
@@ -198,14 +200,18 @@ func computeRecordsGeo(entries []record, context queryContext) {
 }
 
 func computeRecordCompat(entry *record, context queryContext, wg *sync.WaitGroup) {
+	defer wg.Done()
+
 	historyRows, err := db.Query("SELECT id FROM history WHERE reviewId = (?)", entry.Id)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer historyRows.Close()
 
-	var groupSum float64
-	var groupCount int
+	var (
+		groupSum   float64
+		groupCount int
+	)
 
 	for historyRows.Next() {
 		var historyId int
@@ -221,8 +227,10 @@ func computeRecordCompat(entry *record, context queryContext, wg *sync.WaitGroup
 
 		recordProfile := make(map[string]float64)
 		for groupRows.Next() {
-			var categoryId int
-			var categoryValue float64
+			var (
+				categoryId    int
+				categoryValue float64
+			)
 
 			if err := groupRows.Scan(&categoryId, &categoryValue); err != nil {
 				log.Fatal(err)
@@ -244,8 +252,6 @@ func computeRecordCompat(entry *record, context queryContext, wg *sync.WaitGroup
 	if groupCount > 0 {
 		entry.Compatibility = groupSum / float64(groupCount)
 	}
-
-	wg.Done()
 }
 
 func computeRecordsCompat(entries []record, context queryContext) {
@@ -278,9 +284,12 @@ func getRecords(context queryContext) []record {
 
 	var entries []record
 	for recordRows.Next() {
-		var name, url, closestStn string
-		var delicious, accommodating, affordable, atmospheric, latitude, longitude, distanceToStn float64
-		var accessCount, id int
+		var (
+			name, url, closestStn                             string
+			delicious, accommodating, affordable, atmospheric float64
+			latitude, longitude, distanceToStn                float64
+			accessCount, id                                   int
+		)
 
 		recordRows.Scan(
 			&name,
