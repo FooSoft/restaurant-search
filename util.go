@@ -186,7 +186,7 @@ func computeRecordGeo(entries []record, context queryContext) {
 		if distUserRange > 0 {
 			nearby = -((entry.DistanceToUser-distUserMin)/distUserRange - 0.5) * 2.0
 
-			accessible = 1.0 - (entry.DistanceToStn / (context.walkingDist * 1000))
+			accessible = 1.0 - entry.DistanceToStn/context.walkingDist
 			accessible = math.Max(accessible, -1.0)
 			accessible = math.Min(accessible, 1.0)
 		}
