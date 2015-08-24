@@ -50,7 +50,7 @@ func (tabelog) index(doc *goquery.Document) (string, []string) {
 	return nextIndexUrl, reviewUrls
 }
 
-func (tabelog) review(doc *goquery.Document) (name, address string, features map[string]float64, err error) {
+func (tabelog) review(doc *goquery.Document) (name, address string, feat features, err error) {
 	name = doc.Find("a.rd-header__rst-name-main").Text()
 
 	if addresses := doc.Find("p.rd-detail-info__rst-address"); addresses.Length() == 2 {
@@ -60,14 +60,19 @@ func (tabelog) review(doc *goquery.Document) (name, address string, features map
 		return
 	}
 
-	features = make(map[string]float64)
+	f := make(map[string]float64)
 	for index, category := range []string{"dishes", "service", "atmosphere", "cost", "drinks"} {
 		text := doc.Find(fmt.Sprintf("#js-rating-detail > dd:nth-child(%d)", (index+1)*2)).Text()
-		if features[category], err = strconv.ParseFloat(text, 8); err != nil {
+		if f[category], err = strconv.ParseFloat(text, 8); err != nil {
 			err = fmt.Errorf("invalid value for %s", category)
 			return
 		}
 	}
+
+	feat.accommodating = f["service"]/2.5 - 1.0
+	feat.affordable = f["cost"]/2.5 - 1.0
+	feat.atmospheric = f["atmosphere"]/2.5 - 1.0
+	feat.delicious = f["dishes"]/2.5 - 1.0
 
 	return
 }

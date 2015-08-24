@@ -102,10 +102,6 @@ func computeStnData(restaurants []restaurant, stationsPath string) error {
 	return nil
 }
 
-func buildFeatures(r restaurant) (delicious, accommodating, affordable, atmospheric float64) {
-	return r.features["food"], r.features["service"], r.features["value"], r.features["atmosphere"]
-}
-
 func dumpData(dbPath string, restaraunts []restaurant) error {
 	db, err := sql.Open("sqlite3", dbPath)
 	if err != nil {
@@ -135,8 +131,6 @@ func dumpData(dbPath string, restaraunts []restaurant) error {
 	}
 
 	for _, r := range restaraunts {
-		delicious, accommodating, affordable, atmospheric := buildFeatures(r)
-
 		_, err = db.Exec(`
 			INSERT INTO reviews(
 				name,
@@ -153,10 +147,10 @@ func dumpData(dbPath string, restaraunts []restaurant) error {
 			) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
 			r.name,
 			r.url,
-			delicious,
-			accommodating,
-			affordable,
-			atmospheric,
+			r.feats.delicious,
+			r.feats.accommodating,
+			r.feats.affordable,
+			r.feats.atmospheric,
 			r.longitude,
 			r.latitude,
 			r.closestStnDist,

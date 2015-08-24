@@ -30,12 +30,19 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
+type features struct {
+	delicious     float64
+	accommodating float64
+	affordable    float64
+	atmospheric   float64
+}
+
 type restaurant struct {
 	name    string
 	address string
 	url     string
 
-	features map[string]float64
+	feats features
 
 	latitude  float64
 	longitude float64
@@ -46,7 +53,7 @@ type restaurant struct {
 
 type scraper interface {
 	index(doc *goquery.Document) (string, []string)
-	review(doc *goquery.Document) (string, string, map[string]float64, error)
+	review(doc *goquery.Document) (string, string, features, error)
 }
 
 func makeAbsUrl(ref, base string) (string, error) {
@@ -90,17 +97,17 @@ func scrapeReview(url string, out chan restaurant, wc *webCache, group *sync.Wai
 		return
 	}
 
-	name, address, features, err := scr.review(doc)
+	name, address, feats, err := scr.review(doc)
 	if err != nil {
 		log.Printf("failed to scrape review at %s (%v)", url, err)
 		return
 	}
 
 	out <- restaurant{
-		name:     name,
-		address:  address,
-		features: features,
-		url:      url}
+		name:    name,
+		address: address,
+		feats:   feats,
+		url:     url}
 }
 
 func scrapeIndex(indexUrl string, out chan restaurant, wc *webCache, scr scraper) {
