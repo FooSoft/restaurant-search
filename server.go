@@ -42,7 +42,12 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-var db *sql.DB
+var (
+	staticDir = flag.String("static", "static", "static files path")
+	portNum   = flag.Int("port", 8080, "port to serve content on")
+	dataSrc   = flag.String("db", "build/data/db.sqlite3", "database path")
+	profile   = flag.String("profile", "", "write cpu profile to file")
+)
 
 func prepareColumn(steps int, minScore float64, allEntries, matchedEntries []record, features map[string]float64, modes map[string]modeType, name string, col *column, wg *sync.WaitGroup) {
 	defer wg.Done()
@@ -83,6 +88,13 @@ func prepareColumn(steps int, minScore float64, allEntries, matchedEntries []rec
 
 func handleExecuteQuery(rw http.ResponseWriter, req *http.Request) {
 	startTime := time.Now()
+
+	db, err := sql.Open("sqlite3", *dataSrc)
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer db.Close()
 
 	var (
 		request struct {
@@ -171,6 +183,13 @@ func handleExecuteQuery(rw http.ResponseWriter, req *http.Request) {
 }
 
 func handleGetCategories(rw http.ResponseWriter, req *http.Request) {
+	db, err := sql.Open("sqlite3", *dataSrc)
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer db.Close()
+
 	categoryRows, err := db.Query("SELECT description, id FROM categories")
 	if err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
@@ -214,6 +233,13 @@ func handleGetCategories(rw http.ResponseWriter, req *http.Request) {
 }
 
 func handleAddCategory(rw http.ResponseWriter, req *http.Request) {
+	db, err := sql.Open("sqlite3", *dataSrc)
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer db.Close()
+
 	var (
 		request struct {
 			Description string `json:"description"`
@@ -267,6 +293,13 @@ func handleAddCategory(rw http.ResponseWriter, req *http.Request) {
 }
 
 func handleRemoveCategory(rw http.ResponseWriter, req *http.Request) {
+	db, err := sql.Open("sqlite3", *dataSrc)
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer db.Close()
+
 	var (
 		request struct {
 			Id int `json:"id"`
@@ -297,6 +330,13 @@ func handleRemoveCategory(rw http.ResponseWriter, req *http.Request) {
 }
 
 func handleAccessReview(rw http.ResponseWriter, req *http.Request) {
+	db, err := sql.Open("sqlite3", *dataSrc)
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer db.Close()
+
 	var request struct {
 		Id      int                `json:"id"`
 		Profile map[string]float64 `json:"profile"`
@@ -357,6 +397,13 @@ func handleAccessReview(rw http.ResponseWriter, req *http.Request) {
 }
 
 func handleClearHistory(rw http.ResponseWriter, req *http.Request) {
+	db, err := sql.Open("sqlite3", *dataSrc)
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer db.Close()
+
 	if _, err := db.Exec("DELETE FROM historyGroups"); err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
@@ -372,17 +419,7 @@ func handleClearHistory(rw http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
-	staticDir := flag.String("static", "static", "static files path")
-	portNum := flag.Int("port", 8080, "port to serve content on")
-	dataSrc := flag.String("db", "build/data/db.sqlite3", "database path")
-	profile := flag.String("profile", "", "write cpu profile to file")
 	flag.Parse()
-
-	var err error
-	if db, err = sql.Open("sqlite3", *dataSrc); err != nil {
-		log.Fatal(err)
-	}
-	defer db.Close()
 
 	if *profile != "" {
 		f, err := os.Create(*profile)
