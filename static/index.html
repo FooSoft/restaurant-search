@@ -131,7 +131,7 @@
                                 <td><a href="{{url}}" target="_blank" onclick="javascript:accessReview({{id}});">{{name}}</a></td>
                                 <td>{{#prettyFloat 2}}{{distanceToUser}}{{/prettyFloat}} km</td>
                                 <td>{{closestStn}}</td>
-                                <td>{{distanceToStn}} m</td>
+                                <td>{{#prettyFloat 2}}{{distanceToStn}}{{/prettyFloat}} km</td>
                                 <td>{{#prettyFloat 4}}{{compatibility}}{{/prettyFloat}}</td>
                                 <td>{{#prettyFloat 4}}{{score}}{{/prettyFloat}}</td>
                                 <td>{{accessCount}}</td>
