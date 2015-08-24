@@ -49,43 +49,6 @@ var (
 	profile   = flag.String("profile", "", "write cpu profile to file")
 )
 
-func prepareColumn(steps int, minScore float64, allEntries, matchedEntries []record, features map[string]float64, modes map[string]modeType, name string, col *column, wg *sync.WaitGroup) {
-	defer wg.Done()
-
-	*col = column{
-		Bracket: bracket{Max: -1.0, Min: 1.0},
-		Mode:    modes[name].String(),
-		Steps:   steps,
-		Value:   features[name]}
-
-	col.Hints = project(
-		allEntries,
-		features,
-		modes,
-		name,
-		minScore,
-		steps)
-
-	var d stats.Stats
-	for _, record := range matchedEntries {
-		if feature, ok := record.features[name]; ok {
-			d.Update(feature)
-		}
-	}
-
-	if d.Count() > 0 {
-		var dev float64
-		if d.Count() > 1 {
-			dev = d.SampleStandardDeviation() * 3
-		}
-
-		mean := d.Mean()
-
-		col.Bracket.Max = math.Min(mean+dev, d.Max())
-		col.Bracket.Min = math.Max(mean-dev, d.Min())
-	}
-}
-
 func handleExecuteQuery(rw http.ResponseWriter, req *http.Request) {
 	startTime := time.Now()
 
@@ -148,16 +111,37 @@ func handleExecuteQuery(rw http.ResponseWriter, req *http.Request) {
 	response.Columns = make(map[string]*column)
 	for name := range features {
 		response.Columns[name] = new(column)
-		go prepareColumn(
-			request.Resolution,
-			request.MinScore,
-			allEntries,
-			matchedEntries,
-			features,
-			modes,
-			name,
-			response.Columns[name],
-			&wg)
+
+		go func(name string) {
+			defer wg.Done()
+
+			col := response.Columns[name]
+
+			col.Bracket = bracket{Max: -1.0, Min: 1.0}
+			col.Hints = project(allEntries, features, modes, name, request.MinScore, request.Resolution)
+			col.Mode = modes[name].String()
+			col.Steps = request.Resolution
+			col.Value = features[name]
+
+			var d stats.Stats
+			for _, record := range matchedEntries {
+				if feature, ok := record.features[name]; ok {
+					d.Update(feature)
+				}
+			}
+
+			if d.Count() > 0 {
+				var dev float64
+				if d.Count() > 1 {
+					dev = d.SampleStandardDeviation() * 3
+				}
+
+				mean := d.Mean()
+
+				col.Bracket.Max = math.Min(mean+dev, d.Max())
+				col.Bracket.Min = math.Max(mean-dev, d.Min())
+			}
+		}(name)
 	}
 
 	wg.Wait()
