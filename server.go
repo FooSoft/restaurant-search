@@ -117,7 +117,12 @@ func handleExecuteQuery(rw http.ResponseWriter, req *http.Request) {
 		geo = &geoData{request.Geo.Latitude, request.Geo.Longitude}
 	}
 
-	allEntries := getRecords(queryContext{geo, request.Profile, request.WalkingDist})
+	allEntries, err := fetchRecords(db, queryContext{geo, request.Profile, request.WalkingDist})
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
 	features := fixFeatures(request.Features)
 	modes := fixModes(request.Modes)
 
@@ -241,13 +246,13 @@ func handleAddCategory(rw http.ResponseWriter, req *http.Request) {
 			return
 		}
 
-		affectedRows, err := result.RowsAffected()
+		rows, err := result.RowsAffected()
 		if err != nil {
 			http.Error(rw, err.Error(), http.StatusInternalServerError)
 			return
 		}
 
-		response.Success = affectedRows > 0
+		response.Success = rows > 0
 		response.Id = int(insertId)
 	}
 
@@ -315,6 +320,7 @@ func handleAccessReview(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	if rowsAffected == 0 || len(request.Profile) == 0 {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
