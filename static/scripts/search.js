@@ -141,6 +141,8 @@
     }
 
     function outputSnapshot(results, omitValues) {
+        var records = results.records || [];
+
         _ctx.query.minScore = results.minScore;
         $('#minScore').val(results.minScore);
 
@@ -153,8 +155,8 @@
 
         _ctx.grapher.setColumns(columns);
 
-        var searchResultCnt = String(results.records.length);
-        if (results.records.length < results.count) {
+        var searchResultCnt = String(records.length);
+        if (records.length < results.count) {
             searchResultCnt += ' of ' + results.count;
         }
         $('#resultCount').text(searchResultCnt);
@@ -162,7 +164,7 @@
 
         var template = Handlebars.compile($('#template').html());
         $('#records').empty();
-        $('#records').append(template({records: results.records}));
+        $('#records').append(template({records: records}));
 
         $('span.sort-icon').css('visibility', 'hidden');
         var currentColumn = $('span.sort-icon[data-sort="' + _ctx.sortKey + '"]').css('visibility', 'visible');
@@ -173,7 +175,7 @@
             currentColumn.removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
         }
 
-        if (results.records.length === 0) {
+        if (records.length === 0) {
             $('#resultPanel').slideUp();
         }
         else {
