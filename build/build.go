@@ -151,8 +151,8 @@ func dumpData(dbPath string, restaraunts []restaurant) error {
 			r.feats.accommodating,
 			r.feats.affordable,
 			r.feats.atmospheric,
-			r.longitude,
 			r.latitude,
+			r.longitude,
 			r.closestStnDist,
 			r.closestStnName,
 			0)
