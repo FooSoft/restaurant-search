@@ -13,19 +13,7 @@ other flavors of Linux. If you run into any problems, let me know.
 
 ## Installation ##
 
-1.  Install the system dependencies:
-
-    ```
-    # apt-get install mysql-server nodejs-legacy nodejs npm
-    ```
-
-2.  Install the Node dependencies:
-
-    ```
-    # npm install -g bower
-    ```
-
-3.  Install the Go tool chain:
+1.  Install the Go tool chain:
 
     ```
     $ wget https://godeb.s3.amazonaws.com/godeb-amd64.tar.gz
@@ -33,32 +21,25 @@ other flavors of Linux. If you run into any problems, let me know.
     # ./godeb install
     ```
 
-4.  Set the `GOPATH` environment variable (read the docs).
+2.  Set the `GOPATH` environment variable (read the docs).
 
-5.  Install the search application:
+3.  Install the search application:
 
     ```
     $ go get github.com/FooSoft/search
     ```
 
-6.  Initialize the database (from the `search/db` directory):
-
-    ```
-    $ ./init.sh
-    $ ./load.sh
-    ```
-
-7.  Install the client libraries (from the `search/static` directory):
+4.  Install the client libraries (from the `search/static` directory):
 
     ```
     $ bower install
     ```
 
-8.  Build and start the server (from the `search` directory):
+5.  Build and start the server (from the `search` directory):
 
     ```
     $ go build
     $ ./server
     ```
 
-9.  Access the web application at `localhost:8080`.
+6.  Access the web application at `localhost:8080`.
