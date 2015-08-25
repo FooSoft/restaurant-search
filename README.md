@@ -10,10 +10,21 @@ This installation guide is designed with [Ubuntu](http://www.ubuntu.com/)-based 
 Mint](http://www.linuxmint.com/) for development), but I expect it to be trivial to get this application running on
 other flavors of Linux. If you run into any problems, let me know.
 
-
 ## Installation ##
 
-1.  Install the Go tool chain:
+1.  Install the system dependencies:
+
+    ```
+    # apt-get install nodejs-legacy nodejs npm
+    ```
+
+2.  Install the Node dependencies:
+
+    ```
+    # npm install -g bower
+    ```
+
+3.  Install the Go tool chain:
 
     ```
     $ wget https://godeb.s3.amazonaws.com/godeb-amd64.tar.gz
@@ -21,25 +32,25 @@ other flavors of Linux. If you run into any problems, let me know.
     # ./godeb install
     ```
 
-2.  Set the `GOPATH` environment variable (read the docs).
+4.  Set the `GOPATH` environment variable (read the [docs](https://github.com/golang/go/wiki/GOPATH)).
 
-3.  Install the search application:
+5.  Install the search application:
 
     ```
     $ go get github.com/FooSoft/search
     ```
 
-4.  Install the client libraries (from the `search/static` directory):
+6.  Install the client libraries (from the `search/static` directory):
 
     ```
     $ bower install
     ```
 
-5.  Build and start the server (from the `search` directory):
+7.  Build and start the server (from the `search` directory):
 
     ```
     $ go build
     $ ./server
     ```
 
-6.  Access the web application at `localhost:8080`.
+8.  Access the web application at `localhost:8080`.
