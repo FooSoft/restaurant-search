@@ -20,39 +20,28 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package main
+package search
 
 import (
 	"database/sql"
 	"encoding/json"
-	"flag"
 	"fmt"
-	"log"
 	"math"
 	"net/http"
-	"os"
-	"os/signal"
-	"runtime/pprof"
 	"strings"
 	"sync"
-	"syscall"
 	"time"
 
 	"github.com/GaryBoone/GoStats/stats"
 	_ "github.com/mattn/go-sqlite3"
 )
 
-var (
-	staticDir = flag.String("static", "static", "static files path")
-	portNum   = flag.Int("port", 8080, "port to serve content on")
-	dataSrc   = flag.String("db", "build/data/db.sqlite3", "database path")
-	profile   = flag.String("profile", "", "write cpu profile to file")
-)
+var dataSrc string
 
 func handleExecuteQuery(rw http.ResponseWriter, req *http.Request) {
 	startTime := time.Now()
 
-	db, err := sql.Open("sqlite3", *dataSrc)
+	db, err := sql.Open("sqlite3", dataSrc)
 	if err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
@@ -167,7 +156,7 @@ func handleExecuteQuery(rw http.ResponseWriter, req *http.Request) {
 }
 
 func handleGetCategories(rw http.ResponseWriter, req *http.Request) {
-	db, err := sql.Open("sqlite3", *dataSrc)
+	db, err := sql.Open("sqlite3", dataSrc)
 	if err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
@@ -217,7 +206,7 @@ func handleGetCategories(rw http.ResponseWriter, req *http.Request) {
 }
 
 func handleAddCategory(rw http.ResponseWriter, req *http.Request) {
-	db, err := sql.Open("sqlite3", *dataSrc)
+	db, err := sql.Open("sqlite3", dataSrc)
 	if err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
@@ -277,7 +266,7 @@ func handleAddCategory(rw http.ResponseWriter, req *http.Request) {
 }
 
 func handleRemoveCategory(rw http.ResponseWriter, req *http.Request) {
-	db, err := sql.Open("sqlite3", *dataSrc)
+	db, err := sql.Open("sqlite3", dataSrc)
 	if err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
@@ -314,7 +303,7 @@ func handleRemoveCategory(rw http.ResponseWriter, req *http.Request) {
 }
 
 func handleAccessReview(rw http.ResponseWriter, req *http.Request) {
-	db, err := sql.Open("sqlite3", *dataSrc)
+	db, err := sql.Open("sqlite3", dataSrc)
 	if err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
@@ -381,7 +370,7 @@ func handleAccessReview(rw http.ResponseWriter, req *http.Request) {
 }
 
 func handleClearHistory(rw http.ResponseWriter, req *http.Request) {
-	db, err := sql.Open("sqlite3", *dataSrc)
+	db, err := sql.Open("sqlite3", dataSrc)
 	if err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
@@ -402,34 +391,17 @@ func handleClearHistory(rw http.ResponseWriter, req *http.Request) {
 	fmt.Fprint(rw, "History tables cleared")
 }
 
-func main() {
-	flag.Parse()
+func NewSearchApp(sd, ds string) *http.ServeMux {
+	dataSrc = ds
 
-	if *profile != "" {
-		f, err := os.Create(*profile)
-		if err != nil {
-			log.Fatal(err)
-		}
+	mux := http.NewServeMux()
+	mux.HandleFunc("/query", handleExecuteQuery)
+	mux.HandleFunc("/categories", handleGetCategories)
+	mux.HandleFunc("/learn", handleAddCategory)
+	mux.HandleFunc("/forget", handleRemoveCategory)
+	mux.HandleFunc("/access", handleAccessReview)
+	mux.HandleFunc("/clear", handleClearHistory)
+	mux.Handle("/", http.FileServer(http.Dir(sd)))
 
-		pprof.StartCPUProfile(f)
-
-		c := make(chan os.Signal, 1)
-		signal.Notify(c, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
-
-		go func() {
-			<-c
-			pprof.StopCPUProfile()
-			os.Exit(1)
-		}()
-	}
-
-	http.HandleFunc("/query", handleExecuteQuery)
-	http.HandleFunc("/categories", handleGetCategories)
-	http.HandleFunc("/learn", handleAddCategory)
-	http.HandleFunc("/forget", handleRemoveCategory)
-	http.HandleFunc("/access", handleAccessReview)
-	http.HandleFunc("/clear", handleClearHistory)
-	http.Handle("/", http.FileServer(http.Dir(*staticDir)))
-
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", *portNum), nil))
+	return mux
 }
