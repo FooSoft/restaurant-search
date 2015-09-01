@@ -25,9 +25,12 @@ package search
 import (
 	"database/sql"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"math"
 	"net/http"
+	"path"
+	"runtime"
 	"strings"
 	"sync"
 	"time"
@@ -391,8 +394,30 @@ func handleClearHistory(rw http.ResponseWriter, req *http.Request) {
 	fmt.Fprint(rw, "History tables cleared")
 }
 
-func NewSearchApp(sd, ds string) *http.ServeMux {
-	dataSrc = ds
+func queryPaths() (staticDat, dataSrc string, err error) {
+	_, filename, _, ok := runtime.Caller(1)
+	if !ok {
+		err = errors.New("unable to capture paths")
+		return
+	}
+
+	dir := path.Dir(filename)
+
+	dataSrc = path.Join(dir, "build/data/db.sqlite3")
+	staticDat = path.Join(dir, "static")
+	return
+}
+
+func NewSearchApp() (*http.ServeMux, error) {
+	var (
+		err       error
+		staticDat string
+	)
+
+	staticDat, dataSrc, err = queryPaths()
+	if err != nil {
+		return nil, err
+	}
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/query", handleExecuteQuery)
@@ -401,7 +426,7 @@ func NewSearchApp(sd, ds string) *http.ServeMux {
 	mux.HandleFunc("/forget", handleRemoveCategory)
 	mux.HandleFunc("/access", handleAccessReview)
 	mux.HandleFunc("/clear", handleClearHistory)
-	mux.Handle("/", http.FileServer(http.Dir(sd)))
+	mux.Handle("/", http.FileServer(http.Dir(staticDat)))
 
-	return mux
+	return mux, nil
 }

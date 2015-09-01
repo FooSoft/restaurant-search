@@ -39,10 +39,8 @@ import (
 
 func main() {
 	var (
-		staticDir = flag.String("static", "../static", "static files path")
-		portNum   = flag.Int("port", 8080, "port to serve content on")
-		dataSrc   = flag.String("db", "../build/data/db.sqlite3", "database path")
-		profile   = flag.String("profile", "", "write cpu profile to file")
+		portNum = flag.Int("port", 8080, "port to serve content on")
+		profile = flag.String("profile", "", "write cpu profile to file")
 	)
 
 	flag.Parse()
@@ -65,6 +63,10 @@ func main() {
 		}()
 	}
 
-	mux := search.NewSearchApp(*staticDir, *dataSrc)
+	mux, err := search.NewSearchApp()
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", *portNum), mux))
 }
