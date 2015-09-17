@@ -79,19 +79,23 @@ func (c *geoCache) save() error {
 	return ioutil.WriteFile(c.filename, js, 0644)
 }
 
-func (c *geoCache) decode(address string) (geoPos, error) {
+func (c *geoCache) decode(address string) (latitude float64, longitude float64, err error) {
 	if pos, ok := c.data[address]; ok {
-		return pos, nil
+		latitude = pos.Latitude
+		longitude = pos.Longitude
+		return
 	}
 
 	<-c.ticker.C
 
 	point, err := c.coder.Geocode(address)
 	if err != nil {
-		return geoPos{}, err
+		return
 	}
 
-	pos := geoPos{point.Lat(), point.Lng()}
-	c.data[address] = pos
-	return pos, nil
+	latitude = point.Lat()
+	longitude = point.Lng()
+
+	c.data[address] = geoPos{latitude, longitude}
+	return
 }

@@ -24,7 +24,6 @@ package main
 
 import (
 	"bufio"
-	"database/sql"
 	"errors"
 	"flag"
 	"log"
@@ -34,14 +33,14 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-func scrapeDataUrls(urlsPath string, wc *webCache, gc *geoCache) ([]restaurant, error) {
+func scrapeDataUrls(urlsPath string, wc *webCache, gc *geoCache) ([]review, error) {
 	file, err := os.Open(urlsPath)
 	if err != nil {
 		return nil, err
 	}
 	defer file.Close()
 
-	var results []restaurant
+	var reviews []review
 	var scanner = bufio.NewScanner(file)
 
 	for scanner.Scan() {
@@ -51,24 +50,21 @@ func scrapeDataUrls(urlsPath string, wc *webCache, gc *geoCache) ([]restaurant, 
 				return nil, err
 			}
 
-			var items []restaurant
 			switch parsed.Host {
 			case "tabelog.com":
-				items = scrape(line, wc, gc, tabelog{})
+				reviews = append(reviews, scrape(line, wc, gc, tabelog{})...)
 			case "www.tripadvisor.com":
-				items = scrape(line, wc, gc, tripadvisor{})
+				reviews = append(reviews, scrape(line, wc, gc, tripadvisor{})...)
 			default:
 				return nil, errors.New("unsupported review site")
 			}
-
-			results = append(results, items...)
 		}
 	}
 
-	return results, nil
+	return reviews, nil
 }
 
-func scrapeData(urlsPath, geocachePath, webcachePath string) ([]restaurant, error) {
+func scrapeData(urlsPath, geocachePath, webcachePath string) ([]review, error) {
 	gc, err := newGeoCache(geocachePath)
 	if err != nil {
 		return nil, err
@@ -80,131 +76,131 @@ func scrapeData(urlsPath, geocachePath, webcachePath string) ([]restaurant, erro
 		return nil, err
 	}
 
-	restaurants, err := scrapeDataUrls(urlsPath, wc, gc)
+	reviews, err := scrapeDataUrls(urlsPath, wc, gc)
 	if err != nil {
 		return nil, err
 	}
 
-	return restaurants, nil
+	return reviews, nil
 }
 
-func computeStnData(restaurants []restaurant, stationsPath string) error {
-	sq, err := newStationQuery(stationsPath)
-	if err != nil {
-		return err
-	}
+// func computeStnData(reviews []restaurant, stationsPath string) error {
+// 	sq, err := newStationQuery(stationsPath)
+// 	if err != nil {
+// 		return err
+// 	}
 
-	for i, _ := range restaurants {
-		r := &restaurants[i]
-		r.closestStnName, r.closestStnDist = sq.closestStation(r.latitude, r.longitude)
-	}
+// 	for i, _ := range reviews {
+// 		r := &reviews[i]
+// 		r.closestStnName, r.closestStnDist = sq.closestStation(r.latitude, r.longitude)
+// 	}
 
-	return nil
-}
+// 	return nil
+// }
 
-func dumpData(dbPath string, restaraunts []restaurant) error {
-	db, err := sql.Open("sqlite3", dbPath)
-	if err != nil {
-		return err
-	}
-	defer db.Close()
+// func dumpData(dbPath string, restaraunts []restaurant) error {
+// 	db, err := sql.Open("sqlite3", dbPath)
+// 	if err != nil {
+// 		return err
+// 	}
+// 	defer db.Close()
 
-	_, err = db.Exec(`
-		DROP TABLE IF EXISTS reviews;
-		CREATE TABLE reviews(
-			name VARCHAR(100) NOT NULL,
-			url VARCHAR(200) NOT NULL,
-			delicious FLOAT NOT NULL,
-			accommodating FLOAT NOT NULL,
-			affordable FLOAT NOT NULL,
-			atmospheric FLOAT NOT NULL,
-			latitude FLOAT NOT NULL,
-			longitude FLOAT NOT NULL,
-			closestStnDist FLOAT NOT NULL,
-			closestStnName VARCHAR(100) NOT NULL,
-			accessCount INTEGER NOT NULL,
-			id INTEGER PRIMARY KEY
-		)`)
+// 	_, err = db.Exec(`
+// 		DROP TABLE IF EXISTS reviews;
+// 		CREATE TABLE reviews(
+// 			name VARCHAR(100) NOT NULL,
+// 			url VARCHAR(200) NOT NULL,
+// 			delicious FLOAT NOT NULL,
+// 			accommodating FLOAT NOT NULL,
+// 			affordable FLOAT NOT NULL,
+// 			atmospheric FLOAT NOT NULL,
+// 			latitude FLOAT NOT NULL,
+// 			longitude FLOAT NOT NULL,
+// 			closestStnDist FLOAT NOT NULL,
+// 			closestStnName VARCHAR(100) NOT NULL,
+// 			accessCount INTEGER NOT NULL,
+// 			id INTEGER PRIMARY KEY
+// 		)`)
 
-	if err != nil {
-		return err
-	}
+// 	if err != nil {
+// 		return err
+// 	}
 
-	for _, r := range restaraunts {
-		_, err = db.Exec(`
-			INSERT INTO reviews(
-				name,
-				url,
-				delicious,
-				accommodating,
-				affordable,
-				atmospheric,
-				latitude,
-				longitude,
-				closestStnDist,
-				closestStnName,
-				accessCount
-			) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-			r.name,
-			r.url,
-			r.feats.delicious,
-			r.feats.accommodating,
-			r.feats.affordable,
-			r.feats.atmospheric,
-			r.latitude,
-			r.longitude,
-			r.closestStnDist,
-			r.closestStnName,
-			0)
+// 	for _, r := range restaraunts {
+// 		_, err = db.Exec(`
+// 			INSERT INTO reviews(
+// 				name,
+// 				url,
+// 				delicious,
+// 				accommodating,
+// 				affordable,
+// 				atmospheric,
+// 				latitude,
+// 				longitude,
+// 				closestStnDist,
+// 				closestStnName,
+// 				accessCount
+// 			) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+// 			r.name,
+// 			r.url,
+// 			r.feats.delicious,
+// 			r.feats.accommodating,
+// 			r.feats.affordable,
+// 			r.feats.atmospheric,
+// 			r.latitude,
+// 			r.longitude,
+// 			r.closestStnDist,
+// 			r.closestStnName,
+// 			0)
 
-		if err != nil {
-			return err
-		}
-	}
+// 		if err != nil {
+// 			return err
+// 		}
+// 	}
 
-	_, err = db.Exec(`
-		DROP TABLE IF EXISTS categories;
-		CREATE TABLE categories(
-			description VARCHAR(200) NOT NULL,
-			id INTEGER PRIMARY KEY)`)
+// 	_, err = db.Exec(`
+// 		DROP TABLE IF EXISTS categories;
+// 		CREATE TABLE categories(
+// 			description VARCHAR(200) NOT NULL,
+// 			id INTEGER PRIMARY KEY)`)
 
-	if err != nil {
-		return err
-	}
+// 	if err != nil {
+// 		return err
+// 	}
 
-	for _, category := range []string{"I prefer quiet places", "I enjoy Mexican Food", "I drive a car"} {
-		if _, err := db.Exec("INSERT INTO categories(description) VALUES (?)", category); err != nil {
-			return err
-		}
-	}
+// 	for _, category := range []string{"I prefer quiet places", "I enjoy Mexican Food", "I drive a car"} {
+// 		if _, err := db.Exec("INSERT INTO categories(description) VALUES (?)", category); err != nil {
+// 			return err
+// 		}
+// 	}
 
-	_, err = db.Exec(`
-		DROP TABLE IF EXISTS history;
-		CREATE TABLE history(
-			date DATETIME NOT NULL,
-			reviewId INTEGER NOT NULL,
-			id INTEGER PRIMARY KEY,
-			FOREIGN KEY(reviewId) REFERENCES reviews(id))`)
+// 	_, err = db.Exec(`
+// 		DROP TABLE IF EXISTS history;
+// 		CREATE TABLE history(
+// 			date DATETIME NOT NULL,
+// 			reviewId INTEGER NOT NULL,
+// 			id INTEGER PRIMARY KEY,
+// 			FOREIGN KEY(reviewId) REFERENCES reviews(id))`)
 
-	if err != nil {
-		return err
-	}
+// 	if err != nil {
+// 		return err
+// 	}
 
-	_, err = db.Exec(`
-		DROP TABLE IF EXISTS historyGroups;
-		CREATE TABLE historyGroups(
-			categoryId INTEGER NOT NULL,
-			categoryValue FLOAT NOT NULL,
-			historyId INTEGER NOT NULL,
-			FOREIGN KEY(historyId) REFERENCES history(id),
-			FOREIGN KEY(categoryId) REFERENCES categories(id))`)
+// 	_, err = db.Exec(`
+// 		DROP TABLE IF EXISTS historyGroups;
+// 		CREATE TABLE historyGroups(
+// 			categoryId INTEGER NOT NULL,
+// 			categoryValue FLOAT NOT NULL,
+// 			historyId INTEGER NOT NULL,
+// 			FOREIGN KEY(historyId) REFERENCES history(id),
+// 			FOREIGN KEY(categoryId) REFERENCES categories(id))`)
 
-	if err != nil {
-		return err
-	}
+// 	if err != nil {
+// 		return err
+// 	}
 
-	return nil
-}
+// 	return nil
+// }
 
 func main() {
 	dbPath := flag.String("db", "data/db.sqlite3", "database output path")
@@ -214,16 +210,16 @@ func main() {
 	webcachePath := flag.String("webcache", "cache/webcache", "web data cache")
 	flag.Parse()
 
-	restaurants, err := scrapeData(*urlsPath, *geocachePath, *webcachePath)
+	reviews, err := scrapeData(*urlsPath, *geocachePath, *webcachePath)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	if err := computeStnData(restaurants, *stationsPath); err != nil {
-		log.Fatal(err)
-	}
+	// if err := computeStnData(reviews, *stationsPath); err != nil {
+	// 	log.Fatal(err)
+	// }
 
-	if err := dumpData(*dbPath, restaurants); err != nil {
-		log.Fatal(err)
-	}
+	// if err := dumpData(*dbPath, reviews); err != nil {
+	// 	log.Fatal(err)
+	// }
 }
