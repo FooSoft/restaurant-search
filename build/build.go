@@ -30,38 +30,21 @@ import (
 	"net/url"
 	"os"
 
+	"github.com/PuerkitoBio/goquery"
 	_ "github.com/mattn/go-sqlite3"
 )
 
-func scrapeDataUrls(urlsPath string, wc *webCache, gc *geoCache) ([]review, error) {
-	file, err := os.Open(urlsPath)
-	if err != nil {
-		return nil, err
-	}
-	defer file.Close()
+type scrapeCtx struct {
+	gc *geoCache
+	wc *webCache
+}
 
-	var reviews []review
-	var scanner = bufio.NewScanner(file)
+func (s scrapeCtx) decode(address string) (float64, float64, error) {
+	return s.gc.decode(address)
+}
 
-	for scanner.Scan() {
-		if line := scanner.Text(); len(line) > 0 {
-			parsed, err := url.Parse(line)
-			if err != nil {
-				return nil, err
-			}
-
-			switch parsed.Host {
-			case "tabelog.com":
-				reviews = append(reviews, scrape(line, wc, gc, tabelog{})...)
-			case "www.tripadvisor.com":
-				reviews = append(reviews, scrape(line, wc, gc, tripadvisor{})...)
-			default:
-				return nil, errors.New("unsupported review site")
-			}
-		}
-	}
-
-	return reviews, nil
+func (s scrapeCtx) load(url string) (*goquery.Document, error) {
+	return s.wc.load(url)
 }
 
 func scrapeData(urlsPath, geocachePath, webcachePath string) ([]review, error) {
@@ -76,9 +59,33 @@ func scrapeData(urlsPath, geocachePath, webcachePath string) ([]review, error) {
 		return nil, err
 	}
 
-	reviews, err := scrapeDataUrls(urlsPath, wc, gc)
+	file, err := os.Open(urlsPath)
 	if err != nil {
 		return nil, err
+	}
+	defer file.Close()
+
+	var (
+		ctx     = scrapeCtx{gc, wc}
+		reviews []review
+	)
+
+	for scanner := bufio.NewScanner(file); scanner.Scan(); {
+		if line := scanner.Text(); len(line) > 0 {
+			parsed, err := url.Parse(line)
+			if err != nil {
+				return nil, err
+			}
+
+			switch parsed.Host {
+			case "tabelog.com":
+				reviews = append(reviews, scrape(line, tabelog{scrapeCtx: ctx})...)
+			case "www.tripadvisor.com":
+				reviews = append(reviews, scrape(line, tripadvisor{scrapeCtx: ctx})...)
+			default:
+				return nil, errors.New("unsupported review site")
+			}
+		}
 	}
 
 	return reviews, nil

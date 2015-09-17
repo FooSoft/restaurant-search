@@ -32,6 +32,7 @@ import (
 )
 
 type tripadvisor struct {
+	scrapeCtx
 }
 
 func (tripadvisor) index(doc *goquery.Document) (string, []string) {

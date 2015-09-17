@@ -32,6 +32,7 @@ import (
 )
 
 type tabelog struct {
+	scrapeCtx
 }
 
 func (tabelog) index(doc *goquery.Document) (string, []string) {

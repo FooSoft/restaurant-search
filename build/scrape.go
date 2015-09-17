@@ -52,13 +52,7 @@ type review struct {
 type scraper interface {
 	index(doc *goquery.Document) (string, []string)
 	review(doc *goquery.Document) (string, string, map[string]feature, error)
-}
-
-type decoder interface {
 	decode(address string) (float64, float64, error)
-}
-
-type loader interface {
 	load(url string) (*goquery.Document, error)
 }
 
@@ -76,11 +70,11 @@ func makeAbsUrl(ref, base string) (string, error) {
 	return b.ResolveReference(r).String(), nil
 }
 
-func decodeReviews(in chan review, out chan review, dec decoder) {
+func decodeReviews(in chan review, out chan review, scr scraper) {
 	for {
 		if res, ok := <-in; ok {
 			var err error
-			res.latitude, res.longitude, err = dec.decode(res.address)
+			res.latitude, res.longitude, err = scr.decode(res.address)
 			if err == nil {
 				out <- res
 			} else {
@@ -93,10 +87,10 @@ func decodeReviews(in chan review, out chan review, dec decoder) {
 	}
 }
 
-func scrapeReview(url string, out chan review, lod loader, scr scraper, group *sync.WaitGroup) {
+func scrapeReview(url string, out chan review, scr scraper, group *sync.WaitGroup) {
 	defer group.Done()
 
-	doc, err := lod.load(url)
+	doc, err := scr.load(url)
 	if err != nil {
 		log.Printf("failed to load review at %s (%v)", url, err)
 		return
@@ -115,8 +109,8 @@ func scrapeReview(url string, out chan review, lod loader, scr scraper, group *s
 		url:      url}
 }
 
-func scrapeIndex(indexUrl string, out chan review, lod loader, scr scraper) {
-	doc, err := lod.load(indexUrl)
+func scrapeIndex(indexUrl string, out chan review, scr scraper) {
+	doc, err := scr.load(indexUrl)
 	if err != nil {
 		log.Printf("failed to load index at %s (%v)", indexUrl, err)
 		return
@@ -135,7 +129,7 @@ func scrapeIndex(indexUrl string, out chan review, lod loader, scr scraper) {
 		}
 
 		group.Add(1)
-		go scrapeReview(absUrl, out, lod, scr, &group)
+		go scrapeReview(absUrl, out, scr, &group)
 	}
 	group.Wait()
 
@@ -147,16 +141,16 @@ func scrapeIndex(indexUrl string, out chan review, lod loader, scr scraper) {
 			log.Fatal(err)
 		}
 
-		scrapeIndex(absUrl, out, lod, scr)
+		scrapeIndex(absUrl, out, scr)
 	}
 }
 
-func scrape(url string, lod loader, dec decoder, scr scraper) []review {
+func scrape(url string, scr scraper) []review {
 	out := make(chan review, 128)
 	in := make(chan review, 128)
 
-	go scrapeIndex(url, in, lod, scr)
-	go decodeReviews(in, out, dec)
+	go scrapeIndex(url, in, scr)
+	go decodeReviews(in, out, scr)
 
 	var results []review
 	for {
