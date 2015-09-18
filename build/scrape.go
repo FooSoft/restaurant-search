@@ -144,17 +144,17 @@ func scrapeIndex(indexUrl string, out chan review, scr scraper) error {
 	return nil
 }
 
-func scrape(url string, scr scraper) []review {
+func scrape(url string, scr scraper) ([]review, error) {
 	out := make(chan review, 128)
 	in := make(chan review, 128)
 
-	go scrapeIndex(url, in, scr)
 	go decodeReviews(in, out, scr)
+	err := scrapeIndex(url, in, scr)
 
 	var reviews []review
 	for rev, ok := <-out; ok; {
 		reviews = append(reviews, rev)
 	}
 
-	return reviews
+	return reviews, err
 }

@@ -65,11 +65,11 @@ func scrapeData(urlsPath, geocachePath, webcachePath string) ([]review, error) {
 	}
 	defer file.Close()
 
-	var (
-		ctx     = scrapeCtx{gc, wc}
-		reviews []review
-	)
+	ctx := scrapeCtx{gc, wc}
+	tlog := tabelog{scrapeCtx: ctx}
+	tadv := tripadvisor{scrapeCtx: ctx}
 
+	var reviews []review
 	for scanner := bufio.NewScanner(file); scanner.Scan(); {
 		if line := scanner.Text(); len(line) > 0 {
 			parsed, err := url.Parse(line)
@@ -77,14 +77,21 @@ func scrapeData(urlsPath, geocachePath, webcachePath string) ([]review, error) {
 				return nil, err
 			}
 
+			var revs []review
 			switch parsed.Host {
 			case "tabelog.com":
-				reviews = append(reviews, scrape(line, tabelog{scrapeCtx: ctx})...)
+				revs, err = scrape(line, tlog)
 			case "www.tripadvisor.com":
-				reviews = append(reviews, scrape(line, tripadvisor{scrapeCtx: ctx})...)
+				revs, err = scrape(line, tadv)
 			default:
-				return nil, errors.New("unsupported review site")
+				err = errors.New("unsupported review site")
 			}
+
+			if err != nil {
+				return nil, err
+			}
+
+			reviews = append(reviews, revs...)
 		}
 	}
 
