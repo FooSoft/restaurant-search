@@ -44,6 +44,7 @@ type review struct {
 	latitude  float64
 	longitude float64
 
+	scr scraper
 	err error
 }
 
@@ -85,7 +86,7 @@ func scrapeReview(url string, out chan review, scr scraper, group *sync.WaitGrou
 
 	var (
 		doc *goquery.Document
-		rev = review{url: url}
+		rev = review{url: url, scr: scr}
 	)
 
 	if doc, rev.err = scr.load(rev.url); rev.err == nil {
