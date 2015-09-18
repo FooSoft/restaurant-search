@@ -23,7 +23,6 @@
 package main
 
 import (
-	"log"
 	"net/url"
 	"sync"
 
@@ -47,6 +46,8 @@ type review struct {
 
 	closestStnName string
 	closestStnDist float64
+
+	err error
 }
 
 type scraper interface {
@@ -71,78 +72,76 @@ func makeAbsUrl(ref, base string) (string, error) {
 }
 
 func decodeReviews(in chan review, out chan review, scr scraper) {
-	for {
-		if res, ok := <-in; ok {
-			var err error
-			res.latitude, res.longitude, err = scr.decode(res.address)
-			if err == nil {
-				out <- res
-			} else {
-				log.Printf("failed to decode address for %s (%v)", res.url, err)
-			}
-		} else {
-			close(out)
-			return
+	for rev, ok := <-in; ok; {
+		if rev.err == nil {
+			rev.latitude, rev.longitude, rev.err = scr.decode(rev.address)
 		}
+
+		out <- rev
 	}
+
+	close(out)
 }
 
 func scrapeReview(url string, out chan review, scr scraper, group *sync.WaitGroup) {
 	defer group.Done()
 
-	doc, err := scr.load(url)
-	if err != nil {
-		log.Printf("failed to load review at %s (%v)", url, err)
-		return
+	var (
+		doc *goquery.Document
+		rev = review{url: url}
+	)
+
+	if doc, rev.err = scr.load(rev.url); rev.err == nil {
+		rev.name, rev.address, rev.features, rev.err = scr.review(doc)
 	}
 
-	name, address, features, err := scr.review(doc)
-	if err != nil {
-		log.Printf("failed to scrape review at %s (%v)", url, err)
-		return
-	}
-
-	out <- review{
-		name:     name,
-		address:  address,
-		features: features,
-		url:      url}
+	out <- rev
 }
 
-func scrapeIndex(indexUrl string, out chan review, scr scraper) {
-	doc, err := scr.load(indexUrl)
-	if err != nil {
-		log.Printf("failed to load index at %s (%v)", indexUrl, err)
-		return
-	}
-
-	nextIndexUrl, reviewUrls := scr.index(doc)
-	if err != nil {
-		log.Fatal(err)
-	}
-
+func scrapeIndex(indexUrl string, out chan review, scr scraper) error {
 	var group sync.WaitGroup
-	for _, reviewUrl := range reviewUrls {
-		absUrl, err := makeAbsUrl(reviewUrl, indexUrl)
-		if err != nil {
-			log.Fatal(err)
-		}
 
-		group.Add(1)
-		go scrapeReview(absUrl, out, scr, &group)
-	}
-	group.Wait()
-
-	if nextIndexUrl == "" {
+	defer func() {
+		group.Wait()
 		close(out)
-	} else {
-		absUrl, err := makeAbsUrl(nextIndexUrl, indexUrl)
+	}()
+
+	for {
+		doc, err := scr.load(indexUrl)
 		if err != nil {
-			log.Fatal(err)
+			return err
 		}
 
-		scrapeIndex(absUrl, out, scr)
+		nextIndexUrl, reviewUrls := scr.index(doc)
+		if err != nil {
+			return err
+		}
+
+		for _, reviewUrl := range reviewUrls {
+			absUrl, err := makeAbsUrl(reviewUrl, indexUrl)
+			if err != nil {
+				return err
+			}
+
+			group.Add(1)
+			go scrapeReview(absUrl, out, scr, &group)
+		}
+
+		if err != nil {
+			return err
+		}
+
+		if nextIndexUrl == "" {
+			break
+		}
+
+		indexUrl, err = makeAbsUrl(nextIndexUrl, indexUrl)
+		if err != nil {
+			return err
+		}
 	}
+
+	return nil
 }
 
 func scrape(url string, scr scraper) []review {
@@ -152,12 +151,10 @@ func scrape(url string, scr scraper) []review {
 	go scrapeIndex(url, in, scr)
 	go decodeReviews(in, out, scr)
 
-	var results []review
-	for {
-		if res, ok := <-out; ok {
-			results = append(results, res)
-		} else {
-			return results
-		}
+	var reviews []review
+	for rev, ok := <-out; ok; {
+		reviews = append(reviews, rev)
 	}
+
+	return reviews
 }
