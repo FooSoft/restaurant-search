@@ -31,17 +31,12 @@ import (
 	"github.com/fatih/color"
 )
 
-type feature struct {
-	value  float64
-	weight float64
-}
-
 type review struct {
-	name    string
-	address string
-	url     string
-
-	features map[string]feature
+	name     string
+	address  string
+	url      string
+	features map[string]float64
+	weight   float64
 
 	latitude  float64
 	longitude float64
@@ -52,7 +47,7 @@ type review struct {
 
 type scraper interface {
 	index(doc *goquery.Document) (string, []string)
-	review(doc *goquery.Document) (string, string, map[string]feature, error)
+	review(doc *goquery.Document) (string, string, map[string]float64, float64, error)
 	decode(address string) (float64, float64, error)
 	load(url string) (*goquery.Document, error)
 }
@@ -92,7 +87,7 @@ func scrapeReview(url string, out chan review, scr scraper, group *sync.WaitGrou
 	)
 
 	if doc, rev.err = scr.load(rev.url); rev.err == nil {
-		rev.name, rev.address, rev.features, rev.err = scr.review(doc)
+		rev.name, rev.address, rev.features, rev.weight, rev.err = scr.review(doc)
 	}
 
 	out <- rev

@@ -60,14 +60,29 @@ type semantics struct {
 	delicious    float64
 }
 
+func (s semantics) combine(other semantics, weight float64) semantics {
+	return semantics{
+		s.accomodating + other.accomodating*weight,
+		s.affordable + other.affordable*weight,
+		s.atmospheric + other.atmospheric*weight,
+		s.delicious + other.delicious*weight}
+}
+
+func (s semantics) reduce(weight float64) semantics {
+	return semantics{
+		s.accomodating / weight,
+		s.affordable / weight,
+		s.atmospheric / weight,
+		s.delicious / weight}
+}
+
 type restaurant struct {
-	name string
+	name    string
+	reviews []review
+	sem     semantics
 
 	latitude  float64
 	longitude float64
-
-	sem     semantics
-	reviews []review
 
 	closestStnName string
 	closestStnDist float64
@@ -164,6 +179,30 @@ func computeStations(restaurants map[uint64]*restaurant, stationsPath string) er
 func computeSemantics(restaraunts map[uint64]*restaurant) {
 	type definer interface {
 		define(keyword string) semantics
+	}
+
+	for _, rest := range restaraunts {
+		var (
+			sem    semantics
+			weight float64
+		)
+
+		for _, rev := range rest.reviews {
+			def, ok := rev.scr.(definer)
+			if !ok {
+				continue
+			}
+
+			for name, value := range rev.features {
+				sem = sem.combine(def.define(name), rev.weight*value)
+			}
+
+			weight += rev.weight
+		}
+
+		if weight > 0.0 {
+			rest.sem = sem.reduce(weight)
+		}
 	}
 }
 

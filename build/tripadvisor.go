@@ -60,7 +60,8 @@ func (tripadvisor) index(doc *goquery.Document) (string, []string) {
 	return nextIndexUrl, reviewUrls
 }
 
-func (tripadvisor) review(doc *goquery.Document) (name, address string, features map[string]feature, err error) {
+func (tripadvisor) review(doc *goquery.Document) (name, address string, features map[string]float64, weight float64, err error) {
+	weight = 1.0
 	name = strings.TrimSpace(doc.Find("h1#HEADING").Text())
 	address = strings.TrimSpace(doc.Find("address span.format_address").Text())
 
@@ -70,7 +71,7 @@ func (tripadvisor) review(doc *goquery.Document) (name, address string, features
 		return
 	}
 
-	features = make(map[string]feature)
+	features = make(map[string]float64)
 
 	for index, category := range []string{"food", "service", "value", "atmosphere"} {
 		altText, _ := ratings.Eq(index).Attr("alt")
@@ -82,7 +83,7 @@ func (tripadvisor) review(doc *goquery.Document) (name, address string, features
 			return
 		}
 
-		features[category] = feature{value/2.5 - 1.0, 1.0}
+		features[category] = value/2.5 - 1.0
 	}
 
 	return

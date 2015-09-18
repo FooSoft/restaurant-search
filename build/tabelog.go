@@ -61,7 +61,8 @@ func (tabelog) index(doc *goquery.Document) (string, []string) {
 	return nextIndexUrl, reviewUrls
 }
 
-func (tabelog) review(doc *goquery.Document) (name, address string, features map[string]feature, err error) {
+func (tabelog) review(doc *goquery.Document) (name, address string, features map[string]float64, weight float64, err error) {
+	weight = 1.0
 	name = doc.Find("a.rd-header__rst-name-main").Text()
 
 	if addresses := doc.Find("p.rd-detail-info__rst-address"); addresses.Length() == 2 {
@@ -71,7 +72,7 @@ func (tabelog) review(doc *goquery.Document) (name, address string, features map
 		return
 	}
 
-	features = make(map[string]feature)
+	features = make(map[string]float64)
 
 	for index, category := range []string{"dishes", "service", "atmosphere", "cost", "drinks"} {
 		valueText := doc.Find(fmt.Sprintf("#js-rating-detail > dd:nth-child(%d)", (index+1)*2)).Text()
@@ -82,7 +83,7 @@ func (tabelog) review(doc *goquery.Document) (name, address string, features map
 			return
 		}
 
-		features[category] = feature{value/2.5 - 1.0, 1.0}
+		features[category] = value/2.5 - 1.0
 	}
 
 	return
