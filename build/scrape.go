@@ -23,6 +23,7 @@
 package main
 
 import (
+	"log"
 	"net/url"
 	"sync"
 
@@ -146,13 +147,28 @@ func scrape(url string, scr scraper) ([]review, error) {
 	out := make(chan review, 128)
 	in := make(chan review, 128)
 
+	var (
+		reviews []review
+		wg      sync.WaitGroup
+	)
+
+	wg.Add(1)
+
+	go func() {
+		defer wg.Done()
+		for rev, ok := <-out; ok; {
+			if rev.err == nil {
+				reviews = append(reviews, rev)
+			}
+
+			log.Printf("%s: %s", rev.name, rev.err)
+		}
+	}()
+
 	go decodeReviews(in, out, scr)
 	err := scrapeIndex(url, in, scr)
 
-	var reviews []review
-	for rev, ok := <-out; ok; {
-		reviews = append(reviews, rev)
-	}
+	wg.Wait()
 
 	return reviews, err
 }
