@@ -28,6 +28,7 @@ import (
 	"sync"
 
 	"github.com/PuerkitoBio/goquery"
+	"github.com/fatih/color"
 )
 
 type feature struct {
@@ -159,10 +160,10 @@ func scrape(url string, scr scraper) ([]review, error) {
 		defer wg.Done()
 		for rev := range out {
 			if rev.err == nil {
-				log.Printf("SUCCESS: %s", rev.name)
+				log.Print(color.GreenString(rev.name))
 				reviews = append(reviews, rev)
 			} else {
-				log.Printf("FAIL: %s", rev.name)
+				log.Printf("%s (%s)", color.YellowString(rev.name), color.RedString(rev.err.Error()))
 			}
 		}
 	}()

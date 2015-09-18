@@ -36,6 +36,7 @@ import (
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
+	"github.com/fatih/color"
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -274,17 +275,21 @@ func main() {
 	webcachePath := flag.String("webcache", "cache/webcache", "web data cache")
 	flag.Parse()
 
+	log.Print(color.BlueString("scraping data..."))
 	reviews, err := scrapeData(*urlsPath, *geocachePath, *webcachePath)
 	if err != nil {
 		log.Fatal(err)
 	}
 
+	log.Print(color.BlueString("collating data..."))
 	restaurants := collateData(reviews)
 
+	log.Print(color.BlueString("computing station data..."))
 	if err := computeStnData(restaurants, *stationsPath); err != nil {
 		log.Fatal(err)
 	}
 
+	log.Print(color.BlueString("saving data..."))
 	if err := dumpData(*dbPath, restaurants); err != nil {
 		log.Fatal(err)
 	}
