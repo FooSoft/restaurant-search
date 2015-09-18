@@ -71,7 +71,7 @@ func makeAbsUrl(ref, base string) (string, error) {
 }
 
 func decodeReviews(in chan review, out chan review, scr scraper) {
-	for rev, ok := <-in; ok; {
+	for rev := range in {
 		if rev.err == nil {
 			rev.latitude, rev.longitude, rev.err = scr.decode(rev.address)
 		}
@@ -153,22 +153,22 @@ func scrape(url string, scr scraper) ([]review, error) {
 	)
 
 	wg.Add(1)
+	defer wg.Wait()
 
 	go func() {
 		defer wg.Done()
-		for rev, ok := <-out; ok; {
+		for rev := range out {
 			if rev.err == nil {
+				log.Printf("SUCCESS: %s", rev.name)
 				reviews = append(reviews, rev)
+			} else {
+				log.Printf("FAIL: %s", rev.name)
 			}
-
-			log.Printf("%s: %s", rev.name, rev.err)
 		}
 	}()
 
 	go decodeReviews(in, out, scr)
 	err := scrapeIndex(url, in, scr)
-
-	wg.Wait()
 
 	return reviews, err
 }
