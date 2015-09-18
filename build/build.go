@@ -24,8 +24,11 @@ package main
 
 import (
 	"bufio"
+	"bytes"
+	"encoding/binary"
 	"errors"
 	"flag"
+	"hash/fnv"
 	"log"
 	"net/url"
 	"os"
@@ -45,6 +48,18 @@ func (s scrapeCtx) decode(address string) (float64, float64, error) {
 
 func (s scrapeCtx) load(url string) (*goquery.Document, error) {
 	return s.wc.load(url)
+}
+
+type restaurant struct {
+	reviews []review
+
+	accomodating float64
+	affordable   float64
+	atmospheric  float64
+	delicious    float64
+
+	closestStnName string
+	closestStnDist float64
 }
 
 func scrapeData(urlsPath, geocachePath, webcachePath string) ([]review, error) {
@@ -98,19 +113,45 @@ func scrapeData(urlsPath, geocachePath, webcachePath string) ([]review, error) {
 	return reviews, nil
 }
 
-// func computeStnData(reviews []restaurant, stationsPath string) error {
-// 	sq, err := newStationQuery(stationsPath)
-// 	if err != nil {
-// 		return err
-// 	}
+func collateData(reviews []review) map[uint64]*restaurant {
+	restaurants := make(map[uint64]*restaurant)
 
-// 	for i, _ := range reviews {
-// 		r := &reviews[i]
-// 		r.closestStnName, r.closestStnDist = sq.closestStation(r.latitude, r.longitude)
-// 	}
+	for _, rev := range reviews {
+		var buff bytes.Buffer
+		binary.Write(&buff, binary.LittleEndian, rev.latitude)
+		binary.Write(&buff, binary.LittleEndian, rev.longitude)
+		binary.Write(&buff, binary.LittleEndian, rev.name)
 
-// 	return nil
-// }
+		hash := fnv.New64()
+		hash.Write(buff.Bytes())
+
+		var rest *restaurant
+		if rest, _ = restaurants[hash.Sum64()]; rest == nil {
+			rest = new(restaurant)
+			restaurants[hash.Sum64()] = rest
+		}
+
+		rest.reviews = append(rest.reviews, rev)
+	}
+
+	return restaurants
+}
+
+func computeStnData(restaurants map[uint64]*restaurant, stationsPath string) error {
+	sq, err := newStationQuery(stationsPath)
+	if err != nil {
+		return err
+	}
+
+	for _, rest := range restaurants {
+		if len(rest.reviews) > 0 {
+			rev := rest.reviews[0]
+			rest.closestStnName, rest.closestStnDist = sq.closestStation(rev.latitude, rev.longitude)
+		}
+	}
+
+	return nil
+}
 
 // func dumpData(dbPath string, restaraunts []restaurant) error {
 // 	db, err := sql.Open("sqlite3", dbPath)
@@ -229,9 +270,11 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// if err := computeStnData(reviews, *stationsPath); err != nil {
-	// 	log.Fatal(err)
-	// }
+	restaurants := collateData(reviews)
+
+	if err := computeStnData(restaurants, *stationsPath); err != nil {
+		log.Fatal(err)
+	}
 
 	// if err := dumpData(*dbPath, reviews); err != nil {
 	// 	log.Fatal(err)
