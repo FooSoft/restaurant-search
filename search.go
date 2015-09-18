@@ -336,7 +336,7 @@ func handleAccessReview(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	if rowsAffected == 0 || len(request.Profile) == 0 {
-		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		http.Error(rw, "invalid profile", http.StatusInternalServerError)
 		return
 	}
 
