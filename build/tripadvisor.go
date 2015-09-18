@@ -35,6 +35,15 @@ type tripadvisor struct {
 	scrapeCtx
 }
 
+func (tripadvisor) define(keyword string) semantics {
+	return map[string]semantics{
+		"food":       {accomodating: 0.0, affordable: 0.0, atmospheric: 0.0, delicious: 1.0},
+		"service":    {accomodating: 1.0, affordable: 0.0, atmospheric: 0.0, delicious: 0.0},
+		"value":      {accomodating: 0.0, affordable: 1.0, atmospheric: 0.0, delicious: 0.0},
+		"atmosphere": {accomodating: 0.0, affordable: 0.0, atmospheric: 1.0, delicious: 0.0},
+	}[keyword]
+}
+
 func (tripadvisor) index(doc *goquery.Document) (string, []string) {
 	var reviewUrls []string
 	doc.Find("a.property_title").Each(func(index int, sel *goquery.Selection) {

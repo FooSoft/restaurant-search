@@ -35,6 +35,16 @@ type tabelog struct {
 	scrapeCtx
 }
 
+func (tabelog) define(keyword string) semantics {
+	return map[string]semantics{
+		"dishes":     {accomodating: 0.0, affordable: 0.0, atmospheric: 0.0, delicious: 0.8},
+		"drinks":     {accomodating: 0.0, affordable: 0.0, atmospheric: 0.0, delicious: 0.2},
+		"service":    {accomodating: 1.0, affordable: 0.0, atmospheric: 0.0, delicious: 0.0},
+		"cost":       {accomodating: 0.0, affordable: 1.0, atmospheric: 0.0, delicious: 0.0},
+		"atmosphere": {accomodating: 0.0, affordable: 0.0, atmospheric: 1.0, delicious: 0.0},
+	}[keyword]
+}
+
 func (tabelog) index(doc *goquery.Document) (string, []string) {
 	var reviewUrls []string
 	doc.Find("div.list-rst__header > p > a").Each(func(index int, sel *goquery.Selection) {

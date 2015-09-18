@@ -53,18 +53,21 @@ func (s scrapeCtx) load(url string) (*goquery.Document, error) {
 	return s.wc.load(url)
 }
 
+type semantics struct {
+	accomodating float64
+	affordable   float64
+	atmospheric  float64
+	delicious    float64
+}
+
 type restaurant struct {
 	name string
 
 	latitude  float64
 	longitude float64
 
+	sem     semantics
 	reviews []review
-
-	accomodating float64
-	affordable   float64
-	atmospheric  float64
-	delicious    float64
 
 	closestStnName string
 	closestStnDist float64
@@ -145,7 +148,7 @@ func collateData(reviews []review) map[uint64]*restaurant {
 	return restaurants
 }
 
-func computeStnData(restaurants map[uint64]*restaurant, stationsPath string) error {
+func computeStations(restaurants map[uint64]*restaurant, stationsPath string) error {
 	sq, err := newStationQuery(stationsPath)
 	if err != nil {
 		return err
@@ -156,6 +159,12 @@ func computeStnData(restaurants map[uint64]*restaurant, stationsPath string) err
 	}
 
 	return nil
+}
+
+func computeSemantics(restaraunts map[uint64]*restaurant) {
+	type definer interface {
+		define(keyword string) semantics
+	}
 }
 
 func dumpData(dbPath string, restaraunts map[uint64]*restaurant) error {
@@ -208,10 +217,10 @@ func dumpData(dbPath string, restaraunts map[uint64]*restaurant) error {
 			) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
 			rest.name,
 			strings.Join(urls, ","),
-			rest.delicious,
-			rest.accomodating,
-			rest.affordable,
-			rest.atmospheric,
+			rest.sem.delicious,
+			rest.sem.accomodating,
+			rest.sem.affordable,
+			rest.sem.atmospheric,
 			rest.latitude,
 			rest.longitude,
 			rest.closestStnDist,
@@ -284,8 +293,11 @@ func main() {
 	log.Print(color.BlueString("collating data..."))
 	restaurants := collateData(reviews)
 
+	log.Print(color.BlueString("computing data semantics.."))
+	computeSemantics(restaurants)
+
 	log.Print(color.BlueString("computing station data..."))
-	if err := computeStnData(restaurants, *stationsPath); err != nil {
+	if err := computeStations(restaurants, *stationsPath); err != nil {
 		log.Fatal(err)
 	}
 
