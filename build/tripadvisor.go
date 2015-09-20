@@ -61,9 +61,15 @@ func (tripadvisor) index(doc *goquery.Document) (string, []string) {
 }
 
 func (tripadvisor) review(doc *goquery.Document) (name, address string, features map[string]float64, weight float64, err error) {
-	weight = 1.0
-	name = strings.TrimSpace(doc.Find("h1#HEADING").Text())
-	address = strings.TrimSpace(doc.Find("address span.format_address").Text())
+	if name = strings.TrimSpace(doc.Find("h1#HEADING").Text()); len(name) == 0 {
+		err = errors.New("invalid value for name name")
+		return
+	}
+
+	if address = strings.TrimSpace(doc.Find("address span.format_address").Text()); len(address) == 0 {
+		err = errors.New("invalid value for address")
+		return
+	}
 
 	ratings := doc.Find("ul.barChart div.ratingRow img.sprite-rating_s_fill")
 	if ratings.Length() != 4 {
@@ -72,7 +78,6 @@ func (tripadvisor) review(doc *goquery.Document) (name, address string, features
 	}
 
 	features = make(map[string]float64)
-
 	for index, category := range []string{"food", "service", "value", "atmosphere"} {
 		altText, _ := ratings.Eq(index).Attr("alt")
 		valueText := strings.Split(altText, " ")[0]
@@ -84,6 +89,17 @@ func (tripadvisor) review(doc *goquery.Document) (name, address string, features
 		}
 
 		features[category] = value/2.5 - 1.0
+	}
+
+	weightParts := strings.Split(doc.Find("h3.reviews_header").Text(), " ")
+	if len(weightParts) == 0 {
+		err = fmt.Errorf("missing review count")
+		return
+	}
+
+	if weight, err = strconv.ParseFloat(weightParts[0], 8); err != nil {
+		err = fmt.Errorf("invalid value for review count")
+		return
 	}
 
 	return
