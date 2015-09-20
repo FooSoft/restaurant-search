@@ -128,7 +128,7 @@
                         </thead>
                         {{#each records}}
                             <tr>
-                                <td><a href="{{url}}" target="_blank" onclick="javascript:accessReview({{id}});">{{name}}</a></td>
+                            <td><a href="https://maps.google.com/?q={{#urlEncode}}{{address}}{{/urlEncode}}" target="_blank" onclick="javascript:accessReview({{id}});">{{name}}</a></td>
                                 <td>{{#prettyFloat 2}}{{distanceToUser}}{{/prettyFloat}} km</td>
                                 <td>{{closestStn}}</td>
                                 <td>{{#prettyFloat 2}}{{distanceToStn}}{{/prettyFloat}} km</td>

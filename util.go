@@ -256,7 +256,7 @@ func computeRecordCompat(db *sql.DB, entries []record, context queryContext) err
 }
 
 func fetchRecords(db *sql.DB, context queryContext) ([]record, error) {
-	rows, err := db.Query("SELECT name, urls, delicious, accommodating, affordable, atmospheric, latitude, longitude, closestStnDist, closestStnName, accessCount, id FROM reviews")
+	rows, err := db.Query("SELECT name, address, delicious, accommodating, affordable, atmospheric, latitude, longitude, closestStnDist, closestStnName, accessCount, id FROM reviews")
 	if err != nil {
 		return nil, err
 	}
@@ -265,7 +265,7 @@ func fetchRecords(db *sql.DB, context queryContext) ([]record, error) {
 	var entries []record
 	for rows.Next() {
 		var (
-			name, urls, closestStn                            string
+			name, address, closestStn                         string
 			delicious, accommodating, affordable, atmospheric float64
 			latitude, longitude, distanceToStn                float64
 			accessCount, id                                   int
@@ -273,7 +273,7 @@ func fetchRecords(db *sql.DB, context queryContext) ([]record, error) {
 
 		rows.Scan(
 			&name,
-			&urls,
+			&address,
 			&delicious,
 			&accommodating,
 			&affordable,
@@ -287,7 +287,7 @@ func fetchRecords(db *sql.DB, context queryContext) ([]record, error) {
 
 		entry := record{
 			Name:          name,
-			Urls:          urls,
+			Address:       address,
 			DistanceToStn: distanceToStn,
 			ClosestStn:    closestStn,
 			AccessCount:   accessCount,

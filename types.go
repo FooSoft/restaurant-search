@@ -62,7 +62,7 @@ type record struct {
 	Id             int     `json:"id"`
 	Name           string  `json:"name"`
 	Score          float64 `json:"score"`
-	Urls           string  `json:"urls"`
+	Address        string  `json:"address"`
 	features       map[string]float64
 	geo            geoData
 }

@@ -47,6 +47,10 @@
             return parseFloat(options.fn(this)).toFixed(precision);
         });
 
+        Handlebars.registerHelper('urlEncode', function(options) {
+            return encodeURIComponent(options.fn(this));
+        });
+
         $('#minScore,#resolution,#walkingDist,#maxResults').change(onSearch);
         $('#profileDlg').on('hidden.bs.modal', onSearch);
         $('#resetStorage').click(function() {
