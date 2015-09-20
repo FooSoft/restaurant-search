@@ -35,16 +35,6 @@ import (
 )
 
 //
-// descriptor
-//
-type descriptor struct {
-	gc *geoCache
-	wc *webCache
-
-	conf descConf
-}
-
-//
 // semantics
 //
 type semantics struct {
@@ -73,9 +63,9 @@ func (s semantics) reduce(weight float64) semantics {
 }
 
 //
-// pathConf
+// locator
 //
-type pathConf struct {
+type locator struct {
 	Path  string
 	Attr  string
 	RegEx string
@@ -83,25 +73,25 @@ type pathConf struct {
 	regExComp *regexp.Regexp
 }
 
-func (c *pathConf) locateStrings(doc *goquery.Document) ([]string, error) {
+func (l *locator) locateStrings(doc *goquery.Document) ([]string, error) {
 	var err error
-	if len(c.RegEx) > 0 && c.regExComp == nil {
-		if c.regExComp, err = regexp.Compile(c.RegEx); err != nil {
+	if len(l.RegEx) > 0 && l.regExComp == nil {
+		if l.regExComp, err = regexp.Compile(l.RegEx); err != nil {
 			return nil, err
 		}
 	}
 
 	var strs []string
-	doc.Find(c.Path).Each(func(index int, sel *goquery.Selection) {
+	doc.Find(l.Path).Each(func(index int, sel *goquery.Selection) {
 		var str string
-		if len(c.Attr) > 0 {
-			str, _ = sel.Attr(c.Attr)
+		if len(l.Attr) > 0 {
+			str, _ = sel.Attr(l.Attr)
 		} else {
 			str = sel.Text()
 		}
 
-		if c.regExComp != nil {
-			if matches := c.regExComp.FindStringSubmatch(str); len(matches) > 1 {
+		if l.regExComp != nil {
+			if matches := l.regExComp.FindStringSubmatch(str); len(matches) > 1 {
 				str = matches[1]
 			} else {
 				str = ""
@@ -115,8 +105,8 @@ func (c *pathConf) locateStrings(doc *goquery.Document) ([]string, error) {
 
 }
 
-func (c *pathConf) locateString(doc *goquery.Document) (string, error) {
-	strs, err := c.locateStrings(doc)
+func (l *locator) locateString(doc *goquery.Document) (string, error) {
+	strs, err := l.locateStrings(doc)
 	if err != nil {
 		return "", err
 	}
@@ -124,8 +114,8 @@ func (c *pathConf) locateString(doc *goquery.Document) (string, error) {
 	return strings.Join(strs, " "), nil
 }
 
-func (c *pathConf) locateInt(doc *goquery.Document) (int64, error) {
-	str, err := c.locateString(doc)
+func (l *locator) locateInt(doc *goquery.Document) (int64, error) {
+	str, err := l.locateString(doc)
 	if err != nil {
 		return 0, err
 	}
@@ -133,8 +123,8 @@ func (c *pathConf) locateInt(doc *goquery.Document) (int64, error) {
 	return strconv.ParseInt(str, 10, 8)
 }
 
-func (c *pathConf) locateFloat(doc *goquery.Document) (float64, error) {
-	str, err := c.locateString(doc)
+func (l *locator) locateFloat(doc *goquery.Document) (float64, error) {
+	str, err := l.locateString(doc)
 	if err != nil {
 		return 0.0, err
 	}
@@ -143,57 +133,50 @@ func (c *pathConf) locateFloat(doc *goquery.Document) (float64, error) {
 }
 
 //
-// semConf
+// descriptor
 //
-type semConf struct {
-	semantics
-	pathConf
-
-	Scale float64
-}
-
-//
-// descConf
-//
-type descConf struct {
+type descriptor struct {
 	Index struct {
-		Items pathConf
-		Next  pathConf
+		Items locator
+		Next  locator
 	}
 
 	Item struct {
-		Name    pathConf
-		Address pathConf
-		Count   pathConf
-		Sem     map[string]semConf
+		Name    locator
+		Address locator
+		Count   locator
+		Props   map[string]struct {
+			semantics
+			locator
+			Scale float64
+		}
 	}
 }
 
-func newDescriptor(filename string, gc *geoCache, wc *webCache) (*descriptor, error) {
-	desc := &descriptor{gc: gc, wc: wc}
-
+func newDescriptor(filename string) (*descriptor, error) {
 	bytes, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil, err
 	}
 
-	if err := toml.Unmarshal(bytes, &desc.conf); err != nil {
+	var desc descriptor
+	if err := toml.Unmarshal(bytes, &desc); err != nil {
 		return nil, err
 	}
 
-	return desc, nil
+	return &desc, nil
 }
 
 func (d descriptor) define(keyword string) semantics {
-	return d.conf.Item.Sem[keyword].semantics
+	return d.Item.Props[keyword].semantics
 }
 
 func (d descriptor) index(doc *goquery.Document) (next string, items []string, err error) {
-	if items, err = d.conf.Index.Items.locateStrings(doc); err != nil {
+	if items, err = d.Index.Items.locateStrings(doc); err != nil {
 		return
 	}
 
-	if next, err = d.conf.Index.Next.locateString(doc); err != nil {
+	if next, err = d.Index.Next.locateString(doc); err != nil {
 		return
 	}
 
@@ -201,31 +184,31 @@ func (d descriptor) index(doc *goquery.Document) (next string, items []string, e
 }
 
 func (d descriptor) review(doc *goquery.Document) (name, address string, features map[string]float64, count int64, err error) {
-	if name, err = d.conf.Item.Name.locateString(doc); err != nil || len(name) == 0 {
+	if name, err = d.Item.Name.locateString(doc); err != nil || len(name) == 0 {
 		err = errors.New("invalid name")
 		return
 	}
 
-	if address, err = d.conf.Item.Address.locateString(doc); err != nil || len(address) == 0 {
+	if address, err = d.Item.Address.locateString(doc); err != nil || len(address) == 0 {
 		err = errors.New("invalid address")
 		return
 	}
 
-	if count, err = d.conf.Item.Count.locateInt(doc); err != nil {
+	if count, err = d.Item.Count.locateInt(doc); err != nil {
 		err = errors.New("invalid review count")
 		return
 	}
 
 	features = make(map[string]float64)
-	for n, s := range d.conf.Item.Sem {
+	for n, p := range d.Item.Props {
 		var value float64
-		if value, err = s.pathConf.locateFloat(doc); err != nil {
+		if value, err = p.locateFloat(doc); err != nil {
 			err = fmt.Errorf("invalid feature value for %s", n)
 			return
 		}
 
-		if s.Scale != 0.0 {
-			value /= s.Scale
+		if p.Scale != 0.0 {
+			value /= p.Scale
 		}
 
 		features[n] = value
