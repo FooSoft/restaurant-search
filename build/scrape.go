@@ -155,10 +155,10 @@ func scrape(url string, scr scraper) ([]review, error) {
 		defer wg.Done()
 		for rev := range out {
 			if rev.err == nil {
-				log.Print(color.GreenString(rev.name))
+				log.Print(color.GreenString(rev.url))
 				reviews = append(reviews, rev)
 			} else {
-				log.Printf("%s (%s)", color.YellowString(rev.name), color.RedString(rev.err.Error()))
+				log.Printf("%s (%s)", color.YellowString(rev.url), color.RedString(rev.err.Error()))
 			}
 		}
 	}()

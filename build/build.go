@@ -153,11 +153,8 @@ func collateData(reviews []review) map[uint64]*restaurant {
 
 		var rest *restaurant
 		if rest, _ = restaurants[hash.Sum64()]; rest == nil {
-			restaurants[hash.Sum64()] = &restaurant{
-				name:      rev.name,
-				address:   rev.address,
-				latitude:  rev.latitude,
-				longitude: rev.longitude}
+			rest = &restaurant{name: rev.name, address: rev.address, latitude: rev.latitude, longitude: rev.longitude}
+			restaurants[hash.Sum64()] = rest
 		}
 
 		rest.reviews = append(rest.reviews, rev)
