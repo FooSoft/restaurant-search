@@ -37,11 +37,11 @@ type tabelog struct {
 
 func (tabelog) define(keyword string) semantics {
 	return map[string]semantics{
-		"dishes":     {accomodating: 0.0, affordable: 0.0, atmospheric: 0.0, delicious: 0.8},
-		"drinks":     {accomodating: 0.0, affordable: 0.0, atmospheric: 0.0, delicious: 0.2},
-		"service":    {accomodating: 1.0, affordable: 0.0, atmospheric: 0.0, delicious: 0.0},
-		"cost":       {accomodating: 0.0, affordable: 1.0, atmospheric: 0.0, delicious: 0.0},
-		"atmosphere": {accomodating: 0.0, affordable: 0.0, atmospheric: 1.0, delicious: 0.0},
+		"dishes":     {Accomodating: 0.0, Affordable: 0.0, Atmospheric: 0.0, Delicious: 0.8},
+		"drinks":     {Accomodating: 0.0, Affordable: 0.0, Atmospheric: 0.0, Delicious: 0.2},
+		"service":    {Accomodating: 1.0, Affordable: 0.0, Atmospheric: 0.0, Delicious: 0.0},
+		"cost":       {Accomodating: 0.0, Affordable: 1.0, Atmospheric: 0.0, Delicious: 0.0},
+		"atmosphere": {Accomodating: 0.0, Affordable: 0.0, Atmospheric: 1.0, Delicious: 0.0},
 	}[keyword]
 }
 

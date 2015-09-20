@@ -52,29 +52,6 @@ func (s scrapeCtx) load(url string) (*goquery.Document, error) {
 	return s.wc.load(url)
 }
 
-type semantics struct {
-	accomodating float64
-	affordable   float64
-	atmospheric  float64
-	delicious    float64
-}
-
-func (s semantics) combine(other semantics, weight float64) semantics {
-	return semantics{
-		s.accomodating + other.accomodating*weight,
-		s.affordable + other.affordable*weight,
-		s.atmospheric + other.atmospheric*weight,
-		s.delicious + other.delicious*weight}
-}
-
-func (s semantics) reduce(weight float64) semantics {
-	return semantics{
-		s.accomodating / weight,
-		s.affordable / weight,
-		s.atmospheric / weight,
-		s.delicious / weight}
-}
-
 type restaurant struct {
 	name    string
 	address string
@@ -251,10 +228,10 @@ func dumpData(dbPath string, restaraunts map[uint64]*restaurant) error {
 			) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
 			rest.name,
 			rest.address,
-			rest.sem.delicious,
-			rest.sem.accomodating,
-			rest.sem.affordable,
-			rest.sem.atmospheric,
+			rest.sem.Delicious,
+			rest.sem.Accomodating,
+			rest.sem.Affordable,
+			rest.sem.Atmospheric,
 			rest.latitude,
 			rest.longitude,
 			rest.closestStnDist,

@@ -1,46 +1,64 @@
-[index]
-    [index.item]
+name = "tripadvisor"
+
+[index.items]
     path = "a.property_title"
     attr = "href"
 
-    [index.next]
+[index.next]
     path = "div.deckTools.btm a.nav.next.rndBtn.rndBtnGreen.taLnk"
     attr = "href"
 
-[item]
-    scale = 5.0
-
-    [item.name]
+[item.name]
     path = "h1#HEADING"
 
-    [item.address]
+[item.address]
     path = "address span.format_address > span:not(.extended-address)"
 
-    [item.weight]
+[item.weight]
     path = "h3.reviews_header"
     regex = "^(\d+)"
 
-    [item.semantics]
-        [item.semantics.service]
+[item.semantics]
+    [item.semantics.service]
+        accomodating = 1.0
+        affordable = 0.0
+        atmospheric = 0.0
+        delicious: 0.0
+        scale = 5.0
+
         path = "ul.barChart div.ratingRow img:nth-child(2)"
         regex = "^([0-9]*\.?[0-9]+)"
         attr = "alt"
-        def = {"accomodating": 1.0, "affordable": 0.0, "atmospheric": 0.0, "delicious": 0.0}
 
-        [item.semantics.food]
+    [item.semantics.food]
+        accomodating = 0.0
+        affordable = 0.0
+        atmospheric = 0.0
+        delicious: 1.0
+        scale = 5.0
+
         path = "ul.barChart div.ratingRow img:nth-child(1)"
         regex = "^([0-9]*\.?[0-9]+)"
         attr = "alt"
-        def = {"accomodating": 0.0, "affordable": 0.0, "atmospheric": 0.0, "delicious": 1.0}
 
-        [item.semantics.value]
+    [item.semantics.value]
+        accomodating = 0.0
+        affordable = 1.0
+        atmospheric = 0.0
+        delicious: 0.0
+        scale = 5.0
+
         path = "ul.barChart div.ratingRow img:nth-child(3)"
         regex = "^([0-9]*\.?[0-9]+)"
         attr = "alt"
-        def = {"accomodating": 0.0, "affordable": 1.0, "atmospheric": 0.0, "delicious": 0.0}
 
-        [item.semantics.atmosphere]
+    [item.semantics.atmosphere]
+        accomodating = 0.0
+        affordable = 0.0
+        atmospheric = 1.0
+        delicious: 0.0
+        scale = 5.0
+
         path = "ul.barChart div.ratingRow img:nth-child(4)"
         regex = "^([0-9]*\.?[0-9]+)"
         attr = "alt"
-        def = {"accomodating": 0.0, "affordable": 0.0, "atmospheric": 1.0, "delicious": 0.0}
