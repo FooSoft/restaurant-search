@@ -68,7 +68,7 @@ func (tripadvisor) review(doc *goquery.Document) (name, address string, features
 
 	{
 		var addressParts []string
-		doc.Find("address span.format_address > span").Each(func(index int, sel *goquery.Selection) {
+		doc.Find("address span.format_address > span:not(.extended-address)").Each(func(index int, sel *goquery.Selection) {
 			addressParts = append(addressParts, strings.TrimSpace(sel.Text()))
 		})
 

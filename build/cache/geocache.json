@@ -35,6 +35,10 @@
         "Latitude": 35.5252002,
         "Longitude": 139.6930519
     },
+    "1 Nisshincho, Kawasaki-ku Kawasaki 210-0024, Kanagawa Prefecture": {
+        "Latitude": 35.5287197,
+        "Longitude": 139.6954251
+    },
     "1 Nisshincho, Kawasaki-ku | 10F Kawasaki Nikko Hotel, Kawasaki 210-0024, Kanagawa Prefecture": {
         "Latitude": 35.5252002,
         "Longitude": 139.6930519
@@ -71,6 +75,10 @@
         "Latitude": 35.2821849,
         "Longitude": 139.6637038
     },
+    "1-1 Honcho Yokosuka 238-0041, Kanagawa Prefecture": {
+        "Latitude": 35.2819584,
+        "Longitude": 139.6673416
+    },
     "1-1 Honcho | U.S. Fleet Activities Yokosuka, Yokosuka 238-0041, Kanagawa Prefecture": {
         "Latitude": 35.2821849,
         "Longitude": 139.6637038
@@ -90,6 +98,10 @@
     "1-1 Kaigandori, Yokohama 231-0002, Kanagawa Prefecture": {
         "Latitude": 35.4484322,
         "Longitude": 139.6447693
+    },
+    "1-1 Motomachi Chigasaki 253-0043, Kanagawa Prefecture": {
+        "Latitude": 35.3304767,
+        "Longitude": 139.4060859
     },
     "1-1 Motomachi Chigasaki Kanagawa": {
         "Latitude": 35.3304767,
@@ -118,6 +130,10 @@
     "1-1 Sakuragicho, Naka-ku 1F CIAL Sakuragicho Yokohama 231-0062, Kanagawa Prefecture": {
         "Latitude": 35.4499793,
         "Longitude": 139.6319618
+    },
+    "1-1 Sakuragicho, Naka-ku Yokohama 231-0062, Kanagawa Prefecture": {
+        "Latitude": 35.4497142,
+        "Longitude": 139.6310632
     },
     "1-1 Sakuragicho, Naka-ku Yokohama, Kanagawa Prefecture": {
         "Latitude": 35.4497142,
@@ -167,6 +183,10 @@
         "Latitude": 35.5969874,
         "Longitude": 139.5050946
     },
+    "1-1-1 Kamiasao, Asao-ku Kawasaki 215-0021, Kanagawa Prefecture": {
+        "Latitude": 35.5887408,
+        "Longitude": 139.5017948
+    },
     "1-1-1 Kamiasao, Asao-ku Kawasaki, Kanagawa Prefecture": {
         "Latitude": 35.6037635,
         "Longitude": 139.5084715
@@ -183,6 +203,10 @@
         "Latitude": 35.3185887,
         "Longitude": 139.5521867
     },
+    "1-1-1 Komachi Kamakura 248-0006, Kanagawa Prefecture": {
+        "Latitude": 35.3190588,
+        "Longitude": 139.5507226
+    },
     "1-1-1 Komachi | 2F Ekisuto Kamakura, Kamakura 248-0006, Kanagawa Prefecture": {
         "Latitude": 35.3185887,
         "Longitude": 139.5521867
@@ -194,6 +218,10 @@
     "1-1-1 Minatomirai Nishi-Ku Pacifico Yokohama Exhibition Hall 2F Yokohama 220-0012, Kanagawa Prefecture": {
         "Latitude": 35.4607169,
         "Longitude": 139.6311827
+    },
+    "1-1-1 Minatomirai Nishi-Ku Yokohama 220-0012, Kanagawa Prefecture": {
+        "Latitude": 35.4587199,
+        "Longitude": 139.635714
     },
     "1-1-1 Minatomirai Nishi-Ku | Pacifico Yokohama Exhibition Hall 2F, Yokohama 220-0012, Kanagawa Prefecture": {
         "Latitude": 35.4607169,
@@ -211,6 +239,14 @@
         "Latitude": 35.4576034,
         "Longitude": 139.6374556
     },
+    "1-1-1 Minatomirai, Nishi-ku Yokohama 220-0012 , Kanagawa Prefecture": {
+        "Latitude": 35.4587199,
+        "Longitude": 139.635714
+    },
+    "1-1-1 Minatomirai, Nishi-ku Yokohama 220-8522, Kanagawa Prefecture": {
+        "Latitude": 35.4587199,
+        "Longitude": 139.635714
+    },
     "1-1-1 Minatomirai, Nishi-ku | InterContinental Yokohama Grand 1F, Yokohama 220-0012 , Kanagawa Prefecture": {
         "Latitude": 35.4607169,
         "Longitude": 139.6311827
@@ -222,6 +258,10 @@
     "1-1-1 Minatomirai, Nishiku InterContinental Yokohama Grand Yokohama 220-8522, Kanagawa Prefecture": {
         "Latitude": 35.4576034,
         "Longitude": 139.6374556
+    },
+    "1-1-1 Minatomirai, Nishiku Yokohama 220-8522, Kanagawa Prefecture": {
+        "Latitude": 35.4587199,
+        "Longitude": 139.635714
     },
     "1-1-1 Minatomirai, Nishiku | InterContinental Yokohama Grand, Yokohama 220-8522, Kanagawa Prefecture": {
         "Latitude": 35.4576034,
@@ -287,6 +327,10 @@
         "Latitude": 35.4526178,
         "Longitude": 139.6428859
     },
+    "1-1-2 Shinko Nakaku Yokohama 231-0001, Kanagawa Prefecture": {
+        "Latitude": 35.4526178,
+        "Longitude": 139.6428859
+    },
     "1-1-2 Shinko Nakaku Yokohama Red Brick Warehouse first floor Yokohama 231-0001, Kanagawa Prefecture": {
         "Latitude": 35.4536387,
         "Longitude": 139.6407459
@@ -338,6 +382,10 @@
     "1-1-3 Asahicho 1F Honatsugi Minamiguchi Bldg. Atsugi 243-0014, Kanagawa Prefecture": {
         "Latitude": 35.4343027,
         "Longitude": 139.3665841
+    },
+    "1-1-3 Asahicho Atsugi 243-0014, Kanagawa Prefecture": {
+        "Latitude": 35.438788,
+        "Longitude": 139.3640887
     },
     "1-1-3 Asahicho | 1F Honatsugi Minamiguchi Bldg., Atsugi 243-0014, Kanagawa Prefecture": {
         "Latitude": 35.4343027,
@@ -395,6 +443,10 @@
         "Latitude": 35.4512036,
         "Longitude": 139.6318202
     },
+    "1-1-53 Sakuragicho Naka-Ku Yokohama 231-0062, Kanagawa Prefecture": {
+        "Latitude": 35.4497142,
+        "Longitude": 139.6310632
+    },
     "1-1-53 Sakuragicho Naka-Ku | Fuji Soft Bldg. 2F, Yokohama 231-0062, Kanagawa Prefecture": {
         "Latitude": 35.4512036,
         "Longitude": 139.6318202
@@ -427,6 +479,10 @@
         "Latitude": 35.4512036,
         "Longitude": 139.6318202
     },
+    "1-1-7 Naka-ku Sakuragicho Yokohama 231-0062, Kanagawa Prefecture": {
+        "Latitude": 35.4526845,
+        "Longitude": 139.6304952
+    },
     "1-1-7 Naka-ku Sakuragicho | TOC Minatomirai 17F, Yokohama 231-0062, Kanagawa Prefecture": {
         "Latitude": 35.4512036,
         "Longitude": 139.6318202
@@ -442,6 +498,10 @@
     "1-1-7 Sakuragicho Naka-Ku New Otani Inn Yokohama 3F Yokohama 231-0062, Kanagawa Prefecture": {
         "Latitude": 35.4512036,
         "Longitude": 139.6318202
+    },
+    "1-1-7 Sakuragicho Naka-Ku Yokohama 231-0062, Kanagawa Prefecture": {
+        "Latitude": 35.4497142,
+        "Longitude": 139.6310632
     },
     "1-1-7 Sakuragicho Naka-Ku | Colette Mare Minato Mirai 1F, Yokohama 231-0062, Kanagawa Prefecture": {
         "Latitude": 35.4512036,
@@ -462,6 +522,14 @@
     "1-1-7 Sakuragicho, Naka-ku B1F Colette・Mare Minatomirai Yokohama 231-8331, Kanagawa Prefecture": {
         "Latitude": 35.45233450000001,
         "Longitude": 139.6304313
+    },
+    "1-1-7 Sakuragicho, Naka-ku Yokohama 231-0062, Kanagawa Prefecture": {
+        "Latitude": 35.4497142,
+        "Longitude": 139.6310632
+    },
+    "1-1-7 Sakuragicho, Naka-ku Yokohama 231-8331, Kanagawa Prefecture": {
+        "Latitude": 35.4526845,
+        "Longitude": 139.6304952
     },
     "1-1-7 Sakuragicho, Naka-ku Yokohama, Kanagawa Prefecture": {
         "Latitude": 35.4497142,
@@ -490,6 +558,10 @@
     "1-1-8 Kitasaiwai, Nishi-ku 2F Equinia Yokohama Yokohama 220-0004, Kanagawa Prefecture": {
         "Latitude": 35.4660612,
         "Longitude": 139.6158849
+    },
+    "1-1-8 Kitasaiwai, Nishi-ku Yokohama 220-0004, Kanagawa Prefecture": {
+        "Latitude": 35.4676549,
+        "Longitude": 139.6214288
     },
     "1-1-8 Kitasaiwai, Nishi-ku | 2F Equinia Yokohama, Yokohama 220-0004, Kanagawa Prefecture": {
         "Latitude": 35.4660612,
@@ -527,6 +599,10 @@
         "Latitude": 35.4675432,
         "Longitude": 139.6267204
     },
+    "1-10 Kinkocho, Kanagawa-ku Yokohama 221-0056, Kanagawa Prefecture": {
+        "Latitude": 35.4665051,
+        "Longitude": 139.6266506
+    },
     "1-10 Kinkocho, Kanagawa-ku Yokohama Bay Quarter 2F Yokohama 221-0056, Kanagawa Prefecture": {
         "Latitude": 35.4675432,
         "Longitude": 139.6267204
@@ -563,6 +639,10 @@
         "Latitude": 35.4512036,
         "Longitude": 139.6318202
     },
+    "1-10-1 SAakuragi-cho, Naka-ku Yokohama 231-0062, Kanagawa Prefecture": {
+        "Latitude": 35.4501237,
+        "Longitude": 139.6315674
+    },
     "1-10-1 SAakuragi-cho, Naka-ku | Cross Gate Bdg 3F, Yokohama 231-0062, Kanagawa Prefecture": {
         "Latitude": 35.4512036,
         "Longitude": 139.6318202
@@ -575,6 +655,10 @@
         "Latitude": 35.4512036,
         "Longitude": 139.6318202
     },
+    "1-10-1 Sakuragi-cho, Naka-ku Yokohama 231-0062, Kanagawa Prefecture": {
+        "Latitude": 35.4501237,
+        "Longitude": 139.6315674
+    },
     "1-10-1 Sakuragi-cho, Naka-ku | Cross Gate Bdg 3F, Yokohama 231-0062, Kanagawa Prefecture": {
         "Latitude": 35.4512036,
         "Longitude": 139.6318202
@@ -586,6 +670,10 @@
     "1-10-10 Sakado, Takatsu-ku 102 Robin Heights Kawasaki 213-0012, Kanagawa Prefecture": {
         "Latitude": 35.5954442,
         "Longitude": 139.6235333
+    },
+    "1-10-10 Sakado, Takatsu-ku Kawasaki 213-0012, Kanagawa Prefecture": {
+        "Latitude": 35.5989651,
+        "Longitude": 139.6198612
     },
     "1-10-10 Sakado, Takatsu-ku | 102 Robin Heights, Kawasaki 213-0012, Kanagawa Prefecture": {
         "Latitude": 35.5954442,
@@ -663,6 +751,10 @@
         "Latitude": 35.4512036,
         "Longitude": 139.6318202
     },
+    "1-101-1 Sakuragicho Naka-Ku Yokohama 231-0062, Kanagawa Prefecture": {
+        "Latitude": 35.4508125,
+        "Longitude": 139.6326979
+    },
     "1-101-1 Sakuragicho Naka-Ku | Cross Gate 4F, Yokohama 231-0062, Kanagawa Prefecture": {
         "Latitude": 35.4512036,
         "Longitude": 139.6318202
@@ -690,6 +782,10 @@
     "1-11-1 Azaminominami Aoba-Ku Azamino Center Bldg. 2F Yokohama 225-0012, Kanagawa Prefecture": {
         "Latitude": 35.5623493,
         "Longitude": 139.5470939
+    },
+    "1-11-1 Azaminominami Aoba-Ku Yokohama 225-0012, Kanagawa Prefecture": {
+        "Latitude": 35.5638368,
+        "Longitude": 139.5564198
     },
     "1-11-1 Azaminominami Aoba-Ku | Azamino Center Bldg. 2F, Yokohama 225-0012, Kanagawa Prefecture": {
         "Latitude": 35.5623493,
@@ -719,6 +815,10 @@
         "Latitude": 35.5784754,
         "Longitude": 139.5700153
     },
+    "1-11-11 Saginuma, Miyamae-ku Kawasaki 216-0004, Kanagawa Prefecture": {
+        "Latitude": 35.578046,
+        "Longitude": 139.5725316
+    },
     "1-11-11 Saginuma, Miyamae-ku | 1F TM Bldg., Kawasaki 216-0004, Kanagawa Prefecture": {
         "Latitude": 35.5784754,
         "Longitude": 139.5700153
@@ -734,6 +834,10 @@
     "1-11-15 Kitasaiwai, Nishi-ku B1F Yokohama ST Bldg. Yokohama 220-0004, Kanagawa Prefecture": {
         "Latitude": 35.4660612,
         "Longitude": 139.6158849
+    },
+    "1-11-15 Kitasaiwai, Nishi-ku Yokohama 220-0004, Kanagawa Prefecture": {
+        "Latitude": 35.4679327,
+        "Longitude": 139.6180625
     },
     "1-11-15 Kitasaiwai, Nishi-ku | B1F Yokohama ST Bldg., Yokohama 220-0004, Kanagawa Prefecture": {
         "Latitude": 35.4660612,
@@ -786,6 +890,10 @@
     "1-11-7 Ofuna 2F Vicolo Bldg. Kamakura 247-0056, Kanagawa Prefecture": {
         "Latitude": 35.3496286,
         "Longitude": 139.5407284
+    },
+    "1-11-7 Ofuna Kamakura 247-0056, Kanagawa Prefecture": {
+        "Latitude": 35.3509713,
+        "Longitude": 139.5329516
     },
     "1-11-7 Ofuna Kamakura Kanagawa": {
         "Latitude": 35.3519355,
@@ -975,6 +1083,10 @@
         "Latitude": 35.2558245,
         "Longitude": 139.1588048
     },
+    "1-14-57 Sakaecho Odawara 250-0011, Kanagawa Prefecture": {
+        "Latitude": 35.2545708,
+        "Longitude": 139.1577455
+    },
     "1-14-57 Sakaecho | Jardin Bldg. 1.2.3 F, Odawara 250-0011, Kanagawa Prefecture": {
         "Latitude": 35.2558245,
         "Longitude": 139.1588048
@@ -1014,6 +1126,10 @@
     "1-15-6 Ishikawacho, Naka-ku 1F SAZA Bldg. Yokohama 231-0868, Kanagawa Prefecture": {
         "Latitude": 35.4365208,
         "Longitude": 139.6381955
+    },
+    "1-15-6 Ishikawacho, Naka-ku Yokohama 231-0868, Kanagawa Prefecture": {
+        "Latitude": 35.4387001,
+        "Longitude": 139.6453726
     },
     "1-15-6 Ishikawacho, Naka-ku | 1F SAZA Bldg., Yokohama 231-0868, Kanagawa Prefecture": {
         "Latitude": 35.4365208,
@@ -1175,6 +1291,10 @@
         "Latitude": 35.4457576,
         "Longitude": 139.6277929
     },
+    "1-19 Kamiasao, Asao-ku Kawasaki 215-0021, Kanagawa Prefecture": {
+        "Latitude": 35.6023025,
+        "Longitude": 139.5067717
+    },
     "1-19 Kamiasao, Asao-ku Shinyurigaoka Saty Vivre 5F Kawasaki 215-0021, Kanagawa Prefecture": {
         "Latitude": 35.5969874,
         "Longitude": 139.5050946
@@ -1319,6 +1439,10 @@
         "Latitude": 35.3138564,
         "Longitude": 139.5406427
     },
+    "1-2-56 Chigasaki Chigasaki 253-0041 , Kanagawa Prefecture": {
+        "Latitude": 35.3330457,
+        "Longitude": 139.4037469
+    },
     "1-2-56 Chigasaki IY Parking Chigasaki 1F Chigasaki 253-0041 , Kanagawa Prefecture": {
         "Latitude": 35.3372599,
         "Longitude": 139.4046734
@@ -1334,6 +1458,10 @@
     "1-2-7 Kitasaiwai, Nishi-ku B2F Yodobashi Camera Yokohama 220-0004, Kanagawa Prefecture": {
         "Latitude": 35.4660612,
         "Longitude": 139.6158849
+    },
+    "1-2-7 Kitasaiwai, Nishi-ku Yokohama 220-0004, Kanagawa Prefecture": {
+        "Latitude": 35.4678105,
+        "Longitude": 139.6199761
     },
     "1-2-7 Kitasaiwai, Nishi-ku Yokohama, Kanagawa Prefecture": {
         "Latitude": 35.4678105,
@@ -1418,6 +1546,10 @@
     "1-20-14 Ofuna 1F Sanyu Bldg. Kamakura 247-0056, Kanagawa Prefecture": {
         "Latitude": 35.3496286,
         "Longitude": 139.5407284
+    },
+    "1-20-14 Ofuna Kamakura 247-0056, Kanagawa Prefecture": {
+        "Latitude": 35.3518522,
+        "Longitude": 139.5327602
     },
     "1-20-14 Ofuna Kamakura Kanagawa": {
         "Latitude": 35.3518522,
@@ -1575,6 +1707,10 @@
         "Latitude": 35.4365208,
         "Longitude": 139.6381955
     },
+    "1-25-1, Ishikawa-cho, Naka-ku Yokohama 231-0868, Kanagawa Prefecture": {
+        "Latitude": 35.4378335,
+        "Longitude": 139.6453698
+    },
     "1-25-1, Ishikawa-cho, Naka-ku | 1F, Mitsubo Building, Yokohama 231-0868, Kanagawa Prefecture": {
         "Latitude": 35.4365208,
         "Longitude": 139.6381955
@@ -1611,6 +1747,10 @@
         "Latitude": 35.281924,
         "Longitude": 139.6688067
     },
+    "1-27 Odakicho Yokosuka 238-0008, Kanagawa Prefecture": {
+        "Latitude": 35.281444,
+        "Longitude": 139.6684397
+    },
     "1-27 Odakicho | 1F Hiyoshi Bldg., Yokosuka 238-0008, Kanagawa Prefecture": {
         "Latitude": 35.281924,
         "Longitude": 139.6688067
@@ -1618,6 +1758,10 @@
     "1-27-2 Motomachi Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.4408248,
         "Longitude": 139.6498083
+    },
+    "1-29-13 Kizuki, Nakahara-ku Kawasaki 211-0025 , Kanagawa Prefecture": {
+        "Latitude": 35.5657341,
+        "Longitude": 139.6514269
     },
     "1-29-13 Kizuki, Nakahara-ku La Bonne Maison first floor Kawasaki 211-0025 , Kanagawa Prefecture": {
         "Latitude": 35.5618392,
@@ -1643,6 +1787,10 @@
         "Latitude": 35.4315844,
         "Longitude": 139.6484725
     },
+    "1-3-1 Minamisaiwai Nishi-Ku Yokohama 220-8533, Kanagawa Prefecture": {
+        "Latitude": 35.4673383,
+        "Longitude": 139.6220148
+    },
     "1-3-1 Minamisaiwai Nishi-Ku Yokohama More's Rooftop Yokohama 220-8533, Kanagawa Prefecture": {
         "Latitude": 35.4475073,
         "Longitude": 139.6423446
@@ -1654,6 +1802,14 @@
     "1-3-1 Minamisaiwai Nishi-ku Yokohama Kanagawa": {
         "Latitude": 35.4673383,
         "Longitude": 139.6220148
+    },
+    "1-3-1 Minamisaiwai, Nishi-ku Yokohama 220-0005 , Kanagawa Prefecture": {
+        "Latitude": 35.4644335,
+        "Longitude": 139.6198982
+    },
+    "1-3-1 Minamisaiwai, Nishi-ku Yokohama 220-0005, Kanagawa Prefecture": {
+        "Latitude": 35.4644335,
+        "Longitude": 139.6198982
     },
     "1-3-1 Minamisaiwai, Nishi-ku Yokohama Mores 9F Yokohama 220-0005 , Kanagawa Prefecture": {
         "Latitude": 35.4644694,
@@ -1783,6 +1939,10 @@
         "Latitude": 35.3057401,
         "Longitude": 139.5089287
     },
+    "1-3-23 Kitasaiwai, Nishi-Ku Yokohama 220-8501, Kanagawa Prefecture": {
+        "Latitude": 35.4670356,
+        "Longitude": 139.6200928
+    },
     "1-3-23 Kitasaiwai, Nishi-Ku Yokohama Bay Sheraton Hotel and Towers 8F Yokohama 220-8501, Kanagawa Prefecture": {
         "Latitude": 35.4667939,
         "Longitude": 139.6201484
@@ -1798,6 +1958,10 @@
     "1-3-23 Kitasaiwai, Nishi-ku 3F Yokohama Bay Sheraton Hotel \u0026 Towers Yokohama 220-0004, Kanagawa Prefecture": {
         "Latitude": 35.4660612,
         "Longitude": 139.6158849
+    },
+    "1-3-23 Kitasaiwai, Nishi-ku Yokohama 220-0004, Kanagawa Prefecture": {
+        "Latitude": 35.4670356,
+        "Longitude": 139.6200928
     },
     "1-3-23 Kitasaiwai, Nishi-ku | 28F Yokohama Bay Sheraton Hotel \u0026 Towers, Yokohama 220-0004, Kanagawa Prefecture": {
         "Latitude": 35.4660612,
@@ -1882,6 +2046,10 @@
     "1-31 Motomachi, Naka-ku 001 La Spiga Motomachi Yokohama 231-0861, Kanagawa Prefecture": {
         "Latitude": 35.4403638,
         "Longitude": 139.6497222
+    },
+    "1-31 Motomachi, Naka-ku Yokohama 231-0861, Kanagawa Prefecture": {
+        "Latitude": 35.4410859,
+        "Longitude": 139.6502888
     },
     "1-31 Motomachi, Naka-ku | 001 La Spiga Motomachi, Yokohama 231-0861, Kanagawa Prefecture": {
         "Latitude": 35.4403638,
@@ -1979,6 +2147,10 @@
         "Latitude": 35.4665745,
         "Longitude": 139.6212871
     },
+    "1-4 Minamisaiwai, Nishi-ku Yokohama 220-0005 , Kanagawa Prefecture": {
+        "Latitude": 35.4665745,
+        "Longitude": 139.6212871
+    },
     "1-4 Minamisaiwai, Nishi-ku Yokohama, Kanagawa Prefecture": {
         "Latitude": 35.4665745,
         "Longitude": 139.6212871
@@ -2022,6 +2194,10 @@
     "1-4-1 Kamiasao, Asao-ku 5F El Milord Bldg. Kawasaki 215-0021, Kanagawa Prefecture": {
         "Latitude": 35.5969874,
         "Longitude": 139.5050946
+    },
+    "1-4-1 Kamiasao, Asao-ku Kawasaki 215-0021, Kanagawa Prefecture": {
+        "Latitude": 35.5887408,
+        "Longitude": 139.5017948
     },
     "1-4-1 Kamiasao, Asao-ku | 5F El Milord Bldg., Kawasaki 215-0021, Kanagawa Prefecture": {
         "Latitude": 35.5969874,
@@ -2070,6 +2246,10 @@
     "1-4-16 Kaizuka, Kawasaki-ku 1F Kawasaki Kaizuka Lions Mansion Kawasaki 210-0014, Kanagawa Prefecture": {
         "Latitude": 35.5246991,
         "Longitude": 139.7032633
+    },
+    "1-4-16 Kaizuka, Kawasaki-ku Kawasaki 210-0014, Kanagawa Prefecture": {
+        "Latitude": 35.525376,
+        "Longitude": 139.7007181
     },
     "1-4-16 Kaizuka, Kawasaki-ku | 1F Kawasaki Kaizuka Lions Mansion, Kawasaki 210-0014, Kanagawa Prefecture": {
         "Latitude": 35.5246991,
@@ -2175,11 +2355,19 @@
         "Latitude": 35.45002,
         "Longitude": 139.629589
     },
+    "1-46 Hanasakicho, Nakaku Yokohama 231-0063, Kanagawa Prefecture": {
+        "Latitude": 35.4494821,
+        "Longitude": 139.6305731
+    },
     "1-46 Hanasakicho, Nakaku | 1F Nikko Bldg., Yokohama 231-0063, Kanagawa Prefecture": {
         "Latitude": 35.45002,
         "Longitude": 139.629589
     },
     "1-48 Hanasakicho Naka-Ku 1F Yokohama 231-0063, Kanagawa Prefecture": {
+        "Latitude": 35.4496765,
+        "Longitude": 139.630337
+    },
+    "1-48 Hanasakicho Naka-Ku Yokohama 231-0063, Kanagawa Prefecture": {
         "Latitude": 35.4496765,
         "Longitude": 139.630337
     },
@@ -2196,6 +2384,10 @@
         "Longitude": 139.5958623
     },
     "1-5 Kugenuma Hanasacho 8HOTEL 1F Fujisawa 251-0023, Kanagawa Prefecture": {
+        "Latitude": 35.3377396,
+        "Longitude": 139.4841063
+    },
+    "1-5 Kugenuma Hanasacho Fujisawa 251-0023, Kanagawa Prefecture": {
         "Latitude": 35.3377396,
         "Longitude": 139.4841063
     },
@@ -2246,6 +2438,14 @@
     "1-5-1 Minamisaiwai, Nishi-ku Sotetsu Joinus 4F Yokohama 220-0005 , Kanagawa Prefecture": {
         "Latitude": 35.4644694,
         "Longitude": 139.6190716
+    },
+    "1-5-1 Minamisaiwai, Nishi-ku Yokohama 220-0005 , Kanagawa Prefecture": {
+        "Latitude": 35.4644335,
+        "Longitude": 139.6198982
+    },
+    "1-5-1 Minamisaiwai, Nishi-ku Yokohama 220-0005, Kanagawa Prefecture": {
+        "Latitude": 35.4644335,
+        "Longitude": 139.6198982
     },
     "1-5-1 Minamisaiwai, Nishi-ku Yokohama, Kanagawa Prefecture": {
         "Latitude": 35.4644335,
@@ -2431,6 +2631,10 @@
         "Latitude": 35.380857,
         "Longitude": 139.5778179
     },
+    "1-6-17 Komachi Kamakura 248-0006, Kanagawa Prefecture": {
+        "Latitude": 35.3194782,
+        "Longitude": 139.5512142
+    },
     "1-6-17 Komachi Kamakura Mark Bldg. 5F Kamakura 248-0006, Kanagawa Prefecture": {
         "Latitude": 35.3185887,
         "Longitude": 139.5521867
@@ -2438,6 +2642,10 @@
     "1-6-17 Komachi | Kamakura Mark Bldg. 5F, Kamakura 248-0006, Kanagawa Prefecture": {
         "Latitude": 35.3185887,
         "Longitude": 139.5521867
+    },
+    "1-6-19 Komachi Kamakura 248-0006, Kanagawa Prefecture": {
+        "Latitude": 35.3194949,
+        "Longitude": 139.5511142
     },
     "1-6-19 Komachi Kamakura Kanagawa": {
         "Latitude": 35.3194949,
@@ -2483,6 +2691,10 @@
         "Latitude": 35.3950443,
         "Longitude": 139.6107865
     },
+    "1-6-23 Mori Isogo-Ku Yokohama 235-0023, Kanagawa Prefecture": {
+        "Latitude": 35.3992251,
+        "Longitude": 139.617122
+    },
     "1-6-23 Mori Isogo-Ku | Isogo Eki-mae Bldg. 2F, Yokohama 235-0023, Kanagawa Prefecture": {
         "Latitude": 35.3950443,
         "Longitude": 139.6107865
@@ -2497,6 +2709,10 @@
     },
     "1-6-31 Minamisaiwai, Nishi-ku Tkashimaya Yokohama 6F Yokohama 220-8601, Kanagawa Prefecture": {
         "Latitude": 35.4657746,
+        "Longitude": 139.6205984
+    },
+    "1-6-31 Minamisaiwai, Nishi-ku Yokohama 220-8601, Kanagawa Prefecture": {
+        "Latitude": 35.4657774,
         "Longitude": 139.6205984
     },
     "1-6-31 Minamisaiwai, Nishi-ku Yokohama, Kanagawa Prefecture": {
@@ -2542,6 +2758,10 @@
     "1-7 Aioicho, Naka-ku 1F Wado Bldg. Yokohama 231-0012, Kanagawa Prefecture": {
         "Latitude": 35.4465001,
         "Longitude": 139.6383549
+    },
+    "1-7 Aioicho, Naka-ku Yokohama 231-0012, Kanagawa Prefecture": {
+        "Latitude": 35.4483032,
+        "Longitude": 139.6351074
     },
     "1-7 Aioicho, Naka-ku | 1F Wado Bldg., Yokohama 231-0012, Kanagawa Prefecture": {
         "Latitude": 35.4465001,
@@ -2703,6 +2923,10 @@
         "Latitude": 35.3234083,
         "Longitude": 139.554378
     },
+    "1-8-36 Yukinoshita Kamakura 248-0005, Kanagawa Prefecture": {
+        "Latitude": 35.3232639,
+        "Longitude": 139.5543002
+    },
     "1-8-36 Yukinoshita Stutaya Bldg. B1 Kamakura 248-0005, Kanagawa Prefecture": {
         "Latitude": 35.3242137,
         "Longitude": 139.5547333
@@ -2730,6 +2954,10 @@
     "1-9 Honcho Sankyo Bldg. 2F Yokosuka 238-0041, Kanagawa Prefecture": {
         "Latitude": 35.2821849,
         "Longitude": 139.6637038
+    },
+    "1-9 Honcho Yokosuka 238-0041, Kanagawa Prefecture": {
+        "Latitude": 35.2820162,
+        "Longitude": 139.667537
     },
     "1-9 Honcho | Sankyo Bldg. 2F, Yokosuka 238-0041, Kanagawa Prefecture": {
         "Latitude": 35.2821849,
@@ -2762,6 +2990,10 @@
     "1-9-3 Yukinoshita 2F Tanakaya Bldg. Kamakura 248-0005, Kanagawa Prefecture": {
         "Latitude": 35.3242137,
         "Longitude": 139.5547333
+    },
+    "1-9-3 Yukinoshita Kamakura 248-0005, Kanagawa Prefecture": {
+        "Latitude": 35.3219668,
+        "Longitude": 139.5535141
     },
     "1-9-3 Yukinoshita | 2F Tanakaya Bldg., Kamakura 248-0005, Kanagawa Prefecture": {
         "Latitude": 35.3242137,
@@ -2859,6 +3091,10 @@
         "Latitude": 35.4475073,
         "Longitude": 139.6423446
     },
+    "11 Yamashitacho Nakaku Yokohama 045-222-8481, Kanagawa Prefecture": {
+        "Latitude": 35.444566,
+        "Longitude": 139.6502081
+    },
     "11 Yamashitacho Nakaku | Star Hotel Yokohama 1F, Yokohama 045-222-8481, Kanagawa Prefecture": {
         "Latitude": 35.4475073,
         "Longitude": 139.6423446
@@ -2946,6 +3182,10 @@
     "12-1 Honmokuhara, Naka-ku 2F Bay Town Honmoku Yokohama 231-0821, Kanagawa Prefecture": {
         "Latitude": 35.4252942,
         "Longitude": 139.667531
+    },
+    "12-1 Honmokuhara, Naka-ku Yokohama 231-0821, Kanagawa Prefecture": {
+        "Latitude": 35.4254491,
+        "Longitude": 139.6650934
     },
     "12-1 Honmokuhara, Naka-ku | 2F Bay Town Honmoku, Yokohama 231-0821, Kanagawa Prefecture": {
         "Latitude": 35.4252942,
@@ -3223,6 +3463,10 @@
         "Latitude": 35.4488461,
         "Longitude": 139.6308786
     },
+    "15 Yamashitacho Naka-ku Yokohama 231-0023, Kanagawa Prefecture": {
+        "Latitude": 35.4439383,
+        "Longitude": 139.6509414
+    },
     "15 Yamashitacho Naka-ku Yokohama Marine Tower first floor Yokohama 231-0023, Kanagawa Prefecture": {
         "Latitude": 35.4436205,
         "Longitude": 139.651586
@@ -3294,6 +3538,10 @@
     "153 Yamashita-cho Chinatown Yokohama, Kanagawa Prefecture": {
         "Latitude": 35.4437078,
         "Longitude": 139.6380256
+    },
+    "153 Yamashita-cho Yokohama, Kanagawa Prefecture": {
+        "Latitude": 35.4433967,
+        "Longitude": 139.6444363
     },
     "153 Yamashita-cho | Chinatown, Yokohama, Kanagawa Prefecture": {
         "Latitude": 35.4437078,
@@ -3531,6 +3779,10 @@
         "Latitude": 35.5149427,
         "Longitude": 139.5370335
     },
+    "195 Daimuracho Midori-Ku Yokohama 226-0014, Kanagawa Prefecture": {
+        "Latitude": 35.5147705,
+        "Longitude": 139.5366446
+    },
     "195 Daimuracho Midori-Ku | 202, Yokohama 226-0014, Kanagawa Prefecture": {
         "Latitude": 35.5149427,
         "Longitude": 139.5370335
@@ -3550,6 +3802,10 @@
     "1_25_2 Sobudai , Minami-ku 2F Sato Building Sagamihara 252-0324, Kanagawa Prefecture": {
         "Latitude": 35.5035078,
         "Longitude": 139.4072136
+    },
+    "1_25_2 Sobudai , Minami-ku Sagamihara 252-0324, Kanagawa Prefecture": {
+        "Latitude": 35.5032094,
+        "Longitude": 139.4037804
     },
     "1_25_2 Sobudai , Minami-ku | 2F Sato Building, Sagamihara 252-0324, Kanagawa Prefecture": {
         "Latitude": 35.5035078,
@@ -3582,6 +3838,10 @@
     "2-1 Higashidacho, Kawasaki-ku 2F Matsui Bldg. Kawasaki 210-0005, Kanagawa Prefecture": {
         "Latitude": 35.5286247,
         "Longitude": 139.7023059
+    },
+    "2-1 Higashidacho, Kawasaki-ku Kawasaki 210-0005, Kanagawa Prefecture": {
+        "Latitude": 35.5278256,
+        "Longitude": 139.7014596
     },
     "2-1 Higashidacho, Kawasaki-ku | 2F Matsui Bldg., Kawasaki 210-0005, Kanagawa Prefecture": {
         "Latitude": 35.5286247,
@@ -3626,6 +3886,10 @@
     "2-1-1 Azamino, Aoba-ku 2F Tokyu Azamino Bldg. Yokohama 225-0011, Kanagawa Prefecture": {
         "Latitude": 35.5721584,
         "Longitude": 139.5458207
+    },
+    "2-1-1 Azamino, Aoba-ku Yokohama 225-0011, Kanagawa Prefecture": {
+        "Latitude": 35.5665374,
+        "Longitude": 139.5458804
     },
     "2-1-1 Azamino, Aoba-ku | 2F Tokyu Azamino Bldg., Yokohama 225-0011, Kanagawa Prefecture": {
         "Latitude": 35.5721584,
@@ -3683,6 +3947,10 @@
         "Latitude": 35.4069069,
         "Longitude": 139.5957411
     },
+    "2-1-23 Nakacho Atsugi 243-0018, Kanagawa Prefecture": {
+        "Latitude": 35.4403017,
+        "Longitude": 139.3656025
+    },
     "2-1-23 Nakacho Eleven Bldg. 2F Atsugi 243-0018, Kanagawa Prefecture": {
         "Latitude": 35.4403017,
         "Longitude": 139.3656025
@@ -3706,6 +3974,10 @@
     "2-1-3 Minamifujisawa B1F Fujisawa, Kanagawa Prefecture": {
         "Latitude": 35.3391398,
         "Longitude": 139.4909942
+    },
+    "2-1-3 Minamifujisawa Fujisawa, Kanagawa Prefecture": {
+        "Latitude": 35.3383343,
+        "Longitude": 139.4885416
     },
     "2-1-3 Minamifujisawa | B1F, Fujisawa, Kanagawa Prefecture": {
         "Latitude": 35.3391398,
@@ -3754,6 +4026,10 @@
     "2-1-43 Tomoe Chigasaki Kanagawa": {
         "Latitude": 35.3270519,
         "Longitude": 139.4028501
+    },
+    "2-1-5 Komachi Kamakura 248-0006 , Kanagawa Prefecture": {
+        "Latitude": 35.3203725,
+        "Longitude": 139.5512531
     },
     "2-1-5 Komachi Sakurai Building 1F Kamakura 248-0006 , Kanagawa Prefecture": {
         "Latitude": 35.3185887,
@@ -3815,6 +4091,10 @@
         "Latitude": 35.4644694,
         "Longitude": 139.6190716
     },
+    "2-10-13 Minamisaiwai, Nishi-ku Yokohama 220-0005, Kanagawa Prefecture": {
+        "Latitude": 35.462986,
+        "Longitude": 139.6174044
+    },
     "2-10-13 Minamisaiwai, Nishi-ku | Burrilar Yokohama 1F, Yokohama 220-0005, Kanagawa Prefecture": {
         "Latitude": 35.4644694,
         "Longitude": 139.6190716
@@ -3855,6 +4135,10 @@
         "Latitude": 35.4689413,
         "Longitude": 139.6216211
     },
+    "2-10-7 Tsuruyacho Kanagawa-ku Yokohama 221-0835, Kanagawa Prefecture": {
+        "Latitude": 35.4696047,
+        "Longitude": 139.6225036
+    },
     "2-10-7 Tsuruyacho Kanagawa-ku | Tamura bldg 1F, Yokohama 221-0835, Kanagawa Prefecture": {
         "Latitude": 35.4689413,
         "Longitude": 139.6216211
@@ -3862,6 +4146,10 @@
     "2-100-45 Shinyokohama Kohoku-Ku Cubic Plaza Shin-Yokohama 10F Yokohama 222-0033, Kanagawa Prefecture": {
         "Latitude": 35.5086887,
         "Longitude": 139.6133356
+    },
+    "2-100-45 Shinyokohama Kohoku-Ku Yokohama 222-0033, Kanagawa Prefecture": {
+        "Latitude": 35.5077891,
+        "Longitude": 139.6172846
     },
     "2-100-45 Shinyokohama Kohoku-Ku | Cubic Plaza Shin-Yokohama 10F, Yokohama 222-0033, Kanagawa Prefecture": {
         "Latitude": 35.5086887,
@@ -3938,6 +4226,10 @@
     "2-11-4 Tsuruyacho Kanagawa-ku Yokohama Kanagawa": {
         "Latitude": 35.4694067,
         "Longitude": 139.6205455
+    },
+    "2-11-6 Higashikaiganminami Chigasaki 253-0054, Kanagawa Prefecture": {
+        "Latitude": 35.3248138,
+        "Longitude": 139.4143718
     },
     "2-11-6 Higashikaiganminami Shiba Garden Building 102 Chigasaki 253-0054, Kanagawa Prefecture": {
         "Latitude": 35.3213284,
@@ -4131,6 +4423,10 @@
         "Latitude": 35.4644694,
         "Longitude": 139.6190716
     },
+    "2-14-9 Minamisaiwaicho, Nishi-ku Yokohama 220-0005, Kanagawa Prefecture": {
+        "Latitude": 35.4644694,
+        "Longitude": 139.6190716
+    },
     "2-14-9 Minamisaiwaicho, Nishi-ku | B1 Nishiguchi Meiwa Building, Yokohama 220-0005, Kanagawa Prefecture": {
         "Latitude": 35.4644694,
         "Longitude": 139.6190716
@@ -4138,6 +4434,10 @@
     "2-15 Tsuruyacho Kanagawa-Ku Crane Yokohama Bldg 1F Yokohama 221-0835, Kanagawa Prefecture": {
         "Latitude": 35.4689413,
         "Longitude": 139.6216211
+    },
+    "2-15 Tsuruyacho Kanagawa-Ku Yokohama 221-0835, Kanagawa Prefecture": {
+        "Latitude": 35.4679466,
+        "Longitude": 139.6227842
     },
     "2-15 Tsuruyacho Kanagawa-Ku | Crane Yokohama Bldg 1F, Yokohama 221-0835, Kanagawa Prefecture": {
         "Latitude": 35.4689413,
@@ -4150,6 +4450,10 @@
     "2-15 Tsuruyacho, Kanagawa-ku 4F Crane Yokohama Yokohama 221-0835, Kanagawa Prefecture": {
         "Latitude": 35.4689413,
         "Longitude": 139.6216211
+    },
+    "2-15 Tsuruyacho, Kanagawa-ku Yokohama 221-0835, Kanagawa Prefecture": {
+        "Latitude": 35.4679466,
+        "Longitude": 139.6227842
     },
     "2-15 Tsuruyacho, Kanagawa-ku | 4F Crane Yokohama, Yokohama 221-0835, Kanagawa Prefecture": {
         "Latitude": 35.4689413,
@@ -4215,9 +4519,17 @@
         "Latitude": 35.4645388,
         "Longitude": 139.6235333
     },
+    "2-16 Takashima Nishi-Ku Yokohama 220-0011, Kanagawa Prefecture": {
+        "Latitude": 35.4633749,
+        "Longitude": 139.6199096
+    },
     "2-16 Takashima Nishi-Ku | Porta B1, Yokohama 220-0011, Kanagawa Prefecture": {
         "Latitude": 35.4645388,
         "Longitude": 139.6235333
+    },
+    "2-16 Takashima, Nishi-ku Yokohama 220-0011, Kanagawa Prefecture": {
+        "Latitude": 35.4633749,
+        "Longitude": 139.6199096
     },
     "2-16 Takashima, Nishi-ku Yokohama-Porta B1F Yokohama 220-0011, Kanagawa Prefecture": {
         "Latitude": 35.4645388,
@@ -4230,6 +4542,10 @@
     "2-16-1 Takashima Nishi-Ku Lumine Yokohama 7F Yokohama 220-0011, Kanagawa Prefecture": {
         "Latitude": 35.4645388,
         "Longitude": 139.6235333
+    },
+    "2-16-1 Takashima Nishi-Ku Yokohama 220-0011, Kanagawa Prefecture": {
+        "Latitude": 35.4636726,
+        "Longitude": 139.6232544
     },
     "2-16-1 Takashima Nishi-Ku | Lumine Yokohama 7F, Yokohama 220-0011, Kanagawa Prefecture": {
         "Latitude": 35.4645388,
@@ -4246,6 +4562,10 @@
     "2-16-1 Takashima, Nishi-ku Lumine Yokohama-ten 7Fl. Yokohama 220-0011, Kanagawa Prefecture": {
         "Latitude": 35.4645388,
         "Longitude": 139.6235333
+    },
+    "2-16-1 Takashima, Nishi-ku Yokohama 220-0011, Kanagawa Prefecture": {
+        "Latitude": 35.4636726,
+        "Longitude": 139.6232544
     },
     "2-16-1 Takashima, Nishi-ku Yokohama, Kanagawa Prefecture": {
         "Latitude": 35.4652635,
@@ -4283,6 +4603,10 @@
         "Latitude": 35.4689413,
         "Longitude": 139.6216211
     },
+    "2-16-10 Tsuruyacho, Kanagawa-ku Yokohama 221-0835, Kanagawa Prefecture": {
+        "Latitude": 35.468316,
+        "Longitude": 139.6229925
+    },
     "2-16-10 Tsuruyacho, Kanagawa-ku | 1F F-tem RON Bldg., Yokohama 221-0835, Kanagawa Prefecture": {
         "Latitude": 35.4689413,
         "Longitude": 139.6216211
@@ -4290,6 +4614,10 @@
     "2-16-11 Minamisaiwai, Nishi-ku 6F Niko Bldg. Yokohama 220-0005, Kanagawa Prefecture": {
         "Latitude": 35.4644694,
         "Longitude": 139.6190716
+    },
+    "2-16-11 Minamisaiwai, Nishi-ku Yokohama 220-0005, Kanagawa Prefecture": {
+        "Latitude": 35.4640748,
+        "Longitude": 139.6169988
     },
     "2-16-11 Minamisaiwai, Nishi-ku | 6F Niko Bldg., Yokohama 220-0005, Kanagawa Prefecture": {
         "Latitude": 35.4644694,
@@ -4343,6 +4671,10 @@
         "Latitude": 35.4437078,
         "Longitude": 139.6380256
     },
+    "2-17, Yayoicho, Naka-ku Yokohama, Kanagawa Prefecture": {
+        "Latitude": 35.4403915,
+        "Longitude": 139.6301068
+    },
     "2-17, Yayoicho, Naka-ku | Stalk Tower Ohdori-Koen Bldg. B1F, Yokohama, Kanagawa Prefecture": {
         "Latitude": 35.4437078,
         "Longitude": 139.6380256
@@ -4363,6 +4695,10 @@
         "Latitude": 35.4682215,
         "Longitude": 139.6222981
     },
+    "2-17-22 Katasekaigan Fujisawa 251-0035 , Kanagawa Prefecture": {
+        "Latitude": 35.3084256,
+        "Longitude": 139.4821783
+    },
     "2-17-22 Katasekaigan the BEACH HOUSE 1F Fujisawa 251-0035 , Kanagawa Prefecture": {
         "Latitude": 35.3093218,
         "Longitude": 139.4834704
@@ -4378,6 +4714,10 @@
     "2-17-23 Hase, Kamakura 248-0016, Kanagawa Prefecture": {
         "Latitude": 35.3108344,
         "Longitude": 139.536043
+    },
+    "2-17-27 Katasekaigan Fujisawa 251-0035 , Kanagawa Prefecture": {
+        "Latitude": 35.3091339,
+        "Longitude": 139.4816117
     },
     "2-17-27 Katasekaigan Taian Kogyo Bldg. 1F Fujisawa 251-0035 , Kanagawa Prefecture": {
         "Latitude": 35.3093218,
@@ -4443,6 +4783,10 @@
         "Latitude": 35.4645561,
         "Longitude": 139.6246488
     },
+    "2-19-12 Nishi-ku Takashima Yokohama 220-0011, Kanagawa Prefecture": {
+        "Latitude": 35.4647358,
+        "Longitude": 139.6245619
+    },
     "2-19-12 Nishi-ku Takashima | Sky Bldg 28F, Yokohama 220-0011, Kanagawa Prefecture": {
         "Latitude": 35.4645561,
         "Longitude": 139.6246488
@@ -4451,9 +4795,17 @@
         "Latitude": 35.4645561,
         "Longitude": 139.6246488
     },
+    "2-19-12 Takashima Nishi-Ku Yokohama 220-0011, Kanagawa Prefecture": {
+        "Latitude": 35.4647358,
+        "Longitude": 139.6245619
+    },
     "2-19-12 Takashima Nishi-Ku | Sky Bldg. 29F, Yokohama 220-0011, Kanagawa Prefecture": {
         "Latitude": 35.4645561,
         "Longitude": 139.6246488
+    },
+    "2-19-12 Takashima Nishi-ku Yokohama 220-0011, Kanagawa Prefecture": {
+        "Latitude": 35.4647358,
+        "Longitude": 139.6245619
     },
     "2-19-12 Takashima Nishi-ku Yokohama Kanagawa": {
         "Latitude": 35.4647358,
@@ -4490,6 +4842,10 @@
     "2-2 Minatomirai, Nishi-ku Landmark Plaza 1F Yokohama 220-0012, Kanagawa Prefecture": {
         "Latitude": 35.45512960000001,
         "Longitude": 139.630864
+    },
+    "2-2 Minatomirai, Nishi-ku Yokohama 220-0012, Kanagawa Prefecture": {
+        "Latitude": 35.4574484,
+        "Longitude": 139.6348484
     },
     "2-2 Minatomirai, Nishi-ku | Landmark Plaza 1F, Yokohama 220-0012, Kanagawa Prefecture": {
         "Latitude": 35.45512960000001,
@@ -4531,6 +4887,10 @@
         "Latitude": 35.4574484,
         "Longitude": 139.6348484
     },
+    "2-2-1 Minato Mirai Nishiku Yokohama 220-0819, Kanagawa Prefecture": {
+        "Latitude": 35.4574484,
+        "Longitude": 139.6348484
+    },
     "2-2-1 Minato Mirai Nishiku Yokohama Landmark Tower Yokohama 220-0819, Kanagawa Prefecture": {
         "Latitude": 35.4475073,
         "Longitude": 139.6423446
@@ -4547,6 +4907,10 @@
         "Latitude": 35.454722,
         "Longitude": 139.631667
     },
+    "2-2-1 Minatomirai Nishiku Yokohama 220-0012, Kanagawa Prefecture": {
+        "Latitude": 35.4552397,
+        "Longitude": 139.6310839
+    },
     "2-2-1 Minatomirai Nishiku | 1F Yokohama Landmark Tower, Yokohama 220-0012, Kanagawa Prefecture": {
         "Latitude": 35.454722,
         "Longitude": 139.631667
@@ -4558,6 +4922,18 @@
     "2-2-1 Minatomirai, Nishi-ku Landmark Plaza 5F Yokohama 220-8105, Kanagawa Prefecture": {
         "Latitude": 35.45512960000001,
         "Longitude": 139.630864
+    },
+    "2-2-1 Minatomirai, Nishi-ku Yokohama 220-0012 , Kanagawa Prefecture": {
+        "Latitude": 35.4574484,
+        "Longitude": 139.6348484
+    },
+    "2-2-1 Minatomirai, Nishi-ku Yokohama 220-0012, Kanagawa Prefecture": {
+        "Latitude": 35.4574484,
+        "Longitude": 139.6348484
+    },
+    "2-2-1 Minatomirai, Nishi-ku Yokohama 220-8105, Kanagawa Prefecture": {
+        "Latitude": 35.4552397,
+        "Longitude": 139.6310839
     },
     "2-2-1 Minatomirai, Nishi-ku Yokohama Land Park Praza Bdg 4F Yokohama 220-0012 , Kanagawa Prefecture": {
         "Latitude": 35.4607169,
@@ -4611,9 +4987,17 @@
         "Latitude": 35.5737338,
         "Longitude": 139.5611003
     },
+    "2-2-1 Shinishikawa Aoba-Ku Yokohama 225-0003, Kanagawa Prefecture": {
+        "Latitude": 35.5760629,
+        "Longitude": 139.5586996
+    },
     "2-2-1 Shinishikawa Aoba-Ku | Tama-Plaza Terrace South Plaza 1F, Yokohama 225-0003, Kanagawa Prefecture": {
         "Latitude": 35.5737338,
         "Longitude": 139.5611003
+    },
+    "2-2-1 Shinko Naka-ku Yokohama 231-0001, Kanagawa Prefecture": {
+        "Latitude": 35.4542815,
+        "Longitude": 139.6385251
     },
     "2-2-1 Shinko Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.4541469,
@@ -4660,6 +5044,14 @@
         "Longitude": 139.6389028
     },
     "2-2-1-3 Minatomirai Nishi-ku Yokohama Kanagawa": {
+        "Latitude": 35.4552397,
+        "Longitude": 139.6310839
+    },
+    "2-2-1-3 Minatomirai, Nishi-ku Yokohama 220-0012, Kanagawa Prefecture": {
+        "Latitude": 35.4574484,
+        "Longitude": 139.6348484
+    },
+    "2-2-1-3 Minatomirai, Nishi-ku Yokohama 220-8173 , Kanagawa Prefecture": {
         "Latitude": 35.4552397,
         "Longitude": 139.6310839
     },
@@ -4823,11 +5215,19 @@
         "Latitude": 35.281924,
         "Longitude": 139.6688067
     },
+    "2-23 Odakicho Yokosuka 238-0008, Kanagawa Prefecture": {
+        "Latitude": 35.280433,
+        "Longitude": 139.6694173
+    },
     "2-23 Odakicho | Mikasa Bldg., Yokosuka 238-0008, Kanagawa Prefecture": {
         "Latitude": 35.281924,
         "Longitude": 139.6688067
     },
     "2-23 Ootakicho Miskasa Shopping Plaza B1 Yokosuka 238-0008, Kanagawa Prefecture": {
+        "Latitude": 35.281924,
+        "Longitude": 139.6688067
+    },
+    "2-23 Ootakicho Yokosuka 238-0008, Kanagawa Prefecture": {
         "Latitude": 35.281924,
         "Longitude": 139.6688067
     },
@@ -4911,6 +5311,10 @@
         "Latitude": 35.45577840000001,
         "Longitude": 139.6330155
     },
+    "2-3-1 Minatomirai, Nishi-ku Yokohama 220-6001, Kanagawa Prefecture": {
+        "Latitude": 35.4558647,
+        "Longitude": 139.6331032
+    },
     "2-3-1 Minatomirai, Nishi-ku | Queens Tower A 1F, Yokohama 220-6001, Kanagawa Prefecture": {
         "Latitude": 35.45577840000001,
         "Longitude": 139.6330155
@@ -4922,6 +5326,10 @@
     "2-3-11 Odakicho Sekimoto Earth Bldg. 2F Yokosuka 238-0008, Kanagawa Prefecture": {
         "Latitude": 35.281924,
         "Longitude": 139.6688067
+    },
+    "2-3-11 Odakicho Yokosuka 238-0008, Kanagawa Prefecture": {
+        "Latitude": 35.2813301,
+        "Longitude": 139.6694507
     },
     "2-3-11 Odakicho | Sekimoto Earth Bldg. 2F, Yokosuka 238-0008, Kanagawa Prefecture": {
         "Latitude": 35.281924,
@@ -4963,6 +5371,10 @@
         "Latitude": 35.2820829,
         "Longitude": 139.6654066
     },
+    "2-3-2 Honcho Yokosuka 238-0041, Kanagawa Prefecture": {
+        "Latitude": 35.2820829,
+        "Longitude": 139.6654066
+    },
     "2-3-2 Honcho | 2F, Yokosuka 238-0041, Kanagawa Prefecture": {
         "Latitude": 35.2820829,
         "Longitude": 139.6654066
@@ -4975,6 +5387,10 @@
         "Latitude": 35.4563929,
         "Longitude": 139.6329358
     },
+    "2-3-2 Minatomirai, Nishi-ku Yokohama 220-0012, Kanagawa Prefecture": {
+        "Latitude": 35.4574484,
+        "Longitude": 139.6348484
+    },
     "2-3-2 Minatomirai, Nishi-ku | B1 Queens East, Yokohama 220-0012, Kanagawa Prefecture": {
         "Latitude": 35.4563929,
         "Longitude": 139.6329358
@@ -4986,6 +5402,10 @@
     "2-3-22 Hashimoto, Midori-ku 1F/2F Daiyu Jisho Honsha Bldg. Sagamihara 252-0143, Kanagawa Prefecture": {
         "Latitude": 35.597271,
         "Longitude": 139.3475488
+    },
+    "2-3-22 Hashimoto, Midori-ku Sagamihara 252-0143, Kanagawa Prefecture": {
+        "Latitude": 35.5950502,
+        "Longitude": 139.3441062
     },
     "2-3-22 Hashimoto, Midori-ku | 1F/2F Daiyu Jisho Honsha Bldg., Sagamihara 252-0143, Kanagawa Prefecture": {
         "Latitude": 35.597271,
@@ -5023,6 +5443,10 @@
         "Latitude": 35.4607169,
         "Longitude": 139.6311827
     },
+    "2-3-4 Minatomirai, Nishiku Yokohama 220-0012, Kanagawa Prefecture": {
+        "Latitude": 35.4574484,
+        "Longitude": 139.6348484
+    },
     "2-3-4 Minatomirai, Nishiku | Queens Square Yokohana AT station core B1, Yokohama 220-0012, Kanagawa Prefecture": {
         "Latitude": 35.4607169,
         "Longitude": 139.6311827
@@ -5058,6 +5482,14 @@
     "2-3-7 Minatomirai, Nishi-ku 2Ｆ Yokohama Bay Hotel Tokyu Yokohama 220-0012, Kanagawa Prefecture": {
         "Latitude": 35.4569619,
         "Longitude": 139.6352469
+    },
+    "2-3-7 Minatomirai, Nishi-ku Yokohama 220-0012, Kanagawa Prefecture": {
+        "Latitude": 35.4574484,
+        "Longitude": 139.6348484
+    },
+    "2-3-7 Minatomirai, Nishi-ku Yokohama 220-8543, Kanagawa Prefecture": {
+        "Latitude": 35.4574484,
+        "Longitude": 139.6348484
     },
     "2-3-7 Minatomirai, Nishi-ku Yokohama Bay Hotel Tokyu 1F Yokohama 220-8543, Kanagawa Prefecture": {
         "Latitude": 35.4569619,
@@ -5115,6 +5547,10 @@
         "Latitude": 35.4560985,
         "Longitude": 139.6338124
     },
+    "2-3-9 Minatomirai, Nishiku Yokohama 220-0012, Kanagawa Prefecture": {
+        "Latitude": 35.4574484,
+        "Longitude": 139.6348484
+    },
     "2-3-9 Minatomirai, Nishiku | Queens Square Yokohama At 1st 1F, Yokohama 220-0012, Kanagawa Prefecture": {
         "Latitude": 35.4560985,
         "Longitude": 139.6338124
@@ -5126,6 +5562,10 @@
     "2-30 Wakamatsucho, Yokosuka, Kanagawa Prefecture": {
         "Latitude": 35.2780442,
         "Longitude": 139.6705338
+    },
+    "2-32 Otamachi Naka-Ku Yokohama 231-0011, Kanagawa Prefecture": {
+        "Latitude": 35.4468852,
+        "Longitude": 139.6385615
     },
     "2-32 Otamachi Naka-Ku Yokohama Excellent 6 1F Yokohama 231-0011, Kanagawa Prefecture": {
         "Latitude": 35.4481904,
@@ -5163,11 +5603,19 @@
         "Latitude": 35.2821849,
         "Longitude": 139.6637038
     },
+    "2-4 Honcho Yokosuka 238-0041, Kanagawa Prefecture": {
+        "Latitude": 35.2827727,
+        "Longitude": 139.6638234
+    },
     "2-4 Honcho | Izumi Bldg. 1F, Yokosuka 238-0041, Kanagawa Prefecture": {
         "Latitude": 35.2821849,
         "Longitude": 139.6637038
     },
     "2-4 Kugemuna Hanazawacho Canal Fujisawa 1F Fujisawa 251-0023, Kanagawa Prefecture": {
+        "Latitude": 35.3377396,
+        "Longitude": 139.4841063
+    },
+    "2-4 Kugemuna Hanazawacho Fujisawa 251-0023, Kanagawa Prefecture": {
         "Latitude": 35.3377396,
         "Longitude": 139.4841063
     },
@@ -5186,6 +5634,10 @@
     "2-4 Odakicho Yamamoto Bldg. Yokosuka 238-0008, Kanagawa Prefecture": {
         "Latitude": 35.281924,
         "Longitude": 139.6688067
+    },
+    "2-4 Odakicho Yokosuka 238-0008, Kanagawa Prefecture": {
+        "Latitude": 35.2811746,
+        "Longitude": 139.6698396
     },
     "2-4 Odakicho | Yamamoto Bldg., Yokosuka 238-0008, Kanagawa Prefecture": {
         "Latitude": 35.281924,
@@ -5256,6 +5708,10 @@
         "Longitude": 139.6162458
     },
     "2-4-3 Fujigaoka, Aoba-ku Fujigaoka Hall B1F Yokohama 227-0043, Kanagawa Prefecture": {
+        "Latitude": 35.5443709,
+        "Longitude": 139.5273234
+    },
+    "2-4-3 Fujigaoka, Aoba-ku Yokohama 227-0043, Kanagawa Prefecture": {
         "Latitude": 35.5443709,
         "Longitude": 139.5273234
     },
@@ -5459,6 +5915,10 @@
         "Latitude": 35.4660612,
         "Longitude": 139.6158849
     },
+    "2-6-26 Kitasaiwai Nishi-Ku Yokohama 220-0004, Kanagawa Prefecture": {
+        "Latitude": 35.4672022,
+        "Longitude": 139.616846
+    },
     "2-6-26 Kitasaiwai Nishi-Ku | H1 Yokohama Bldg. B1, Yokohama 220-0004, Kanagawa Prefecture": {
         "Latitude": 35.4660612,
         "Longitude": 139.6158849
@@ -5531,6 +5991,10 @@
         "Latitude": 35.4377196,
         "Longitude": 139.6419728
     },
+    "2-682 Marukodori Nakahara-Ku Kawasaki 211-0006, Kanagawa Prefecture": {
+        "Latitude": 35.5826644,
+        "Longitude": 139.6615164
+    },
     "2-682 Marukodori Nakahara-Ku Shinmaruko Century Plaza 1F Kawasaki 211-0006, Kanagawa Prefecture": {
         "Latitude": 35.5834796,
         "Longitude": 139.6637038
@@ -5571,6 +6035,10 @@
         "Latitude": 35.4644694,
         "Longitude": 139.6190716
     },
+    "2-7-15 Minamisaiwai Nishi-Ku Yokohama 220-0005, Kanagawa Prefecture": {
+        "Latitude": 35.4643026,
+        "Longitude": 139.6184542
+    },
     "2-7-15 Minamisaiwai Nishi-Ku | Yokogawa Bldg. 2F, Yokohama 220-0005, Kanagawa Prefecture": {
         "Latitude": 35.4644694,
         "Longitude": 139.6190716
@@ -5586,6 +6054,10 @@
     "2-7-2 Sakaecho Odawara Kanagawa": {
         "Latitude": 35.2557827,
         "Longitude": 139.1576686
+    },
+    "2-7-20 Yuigahama Kamakura 248-0014, Kanagawa Prefecture": {
+        "Latitude": 35.3147925,
+        "Longitude": 139.5462617
     },
     "2-7-20 Yuigahama Yamaguchi Bldg. 1F Kamakura 248-0014, Kanagawa Prefecture": {
         "Latitude": 35.3119395,
@@ -5727,6 +6199,10 @@
         "Latitude": 35.3217419,
         "Longitude": 139.5528642
     },
+    "2-8-23 Komachi Kamakura 248-0006, Kanagawa Prefecture": {
+        "Latitude": 35.3217419,
+        "Longitude": 139.5528642
+    },
     "2-8-23 Komachi Kamakura Kanagawa": {
         "Latitude": 35.3217419,
         "Longitude": 139.5528642
@@ -5851,6 +6327,10 @@
         "Latitude": 35.5454327,
         "Longitude": 139.516546
     },
+    "2-9-18 Aobadai Aoba-Ku Yokohama 227-0062, Kanagawa Prefecture": {
+        "Latitude": 35.5437382,
+        "Longitude": 139.5162346
+    },
     "2-9-18 Aobadai Aoba-Ku | Aobadai Heights 1F, Yokohama 227-0062, Kanagawa Prefecture": {
         "Latitude": 35.5454327,
         "Longitude": 139.516546
@@ -5878,6 +6358,10 @@
     "2-9-5 Komachi 2F Nakayama Bldg. Kamakura 248-0006, Kanagawa Prefecture": {
         "Latitude": 35.3185887,
         "Longitude": 139.5521867
+    },
+    "2-9-5 Komachi Kamakura 248-0006, Kanagawa Prefecture": {
+        "Latitude": 35.3207947,
+        "Longitude": 139.5521086
     },
     "2-9-5 Komachi | 2F Nakayama Bldg., Kamakura 248-0006, Kanagawa Prefecture": {
         "Latitude": 35.3185887,
@@ -5971,6 +6455,10 @@
         "Latitude": 35.4436205,
         "Longitude": 139.651586
     },
+    "200 Yamashitacho, Naka-ku Yokohama 231-0023, Kanagawa Prefecture": {
+        "Latitude": 35.4431273,
+        "Longitude": 139.6434308
+    },
     "200 Yamashitacho, Naka-ku | 1F KN Bldg., Yokohama 231-0023, Kanagawa Prefecture": {
         "Latitude": 35.4436205,
         "Longitude": 139.651586
@@ -6003,6 +6491,10 @@
         "Latitude": 35.4436205,
         "Longitude": 139.651586
     },
+    "204-1 Yamashitacho, Naka-ku Yokohama 231-0023 , Kanagawa Prefecture": {
+        "Latitude": 35.4435467,
+        "Longitude": 139.6420725
+    },
     "204-1 Yamashitacho, Naka-ku | Daiwaroynet Hotel Yokohama Park 1F, Yokohama 231-0023 , Kanagawa Prefecture": {
         "Latitude": 35.4436205,
         "Longitude": 139.651586
@@ -6010,6 +6502,10 @@
     "207 Yamashitacho Naka-Ku Kannai JS Bldg. 1F Yokohama 231-0023, Kanagawa Prefecture": {
         "Latitude": 35.4436205,
         "Longitude": 139.651586
+    },
+    "207 Yamashitacho Naka-Ku Yokohama 231-0023, Kanagawa Prefecture": {
+        "Latitude": 35.4429412,
+        "Longitude": 139.6421309
     },
     "207 Yamashitacho Naka-Ku | Kannai JS Bldg. 1F, Yokohama 231-0023, Kanagawa Prefecture": {
         "Latitude": 35.4436205,
@@ -6034,6 +6530,10 @@
     "21-1 Minamifujisawa 7F Fujisawa 251-0055, Kanagawa Prefecture": {
         "Latitude": 35.3361929,
         "Longitude": 139.4917176
+    },
+    "21-1 Minamifujisawa Fujisawa 251-0055, Kanagawa Prefecture": {
+        "Latitude": 35.3375297,
+        "Longitude": 139.4876833
     },
     "21-1 Minamifujisawa | 7F, Fujisawa 251-0055, Kanagawa Prefecture": {
         "Latitude": 35.3372817,
@@ -6066,6 +6566,10 @@
     "215 Yamashitacho, Naka-ku Toraku Bldg. 1 to 2F Yokohama 231-0023, Kanagawa Prefecture": {
         "Latitude": 35.4436205,
         "Longitude": 139.651586
+    },
+    "215 Yamashitacho, Naka-ku Yokohama 231-0023, Kanagawa Prefecture": {
+        "Latitude": 35.4423357,
+        "Longitude": 139.6431753
     },
     "215 Yamashitacho, Naka-ku | Toraku Bldg. 1 to 2F, Yokohama 231-0023, Kanagawa Prefecture": {
         "Latitude": 35.4436205,
@@ -6243,6 +6747,10 @@
         "Latitude": 35.5473777,
         "Longitude": 139.5725626
     },
+    "28-12 Chigasaki Chuo Tsuzuki-ku Yokohama 224-0032, Kanagawa Prefecture": {
+        "Latitude": 35.5473777,
+        "Longitude": 139.5725626
+    },
     "28-12 Chigasaki Chuo Tsuzuki-ku | 2 Eminence, Yokohama 224-0032, Kanagawa Prefecture": {
         "Latitude": 35.5473777,
         "Longitude": 139.5725626
@@ -6266,6 +6774,10 @@
     "2937 Shinoharacho, Kohoku-ku 1F Cue Bic Plaza Yokohama 222-0026, Kanagawa Prefecture": {
         "Latitude": 35.503848,
         "Longitude": 139.6184342
+    },
+    "2937 Shinoharacho, Kohoku-ku Yokohama 222-0026, Kanagawa Prefecture": {
+        "Latitude": 35.5074586,
+        "Longitude": 139.6175457
     },
     "2937 Shinoharacho, Kohoku-ku Yokohama, Kanagawa Prefecture": {
         "Latitude": 35.5074586,
@@ -6302,6 +6814,10 @@
     "3-1 Ekimaehoncho, Kawasaki-ku B1F NOF Kawasaki Higashiguchi Bldg. Kawasaki 210-0007, Kanagawa Prefecture": {
         "Latitude": 35.5306955,
         "Longitude": 139.6981574
+    },
+    "3-1 Ekimaehoncho, Kawasaki-ku Kawasaki 210-0007, Kanagawa Prefecture": {
+        "Latitude": 35.5295583,
+        "Longitude": 139.6991047
     },
     "3-1 Ekimaehoncho, Kawasaki-ku | B1F NOF Kawasaki Higashiguchi Bldg., Kawasaki 210-0007, Kanagawa Prefecture": {
         "Latitude": 35.5306955,
@@ -6388,6 +6904,10 @@
         "Longitude": 139.5780076
     },
     "3-10-44 Wakamatsucho 2F Yokosuka 238-0007, Kanagawa Prefecture": {
+        "Latitude": 35.2789969,
+        "Longitude": 139.6725726
+    },
+    "3-10-44 Wakamatsucho Yokosuka 238-0007, Kanagawa Prefecture": {
         "Latitude": 35.2789969,
         "Longitude": 139.6725726
     },
@@ -6479,6 +6999,10 @@
         "Latitude": 35.3298511,
         "Longitude": 139.4696183
     },
+    "3-12-6 Sagamiono Minami-Ku Sagamihara 252-0303, Kanagawa Prefecture": {
+        "Latitude": 35.5357935,
+        "Longitude": 139.4360762
+    },
     "3-12-6 Sagamiono Minami-Ku VIA Bldg. 4F Sagamihara 252-0303, Kanagawa Prefecture": {
         "Latitude": 35.5318448,
         "Longitude": 139.4361655
@@ -6559,6 +7083,10 @@
         "Latitude": 35.53252750000001,
         "Longitude": 139.4354408
     },
+    "3-16-1 Sagamiono Sagamihara 228-0803, Kanagawa Prefecture": {
+        "Latitude": 35.5324759,
+        "Longitude": 139.4359769
+    },
     "3-16-1 Sagamiono | 1F REGALO, Sagamihara 228-0803, Kanagawa Prefecture": {
         "Latitude": 35.53252750000001,
         "Longitude": 139.4354408
@@ -6623,6 +7151,10 @@
         "Latitude": 35.5746111,
         "Longitude": 139.393244
     },
+    "3-19-15 Fuchinobe, Chuo-Ku Sagamihara 252-0206, Kanagawa Prefecture": {
+        "Latitude": 35.5694476,
+        "Longitude": 139.3950691
+    },
     "3-19-15 Fuchinobe, Chuo-Ku | 2F Shuwa Bldg., Sagamihara 252-0206, Kanagawa Prefecture": {
         "Latitude": 35.5746111,
         "Longitude": 139.393244
@@ -6638,6 +7170,10 @@
     "3-2-1 Sagamiono Minami-Ku Bono Sagamiono 6F Sagamihara 252-0303, Kanagawa Prefecture": {
         "Latitude": 35.5315065,
         "Longitude": 139.4338921
+    },
+    "3-2-1 Sagamiono Minami-Ku Sagamihara 252-0303, Kanagawa Prefecture": {
+        "Latitude": 35.5323436,
+        "Longitude": 139.4357386
     },
     "3-2-1 Sagamiono Minami-Ku | Bono Sagamiono 6F, Sagamihara 252-0303, Kanagawa Prefecture": {
         "Latitude": 35.5315065,
@@ -6679,6 +7215,10 @@
         "Latitude": 35.4510007,
         "Longitude": 139.3902697
     },
+    "3-2-7 Saginuma, Miyamaeku Kawasaki 216-0004, Kanagawa Prefecture": {
+        "Latitude": 35.5794874,
+        "Longitude": 139.5719343
+    },
     "3-2-7 Saginuma, Miyamaeku Wada Bldg. 1F Kawasaki 216-0004, Kanagawa Prefecture": {
         "Latitude": 35.5784754,
         "Longitude": 139.5700153
@@ -6710,6 +7250,10 @@
     "3-22 Kugenumahanazawacho 1F-A Nakatani Bldg. Fujisawa 251-0023, Kanagawa Prefecture": {
         "Latitude": 35.3377396,
         "Longitude": 139.4841063
+    },
+    "3-22 Kugenumahanazawacho Fujisawa 251-0023, Kanagawa Prefecture": {
+        "Latitude": 35.3375454,
+        "Longitude": 139.4844476
     },
     "3-22 Kugenumahanazawacho | 1F-A Nakatani Bldg., Fujisawa 251-0023, Kanagawa Prefecture": {
         "Latitude": 35.3377396,
@@ -6831,6 +7375,10 @@
         "Latitude": 35.4452298,
         "Longitude": 139.6360868
     },
+    "3-31 Masagocho, Naka-ku Yokohama 231-0016, Kanagawa Prefecture": {
+        "Latitude": 35.4452298,
+        "Longitude": 139.6360868
+    },
     "3-31 Masagocho, Naka-ku Yokohama, Kanagawa Prefecture": {
         "Latitude": 35.4452298,
         "Longitude": 139.6360868
@@ -6859,6 +7407,10 @@
         "Latitude": 35.4446863,
         "Longitude": 139.6365219
     },
+    "3-33 Masagocho Naka-Ku Yokohama 231-0016, Kanagawa Prefecture": {
+        "Latitude": 35.445141,
+        "Longitude": 139.6355785
+    },
     "3-33 Masagocho Naka-Ku | Kannai Certe 12F, Yokohama 231-0016, Kanagawa Prefecture": {
         "Latitude": 35.4446863,
         "Longitude": 139.6365219
@@ -6866,6 +7418,10 @@
     "3-33 Masagocho Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.445141,
         "Longitude": 139.6355785
+    },
+    "3-33 Yaezakicho Hiratsuka 254-0811, Kanagawa Prefecture": {
+        "Latitude": 35.3267696,
+        "Longitude": 139.3513738
     },
     "3-33 Yaezakicho Yaezaki Glen House 2F Hiratsuka 254-0811, Kanagawa Prefecture": {
         "Latitude": 35.3258193,
@@ -6895,6 +7451,10 @@
         "Latitude": 35.4468815,
         "Longitude": 139.6364423
     },
+    "3-37-2 Sumiyoshicho Naka-Ku Yokohama 231-0013, Kanagawa Prefecture": {
+        "Latitude": 35.44644359999999,
+        "Longitude": 139.6367283
+    },
     "3-37-2 Sumiyoshicho Naka-Ku | APA Hotel Yokohama 1F, Yokohama 231-0013, Kanagawa Prefecture": {
         "Latitude": 35.4468815,
         "Longitude": 139.6364423
@@ -6906,6 +7466,10 @@
     "3-4 Shinyokohama, Kohoku-ku 1F Shinyokohama Prince Pepe Yokohama 222-0033, Kanagawa Prefecture": {
         "Latitude": 35.5086887,
         "Longitude": 139.6133356
+    },
+    "3-4 Shinyokohama, Kohoku-ku Yokohama 222-0033, Kanagawa Prefecture": {
+        "Latitude": 35.5095167,
+        "Longitude": 139.6188705
     },
     "3-4 Shinyokohama, Kohoku-ku Yokohama, Kanagawa Prefecture": {
         "Latitude": 35.5095167,
@@ -7062,6 +7626,14 @@
     "3-5-1 Minatomirai, Nishi-ku B4F Yokohama, Kanagawa Prefecture": {
         "Latitude": 35.4437078,
         "Longitude": 139.6380256
+    },
+    "3-5-1 Minatomirai, Nishi-ku Yokohama 220-0012, Kanagawa Prefecture": {
+        "Latitude": 35.4574484,
+        "Longitude": 139.6348484
+    },
+    "3-5-1 Minatomirai, Nishi-ku Yokohama, Kanagawa Prefecture": {
+        "Latitude": 35.4576978,
+        "Longitude": 139.631756
     },
     "3-5-1 Minatomirai, Nishi-ku | 1F Mark IS Minatomirai, Yokohama 220-0012, Kanagawa Prefecture": {
         "Latitude": 35.4570034,
@@ -7315,6 +7887,10 @@
         "Latitude": 35.5315065,
         "Longitude": 139.4338921
     },
+    "3-9-1 Sagamiono Minami-Ku Sagamihara 252-0303, Kanagawa Prefecture": {
+        "Latitude": 35.5323436,
+        "Longitude": 139.4357386
+    },
     "3-9-1 Sagamiono Minami-Ku | Sagami More's 6F, Sagamihara 252-0303, Kanagawa Prefecture": {
         "Latitude": 35.5315065,
         "Longitude": 139.4338921
@@ -7330,6 +7906,10 @@
     "3-9-47 Yuigahama 1F Nakamaru Bldg. Kamakura 248-0014, Kanagawa Prefecture": {
         "Latitude": 35.3119395,
         "Longitude": 139.5470939
+    },
+    "3-9-47 Yuigahama Kamakura 248-0014, Kanagawa Prefecture": {
+        "Latitude": 35.3138482,
+        "Longitude": 139.543773
     },
     "3-9-47 Yuigahama | 1F Nakamaru Bldg., Kamakura 248-0014, Kanagawa Prefecture": {
         "Latitude": 35.3119395,
@@ -7382,6 +7962,10 @@
     "326-3 Nakayamacho Midori-ku Yokohama Kanagawa": {
         "Latitude": 35.5151788,
         "Longitude": 139.5398749
+    },
+    "33-6 Sakanoshita Kamakura 248-0021, Kanagawa Prefecture": {
+        "Latitude": 35.3052738,
+        "Longitude": 139.5317683
     },
     "33-6 Sakanoshita Kamakura, Kanagawa Prefecture": {
         "Latitude": 35.3052738,
@@ -7458,6 +8042,10 @@
     "37-8 Yamashitacho, Naka-ku 103 Gurorio Tower Yokohama 231-0023, Kanagawa Prefecture": {
         "Latitude": 35.4436205,
         "Longitude": 139.651586
+    },
+    "37-8 Yamashitacho, Naka-ku Yokohama 231-0023, Kanagawa Prefecture": {
+        "Latitude": 35.4426329,
+        "Longitude": 139.6506359
     },
     "37-8 Yamashitacho, Naka-ku | 103 Gurorio Tower, Yokohama 231-0023, Kanagawa Prefecture": {
         "Latitude": 35.4436205,
@@ -7631,6 +8219,10 @@
         "Latitude": 35.229438,
         "Longitude": 139.7028309
     },
+    "4-16-1 Higashifuchinobe Chuo-Ku Sagamihara 252-0203, Kanagawa Prefecture": {
+        "Latitude": 35.5621292,
+        "Longitude": 139.4085829
+    },
     "4-16-1 Higashifuchinobe Chuo-Ku Sogo Wholesale Market Sagamihara 252-0203, Kanagawa Prefecture": {
         "Latitude": 35.5605728,
         "Longitude": 139.4122942
@@ -7650,6 +8242,10 @@
     "4-161 Motomachi, Naka-ku 1F2F Yokohama 231-0861, Kanagawa Prefecture": {
         "Latitude": 35.4398189,
         "Longitude": 139.6499917
+    },
+    "4-161 Motomachi, Naka-ku Yokohama 231-0861, Kanagawa Prefecture": {
+        "Latitude": 35.4393944,
+        "Longitude": 139.6471891
     },
     "4-161 Motomachi, Naka-ku | 1F2F, Yokohama 231-0861, Kanagawa Prefecture": {
         "Latitude": 35.4398189,
@@ -7674,6 +8270,10 @@
     "4-179 Motmomachi, Naka-ku 2F Wistaria Motomachi Yokohama 231-0861, Kanagawa Prefecture": {
         "Latitude": 35.4403638,
         "Longitude": 139.6497222
+    },
+    "4-179 Motmomachi, Naka-ku Yokohama 231-0861, Kanagawa Prefecture": {
+        "Latitude": 35.4398194,
+        "Longitude": 139.6467058
     },
     "4-179 Motmomachi, Naka-ku | 2F Wistaria Motomachi, Yokohama 231-0861, Kanagawa Prefecture": {
         "Latitude": 35.4403638,
@@ -7839,6 +8439,10 @@
         "Latitude": 35.4457687,
         "Longitude": 139.6350812
     },
+    "4-45-1 Sumiyoshicho, Naka-ku Yokohama 231-0013, Kanagawa Prefecture": {
+        "Latitude": 35.4468185,
+        "Longitude": 139.6361922
+    },
     "4-45-1 Sumiyoshicho, Naka-ku Yokohama Sinkannai Bidg B1 Yokohama 231-0013, Kanagawa Prefecture": {
         "Latitude": 35.4468815,
         "Longitude": 139.6364423
@@ -7855,11 +8459,19 @@
         "Latitude": 35.4462826,
         "Longitude": 139.6362032
     },
+    "4-47 Tokiwacho Naka-Ku Yokohama 231-0014, Kanagawa Prefecture": {
+        "Latitude": 35.4468991,
+        "Longitude": 139.6356867
+    },
     "4-47 Tokiwacho Naka-Ku | New Inazuma Bldg. 1F, Yokohama 231-0014, Kanagawa Prefecture": {
         "Latitude": 35.4462826,
         "Longitude": 139.6362032
     },
     "4-49 Nakasaiwaicho Saiwai-Ku 1F Kawasaki 212-0012, Kanagawa Prefecture": {
+        "Latitude": 35.5318751,
+        "Longitude": 139.6929853
+    },
+    "4-49 Nakasaiwaicho Saiwai-Ku Kawasaki 212-0012, Kanagawa Prefecture": {
         "Latitude": 35.5318751,
         "Longitude": 139.6929853
     },
@@ -7880,6 +8492,10 @@
         "Longitude": 139.6097151
     },
     "4-5-5 Mizonokuchi, Takatsu-ku 2F Kawasaki 213-0001, Kanagawa Prefecture": {
+        "Latitude": 35.6033727,
+        "Longitude": 139.616042
+    },
+    "4-5-5 Mizonokuchi, Takatsu-ku Kawasaki 213-0001, Kanagawa Prefecture": {
         "Latitude": 35.6033727,
         "Longitude": 139.616042
     },
@@ -7947,6 +8563,10 @@
         "Latitude": 35.4607169,
         "Longitude": 139.6311827
     },
+    "4-6-2 Minatomirai Nishi-Ku Yokohama 220-0012, Kanagawa Prefecture": {
+        "Latitude": 35.4586949,
+        "Longitude": 139.6292951
+    },
     "4-6-2 Minatomirai Nishi-Ku | Grand Central Bldg. 2F, Yokohama 220-0012, Kanagawa Prefecture": {
         "Latitude": 35.4607169,
         "Longitude": 139.6311827
@@ -7970,6 +8590,10 @@
     "4-6-2 Minatomirai Nishi-ku 1F Grand Central Tower Yokohama 220-0012, Kanagawa Prefecture": {
         "Latitude": 35.4607169,
         "Longitude": 139.6311827
+    },
+    "4-6-2 Minatomirai Nishi-ku Yokohama 220-0012, Kanagawa Prefecture": {
+        "Latitude": 35.4586949,
+        "Longitude": 139.6292951
     },
     "4-6-2 Minatomirai Nishi-ku Yokohama Kanagawa": {
         "Latitude": 35.4586949,
@@ -8058,6 +8682,10 @@
     "4035-1 Ikonobecho, Tsuzuki-ku LaLa Port Yokohama 2F Yokohama 224-0053, Kanagawa Prefecture": {
         "Latitude": 35.5227633,
         "Longitude": 139.5712889
+    },
+    "4035-1 Ikonobecho, Tsuzuki-ku Yokohama 224-0053, Kanagawa Prefecture": {
+        "Latitude": 35.5217646,
+        "Longitude": 139.5728612
     },
     "4035-1 Ikonobecho, Tsuzuki-ku | LaLa Port Yokohama 2F, Yokohama 224-0053, Kanagawa Prefecture": {
         "Latitude": 35.5227633,
@@ -8263,6 +8891,10 @@
         "Latitude": 35.4398189,
         "Longitude": 139.6499917
     },
+    "5-209 Motomachi, Naka-ku Yokohama 231-0861, Kanagawa Prefecture": {
+        "Latitude": 35.4389945,
+        "Longitude": 139.6463336
+    },
     "5-209 Motomachi, Naka-ku | 101 Kitamura Bldg., Yokohama 231-0861, Kanagawa Prefecture": {
         "Latitude": 35.4398189,
         "Longitude": 139.6499917
@@ -8323,6 +8955,10 @@
         "Latitude": 35.4500883,
         "Longitude": 139.6340515
     },
+    "5-48 Honcho, Naka-ku Yokohama 231-0005, Kanagawa Prefecture": {
+        "Latitude": 35.4495099,
+        "Longitude": 139.6367726
+    },
     "5-48 Honcho, Naka-ku | 1F Nissei Dowa Songai Hoken Yakohama Bldg., Yokohama 231-0005, Kanagawa Prefecture": {
         "Latitude": 35.4500883,
         "Longitude": 139.6340515
@@ -8351,6 +8987,10 @@
         "Latitude": 35.3184284,
         "Longitude": 139.5752818
     },
+    "5-6-22 Jomyoji Kamakura 248-0003, Kanagawa Prefecture": {
+        "Latitude": 35.3184284,
+        "Longitude": 139.5752818
+    },
     "5-6-22 Jomyoji | 1F, Kamakura 248-0003, Kanagawa Prefecture": {
         "Latitude": 35.3184284,
         "Longitude": 139.5752818
@@ -8366,6 +9006,10 @@
     "5-63 Tokiwacho, Naka-ku Hamajiman Bldg. 1, 2F Yokohama 231-0014, Kanagawa Prefecture": {
         "Latitude": 35.4462826,
         "Longitude": 139.6362032
+    },
+    "5-63 Tokiwacho, Naka-ku Yokohama 231-0014, Kanagawa Prefecture": {
+        "Latitude": 35.4466769,
+        "Longitude": 139.635109
     },
     "5-63 Tokiwacho, Naka-ku | Hamajiman Bldg. 1, 2F, Yokohama 231-0014, Kanagawa Prefecture": {
         "Latitude": 35.4462826,
@@ -8386,6 +9030,10 @@
     "5-71 Onoecho, Naka-ku 1F Yokohama City Tower Bashado Yokohama 231-0015, Kanagawa Prefecture": {
         "Latitude": 35.4457634,
         "Longitude": 139.6358047
+    },
+    "5-71 Onoecho, Naka-ku Yokohama 231-0015, Kanagawa Prefecture": {
+        "Latitude": 35.4461881,
+        "Longitude": 139.6344257
     },
     "5-71 Onoecho, Naka-ku | 1F Yokohama City Tower Bashado, Yokohama 231-0015, Kanagawa Prefecture": {
         "Latitude": 35.4457634,
@@ -8424,6 +9072,10 @@
         "Longitude": 139.127471
     },
     "501 Yamanouchi 2F Kamakura 247-0062　, Kanagawa Prefecture": {
+        "Latitude": 35.3373678,
+        "Longitude": 139.5448651
+    },
+    "501 Yamanouchi Kamakura 247-0062　, Kanagawa Prefecture": {
         "Latitude": 35.3373678,
         "Longitude": 139.5448651
     },
@@ -8471,6 +9123,10 @@
         "Latitude": 35.4355908,
         "Longitude": 139.5572801
     },
+    "539-5 Shinanocho, Totsuka-ku Yokohama 244-0801, Kanagawa Prefecture": {
+        "Latitude": 35.4311169,
+        "Longitude": 139.5572412
+    },
     "539-5 Shinanocho, Totsuka-ku | Higashi-Totsuka Eki-mae Bldg. 2F, Yokohama 244-0801, Kanagawa Prefecture": {
         "Latitude": 35.4355908,
         "Longitude": 139.5572801
@@ -8514,6 +9170,10 @@
     "5596-1 Akiya Hayama Hotel Otowa No Mori Yokosuka 240-0105, Kanagawa Prefecture": {
         "Latitude": 35.2423662,
         "Longitude": 139.6031397
+    },
+    "5596-1 Akiya Yokosuka 240-0105, Kanagawa Prefecture": {
+        "Latitude": 35.2539235,
+        "Longitude": 139.5815522
     },
     "5596-1 Akiya | Hayama Hotel Otowa No Mori, Yokosuka 240-0105, Kanagawa Prefecture": {
         "Latitude": 35.2423662,
@@ -8574,6 +9234,10 @@
     "6-1 Yamashitacho, Naka-ku Hotel Monterey Yokohama 2F Yokohama 231-8526, Kanagawa Prefecture": {
         "Latitude": 35.4475073,
         "Longitude": 139.6423446
+    },
+    "6-1 Yamashitacho, Naka-ku Yokohama 231-8526, Kanagawa Prefecture": {
+        "Latitude": 35.4457353,
+        "Longitude": 139.6478693
     },
     "6-1 Yamashitacho, Naka-ku | Hotel Monterey Yokohama 2F, Yokohama 231-8526, Kanagawa Prefecture": {
         "Latitude": 35.4475073,
@@ -8671,11 +9335,19 @@
         "Latitude": 35.4486322,
         "Longitude": 139.6340562
     },
+    "6-68-1 Sumiyoshicho, Naka-ku Yokohama 231-0013, Kanagawa Prefecture": {
+        "Latitude": 35.4486322,
+        "Longitude": 139.6340562
+    },
     "6-68-1 Sumiyoshicho, Naka-ku | 2F, Yokohama 231-0013, Kanagawa Prefecture": {
         "Latitude": 35.4486322,
         "Longitude": 139.6340562
     },
     "6-79 Bentendori Naka-Ku 1F Yokohama 231-0007, Kanagawa Prefecture": {
+        "Latitude": 35.4491766,
+        "Longitude": 139.6352616
+    },
+    "6-79 Bentendori Naka-Ku Yokohama 231-0007, Kanagawa Prefecture": {
         "Latitude": 35.4491766,
         "Longitude": 139.6352616
     },
@@ -8690,6 +9362,10 @@
     "6-79 Otamachi, Naka-ku 1F Absolute Yokohama Bashamichi Bldg. Yokohama 231-0011, Kanagawa Prefecture": {
         "Latitude": 35.4481904,
         "Longitude": 139.6361235
+    },
+    "6-79 Otamachi, Naka-ku Yokohama 231-0011, Kanagawa Prefecture": {
+        "Latitude": 35.4487461,
+        "Longitude": 139.6351145
     },
     "6-79 Otamachi, Naka-ku | 1F Absolute Yokohama Bashamichi Bldg., Yokohama 231-0011, Kanagawa Prefecture": {
         "Latitude": 35.4481904,
@@ -8759,6 +9435,10 @@
         "Latitude": 35.5305614,
         "Longitude": 139.6996042
     },
+    "7-7 Ekimaehoncho, Kawasaki-Ku Kawasaki 210-8504, Kanagawa Prefecture": {
+        "Latitude": 35.5305614,
+        "Longitude": 139.6996042
+    },
     "7-7 Ekimaehoncho, Kawasaki-Ku Kawasaki Mores 8F Kawasaki 210-8504, Kanagawa Prefecture": {
         "Latitude": 35.5305197,
         "Longitude": 139.6996514
@@ -8783,6 +9463,10 @@
         "Latitude": 35.5235342,
         "Longitude": 139.6388331
     },
+    "700 Morookacho Yokohama 222-0002, Kanagawa Prefecture": {
+        "Latitude": 35.5246129,
+        "Longitude": 139.6456092
+    },
     "700 Morookacho | 2F Tressa Yokohama South Tower, Yokohama 222-0002, Kanagawa Prefecture": {
         "Latitude": 35.5235342,
         "Longitude": 139.6388331
@@ -8791,9 +9475,17 @@
         "Latitude": 35.4436205,
         "Longitude": 139.651586
     },
+    "72 Yamashitacho Naka-Ku Yokohama 231-0023, Kanagawa Prefecture": {
+        "Latitude": 35.4452243,
+        "Longitude": 139.6444473
+    },
     "72 Yamashitacho Naka-Ku | Hotel JAL City Kannai Yokohama 1F, Yokohama 231-0023, Kanagawa Prefecture": {
         "Latitude": 35.4436205,
         "Longitude": 139.651586
+    },
+    "72-1 Horikawa-cho, Saiwai-ku Kawasaki 212-0013 , Kanagawa Prefecture": {
+        "Latitude": 35.5325417,
+        "Longitude": 139.6967571
     },
     "72-1 Horikawa-cho, Saiwai-ku Lazona Kawaski Plaza Food Court 1F Kawasaki 212-0013 , Kanagawa Prefecture": {
         "Latitude": 35.5329936,
@@ -8807,6 +9499,10 @@
         "Latitude": 35.5325417,
         "Longitude": 139.6967571
     },
+    "72-1 Horikawacho Saiwai-Ku Kawasaki 212-0013, Kanagawa Prefecture": {
+        "Latitude": 35.5325417,
+        "Longitude": 139.6967571
+    },
     "72-1 Horikawacho Saiwai-Ku | 4F, Kawasaki 212-0013, Kanagawa Prefecture": {
         "Latitude": 35.5325417,
         "Longitude": 139.6967571
@@ -8815,6 +9511,10 @@
         "Latitude": 35.5329936,
         "Longitude": 139.6981574
     },
+    "72-1 Horikawacho Saiwai-ku Kawasaki 212-0013, Kanagawa Prefecture": {
+        "Latitude": 35.5325417,
+        "Longitude": 139.6967571
+    },
     "72-1 Horikawacho Saiwai-ku Kawasaki Kanagawa": {
         "Latitude": 35.5325417,
         "Longitude": 139.6967571
@@ -8822,6 +9522,10 @@
     "72-1 Horikawacho Saiwai-ku | 4 Fields Lazona Kawasaki Plaza, Kawasaki 212-0013, Kanagawa Prefecture": {
         "Latitude": 35.5329936,
         "Longitude": 139.6981574
+    },
+    "72-1 Horikawacho, Saiwai-ku Kawasaki 212-0013, Kanagawa Prefecture": {
+        "Latitude": 35.5325417,
+        "Longitude": 139.6967571
     },
     "72-1 Horikawacho, Saiwai-ku Kawasaki, Kanagawa Prefecture": {
         "Latitude": 35.5325417,
@@ -8870,6 +9574,10 @@
     "77 Yamashitacho, Naka-ku Rose Hotel Yokohama 1F Yokohama 231-0023, Kanagawa Prefecture": {
         "Latitude": 35.4436205,
         "Longitude": 139.651586
+    },
+    "77 Yamashitacho, Naka-ku Yokohama 231-0023, Kanagawa Prefecture": {
+        "Latitude": 35.4441466,
+        "Longitude": 139.6468555
     },
     "77 Yamashitacho, Naka-ku | Rose Hotel Yokohama 1F, Yokohama 231-0023, Kanagawa Prefecture": {
         "Latitude": 35.4436205,
@@ -8978,6 +9686,10 @@
     "81-3 Yamashitacho, Nakaku, Yokohama 231-0023, Kanagawa Prefecture": {
         "Latitude": 35.4432023,
         "Longitude": 139.6479583
+    },
+    "816 Kamimaruko Hachimancho Nakahara-Ku Kawasaki 211-0001, Kanagawa Prefecture": {
+        "Latitude": 35.5827213,
+        "Longitude": 139.667531
     },
     "816 Kamimaruko Hachimancho Nakahara-Ku Yamamoto Bldg. 1F Kawasaki 211-0001, Kanagawa Prefecture": {
         "Latitude": 35.5827213,
@@ -9139,6 +9851,10 @@
         "Latitude": 35.4536387,
         "Longitude": 139.6407459
     },
+    "Akarenga Soko Bldg 2 Yokohama 231-0001 , Kanagawa Prefecture": {
+        "Latitude": 35.4536387,
+        "Longitude": 139.6407459
+    },
     "Akarenga Soko Bldg 2 | 3 Fields Akarenga Soko Bldg 2, Yokohama 231-0001 , Kanagawa Prefecture": {
         "Latitude": 35.4536387,
         "Longitude": 139.6407459
@@ -9238,6 +9954,10 @@
     "Fujisawa, Fujisawa, Kanagawa Prefecture": {
         "Latitude": 35.3412394,
         "Longitude": 139.4847225
+    },
+    "Fujisawa, Kanagawa Prefecture": {
+        "Latitude": 35.3391398,
+        "Longitude": 139.4909942
     },
     "Fukutomicho Nishidori Naka-ku Yokohama Kanagawa": {
         "Latitude": 35.4459242,
@@ -9687,6 +10407,10 @@
         "Latitude": 35.4475073,
         "Longitude": 139.6423446
     },
+    "Pan Pacific Yokohama Bay Hotel Tokyu 3F Yokohama 220-8543, Kanagawa Prefecture": {
+        "Latitude": 35.4475073,
+        "Longitude": 139.6423446
+    },
     "Pan Pacific Yokohama Bay Hotel Tokyu 3F | 2-3-7 Minatomirai, Nishi-ku, Yokohama 220-8543, Kanagawa Prefecture": {
         "Latitude": 35.4475073,
         "Longitude": 139.6423446
@@ -9694,6 +10418,10 @@
     "Rose Sakuragicho 1F 1-48-4 Hanasaki-Cho,Naka-Ku Yokohama, Kanagawa Prefecture": {
         "Latitude": 35.44936819999999,
         "Longitude": 139.6301703
+    },
+    "Rose Sakuragicho Yokohama, Kanagawa Prefecture": {
+        "Latitude": 35.4499793,
+        "Longitude": 139.6319618
     },
     "Rose Sakuragicho | 1F 1-48-4 Hanasaki-Cho,Naka-Ku, Yokohama, Kanagawa Prefecture": {
         "Latitude": 35.44936819999999,
