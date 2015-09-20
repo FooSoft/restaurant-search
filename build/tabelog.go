@@ -63,14 +63,14 @@ func (tabelog) index(doc *goquery.Document) (string, []string) {
 
 func (tabelog) review(doc *goquery.Document) (name, address string, features map[string]float64, weight float64, err error) {
 	if name = doc.Find("a.rd-header__rst-name-main").Text(); len(name) == 0 {
-		err = errors.New("invalid value for name")
+		err = errors.New("invalid name")
 		return
 	}
 
 	if addresses := doc.Find("p.rd-detail-info__rst-address"); addresses.Length() == 2 {
 		address = strings.TrimSpace(addresses.First().Text())
 	} else {
-		err = errors.New("invalid value for address")
+		err = errors.New("invalid address")
 		return
 	}
 
@@ -80,7 +80,7 @@ func (tabelog) review(doc *goquery.Document) (name, address string, features map
 
 		var value float64
 		if value, err = strconv.ParseFloat(valueText, 8); err != nil {
-			err = fmt.Errorf("invalid value for %s", category)
+			err = fmt.Errorf("invalid rating for %s", category)
 			return
 		}
 
@@ -89,7 +89,7 @@ func (tabelog) review(doc *goquery.Document) (name, address string, features map
 
 	weight, err = strconv.ParseFloat(doc.Find("a.rd-header__rst-reviews-target > b").Text(), 8)
 	if err != nil {
-		err = fmt.Errorf("invalid value for review count")
+		err = fmt.Errorf("invalid review count")
 		return
 	}
 

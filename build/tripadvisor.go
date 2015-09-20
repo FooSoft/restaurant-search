@@ -62,44 +62,59 @@ func (tripadvisor) index(doc *goquery.Document) (string, []string) {
 
 func (tripadvisor) review(doc *goquery.Document) (name, address string, features map[string]float64, weight float64, err error) {
 	if name = strings.TrimSpace(doc.Find("h1#HEADING").Text()); len(name) == 0 {
-		err = errors.New("invalid value for name name")
+		err = errors.New("invalid name")
 		return
 	}
 
-	if address = strings.TrimSpace(doc.Find("address span.format_address").Text()); len(address) == 0 {
-		err = errors.New("invalid value for address")
-		return
-	}
+	{
+		var addressParts []string
+		doc.Find("address span.format_address > span").Each(func(index int, sel *goquery.Selection) {
+			addressParts = append(addressParts, strings.TrimSpace(sel.Text()))
+		})
 
-	ratings := doc.Find("ul.barChart div.ratingRow img.sprite-rating_s_fill")
-	if ratings.Length() != 4 {
-		err = errors.New("missing rating data")
-		return
-	}
-
-	features = make(map[string]float64)
-	for index, category := range []string{"food", "service", "value", "atmosphere"} {
-		altText, _ := ratings.Eq(index).Attr("alt")
-		valueText := strings.Split(altText, " ")[0]
-
-		var value float64
-		if value, err = strconv.ParseFloat(valueText, 8); err != nil {
-			err = fmt.Errorf("invalid value for %s", category)
+		if len(addressParts) == 0 {
+			err = errors.New("invalid address")
 			return
 		}
 
-		features[category] = value/2.5 - 1.0
+		address = strings.Join(addressParts, " ")
 	}
 
-	weightParts := strings.Split(doc.Find("h3.reviews_header").Text(), " ")
-	if len(weightParts) == 0 {
-		err = fmt.Errorf("missing review count")
-		return
+	{
+		ratings := doc.Find("ul.barChart div.ratingRow img.sprite-rating_s_fill")
+		if ratings.Length() != 4 {
+			err = errors.New("invalid ratings")
+			return
+		}
+
+		features = make(map[string]float64)
+		for index, category := range []string{"food", "service", "value", "atmosphere"} {
+			altText, _ := ratings.Eq(index).Attr("alt")
+			valueText := strings.Split(altText, " ")[0]
+
+			var value float64
+			if value, err = strconv.ParseFloat(valueText, 8); err != nil {
+				err = fmt.Errorf("invalid rating for %s", category)
+				return
+			}
+
+			features[category] = value/2.5 - 1.0
+		}
 	}
 
-	if weight, err = strconv.ParseFloat(weightParts[0], 8); err != nil {
-		err = fmt.Errorf("invalid value for review count")
-		return
+	{
+		weightValid := false
+		if weightParts := strings.Split(doc.Find("h3.reviews_header").Text(), " "); len(weightParts) > 0 {
+			if weight, err = strconv.ParseFloat(weightParts[0], 8); err == nil {
+				weightValid = true
+				return
+			}
+		}
+
+		if !weightValid {
+			err = fmt.Errorf("invalid review count")
+			return
+		}
 	}
 
 	return

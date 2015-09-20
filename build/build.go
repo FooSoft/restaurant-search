@@ -33,7 +33,6 @@ import (
 	"log"
 	"net/url"
 	"os"
-	"strings"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/fatih/color"
@@ -78,6 +77,7 @@ func (s semantics) reduce(weight float64) semantics {
 
 type restaurant struct {
 	name    string
+	address string
 	reviews []review
 	sem     semantics
 
@@ -153,8 +153,11 @@ func collateData(reviews []review) map[uint64]*restaurant {
 
 		var rest *restaurant
 		if rest, _ = restaurants[hash.Sum64()]; rest == nil {
-			rest = &restaurant{name: rev.name, latitude: rev.latitude, longitude: rev.longitude}
-			restaurants[hash.Sum64()] = rest
+			restaurants[hash.Sum64()] = &restaurant{
+				name:      rev.name,
+				address:   rev.address,
+				latitude:  rev.latitude,
+				longitude: rev.longitude}
 		}
 
 		rest.reviews = append(rest.reviews, rev)
@@ -217,7 +220,7 @@ func dumpData(dbPath string, restaraunts map[uint64]*restaurant) error {
 		DROP TABLE IF EXISTS reviews;
 		CREATE TABLE reviews(
 			name VARCHAR(100) NOT NULL,
-			urls VARCHAR(200) NOT NULL,
+			address VARCHAR(400) NOT NULL,
 			delicious FLOAT NOT NULL,
 			accommodating FLOAT NOT NULL,
 			affordable FLOAT NOT NULL,
@@ -235,15 +238,10 @@ func dumpData(dbPath string, restaraunts map[uint64]*restaurant) error {
 	}
 
 	for _, rest := range restaraunts {
-		var urls []string
-		for _, rev := range rest.reviews {
-			urls = append(urls, rev.url)
-		}
-
 		_, err = db.Exec(`
 			INSERT INTO reviews(
 				name,
-				urls,
+				address,
 				delicious,
 				accommodating,
 				affordable,
@@ -255,7 +253,7 @@ func dumpData(dbPath string, restaraunts map[uint64]*restaurant) error {
 				accessCount
 			) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
 			rest.name,
-			strings.Join(urls, ","),
+			rest.address,
 			rest.sem.delicious,
 			rest.sem.accomodating,
 			rest.sem.affordable,
