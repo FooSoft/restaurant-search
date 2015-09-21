@@ -133,9 +133,9 @@ func (l *locator) locateFloat(doc *goquery.Document) (float64, error) {
 }
 
 //
-// descriptor
+// converter
 //
-type descriptor struct {
+type converter struct {
 	Index struct {
 		Items locator
 		Next  locator
@@ -153,13 +153,13 @@ type descriptor struct {
 	}
 }
 
-func newDescriptor(filename string) (*descriptor, error) {
+func newConverter(filename string) (*converter, error) {
 	bytes, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil, err
 	}
 
-	var desc descriptor
+	var desc converter
 	if err := toml.Unmarshal(bytes, &desc); err != nil {
 		return nil, err
 	}
@@ -167,40 +167,40 @@ func newDescriptor(filename string) (*descriptor, error) {
 	return &desc, nil
 }
 
-func (d descriptor) define(keyword string) semantics {
-	return d.Item.Props[keyword].semantics
+func (c converter) define(keyword string) semantics {
+	return c.Item.Props[keyword].semantics
 }
 
-func (d descriptor) index(doc *goquery.Document) (next string, items []string, err error) {
-	if items, err = d.Index.Items.locateStrings(doc); err != nil {
+func (c converter) index(doc *goquery.Document) (next string, items []string, err error) {
+	if items, err = c.Index.Items.locateStrings(doc); err != nil {
 		return
 	}
 
-	if next, err = d.Index.Next.locateString(doc); err != nil {
+	if next, err = c.Index.Next.locateString(doc); err != nil {
 		return
 	}
 
 	return
 }
 
-func (d descriptor) review(doc *goquery.Document) (name, address string, features map[string]float64, count int64, err error) {
-	if name, err = d.Item.Name.locateString(doc); err != nil || len(name) == 0 {
+func (c converter) review(doc *goquery.Document) (name, address string, features map[string]float64, count int64, err error) {
+	if name, err = c.Item.Name.locateString(doc); err != nil || len(name) == 0 {
 		err = errors.New("invalid name")
 		return
 	}
 
-	if address, err = d.Item.Address.locateString(doc); err != nil || len(address) == 0 {
+	if address, err = c.Item.Address.locateString(doc); err != nil || len(address) == 0 {
 		err = errors.New("invalid address")
 		return
 	}
 
-	if count, err = d.Item.Count.locateInt(doc); err != nil {
+	if count, err = c.Item.Count.locateInt(doc); err != nil {
 		err = errors.New("invalid review count")
 		return
 	}
 
 	features = make(map[string]float64)
-	for n, p := range d.Item.Props {
+	for n, p := range c.Item.Props {
 		var value float64
 		if value, err = p.locateFloat(doc); err != nil {
 			err = fmt.Errorf("invalid feature value for %s", n)
