@@ -86,7 +86,7 @@
         var _densitySize    = 10;
         var _desatOffset    = -0.3;
         var _easeTime       = 400;
-        var _height         = 500;
+        var _height         = 400;
         var _padding        = 10;
         var _panelSize      = 40;
         var _tickSize       = 8;

@@ -40,8 +40,24 @@
             sortKey: 'score',
             sortAsc: false,
             query:   {},
+            markers: [],
             geo:     geo
         };
+
+        var options = {
+            center: { lat: 35.6833, lng: 139.7667 }, zoom: 8
+        };
+
+        if (geo !== null) {
+            options.center = {
+                lat: geo.coords.latitude,
+                lng: geo.coords.longitude
+            };
+        }
+
+        _ctx.map = new google.maps.Map(
+            document.getElementById('map'), options
+        );
 
         Handlebars.registerHelper('prettyFloat', function(precision, options) {
             return parseFloat(options.fn(this)).toFixed(precision);
@@ -57,7 +73,7 @@
         });
         $('.nav-tabs a').on('shown.bs.tab', function (e) {
             if ($(e.target).attr('href') === '#mapTab') {
-                google.maps.event.trigger(window.map, 'resize');
+                google.maps.event.trigger(_ctx.map, 'resize');
             }
         });
 
@@ -171,6 +187,19 @@
         $('#records').empty();
         $('#records').append(template({records: records}));
 
+        for (var i = 0; i < _ctx.markers.length; ++i) {
+            _ctx.markers[i].setMap(null);
+        }
+        _ctx.markers = [];
+
+        for (var j = 0; j < records.length; ++j) {
+            var record = records[j];
+            var pos    = { lat: record.geo.latitude, lng: record.geo.longitude };
+            var marker = new google.maps.Marker({ position: pos, map: _ctx.map, title: record.name });
+
+            _ctx.markers.push(marker);
+        }
+
         $('span.sort-icon').css('visibility', 'hidden');
         var currentColumn = $('span.sort-icon[data-sort="' + _ctx.sortKey + '"]').css('visibility', 'visible');
         if (_ctx.sortAsc) {
@@ -197,14 +226,6 @@
             outputSnapshot(state.state, false);
         }
     };
-
-    window.initMap = function() {
-        window.map = new google.maps.Map(
-            document.getElementById('map'),
-            {center: {lat: -34.397, lng: 150.644}, zoom: 8}
-        );
-    };
-
 
     $(document).on({
         ajaxStart: function() {
