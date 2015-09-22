@@ -23,10 +23,9 @@
 package main
 
 import (
-	"bufio"
 	"flag"
+	"fmt"
 	"log"
-	"os"
 	"path/filepath"
 
 	_ "github.com/mattn/go-sqlite3"
@@ -66,27 +65,12 @@ func loadConverters(directory string) ([]*converter, error) {
 	return convs, nil
 }
 
-func loadUrls(filename string) ([]string, error) {
-	file, err := os.Open(filename)
-	if err != nil {
-		return nil, err
-	}
-	defer file.Close()
-
-	var urls []string
-	for scanner := bufio.NewScanner(file); scanner.Scan(); {
-		if url := scanner.Text(); len(url) > 0 {
-			urls = append(urls, url)
-		}
-	}
-
-	return urls, nil
-}
-
 func scrapeReviews(urls []string, converters []*converter, gc *geoCache, wc *webCache) ([]review, error) {
 	var reviews []review
 
 	for _, u := range urls {
+		var scraped bool
+
 		for _, c := range converters {
 			if !c.compatible(u) {
 				continue
@@ -98,7 +82,12 @@ func scrapeReviews(urls []string, converters []*converter, gc *geoCache, wc *web
 			}
 
 			reviews = append(reviews, revs...)
+			scraped = true
 			break
+		}
+
+		if !scraped {
+			return nil, fmt.Errorf("no converters found for %s", u)
 		}
 	}
 
@@ -108,7 +97,6 @@ func scrapeReviews(urls []string, converters []*converter, gc *geoCache, wc *web
 func main() {
 	var (
 		dbPath         = flag.String("db", "data/db.sqlite3", "database output path")
-		urlsPath       = flag.String("urls", "data/urls.txt", "index URLs to scrape")
 		convertersPath = flag.String("converters", "data/converters", "directory for converters")
 		stationsPath   = flag.String("stations", "data/stations.json", "station geolocation data")
 		geocachePath   = flag.String("geocache", "cache/geocache.json", "geolocation data cache")
@@ -116,6 +104,10 @@ func main() {
 	)
 
 	flag.Parse()
+
+	if flag.NArg() == 0 {
+		log.Fatal("no URLs specified on command line")
+	}
 
 	log.Printf("loading geocache from %s...", *geocachePath)
 	gc, err := newGeoCache(*geocachePath)
@@ -130,12 +122,6 @@ func main() {
 		log.Fatal(err)
 	}
 
-	log.Printf("loading urls from %s...", *urlsPath)
-	urls, err := loadUrls(*urlsPath)
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	log.Printf("loading converters from %s...", *convertersPath)
 	converters, err := loadConverters(*convertersPath)
 	if err != nil {
@@ -146,7 +132,7 @@ func main() {
 	}
 
 	log.Print("scraping reviews...")
-	reviews, err := scrapeReviews(urls, converters, gc, wc)
+	reviews, err := scrapeReviews(flag.Args(), converters, gc, wc)
 	if err != nil {
 		log.Fatal(err)
 	}
