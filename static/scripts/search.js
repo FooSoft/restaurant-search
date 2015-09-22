@@ -55,9 +55,10 @@
                 $('iframe').attr('src', $('iframe').attr('src'));
             }
         });
-        $('#mapTab').on('shown', function(e) {
-            google.maps.event.trigger(window.map, 'resize');
-            alert('done');
+        $('.nav-tabs a').on('shown.bs.tab', function (e) {
+            if ($(e.target).attr('href') === '#mapTab') {
+                google.maps.event.trigger(window.map, 'resize');
+            }
         });
 
         window.accessReview = function(id) {
