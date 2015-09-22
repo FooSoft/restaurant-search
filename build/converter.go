@@ -230,7 +230,7 @@ func (c converter) review(doc *goquery.Document) (name, address string, features
 			value /= p.Scale
 		}
 
-		features[n] = value
+		features[n] = value*2.0 - 1.0
 	}
 
 	return

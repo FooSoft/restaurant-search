@@ -1,0 +1,65 @@
+name = "tabelog"
+domains = ["tabelog.com"]
+
+[index.items]
+    path = "div.list-rst__header > p > a"
+    attr = "href"
+
+[index.next]
+    path = "a.c-pagination__target--next"
+    attr = "href"
+
+[item.name]
+    path = "a.rd-header__rst-name-main"
+
+[item.address]
+    path = "p.rd-detail-info__rst-address:nth-of-type(1)"
+
+[item.count]
+    path = "a.rd-header__rst-reviews-target > b"
+
+[item.props]
+    [item.props.service]
+        accomodating = 1.0
+        affordable = 0.0
+        atmospheric = 0.0
+        delicious = 0.0
+        scale = 5.0
+
+        path = "dl#js-rating-detail > dd:nth-child(4)"
+
+    [item.props.dishes]
+        accomodating = 0.0
+        affordable = 0.0
+        atmospheric = 0.0
+        delicious = 0.8
+        scale = 5.0
+
+        path = "dl#js-rating-detail > dd:nth-child(2)"
+
+    [item.props.drinks]
+        accomodating = 0.0
+        affordable = 0.0
+        atmospheric = 0.0
+        delicious = 0.2
+        scale = 5.0
+
+        path = "dl#js-rating-detail > dd:nth-child(10)"
+
+    [item.props.cost]
+        accomodating = 0.0
+        affordable = 1.0
+        atmospheric = 0.0
+        delicious = 0.0
+        scale = 5.0
+
+        path = "dl#js-rating-detail > dd:nth-child(8)"
+
+    [item.props.atmosphere]
+        accomodating = 0.0
+        affordable = 0.0
+        atmospheric = 1.0
+        delicious = 0.0
+        scale = 5.0
+
+        path = "dl#js-rating-detail > dd:nth-child(6)"
