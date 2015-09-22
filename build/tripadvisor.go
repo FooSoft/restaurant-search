@@ -32,7 +32,6 @@ import (
 )
 
 type tripadvisor struct {
-	scrapeCtx
 }
 
 func (tripadvisor) define(keyword string) semantics {

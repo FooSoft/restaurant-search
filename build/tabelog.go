@@ -32,7 +32,6 @@ import (
 )
 
 type tabelog struct {
-	scrapeCtx
 }
 
 func (tabelog) define(keyword string) semantics {

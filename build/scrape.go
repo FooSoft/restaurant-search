@@ -36,7 +36,7 @@ type review struct {
 	address  string
 	url      string
 	features map[string]float64
-	weight   float64
+	count    int64
 
 	latitude  float64
 	longitude float64
@@ -46,10 +46,8 @@ type review struct {
 }
 
 type scraper interface {
-	index(doc *goquery.Document) (string, []string)
-	review(doc *goquery.Document) (string, string, map[string]float64, float64, error)
-	decode(address string) (float64, float64, error)
-	load(url string) (*goquery.Document, error)
+	index(doc *goquery.Document) (string, []string, error)
+	review(doc *goquery.Document) (string, string, map[string]float64, int64, error)
 }
 
 func makeAbsUrl(ref, base string) (string, error) {
@@ -66,10 +64,10 @@ func makeAbsUrl(ref, base string) (string, error) {
 	return b.ResolveReference(r).String(), nil
 }
 
-func decodeReviews(in chan review, out chan review, scr scraper) {
+func decodeReviews(in chan review, out chan review, scr scraper, gc *geoCache) {
 	for rev := range in {
 		if rev.err == nil {
-			rev.latitude, rev.longitude, rev.err = scr.decode(rev.address)
+			rev.latitude, rev.longitude, rev.err = gc.decode(rev.address)
 		}
 
 		out <- rev
@@ -78,7 +76,7 @@ func decodeReviews(in chan review, out chan review, scr scraper) {
 	close(out)
 }
 
-func scrapeReview(url string, out chan review, scr scraper, group *sync.WaitGroup) {
+func scrapeReview(url string, out chan review, scr scraper, wc *webCache, group *sync.WaitGroup) {
 	defer group.Done()
 
 	var (
@@ -86,14 +84,14 @@ func scrapeReview(url string, out chan review, scr scraper, group *sync.WaitGrou
 		rev = review{url: url, scr: scr}
 	)
 
-	if doc, rev.err = scr.load(rev.url); rev.err == nil {
-		rev.name, rev.address, rev.features, rev.weight, rev.err = scr.review(doc)
+	if doc, rev.err = wc.load(rev.url); rev.err == nil {
+		rev.name, rev.address, rev.features, rev.count, rev.err = scr.review(doc)
 	}
 
 	out <- rev
 }
 
-func scrapeIndex(indexUrl string, out chan review, scr scraper) error {
+func scrapeIndex(indexUrl string, out chan review, scr scraper, wc *webCache) error {
 	var group sync.WaitGroup
 
 	defer func() {
@@ -102,12 +100,12 @@ func scrapeIndex(indexUrl string, out chan review, scr scraper) error {
 	}()
 
 	for {
-		doc, err := scr.load(indexUrl)
+		doc, err := wc.load(indexUrl)
 		if err != nil {
 			return err
 		}
 
-		nextIndexUrl, reviewUrls := scr.index(doc)
+		nextIndexUrl, reviewUrls, err := scr.index(doc)
 		if err != nil {
 			return err
 		}
@@ -119,7 +117,7 @@ func scrapeIndex(indexUrl string, out chan review, scr scraper) error {
 			}
 
 			group.Add(1)
-			go scrapeReview(absUrl, out, scr, &group)
+			go scrapeReview(absUrl, out, scr, wc, &group)
 		}
 
 		if err != nil {
@@ -139,7 +137,7 @@ func scrapeIndex(indexUrl string, out chan review, scr scraper) error {
 	return nil
 }
 
-func scrape(url string, scr scraper) ([]review, error) {
+func scrape(url string, scr scraper, gc *geoCache, wc *webCache) ([]review, error) {
 	out := make(chan review, 128)
 	in := make(chan review, 128)
 
@@ -163,8 +161,8 @@ func scrape(url string, scr scraper) ([]review, error) {
 		}
 	}()
 
-	go decodeReviews(in, out, scr)
-	err := scrapeIndex(url, in, scr)
+	go decodeReviews(in, out, scr, gc)
+	err := scrapeIndex(url, in, scr, wc)
 
 	return reviews, err
 }

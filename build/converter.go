@@ -26,6 +26,7 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"net/url"
 	"regexp"
 	"strconv"
 	"strings"
@@ -63,9 +64,9 @@ func (s semantics) reduce(weight float64) semantics {
 }
 
 //
-// locator
+// selector
 //
-type locator struct {
+type selector struct {
 	Path  string
 	Attr  string
 	RegEx string
@@ -73,7 +74,7 @@ type locator struct {
 	regExComp *regexp.Regexp
 }
 
-func (l *locator) locateStrings(doc *goquery.Document) ([]string, error) {
+func (l *selector) locateStrings(doc *goquery.Document) ([]string, error) {
 	var err error
 	if len(l.RegEx) > 0 && l.regExComp == nil {
 		if l.regExComp, err = regexp.Compile(l.RegEx); err != nil {
@@ -105,7 +106,7 @@ func (l *locator) locateStrings(doc *goquery.Document) ([]string, error) {
 
 }
 
-func (l *locator) locateString(doc *goquery.Document) (string, error) {
+func (l *selector) locateString(doc *goquery.Document) (string, error) {
 	strs, err := l.locateStrings(doc)
 	if err != nil {
 		return "", err
@@ -114,7 +115,7 @@ func (l *locator) locateString(doc *goquery.Document) (string, error) {
 	return strings.Join(strs, " "), nil
 }
 
-func (l *locator) locateInt(doc *goquery.Document) (int64, error) {
+func (l *selector) locateInt(doc *goquery.Document) (int64, error) {
 	str, err := l.locateString(doc)
 	if err != nil {
 		return 0, err
@@ -123,7 +124,7 @@ func (l *locator) locateInt(doc *goquery.Document) (int64, error) {
 	return strconv.ParseInt(str, 10, 8)
 }
 
-func (l *locator) locateFloat(doc *goquery.Document) (float64, error) {
+func (l *selector) locateFloat(doc *goquery.Document) (float64, error) {
 	str, err := l.locateString(doc)
 	if err != nil {
 		return 0.0, err
@@ -136,18 +137,20 @@ func (l *locator) locateFloat(doc *goquery.Document) (float64, error) {
 // converter
 //
 type converter struct {
+	Domains []string
+
 	Index struct {
-		Items locator
-		Next  locator
+		Items selector
+		Next  selector
 	}
 
 	Item struct {
-		Name    locator
-		Address locator
-		Count   locator
+		Name    selector
+		Address selector
+		Count   selector
 		Props   map[string]struct {
 			semantics
-			locator
+			selector
 			Scale float64
 		}
 	}
@@ -169,6 +172,21 @@ func newConverter(filename string) (*converter, error) {
 
 func (c converter) define(keyword string) semantics {
 	return c.Item.Props[keyword].semantics
+}
+
+func (c converter) compatible(address string) bool {
+	parsed, err := url.Parse(address)
+	if err != nil {
+		return false
+	}
+
+	for _, d := range c.Domains {
+		if d == parsed.Host {
+			return true
+		}
+	}
+
+	return false
 }
 
 func (c converter) index(doc *goquery.Document) (next string, items []string, err error) {
