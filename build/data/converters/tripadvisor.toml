@@ -1,4 +1,5 @@
 name = "tripadvisor"
+domains = ["www.tripadvisor.com"]
 
 [index.items]
     path = "a.property_title"
@@ -12,53 +13,53 @@ name = "tripadvisor"
     path = "h1#HEADING"
 
 [item.address]
-    path = "address span.format_address > span:not(.extended-address)"
+    path = "address span.format_address"
 
-[item.weight]
+[item.count]
     path = "h3.reviews_header"
-    regex = "^(\d+)"
+    regEx = "^(\\d+)"
 
 [item.props]
     [item.props.service]
         accomodating = 1.0
         affordable = 0.0
         atmospheric = 0.0
-        delicious: 0.0
+        delicious = 0.0
         scale = 5.0
 
-        path = "ul.barChart div.ratingRow img:nth-child(2)"
-        regex = "^([0-9]*\.?[0-9]+)"
+        path = "ul.barChart > li:nth-child(1) > div:nth-child(2) img"
+        regEx = "^([0-9]*\\.?[0-9]+)"
         attr = "alt"
 
     [item.props.food]
         accomodating = 0.0
         affordable = 0.0
         atmospheric = 0.0
-        delicious: 1.0
+        delicious = 1.0
         scale = 5.0
 
-        path = "ul.barChart div.ratingRow img:nth-child(1)"
-        regex = "^([0-9]*\.?[0-9]+)"
+        path = "ul.barChart > li:nth-child(1) > div:nth-child(1) img"
+        regEx = "^([0-9]*\\.?[0-9]+)"
         attr = "alt"
 
     [item.props.value]
         accomodating = 0.0
         affordable = 1.0
         atmospheric = 0.0
-        delicious: 0.0
+        delicious = 0.0
         scale = 5.0
 
-        path = "ul.barChart div.ratingRow img:nth-child(3)"
-        regex = "^([0-9]*\.?[0-9]+)"
+        path = "ul.barChart > li:nth-child(2) > div:nth-child(1) img"
+        regEx = "^([0-9]*\\.?[0-9]+)"
         attr = "alt"
 
     [item.props.atmosphere]
         accomodating = 0.0
         affordable = 0.0
         atmospheric = 1.0
-        delicious: 0.0
+        delicious = 0.0
         scale = 5.0
 
-        path = "ul.barChart div.ratingRow img:nth-child(4)"
-        regex = "^([0-9]*\.?[0-9]+)"
+        path = "ul.barChart > li:nth-child(2) > div:nth-child(2) img"
+        regEx = "^([0-9]*\\.?[0-9]+)"
         attr = "alt"

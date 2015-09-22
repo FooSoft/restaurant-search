@@ -99,7 +99,7 @@ func (l *selector) locateStrings(doc *goquery.Document) ([]string, error) {
 			}
 		}
 
-		strs = append(strs, str)
+		strs = append(strs, strings.TrimSpace(str))
 	})
 
 	return strs, err
@@ -137,6 +137,7 @@ func (l *selector) locateFloat(doc *goquery.Document) (float64, error) {
 // converter
 //
 type converter struct {
+	Name    string
 	Domains []string
 
 	Index struct {

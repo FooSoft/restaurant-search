@@ -115,29 +115,32 @@ func main() {
 
 	flag.Parse()
 
-	log.Printf("loading geocache %s...", *geocachePath)
+	log.Printf("loading geocache from %s...", *geocachePath)
 	gc, err := newGeoCache(*geocachePath)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer gc.save()
 
-	log.Printf("loading webcache %s...", *webcachePath)
+	log.Printf("loading webcache from %s...", *webcachePath)
 	wc, err := newWebCache(*webcachePath)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	log.Printf("loading urls %s...", *urlsPath)
+	log.Printf("loading urls from %s...", *urlsPath)
 	urls, err := loadUrls(*urlsPath)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	log.Printf("loading converters %s...", *convertersPath)
+	log.Printf("loading converters from %s...", *convertersPath)
 	converters, err := loadConverters(*convertersPath)
 	if err != nil {
 		log.Fatal(err)
+	}
+	for _, c := range converters {
+		log.Printf("*\t%s", c.Name)
 	}
 
 	log.Print("scraping reviews...")
@@ -152,12 +155,12 @@ func main() {
 	log.Print("computing data semantics..")
 	computeSemantics(restaurants)
 
-	log.Print("computing station data...")
+	log.Printf("computing station data from %s...", *stationsPath)
 	if err := computeStations(restaurants, *stationsPath); err != nil {
 		log.Fatal(err)
 	}
 
-	log.Print("saving data...")
+	log.Printf("saving data to %s...", *dbPath)
 	if err := dumpData(*dbPath, restaurants); err != nil {
 		log.Fatal(err)
 	}
