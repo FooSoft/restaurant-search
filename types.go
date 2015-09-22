@@ -63,8 +63,8 @@ type record struct {
 	Name           string  `json:"name"`
 	Score          float64 `json:"score"`
 	Address        string  `json:"address"`
+	Geo            geoData `json:"geo"`
 	features       map[string]float64
-	geo            geoData
 }
 
 type queryContext struct {

@@ -169,7 +169,7 @@ func computeRecordGeo(entries []record, context queryContext) {
 
 		if context.geo != nil {
 			userPoint := geo.NewPoint(context.geo.Latitude, context.geo.Longitude)
-			entryPoint := geo.NewPoint(entry.geo.Latitude, context.geo.Longitude)
+			entryPoint := geo.NewPoint(entry.Geo.Latitude, context.geo.Longitude)
 			entry.DistanceToUser = userPoint.GreatCircleDistance(entryPoint)
 		}
 
@@ -283,7 +283,8 @@ func fetchRecords(db *sql.DB, context queryContext) ([]record, error) {
 			&distanceToStn,
 			&closestStn,
 			&accessCount,
-			&id)
+			&id,
+		)
 
 		entry := record{
 			Name:          name,
@@ -291,14 +292,16 @@ func fetchRecords(db *sql.DB, context queryContext) ([]record, error) {
 			DistanceToStn: distanceToStn,
 			ClosestStn:    closestStn,
 			AccessCount:   accessCount,
-			geo:           geoData{latitude, longitude},
-			Id:            id}
+			Geo:           geoData{latitude, longitude},
+			Id:            id,
+		}
 
 		entry.features = map[string]float64{
 			"delicious":     delicious,
 			"accommodating": accommodating,
 			"affordable":    affordable,
-			"atmospheric":   atmospheric}
+			"atmospheric":   atmospheric,
+		}
 
 		entries = append(entries, entry)
 	}
