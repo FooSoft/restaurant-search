@@ -8,6 +8,10 @@
         th {
             white-space: nowrap;
         }
+        div#map {
+            width: 100%;
+            height: 500px;
+        }
         </style>
     </head>
     <body>
@@ -80,7 +84,20 @@
 
                 <!-- visualizer -->
                 <div class="col-md-9">
-                    <svg id="svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="800" height="500"></svg>
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#semTab">Semantics</a></li>
+                        <li><a data-toggle="tab" href="#mapTab">Map</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="semTab" class="tab-pane fade in active">
+                            <h3>Semantic Tweaker</h3>
+                            <svg id="svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="800" height="500"></svg>
+                        </div>
+                        <div id="mapTab" class="tab-pane fade">
+                            <h3>Result Map</h3>
+                            <div id="map"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -154,6 +171,7 @@
         <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
         <script src="scripts/search.js"></script>
         <script src="scripts/grapher.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?sensor=false&callback=initMap"></script>
 
     </body>
 </html>

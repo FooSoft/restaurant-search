@@ -55,6 +55,10 @@
                 $('iframe').attr('src', $('iframe').attr('src'));
             }
         });
+        $('#mapTab').on('shown', function(e) {
+            google.maps.event.trigger(window.map, 'resize');
+            alert('done');
+        });
 
         window.accessReview = function(id) {
             $.post('/access', JSON.stringify({id: id, profile: getProfile()}));
@@ -192,6 +196,14 @@
             outputSnapshot(state.state, false);
         }
     };
+
+    window.initMap = function() {
+        window.map = new google.maps.Map(
+            document.getElementById('map'),
+            {center: {lat: -34.397, lng: 150.644}, zoom: 8}
+        );
+    };
+
 
     $(document).on({
         ajaxStart: function() {
