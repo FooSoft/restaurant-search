@@ -41,23 +41,9 @@
             sortAsc: false,
             query:   {},
             markers: [],
+            map:     null,
             geo:     geo
         };
-
-        var options = {
-            center: { lat: 35.6833, lng: 139.7667 }, zoom: 8
-        };
-
-        if (geo !== null) {
-            options.center = {
-                lat: geo.coords.latitude,
-                lng: geo.coords.longitude
-            };
-        }
-
-        _ctx.map = new google.maps.Map(
-            document.getElementById('map'), options
-        );
 
         Handlebars.registerHelper('prettyFloat', function(precision, options) {
             return parseFloat(options.fn(this)).toFixed(precision);
@@ -71,9 +57,25 @@
                 $('iframe').attr('src', $('iframe').attr('src'));
             }
         });
-        $('.nav-tabs a').on('shown.bs.tab', function (e) {
-            if ($(e.target).attr('href') === '#mapTab') {
-                google.maps.event.trigger(_ctx.map, 'resize');
+        $('.nav-tabs a').on('shown.bs.tab', function(e) {
+            if ($(e.target).attr('href') !== '#mapTab' || _ctx.map !== null) {
+                return;
+            }
+
+            var options = {
+                center: { lat: 35.6833, lng: 139.7667 }, zoom: 8
+            };
+
+            if (geo !== null) {
+                options.center = {
+                    lat: geo.coords.latitude,
+                    lng: geo.coords.longitude
+                };
+            }
+
+            _ctx.map = new google.maps.Map(document.getElementById('map'), options);
+            for (var i = 0; i < _ctx.markers.length; ++i) {
+                _ctx.markers[i].setMap(_ctx.map);
             }
         });
 
