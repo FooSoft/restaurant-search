@@ -43,6 +43,8 @@ type restaurant struct {
 
 	closestStnName string
 	closestStnDist float64
+
+	id uint32
 }
 
 func loadConverters(directory string) ([]*converter, error) {

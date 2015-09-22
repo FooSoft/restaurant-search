@@ -29,8 +29,8 @@ import (
 	"hash/fnv"
 )
 
-func collateData(reviews []review) map[uint64]*restaurant {
-	restaurants := make(map[uint64]*restaurant)
+func collateData(reviews []review) map[uint32]*restaurant {
+	restaurants := make(map[uint32]*restaurant)
 
 	for _, rev := range reviews {
 		var buff bytes.Buffer
@@ -38,13 +38,20 @@ func collateData(reviews []review) map[uint64]*restaurant {
 		binary.Write(&buff, binary.LittleEndian, rev.longitude)
 		binary.Write(&buff, binary.LittleEndian, rev.name)
 
-		hash := fnv.New64()
+		hash := fnv.New32()
 		hash.Write(buff.Bytes())
+		id := hash.Sum32()
 
 		var rest *restaurant
-		if rest, _ = restaurants[hash.Sum64()]; rest == nil {
-			rest = &restaurant{name: rev.name, address: rev.address, latitude: rev.latitude, longitude: rev.longitude}
-			restaurants[hash.Sum64()] = rest
+		if rest, _ = restaurants[id]; rest == nil {
+			rest = &restaurant{
+				name:      rev.name,
+				address:   rev.address,
+				latitude:  rev.latitude,
+				longitude: rev.longitude,
+				id:        id,
+			}
+			restaurants[id] = rest
 		}
 
 		rest.reviews = append(rest.reviews, rev)
@@ -53,7 +60,7 @@ func collateData(reviews []review) map[uint64]*restaurant {
 	return restaurants
 }
 
-func computeSemantics(restaraunts map[uint64]*restaurant) {
+func computeSemantics(restaraunts map[uint32]*restaurant) {
 	type definer interface {
 		define(keyword string) semantics
 	}
@@ -83,7 +90,7 @@ func computeSemantics(restaraunts map[uint64]*restaurant) {
 	}
 }
 
-func computeStations(restaurants map[uint64]*restaurant, stationsPath string) error {
+func computeStations(restaurants map[uint32]*restaurant, stationsPath string) error {
 	sq, err := newStationQuery(stationsPath)
 	if err != nil {
 		return err
@@ -96,7 +103,7 @@ func computeStations(restaurants map[uint64]*restaurant, stationsPath string) er
 	return nil
 }
 
-func dumpData(dbPath string, restaraunts map[uint64]*restaurant) error {
+func dumpData(dbPath string, restaraunts map[uint32]*restaurant) error {
 	db, err := sql.Open("sqlite3", dbPath)
 	if err != nil {
 		return err
@@ -137,8 +144,9 @@ func dumpData(dbPath string, restaraunts map[uint64]*restaurant) error {
 				longitude,
 				closestStnDist,
 				closestStnName,
-				accessCount
-			) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+				accessCount,
+				id
+			) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
 			rest.name,
 			rest.address,
 			rest.sem.Delicious,
@@ -149,7 +157,9 @@ func dumpData(dbPath string, restaraunts map[uint64]*restaurant) error {
 			rest.longitude,
 			rest.closestStnDist,
 			rest.closestStnName,
-			0)
+			0,
+			rest.id,
+		)
 
 		if err != nil {
 			return err
