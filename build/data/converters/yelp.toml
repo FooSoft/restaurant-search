@@ -1,0 +1,31 @@
+name = "yelp"
+domains = ["www.yelp.co.jp"]
+
+[index.items]
+    path = "a.biz-name"
+    attr = "href"
+
+[index.next]
+    path = "a.next"
+    attr = "href"
+
+[item.name]
+    path = "h1.biz-page-title"
+
+[item.address]
+    path = "div.media-story address"
+
+[item.count]
+    path = "span.review-count > span"
+
+[item.props]
+    [item.props.overall]
+        accomodating = 1.0
+        affordable = 1.0
+        atmospheric = 1.0
+        delicious = 1.0
+        scale = 5.0
+
+        path = "#wrap > div.biz-country-jp > div > div.top-shelf > div > div.biz-page-header.clearfix > div.biz-page-header-left > div.biz-main-info.embossed-text-white > div.rating-info.clearfix > div.biz-rating.biz-rating-very-large.clearfix > div > i"
+        regEx = "^([0-9]*\\.?[0-9]+)"
+        attr = "title"

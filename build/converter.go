@@ -103,7 +103,6 @@ func (l *selector) locateStrings(doc *goquery.Document) ([]string, error) {
 	})
 
 	return strs, err
-
 }
 
 func (l *selector) locateString(doc *goquery.Document) (string, error) {
