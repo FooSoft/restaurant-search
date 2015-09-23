@@ -340,7 +340,7 @@ func handleAccessReview(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	historyResult, err := db.Exec("INSERT INTO history(date, reviewId) VALUES(NOW(), ?)", request.Id)
+	historyResult, err := db.Exec("INSERT INTO history(date, reviewId) VALUES(DATETIME('now'), ?)", request.Id)
 	if err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return

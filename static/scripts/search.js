@@ -91,8 +91,6 @@
             }
 
             $.post('/access', JSON.stringify({id: id, profile: getProfile()}));
-
-            onSearch();
         };
 
         window.sortReviewsBy = function(sortKey) {
