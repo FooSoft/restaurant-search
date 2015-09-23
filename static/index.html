@@ -19,7 +19,7 @@
             <!-- busy spinner -->
             <div class="page-header">
                 <img id="spinner" alt="loading" class="pull-right" src="images/spinner.gif" style="display: none;" width="32" height="32">
-                <h1>Restaurant Search with Predictive Multispace Queries</h1>
+                <h1>Restaurant Search</h1>
             </div>
 
             <!-- profile dialog -->
@@ -137,10 +137,6 @@
                                     <a href="javascript:sortReviewsBy('score');">Score</a>
                                     <span class="sort-icon glyphicon text-muted" data-sort="score"></span>
                                 </th>
-                                <th>
-                                    <a href="javascript:sortReviewsBy('accessCount');">Access count</a>
-                                    <span class="sort-icon glyphicon text-muted" data-sort="accessCount"></span>
-                                </th>
                             </tr>
                         </thead>
                         {{#each records}}
@@ -151,7 +147,6 @@
                                 <td>{{#prettyFloat 2}}{{distanceToStn}}{{/prettyFloat}} km</td>
                                 <td>{{#prettyFloat 4}}{{compatibility}}{{/prettyFloat}}</td>
                                 <td>{{#prettyFloat 4}}{{score}}{{/prettyFloat}}</td>
-                                <td>{{accessCount}}</td>
                             </tr>
                         {{/each}}
                         </table>

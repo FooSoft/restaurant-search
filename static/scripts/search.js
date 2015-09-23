@@ -59,7 +59,7 @@
         });
         $('.nav-tabs a[href="#mapTab"]').one('shown.bs.tab', function(e) {
             var options = {
-                center: { lat: 35.6833, lng: 139.7667 }, zoom: 8
+                center: { lat: 35.6833, lng: 139.7667 }, zoom: 10
             };
 
             if (geo !== null) {
