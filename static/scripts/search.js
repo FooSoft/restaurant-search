@@ -79,7 +79,7 @@
             $('.nav-tabs a[href="#mapTab"]').tab('show');
 
             var setter = function(e) {
-                _ctx.map.setCenter({lat: latitude, lng: longitude});
+                _ctx.map.panTo({lat: latitude, lng: longitude});
                 _ctx.map.setZoom(18);
             };
 
