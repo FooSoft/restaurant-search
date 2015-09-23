@@ -57,11 +57,7 @@
                 $('iframe').attr('src', $('iframe').attr('src'));
             }
         });
-        $('.nav-tabs a').on('shown.bs.tab', function(e) {
-            if ($(e.target).attr('href') !== '#mapTab' || _ctx.map !== null) {
-                return;
-            }
-
+        $('.nav-tabs a[href="#mapTab"]').one('shown.bs.tab', function(e) {
             var options = {
                 center: { lat: 35.6833, lng: 139.7667 }, zoom: 8
             };
@@ -79,8 +75,23 @@
             }
         });
 
-        window.accessReview = function(id) {
+        window.accessReview = function(id, latitude, longitude) {
+            $('.nav-tabs a[href="#mapTab"]').tab('show');
+
+            var setter = function(e) {
+                _ctx.map.setCenter({lat: latitude, lng: longitude});
+                _ctx.map.setZoom(18);
+            };
+
+            if (_ctx.map === null) {
+                $('.nav-tabs a[href="#mapTab"]').one('shown.bs.tab', setter);
+            }
+            else {
+                setter();
+            }
+
             $.post('/access', JSON.stringify({id: id, profile: getProfile()}));
+
             onSearch();
         };
 

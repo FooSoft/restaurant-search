@@ -145,7 +145,7 @@
                         </thead>
                         {{#each records}}
                             <tr>
-                            <td><a href="http://maps.google.com/maps?q={{geo.latitude}},{{geo.longitude}}" target="_blank" onclick="javascript:accessReview({{id}});">{{name}}</a></td>
+                            <td><a href="#" onclick="javascript:accessReview({{id}}, {{geo.latitude}}, {{geo.longitude}});">{{name}}</a></td>
                                 <td>{{#prettyFloat 2}}{{distanceToUser}}{{/prettyFloat}} km</td>
                                 <td>{{closestStn}}</td>
                                 <td>{{#prettyFloat 2}}{{distanceToStn}}{{/prettyFloat}} km</td>
