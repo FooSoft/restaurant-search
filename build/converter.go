@@ -39,15 +39,15 @@ import (
 // semantics
 //
 type semantics struct {
-	Accomodating float64
-	Affordable   float64
-	Atmospheric  float64
-	Delicious    float64
+	Accommodating float64
+	Affordable    float64
+	Atmospheric   float64
+	Delicious     float64
 }
 
 func (s semantics) combine(other semantics, weight float64) semantics {
 	return semantics{
-		s.Accomodating + other.Accomodating*weight,
+		s.Accommodating + other.Accommodating*weight,
 		s.Affordable + other.Affordable*weight,
 		s.Atmospheric + other.Atmospheric*weight,
 		s.Delicious + other.Delicious*weight,
@@ -56,7 +56,7 @@ func (s semantics) combine(other semantics, weight float64) semantics {
 
 func (s semantics) reduce(weight float64) semantics {
 	return semantics{
-		s.Accomodating / weight,
+		s.Accommodating / weight,
 		s.Affordable / weight,
 		s.Atmospheric / weight,
 		s.Delicious / weight,

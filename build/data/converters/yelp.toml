@@ -20,7 +20,7 @@ domains = ["www.yelp.co.jp"]
 
 [item.props]
     [item.props.overall]
-        accomodating = 1.0
+        accommodating = 1.0
         affordable = 1.0
         atmospheric = 1.0
         delicious = 1.0

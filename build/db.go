@@ -150,7 +150,7 @@ func dumpData(dbPath string, restaraunts map[uint32]*restaurant) error {
 			rest.name,
 			rest.address,
 			rest.sem.Delicious,
-			rest.sem.Accomodating,
+			rest.sem.Accommodating,
 			rest.sem.Affordable,
 			rest.sem.Atmospheric,
 			rest.latitude,
