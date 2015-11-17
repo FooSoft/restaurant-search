@@ -53,3 +53,7 @@ other flavors of Linux.
     ```
 
 8.  Access the web application at `localhost:8080`.
+
+## License ##
+
+MIT
