@@ -27,6 +27,7 @@ import (
 	"math"
 	"strconv"
 
+	"github.com/GaryBoone/GoStats/stats"
 	"github.com/kellydunn/golang-geo"
 )
 
@@ -161,9 +162,7 @@ func project(entries []record, features map[string]float64, modes map[string]mod
 }
 
 func computeRecordGeo(entries []record, context queryContext) {
-	distUserMin := math.MaxFloat64
-	distUserMax := 0.0
-
+	var dist stats.Stats
 	for index := range entries {
 		entry := &entries[index]
 
@@ -173,18 +172,18 @@ func computeRecordGeo(entries []record, context queryContext) {
 			entry.DistanceToUser = userPoint.GreatCircleDistance(entryPoint)
 		}
 
-		distUserMin = math.Min(entry.DistanceToUser, distUserMin)
-		distUserMax = math.Max(entry.DistanceToUser, distUserMax)
+		dist.Update(entry.DistanceToUser)
 	}
 
-	distUserRange := distUserMax - distUserMin
+	distRange := dist.Max() - dist.Min()
+	distMean := dist.Mean()
 
 	for index := range entries {
 		entry := &entries[index]
 
 		var nearby float64
-		if distUserRange > 0.0 {
-			nearby = 1.0 - ((entry.DistanceToUser-distUserMin)/distUserRange)*2
+		if distRange > 0.0 {
+			nearby = -((entry.DistanceToUser - distMean) / distRange)
 		}
 
 		var accessible float64
