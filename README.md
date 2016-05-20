@@ -2,8 +2,7 @@
 
 This work-in-progress represents a prototype semantic search web application that I'm developing as part of my master's
 thesis at [Keio University](http://www.sfc.keio.ac.jp/). You can get a better understanding of the goals of my research
-by referring to the [overview presentation](http://foosoft.net/research/search/slides) and checking out the [live
-snapshot](http://search.foosoft.net/) of the prototype on my server.
+by referring to the [overview presentation](http://foosoft.net/research/search/slides).
 
 This installation guide is designed with [Ubuntu](http://www.ubuntu.com/)-based distributions in mind (I'm using [Linux
 Mint](http://www.linuxmint.com/) for development), but I expect it to be trivial to get this application running on
