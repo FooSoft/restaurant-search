@@ -1,3 +1,4 @@
+# Restaurant Search #
 
 This project is a prototype semantic search web application that I developed as part of my master's thesis at [Keio
 University](http://www.sfc.keio.ac.jp/). I presented the results of my research at [iiWAS
