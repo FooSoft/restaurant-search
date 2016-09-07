@@ -1,4 +1,3 @@
-# Restaurant Search #
 
 This project is a prototype semantic search web application that I developed as part of my master's thesis at [Keio
 University](http://www.sfc.keio.ac.jp/). I presented the results of my research at [iiWAS
@@ -10,7 +9,7 @@ You can get a better understanding of the goals of this experimental search syst
 presentation](https://foosoft.net/projects/restaurant-search/slides); it provides a brief overview of the points covered in my article. Although I no longer make the
 prototype accessible on the web, it is easy to get it up and running locally by following the instructions below.
 
-<iframe width="800" height="500" src="https://www.youtube.com/embed/Ic7Sq-oQ2DI" frameborder="0" allowfullscreen></iframe>
+<iframe width="800" height="500" src="https://www.youtube.com/embed/Ic7Sq-oQ2DI" allowfullscreen></iframe>
 
 ## Dependencies ##
 
