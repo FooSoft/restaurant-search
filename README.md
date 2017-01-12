@@ -23,7 +23,7 @@ prototype accessible on the web, it is easy to get it up and running locally by 
 1.  Install the search application:
 
     ```
-    $ go get github.com/FooSoft/search
+    $ go get github.com/FooSoft/restaurant-search
     ```
 
 2.  Install the client libraries (from the `search/static` directory):
