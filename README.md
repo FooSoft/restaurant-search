@@ -12,31 +12,20 @@ the prototype accessible on the web, it is easy to get it up and running locally
 
 <iframe width="800" height="500" src="https://www.youtube.com/embed/Ic7Sq-oQ2DI" allowfullscreen></iframe>
 
-## Dependencies ##
-
-*   [Bower](https://bower.io/)
-*   [Go](https://golang.org/)
-*   [Node.js](https://nodejs.org/)
-
 ## Installation ##
 
-1.  Install the search application:
-
+1.  Install the dependencies: [Bower](https://bower.io/), [Go](https://golang.org/), and [Node.js](https://nodejs.org/).
+2.  Install the search application:
     ```
     $ go get github.com/FooSoft/restaurant-search
     ```
-
-2.  Install the client libraries (from the `search/static` directory):
-
+3.  Install the client libraries (from the `search/static` directory):
     ```
     $ bower install
     ```
-
-3.  Build and start the server (from the `search/cmd` directory):
-
+4.  Build and start the server (from the `search/cmd` directory):
     ```
     $ go build
     $ ./cmd
     ```
-
-4.  Access the web application at `localhost:8080`.
+5.  Access the web application at `localhost:8080`.
