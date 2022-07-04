@@ -28,7 +28,7 @@ below.
 1.  Install the dependencies: [Bower](https://bower.io/), [Go](https://golang.org/), and [Node.js](https://nodejs.org/).
 2.  Install the search application:
     ```
-    $ go get github.com/FooSoft/restaurant-search
+    $ go install foosoft.net/projects/restaurant-search@latest
     ```
 3.  Install the client libraries (from the `search/static` directory):
     ```
