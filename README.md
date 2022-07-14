@@ -1,12 +1,3 @@
-<!-- +++
-Area = "projects"
-GitHub = "search"
-Layout = "page"
-Tags = ["golang", "kansei", "keio university", "mit license", "search", "sql", "web", "research"]
-Description = "Kansei-based semantic restaurant search engine prototype."
-Collection = "ProjectsComplete"
-+++ -->
-
 # Restaurant Search
 
 This project is a prototype semantic search web application that I developed as part of my master's thesis at [Keio
